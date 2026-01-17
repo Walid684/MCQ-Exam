@@ -11,6 +11,7 @@
         /* --- CSS VARIABLES --- */
         :root {
             --primary: #6C63FF;
+            --primary-dark: #5a52d5; /* Fixed for gradient */
             --primary-light: #6c63ff26;
             --bg: #F4F7F6;
             --card-bg: #ffffff;
@@ -69,6 +70,21 @@
         .container { padding: 20px; max-width: 800px; margin: 0 auto; }
         .card { background: var(--card-bg); padding: 20px; border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); border: 1px solid var(--border); }
         
+        /* NOTIFICATION SLIDER */
+        .news-slider {
+            width: 100%; overflow: hidden; margin-bottom: 15px; display: none;
+        }
+        .news-track {
+            display: flex; gap: 10px; animation: slideLeft 15s linear infinite;
+        }
+        .news-item {
+            background: var(--card-bg); padding: 10px 15px; border-radius: 50px;
+            white-space: nowrap; border: 1px solid var(--primary); color: var(--primary);
+            font-size: 0.9rem; font-weight: 500; box-shadow: var(--shadow);
+            display: flex; align-items: center; gap: 8px;
+        }
+        @keyframes slideLeft { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
         /* NEW MCQ STYLES */
         .mcq-anim { animation: slideUp 0.5s ease forwards; opacity: 0; }
         .mcq-option {
@@ -105,6 +121,22 @@
         .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .admin-item { background: var(--card-bg); padding: 20px; border-radius: 18px; text-align: center; box-shadow: var(--shadow); cursor: pointer; border-bottom: 4px solid var(--primary); }
         .admin-item i { font-size: 1.8rem; color: var(--primary); margin-bottom: 10px; }
+
+        /* THEME SLIDER */
+        .theme-slider-container { margin-top: 20px; padding: 10px; background: var(--bg); border-radius: 15px; }
+        input[type=range].thermo {
+            -webkit-appearance: none; width: 100%; margin: 10px 0; background: transparent;
+        }
+        input[type=range].thermo::-webkit-slider-runnable-track {
+            width: 100%; height: 12px; cursor: pointer;
+            background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+            border-radius: 10px; border: 1px solid #ddd;
+        }
+        input[type=range].thermo::-webkit-slider-thumb {
+            height: 25px; width: 25px; border-radius: 50%; background: #ffffff;
+            cursor: pointer; -webkit-appearance: none; margin-top: -7px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3); border: 3px solid var(--text);
+        }
 
         /* NAV */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; border-top: 1px solid var(--border); }
@@ -175,8 +207,7 @@
             <div class="logo">ExamPro</div>
             <div style="display:flex; gap:15px; align-items:center;">
                 <i onclick="toggleTheme()" id="theme-icon" class="fas fa-moon" style="font-size:1.4rem; cursor:pointer; color:var(--text-sec);"></i>
-                <i onclick="handleLogout()" class="fas fa-power-off" style="color:var(--danger); font-size:1.4rem; cursor:pointer;"></i>
-            </div>
+                </div>
         </header>
 
         <div id="main-content" class="container"></div>
@@ -292,7 +323,6 @@
                     if(currentUser.role === 'admin') document.getElementById('admin-nav').style.display = 'block';
                     renderHome();
                 } else {
-                    // Handle edge case where auth exists but db doc missing
                     await signOut(auth);
                 }
             } else {
@@ -302,7 +332,7 @@
             toggleLoader(false);
         });
 
-        // --- HOME ---
+        // --- HOME (UPDATED) ---
         window.renderHome = async () => {
             updateNav(0);
             const div = document.getElementById('main-content');
@@ -310,9 +340,10 @@
             const bcSnap = await getDoc(doc(db, "settings", "broadcast"));
             let bcHTML = bcSnap.exists() ? `<div class="card" style="background:linear-gradient(to right, #ff9966, #ff5e62); color:white; padding:15px; animation:fadeIn 0.5s; display:flex; gap:10px; align-items:center;"><i class="fas fa-bullhorn"></i> <div><b>NOTICE:</b> ${bcSnap.data().message}</div></div>` : '';
 
+            // 1. Welcome Card Fix: using fallback color instead of undefined variable
             div.innerHTML = `
                 ${bcHTML}
-                <div class="card" style="background:linear-gradient(135deg, var(--primary), var(--primary-dark)); color:white; border:none; padding:25px;">
+                <div class="card" style="background:linear-gradient(135deg, var(--primary), #8f94fb); color:white; border:none; padding:25px;">
                     <h2>Hi, ${currentUser.name.split(' ')[0]}! 👋</h2>
                     <p style="opacity:0.9; margin-top:5px;">Points: <b>${currentUser.points || 0}</b> | ${currentUser.education}</p>
                 </div>
@@ -323,10 +354,15 @@
                     <div class="dash-btn" onclick="showNotesView()"><i class="fas fa-book-open" style="color:#00CFE8; font-size:1.5rem; margin-bottom:5px;"></i><br>Notes</div>
                 </div>
 
+                <div id="news-area" class="news-slider"><div class="news-track" id="news-track"></div></div>
+
                 <h3 style="margin-bottom:15px; color:var(--text); display:flex; align-items:center; gap:10px;"><i class="fas fa-clock" style="color:var(--primary)"></i> Live Exams</h3>
                 <div id="exam-list">Loading...</div>
             `;
             
+            // Load Recent Updates for slider
+            loadRecentUpdates();
+
             const s = await getDocs(collection(db, "exams"));
             const l = document.getElementById('exam-list');
             l.innerHTML = '';
@@ -343,6 +379,33 @@
                         <button onclick="startExam('${d.id}', '${data.title}', ${data.time})" class="btn btn-primary" style="width:auto; margin:0; padding:8px 20px; font-size:0.9rem;">Start</button>
                     </div>`;
             });
+        }
+
+        async function loadRecentUpdates() {
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000;
+            let updates = [];
+
+            // Check Exams
+            const eSnap = await getDocs(collection(db, "exams"));
+            eSnap.forEach(d => { if(d.data().createdAt && (now - d.data().createdAt) < oneDay) updates.push(`🆕 New Exam: ${d.data().title}`); });
+
+            // Check Routines
+            const rSnap = await getDocs(collection(db, "routines"));
+            rSnap.forEach(d => { if(d.data().createdAt && (now - d.data().createdAt) < oneDay) updates.push(`📅 Routine Updated: ${d.data().title}`); });
+
+            // Check Notes
+            const nSnap = await getDocs(collection(db, "notes"));
+            nSnap.forEach(d => { if(d.data().createdAt && (now - d.data().createdAt) < oneDay) updates.push(`📄 New Note: ${d.data().title}`); });
+
+            if(updates.length > 0) {
+                document.getElementById('news-area').style.display = 'block';
+                const track = document.getElementById('news-track');
+                // Duplicate for smooth loop if needed, or just list them
+                let html = updates.map(u => `<div class="news-item"><i class="fas fa-bell"></i> ${u}</div>`).join('');
+                if(updates.length < 3) html += html + html; // padding for smooth animation
+                track.innerHTML = html;
+            }
         }
 
         // --- FEATURES ---
@@ -390,7 +453,7 @@
             document.getElementById('lb-list').innerHTML = h;
         }
 
-        // --- PROFILE ---
+        // --- PROFILE (UPDATED with Logout) ---
         window.renderProfile = async () => {
             updateNav(2);
             const cl = currentUser.gender === 'Female' ? '#FCE4EC' : '#E3F2FD';
@@ -409,6 +472,8 @@
                     </div>
                     <button onclick="editProfile()" class="btn btn-sec" style="width:48%; display:inline-block; margin-right:2%;"><i class="fas fa-pen"></i> Edit</button>
                     <button onclick="clearHistory()" class="btn btn-danger" style="width:48%; display:inline-block;"><i class="fas fa-trash"></i> History</button>
+                    
+                    <button onclick="handleLogout()" class="btn" style="margin-top:15px; background:var(--bg); color:var(--danger); border:1px solid var(--danger);"><i class="fas fa-sign-out-alt"></i> Logout Securely</button>
                 </div>
                 <h3 style="margin-left:5px;">Recent Results</h3>
                 <div id="hist-list">Loading...</div>
@@ -468,9 +533,7 @@
                 </div>`;
 
             qs.forEach((d, i) => {
-                // Fix potential Key mismatch (q vs question)
                 const qText = d.question || d.q || "Untitled Question";
-                
                 html += `
                 <div class="card mcq-anim" style="animation-delay: ${i*0.05}s">
                     <p style="font-weight:600; font-size:1.1rem; color:var(--text); margin-bottom:15px;">
@@ -502,7 +565,6 @@
 
         window.selectOpt = (qid, idx, el) => {
             window.userAns[qid] = idx;
-            // Visual Update
             const p = document.getElementById(`opts-${qid}`);
             Array.from(p.children).forEach(c => c.classList.remove('selected'));
             el.classList.add('selected');
@@ -543,7 +605,7 @@
             toggleLoader(false);
         }
 
-        // --- ADMIN PANEL ---
+        // --- ADMIN PANEL (UPDATED) ---
         window.renderAdmin = () => {
             updateNav(3);
             document.getElementById('main-content').innerHTML = `
@@ -576,7 +638,6 @@
                 const s = await getDocs(collection(db, "exams")); 
                 let h='', o=''; 
                 s.forEach(d=>{ 
-                    // Card View for Exams
                     h+=`<div class="mini-card" onclick="delDoc('exams','${d.id}')">
                         <i class="fas fa-file-contract" style="color:var(--primary)"></i>
                         <h4>${d.data().title}</h4>
@@ -601,8 +662,6 @@
                 s.forEach(d => { if(d.data().role !== 'admin') allStudentsCache.push({id: d.id, ...d.data()}); });
                 
                 renderStudentList(allStudentsCache);
-
-                // Search Event
                 document.getElementById('search-box').addEventListener('input', (e) => {
                     const term = e.target.value.toLowerCase();
                     const filtered = allStudentsCache.filter(u => u.name.toLowerCase().includes(term) || u.email.toLowerCase().includes(term));
@@ -623,12 +682,25 @@
             if(m === 'broadcast') {
                 area.innerHTML = `<div class="card"><h3>Broadcast</h3><textarea id="bcm" rows="3" placeholder="Write message..."></textarea><button onclick="sendBC()" class="btn btn-primary">Send</button><button onclick="clearBC()" class="btn btn-sec">Clear</button></div>`;
             }
+            // 4. Settings Updated with More Colors and Thermometer
             if(m === 'settings') {
-                area.innerHTML = `<div class="card"><h3>Theme</h3><div style="display:flex; gap:10px; margin-top:10px;">
-                    <div onclick="setTh('#6C63FF')" style="width:40px; height:40px; background:#6C63FF; border-radius:50%; cursor:pointer;"></div>
-                    <div onclick="setTh('#00b894')" style="width:40px; height:40px; background:#00b894; border-radius:50%; cursor:pointer;"></div>
-                    <div onclick="setTh('#FF6584')" style="width:40px; height:40px; background:#FF6584; border-radius:50%; cursor:pointer;"></div>
-                </div><h3 style="margin-top:20px;">Actions</h3><button onclick="resetRank()" class="btn btn-danger">Reset All Ranks</button><div style="margin-top:10px;"><input id="adm-mail" placeholder="User Email to make Admin"><button onclick="makeAdmin()" class="btn btn-primary">Add Admin</button></div></div>`;
+                area.innerHTML = `<div class="card"><h3>Theme Color</h3>
+                <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+                    <div onclick="setTh('#6C63FF')" style="width:35px; height:35px; background:#6C63FF; border-radius:50%; cursor:pointer;"></div>
+                    <div onclick="setTh('#00b894')" style="width:35px; height:35px; background:#00b894; border-radius:50%; cursor:pointer;"></div>
+                    <div onclick="setTh('#FF6584')" style="width:35px; height:35px; background:#FF6584; border-radius:50%; cursor:pointer;"></div>
+                    <div onclick="setTh('#f39c12')" style="width:35px; height:35px; background:#f39c12; border-radius:50%; cursor:pointer;"></div>
+                    <div onclick="setTh('#3498db')" style="width:35px; height:35px; background:#3498db; border-radius:50%; cursor:pointer;"></div>
+                    <div onclick="setTh('#9b59b6')" style="width:35px; height:35px; background:#9b59b6; border-radius:50%; cursor:pointer;"></div>
+                </div>
+                
+                <h4 style="margin-top:20px;">Adjust Tone (Thermometer)</h4>
+                <div class="theme-slider-container">
+                    <input type="range" min="0" max="360" value="0" class="thermo" id="hue-slider" oninput="slideTheme(this.value)">
+                    <p style="text-align:center; font-size:0.8rem;">Slide to change color</p>
+                </div>
+                
+                <h3 style="margin-top:20px;">Actions</h3><button onclick="resetRank()" class="btn btn-danger">Reset All Ranks</button><div style="margin-top:10px;"><input id="adm-mail" placeholder="User Email to make Admin"><button onclick="makeAdmin()" class="btn btn-primary">Add Admin</button></div></div>`;
             }
         }
 
@@ -650,16 +722,16 @@
             document.getElementById('sl').innerHTML = h || '<p>No students found.</p>';
         }
 
-        // --- ACTIONS ---
-        window.addExam = async () => { await addDoc(collection(db, "exams"), {title:document.getElementById('nt').value, time:parseInt(document.getElementById('nm').value)}); showMsg("Created"); admView('exam'); }
+        // --- ACTIONS (UPDATED with Timestamp) ---
+        window.addExam = async () => { await addDoc(collection(db, "exams"), {title:document.getElementById('nt').value, time:parseInt(document.getElementById('nm').value), createdAt: Date.now()}); showMsg("Created"); admView('exam'); }
+        
         window.upJson = async () => { 
             try { 
                 const d=JSON.parse(document.getElementById('jt').value); 
-                // Fix structure
                 for(const q of d) {
                    await addDoc(collection(db,"questions"),{
                        examId:document.getElementById('es').value, 
-                       question: q.question || q.q, // Handle both formats
+                       question: q.question || q.q, 
                        options: q.options,
                        correct: q.correct
                    }); 
@@ -667,14 +739,14 @@
                 showMsg("Uploaded Successfully"); 
             } catch(e){showMsg("JSON Error: Check format");} 
         }
-        window.addRT = async () => { await addDoc(collection(db, "routines"), {title:document.getElementById('rt').value, time:document.getElementById('rm').value}); showMsg("Added"); admView('routine'); }
-        window.addNT = async () => { await addDoc(collection(db, "notes"), {title:document.getElementById('pt').value, link:document.getElementById('pl').value}); showMsg("Added"); admView('notes'); }
+        
+        window.addRT = async () => { await addDoc(collection(db, "routines"), {title:document.getElementById('rt').value, time:document.getElementById('rm').value, createdAt: Date.now()}); showMsg("Added"); admView('routine'); }
+        window.addNT = async () => { await addDoc(collection(db, "notes"), {title:document.getElementById('pt').value, link:document.getElementById('pl').value, createdAt: Date.now()}); showMsg("Added"); admView('notes'); }
         
         window.delDoc = async (c, id) => { 
             if(confirm("Are you sure you want to delete this?")) { 
                 await deleteDoc(doc(db, c, id)); 
                 showMsg("Deleted"); 
-                // Refresh views
                 if(c==='exams') admView('exam');
                 else if(c==='routines') admView('routine');
                 else if(c==='notes') admView('notes');
@@ -684,6 +756,18 @@
         window.sendBC = async () => { await setDoc(doc(db, "settings", "broadcast"), {message: document.getElementById('bcm').value}); showMsg("Sent"); }
         window.clearBC = async () => { await deleteDoc(doc(db, "settings", "broadcast")); showMsg("Cleared"); }
         window.setTh = async (c) => { await setDoc(doc(db,"settings","theme"),{color:c}); document.documentElement.style.setProperty('--primary', c); showMsg("Theme Set"); }
+        
+        // Theme Slider Logic
+        window.slideTheme = (val) => {
+            const color = `hsl(${val}, 70%, 60%)`;
+            document.documentElement.style.setProperty('--primary', color);
+            // Debounce save to DB to avoid too many writes
+            if(window.saveThemeTimeout) clearTimeout(window.saveThemeTimeout);
+            window.saveThemeTimeout = setTimeout(async() => {
+                 await setDoc(doc(db,"settings","theme"),{color:color});
+            }, 1000);
+        }
+
         window.resetRank = async () => { if(confirm("Reset all points to 0?")) { const s=await getDocs(collection(db,"users")); s.forEach(d=> updateDoc(d.ref, {points:0})); showMsg("Reset Done"); } }
         
         // VIEW USER & BAN LOGIC
@@ -714,7 +798,7 @@
             await updateDoc(doc(db, "users", uid), { isBanned: !currentStatus });
             showMsg(currentStatus ? "User Unbanned" : "User Banned");
             closeModal();
-            admView('student'); // Refresh list
+            admView('student'); 
         }
 
         window.makeAdmin = async () => {
@@ -727,7 +811,6 @@
         }
 
         window.copyFormat = () => {
-            // Correct format for new engine
             const fmt = `[{"question":"Question Name?","options":["A","B","C","D"],"correct":1}]`;
             navigator.clipboard.writeText(fmt);
             showMsg("Format Copied!");
