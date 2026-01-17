@@ -3,132 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ExamPro Final</title>
+    <title>ExamPro Ultra</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- THEME VARIABLES --- */
+        /* --- CSS VARIABLES --- */
         :root {
-            --primary: #6C63FF; --primary-dark: #5a52d5;
-            --bg: #F4F7F6; --card-bg: #ffffff;
-            --text: #2d3436; --text-sec: #636e72;
-            --border: #eeeeee; --shadow: 0 10px 30px rgba(0,0,0,0.05);
-            --radius: 16px;
+            --primary: #6C63FF;
+            --primary-light: #6c63ff26;
+            --bg: #F4F7F6;
+            --card-bg: #ffffff;
+            --text: #2d3436;
+            --text-sec: #636e72;
+            --border: #eeeeee;
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --radius: 18px;
+            --danger: #ff4757;
+            --success: #2ecc71;
         }
+
         .dark-mode {
-            --bg: #1e1e2e; --card-bg: #27293d;
-            --text: #e0e0e0; --text-sec: #a0a0a0;
-            --border: #444444; --shadow: 0 10px 30px rgba(0,0,0,0.3);
+            --bg: #1e1e2e;
+            --card-bg: #27293d;
+            --text: #e0e0e0;
+            --text-sec: #a0a0a0;
+            --border: #444444;
+            --shadow: 0 10px 30px rgba(0,0,0,0.3);
+            --primary-light: #6c63ff4d;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Hind Siliguri', sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 90px; transition: 0.3s; -webkit-tap-highlight-color: transparent; }
-
-        /* ANIMATIONS */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pop { 0% { transform: scale(0.95); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-
-        /* GLOBAL STYLES */
+        body { background: var(--bg); color: var(--text); padding-bottom: 90px; transition: background 0.3s, color 0.3s; -webkit-tap-highlight-color: transparent; }
+        
+        /* UTILS */
         .screen { display: none; min-height: 100vh; animation: fadeIn 0.4s ease; }
         .active-screen { display: block; }
-        .container { padding: 20px; max-width: 800px; margin: 0 auto; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* PREMIUM CARDS & INPUTS */
-        .card { background: var(--card-bg); padding: 20px; border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); position: relative; border: 1px solid var(--border); }
-        
+        /* INPUTS */
         input, select, textarea {
-            width: 100%; padding: 15px; border: 2px solid var(--border); border-radius: 12px;
-            background: var(--card-bg); color: var(--text); font-size: 1rem; margin-bottom: 10px; outline: none; transition: 0.3s;
+            width: 100%; padding: 15px; border: 2px solid var(--border); border-radius: 15px;
+            background: var(--card-bg); color: var(--text); font-size: 1rem; margin-bottom: 12px;
+            outline: none; transition: 0.3s;
         }
-        input:focus { border-color: var(--primary); }
-
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 1rem; margin-top: 5px; }
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3); }
-        .btn-danger { background: #ff4757; color: white; }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15); }
+        
+        /* BUTTONS */
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 15px; font-weight: 600; cursor: pointer; font-size: 1rem; margin-top: 5px; transition: 0.2s; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 8px 20px rgba(108, 99, 255, 0.3); }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-sec { background: var(--border); color: var(--text); }
         .btn:active { transform: scale(0.98); }
 
         /* HEADER */
-        header { background: var(--card-bg); padding: 15px 20px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
-
-        /* MCQ PREMIUM UI (NEW) */
-        .mcq-option {
-            display: flex; align-items: center; padding: 15px; 
-            border: 2px solid var(--border); border-radius: 12px; 
-            margin-bottom: 10px; cursor: pointer; transition: 0.2s;
+        header { 
+            background: var(--card-bg); padding: 15px 20px; position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-bottom: 1px solid var(--border);
         }
-        .mcq-option.selected { border-color: var(--primary); background: rgba(108, 99, 255, 0.05); animation: pop 0.2s; }
+        .logo { font-size: 1.6rem; font-weight: 800; color: var(--primary); }
+        
+        /* CARDS */
+        .container { padding: 20px; max-width: 800px; margin: 0 auto; }
+        .card { background: var(--card-bg); padding: 20px; border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+        
+        /* NEW MCQ STYLES */
+        .mcq-anim { animation: slideUp 0.5s ease forwards; opacity: 0; }
+        .mcq-option {
+            display: flex; align-items: center; padding: 15px; margin-top: 10px;
+            border: 2px solid var(--border); border-radius: 12px; cursor: pointer;
+            transition: all 0.2s; background: var(--card-bg);
+        }
+        .mcq-option:hover { border-color: var(--primary); background: var(--bg); transform: translateX(5px); }
+        .mcq-option.selected { border-color: var(--primary); background: var(--primary-light); font-weight: 600; }
         .mcq-circle {
-            height: 20px; width: 20px; border: 2px solid #ccc; border-radius: 50%; 
+            height: 20px; width: 20px; border: 2px solid var(--text-sec); border-radius: 50%;
             margin-right: 15px; display: flex; align-items: center; justify-content: center;
         }
-        .mcq-option.selected .mcq-circle { border-color: var(--primary); }
-        .mcq-option.selected .mcq-circle::after {
-            content: ''; width: 10px; height: 10px; background: var(--primary); border-radius: 50%;
-        }
+        .mcq-option.selected .mcq-circle { border-color: var(--primary); background: var(--primary); }
+        .mcq-option.selected .mcq-circle::after { content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; }
 
-        /* ADMIN CARDS (NEW) */
-        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .admin-item { background: var(--card-bg); padding: 25px; border-radius: 18px; text-align: center; box-shadow: var(--shadow); cursor: pointer; border-bottom: 4px solid var(--primary); }
+        /* GRID CARDS (STUDENTS & EXAMS) */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 10px; }
+        .mini-card {
+            background: var(--card-bg); padding: 15px; border-radius: 15px;
+            box-shadow: var(--shadow); text-align: center; cursor: pointer;
+            border: 1px solid var(--border); transition: 0.2s; position: relative; overflow: hidden;
+        }
+        .mini-card:active { transform: scale(0.95); }
+        .mini-card i { font-size: 2rem; margin-bottom: 10px; color: var(--text-sec); }
+        .mini-card h4 { font-size: 0.9rem; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .mini-card small { font-size: 0.75rem; color: var(--text-sec); }
+        .banned-badge { position: absolute; top: 0; right: 0; background: var(--danger); color: white; font-size: 0.6rem; padding: 2px 8px; border-bottom-left-radius: 10px; }
+
+        /* DASHBOARD & ADMIN */
+        .dash-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
+        .dash-btn { background: var(--card-bg); padding: 20px 10px; border-radius: 18px; text-align: center; box-shadow: var(--shadow); cursor: pointer; border: 1px solid var(--border); }
         
-        .student-card { display: flex; align-items: center; gap: 15px; padding: 15px; border-bottom: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
-        .student-card:hover { background: rgba(0,0,0,0.02); }
-        .student-avatar { width: 45px; height: 45px; border-radius: 50%; background: #eee; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; }
+        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .admin-item { background: var(--card-bg); padding: 20px; border-radius: 18px; text-align: center; box-shadow: var(--shadow); cursor: pointer; border-bottom: 4px solid var(--primary); }
+        .admin-item i { font-size: 1.8rem; color: var(--primary); margin-bottom: 10px; }
 
         /* NAV */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); z-index: 1000; }
-        .nav-item { text-align: center; color: #aaa; font-size: 0.75rem; cursor: pointer; }
-        .nav-item.active { color: var(--primary); }
-        .nav-item i { font-size: 1.4rem; display: block; margin-bottom: 3px; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; border-top: 1px solid var(--border); }
+        .nav-item { text-align: center; color: #aaa; font-size: 0.7rem; cursor: pointer; }
+        .nav-item.active { color: var(--primary); transform: translateY(-3px); }
+        .nav-item i { font-size: 1.3rem; margin-bottom: 3px; display: block; }
 
-        /* MODAL */
+        /* MODAL & ALERT */
+        #custom-alert {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+            background: var(--card-bg); padding: 25px; width: 90%; max-width: 350px;
+            border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center; z-index: 10000; display: none; transition: 0.3s; border: 1px solid var(--border);
+        }
+        #custom-alert.show { display: block; animation: popIn 0.3s forwards; }
+        @keyframes popIn { to { transform: translate(-50%, -50%) scale(1); } }
+
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .modal-content { background: var(--card-bg); width: 90%; max-width: 450px; padding: 25px; border-radius: 20px; max-height: 85vh; overflow-y: auto; animation: fadeIn 0.3s; }
-        
-        /* CUSTOM ALERT */
-        #custom-alert { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--card-bg); padding: 25px; width: 85%; max-width: 350px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; z-index: 10000; display: none; border: 1px solid var(--border); }
+        .modal-content { background: var(--card-bg); width: 90%; max-width: 450px; padding: 25px; border-radius: 20px; max-height: 85vh; overflow-y: auto; animation: slideUp 0.3s; }
 
         #loader { position: fixed; inset: 0; background: var(--card-bg); z-index: 9999; display: flex; justify-content: center; align-items: center; }
-        .spinner { width: 50px; height: 50px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s infinite linear; }
+        .spinner { width: 50px; height: 50px; border: 5px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
     </style>
 </head>
 <body>
 
     <div id="loader"><div class="spinner"></div></div>
-    
+
     <div id="custom-alert">
         <h2 style="color:var(--primary); margin-bottom:10px;">ExamPro</h2>
-        <p id="alert-msg" style="color:var(--text-sec); margin-bottom:20px;">Message</p>
+        <p id="alert-msg" style="color:var(--text-sec); margin-bottom:20px; font-size:1rem;">Message</p>
         <button onclick="closeAlert()" class="btn btn-primary">OK</button>
     </div>
 
     <section id="auth-screen" class="screen">
         <div style="min-height:100vh; display:flex; justify-content:center; align-items:center; background:linear-gradient(135deg, var(--primary), #8f94fb); padding:20px;">
-            <div class="card" style="width:100%; max-width:400px; text-align:center;">
-                <h1 style="color:var(--primary); font-size:2.5rem;">ExamPro</h1>
-                <p style="color:#888; margin-bottom:30px;">Login to continue</p>
+            <div class="card" style="width:100%; max-width:400px; text-align:center; border:none;">
+                <h1 style="color:var(--primary); font-size:2.5rem; margin-bottom:5px;">ExamPro</h1>
+                <p style="color:var(--text-sec); margin-bottom:30px;">Login to continue</p>
                 
                 <div id="login-form">
-                    <input type="email" id="l-email" placeholder="Email">
+                    <input type="email" id="l-email" placeholder="Email Address">
                     <input type="password" id="l-pass" placeholder="Password">
                     <button onclick="handleLogin()" class="btn btn-primary">Log In</button>
-                    <p style="margin-top:15px; font-size:0.9rem;">New? <b onclick="toggleAuth('signup')" style="color:var(--primary); cursor:pointer;">Register</b></p>
+                    <p style="margin-top:20px; color:var(--text-sec);">New User? <b onclick="toggleAuth('signup')" style="color:var(--primary); cursor:pointer;">Register</b></p>
                 </div>
 
                 <div id="signup-form" style="display:none;">
                     <input type="text" id="s-name" placeholder="Full Name">
-                    <select id="s-gender"><option value="">Gender</option><option value="Male">Male</option><option value="Female">Female</option></select>
-                    <input type="text" id="s-edu" placeholder="Education">
+                    <select id="s-gender"><option value="">Select Gender</option><option value="Male">Male</option><option value="Female">Female</option></select>
+                    <input type="text" id="s-edu" placeholder="Education (e.g. HSC)">
                     <input type="email" id="s-email" placeholder="Email">
                     <input type="password" id="s-pass" placeholder="Password">
                     <button onclick="handleSignup()" class="btn btn-primary">Sign Up</button>
-                    <p style="margin-top:15px; font-size:0.9rem;">Has account? <b onclick="toggleAuth('login')" style="color:var(--primary); cursor:pointer;">Log In</b></p>
+                    <p style="margin-top:20px; color:var(--text-sec);">Have account? <b onclick="toggleAuth('login')" style="color:var(--primary); cursor:pointer;">Log In</b></p>
                 </div>
                 
                 <div style="margin:20px 0; border-top:1px solid var(--border);"></div>
-                <button onclick="handleGoogle()" class="btn" style="background:white; border:1px solid #ddd; color:#333;"><i class="fab fa-google" style="color:#EA4335"></i> Google Login</button>
+                <button onclick="handleGoogle()" class="btn" style="background:white; border:1px solid #ddd; color:#333;"><i class="fab fa-google" style="color:#EA4335"></i> Continue with Google</button>
             </div>
         </div>
     </section>
@@ -137,8 +174,8 @@
         <header>
             <div class="logo">ExamPro</div>
             <div style="display:flex; gap:15px; align-items:center;">
-                <i onclick="toggleTheme()" id="theme-icon" class="fas fa-moon" style="font-size:1.4rem; cursor:pointer;"></i>
-                <i onclick="handleLogout()" class="fas fa-power-off" style="color:#ff4757; font-size:1.4rem; cursor:pointer;"></i>
+                <i onclick="toggleTheme()" id="theme-icon" class="fas fa-moon" style="font-size:1.4rem; cursor:pointer; color:var(--text-sec);"></i>
+                <i onclick="handleLogout()" class="fas fa-power-off" style="color:var(--danger); font-size:1.4rem; cursor:pointer;"></i>
             </div>
         </header>
 
@@ -156,7 +193,7 @@
         <div class="modal-content">
             <h2 id="modal-title" style="margin-bottom:20px; color:var(--primary);">Title</h2>
             <div id="modal-body"></div>
-            <button onclick="closeModal()" class="btn" style="background:#eee; color:#333; margin-top:20px;">Close</button>
+            <button onclick="closeModal()" class="btn btn-sec" style="margin-top:20px;">Close</button>
         </div>
     </div>
 
@@ -165,6 +202,7 @@
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+        // CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyBW0-UiTB83ikUOztrT6ECAkOlnzxykKYQ",
             authDomain: "mcq-exam-b150e.firebaseapp.com",
@@ -174,8 +212,7 @@
             appId: "1:751727102033:web:35995f15619e300872d070",
             measurementId: "G-9NS51NRGER"
         };
-        const ADMIN_EMAIL = "mdwld2005@gmail.com";
-
+        
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -183,46 +220,81 @@
 
         let currentUser = null;
         let timerInterval;
-        let allStudents = []; // Cache for search
+        let allStudentsCache = []; // For Search
 
-        // UTILS
-        window.showMsg = (m) => { document.getElementById('alert-msg').innerText = m; document.getElementById('custom-alert').style.display='block'; }
-        window.closeAlert = () => document.getElementById('custom-alert').style.display='none';
+        // --- UTILS ---
+        window.showMsg = (msg) => {
+            document.getElementById('alert-msg').innerText = msg;
+            document.getElementById('custom-alert').classList.add('show');
+        }
+        window.closeAlert = () => document.getElementById('custom-alert').classList.remove('show');
         window.toggleTheme = () => {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark?'dark':'light');
-            document.getElementById('theme-icon').className = isDark?'fas fa-sun':'fas fa-moon';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('theme-icon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
         }
-        if(localStorage.getItem('theme')==='dark') { document.body.classList.add('dark-mode'); document.getElementById('theme-icon').className='fas fa-sun'; }
-        function openModal(t,b) { document.getElementById('modal-title').innerText=t; document.getElementById('modal-body').innerHTML=b; document.getElementById('generic-modal').style.display='flex'; }
-        window.closeModal = () => document.getElementById('generic-modal').style.display='none';
-        function toggleLoader(s) { document.getElementById('loader').style.display=s?'flex':'none'; }
-        function updateNav(i) { document.querySelectorAll('.nav-item').forEach((n,x)=> n.classList.toggle('active', i===x)); }
+        if(localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.getElementById('theme-icon').className = 'fas fa-sun';
+        }
 
-        // AUTH
-        window.toggleAuth = (m) => { document.getElementById('login-form').style.display=m==='login'?'block':'none'; document.getElementById('signup-form').style.display=m==='signup'?'block':'none'; }
-        window.handleLogin = async () => { try { toggleLoader(true); await signInWithEmailAndPassword(auth, document.getElementById('l-email').value, document.getElementById('l-pass').value); } catch(e){ showMsg(e.message); toggleLoader(false); } }
-        window.handleSignup = async () => { 
-            const n=document.getElementById('s-name').value, g=document.getElementById('s-gender').value, edu=document.getElementById('s-edu').value;
-            if(!n || !g) return showMsg("Fill details");
-            try { toggleLoader(true); const r=await createUserWithEmailAndPassword(auth, document.getElementById('s-email').value, document.getElementById('s-pass').value); 
-            await setDoc(doc(db,"users",r.user.uid), { name:n, gender:g, education:edu, email:r.user.email, role:'student', points:0, joined:new Date().toLocaleDateString() }); showMsg("Success!"); } catch(e){ showMsg(e.message); toggleLoader(false); } 
+        // --- AUTH ---
+        window.toggleAuth = (m) => {
+            document.getElementById('login-form').style.display = m==='login'?'block':'none';
+            document.getElementById('signup-form').style.display = m==='signup'?'block':'none';
         }
-        window.handleGoogle = async () => { try { const r=await signInWithPopup(auth, googleProvider); const ref=doc(db,"users",r.user.uid); if(!(await getDoc(ref)).exists()) await setDoc(ref,{name:r.user.displayName, email:r.user.email, gender:'Male', education:'Not Set', role:'student', points:0, joined:new Date().toLocaleDateString()}); } catch(e){ showMsg(e.message); } }
+        window.handleLogin = async () => {
+            try { toggleLoader(true); await signInWithEmailAndPassword(auth, document.getElementById('l-email').value, document.getElementById('l-pass').value); } 
+            catch(e) { showMsg(e.message); toggleLoader(false); }
+        }
+        window.handleSignup = async () => {
+            const n=document.getElementById('s-name').value, g=document.getElementById('s-gender').value, e=document.getElementById('s-edu').value;
+            if(!n || !g) return showMsg("Please fill all details");
+            try {
+                toggleLoader(true);
+                const res = await createUserWithEmailAndPassword(auth, document.getElementById('s-email').value, document.getElementById('s-pass').value);
+                await setDoc(doc(db, "users", res.user.uid), {
+                    name: n, gender: g, education: e, email: res.user.email, role: 'student', points: 0, joined: new Date().toLocaleDateString(), isBanned: false
+                });
+                showMsg("Account Created!");
+            } catch(e) { showMsg(e.message); toggleLoader(false); }
+        }
+        window.handleGoogle = async () => {
+            try {
+                const res = await signInWithPopup(auth, googleProvider);
+                const ref = doc(db, "users", res.user.uid);
+                const snap = await getDoc(ref);
+                if(!snap.exists()) {
+                    await setDoc(ref, { name: res.user.displayName, email: res.user.email, gender: 'Male', education: 'Not Set', role: 'student', points: 0, joined: new Date().toLocaleDateString(), isBanned: false });
+                }
+            } catch(e) { showMsg(e.message); }
+        }
         window.handleLogout = () => signOut(auth).then(()=>location.reload());
 
-        // MAIN LOGIC
+        // --- AUTH STATE ---
         onAuthStateChanged(auth, async (user) => {
             if(user) {
-                const s = await getDoc(doc(db, "users", user.uid));
-                if(!s.exists()) { signOut(auth); return showMsg("Account Deleted"); }
-                currentUser = { uid: user.uid, ...s.data() };
-                loadTheme();
-                document.getElementById('auth-screen').classList.remove('active-screen');
-                document.getElementById('app-screen').classList.add('active-screen');
-                if(currentUser.role==='admin') document.getElementById('admin-nav').style.display='block';
-                renderHome();
+                loadServerTheme();
+                const snap = await getDoc(doc(db, "users", user.uid));
+                if(snap.exists()) {
+                    currentUser = { uid: user.uid, ...snap.data() };
+                    
+                    if(currentUser.isBanned) {
+                        await signOut(auth);
+                        showMsg("You are BANNED by Admin.");
+                        toggleLoader(false);
+                        return;
+                    }
+
+                    document.getElementById('auth-screen').classList.remove('active-screen');
+                    document.getElementById('app-screen').classList.add('active-screen');
+                    if(currentUser.role === 'admin') document.getElementById('admin-nav').style.display = 'block';
+                    renderHome();
+                } else {
+                    // Handle edge case where auth exists but db doc missing
+                    await signOut(auth);
+                }
             } else {
                 document.getElementById('app-screen').classList.remove('active-screen');
                 document.getElementById('auth-screen').classList.add('active-screen');
@@ -230,89 +302,248 @@
             toggleLoader(false);
         });
 
-        // HOME
+        // --- HOME ---
         window.renderHome = async () => {
             updateNav(0);
-            const bc = await getDoc(doc(db,"settings","broadcast"));
-            document.getElementById('main-content').innerHTML = `
-                ${bc.exists()?`<div class="card" style="background:linear-gradient(to right,#ff9966,#ff5e62); color:white; padding:15px; margin-bottom:15px;">📢 ${bc.data().message}</div>`:''}
-                <div class="card" style="background:linear-gradient(135deg, var(--primary), #8f94fb); color:white; border:none; padding:30px;">
-                    <h2>Hi, ${currentUser.name}! 👋</h2><p style="opacity:0.9">Points: <b>${currentUser.points||0}</b></p>
+            const div = document.getElementById('main-content');
+            
+            const bcSnap = await getDoc(doc(db, "settings", "broadcast"));
+            let bcHTML = bcSnap.exists() ? `<div class="card" style="background:linear-gradient(to right, #ff9966, #ff5e62); color:white; padding:15px; animation:fadeIn 0.5s; display:flex; gap:10px; align-items:center;"><i class="fas fa-bullhorn"></i> <div><b>NOTICE:</b> ${bcSnap.data().message}</div></div>` : '';
+
+            div.innerHTML = `
+                ${bcHTML}
+                <div class="card" style="background:linear-gradient(135deg, var(--primary), var(--primary-dark)); color:white; border:none; padding:25px;">
+                    <h2>Hi, ${currentUser.name.split(' ')[0]}! 👋</h2>
+                    <p style="opacity:0.9; margin-top:5px;">Points: <b>${currentUser.points || 0}</b> | ${currentUser.education}</p>
                 </div>
+                
                 <div class="dash-grid">
-                    <div class="dash-btn" onclick="viewRoutine()"><i class="fas fa-calendar" style="color:#FF9F43"></i><span>Routine</span></div>
-                    <div class="dash-btn" onclick="renderLeaderboard()"><i class="fas fa-trophy" style="color:#28C76F"></i><span>Rank</span></div>
-                    <div class="dash-btn" onclick="viewNotes()"><i class="fas fa-book" style="color:#00CFE8"></i><span>Notes</span></div>
+                    <div class="dash-btn" onclick="showRoutineView()"><i class="fas fa-calendar-alt" style="color:#FF9F43; font-size:1.5rem; margin-bottom:5px;"></i><br>Routine</div>
+                    <div class="dash-btn" onclick="renderLeaderboard()"><i class="fas fa-trophy" style="color:#28C76F; font-size:1.5rem; margin-bottom:5px;"></i><br>Rank</div>
+                    <div class="dash-btn" onclick="showNotesView()"><i class="fas fa-book-open" style="color:#00CFE8; font-size:1.5rem; margin-bottom:5px;"></i><br>Notes</div>
                 </div>
-                <h3>Live Exams</h3><div id="exam-list">Loading...</div>
+
+                <h3 style="margin-bottom:15px; color:var(--text); display:flex; align-items:center; gap:10px;"><i class="fas fa-clock" style="color:var(--primary)"></i> Live Exams</h3>
+                <div id="exam-list">Loading...</div>
             `;
+            
             const s = await getDocs(collection(db, "exams"));
-            const l = document.getElementById('exam-list'); l.innerHTML='';
-            if(s.empty) return l.innerHTML='<p style="text-align:center; color:gray">No exams.</p>';
-            s.forEach(d => l.innerHTML+=`<div class="card" style="display:flex; justify-content:space-between; align-items:center;"><div><h4>${d.data().title}</h4><small>${d.data().time} Min</small></div><button class="btn btn-primary" style="width:auto; padding:10px 20px; margin:0;" onclick="startExam('${d.id}','${d.data().title}',${d.data().time})">Start</button></div>`);
+            const l = document.getElementById('exam-list');
+            l.innerHTML = '';
+            if(s.empty) return l.innerHTML = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No exams available right now.</p>';
+            
+            s.forEach(d => {
+                const data = d.data();
+                l.innerHTML += `
+                    <div class="card" style="display:flex; justify-content:space-between; align-items:center; border-left: 5px solid var(--primary);">
+                        <div>
+                            <h4 style="font-size:1.1rem; margin-bottom:5px;">${data.title}</h4>
+                            <small style="color:var(--text-sec); background:var(--bg); padding:3px 8px; border-radius:5px;">⏱ ${data.time} Min</small>
+                        </div>
+                        <button onclick="startExam('${d.id}', '${data.title}', ${data.time})" class="btn btn-primary" style="width:auto; margin:0; padding:8px 20px; font-size:0.9rem;">Start</button>
+                    </div>`;
+            });
         }
 
-        // EXAM SYSTEM (NEW UI)
+        // --- FEATURES ---
+        window.showRoutineView = async () => {
+            openModal("Class Routine", "Loading...");
+            const snap = await getDocs(collection(db, "routines"));
+            let h = snap.empty ? "<p>No routine added.</p>" : "";
+            snap.forEach(d => h += `<div style="padding:15px; background:var(--bg); border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; border:1px solid var(--border);"><b>${d.data().title}</b><span style="color:var(--primary)">${d.data().time}</span></div>`);
+            document.getElementById('modal-body').innerHTML = h;
+        }
+        window.showNotesView = async () => {
+            openModal("Notes & PDF", "Loading...");
+            const snap = await getDocs(collection(db, "notes"));
+            let h = snap.empty ? "<p>No notes found.</p>" : "";
+            snap.forEach(d => h += `<div style="padding:15px; background:var(--bg); border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><span>📄 ${d.data().title}</span><a href="${d.data().link}" target="_blank" style="background:var(--primary); color:white; padding:5px 15px; border-radius:8px; text-decoration:none; font-size:0.8rem;">PDF</a></div>`);
+            document.getElementById('modal-body').innerHTML = h;
+        }
+
+        // --- LEADERBOARD ---
+        window.renderLeaderboard = async () => {
+            updateNav(1);
+            document.getElementById('main-content').innerHTML = `
+            <div class="card" style="background:var(--bg); text-align:center;"><h3>🏆 Top Students</h3></div>
+            <div id="lb-list" style="margin-top:10px;">Loading...</div>`;
+            
+            const snap = await getDocs(collection(db, "users"));
+            let u = []; snap.forEach(d => u.push(d.data()));
+            u.sort((a,b) => (b.points||0) - (a.points||0));
+            
+            let h = '';
+            u.slice(0, 50).forEach((x, i) => {
+                let badge = i<3 ? ["🥇","🥈","🥉"][i] : `#${i+1}`;
+                let bg = i<3 ? 'border: 2px solid var(--primary);' : '';
+                h += `<div class="card" style="display:flex; align-items:center; padding:15px; ${bg}">
+                    <b style="font-size:1.3rem; margin-right:15px; width:40px; text-align:center;">${badge}</b>
+                    <div style="flex:1;">
+                        <h4 style="margin-bottom:2px;">${x.name}</h4>
+                        <small style="color:var(--text-sec)">${x.education}</small>
+                    </div>
+                    <div style="background:var(--bg); padding:5px 10px; border-radius:8px;">
+                        <b style="color:var(--primary)">${x.points||0}</b> <small>pts</small>
+                    </div>
+                </div>`;
+            });
+            document.getElementById('lb-list').innerHTML = h;
+        }
+
+        // --- PROFILE ---
+        window.renderProfile = async () => {
+            updateNav(2);
+            const cl = currentUser.gender === 'Female' ? '#FCE4EC' : '#E3F2FD';
+            const tc = currentUser.gender === 'Female' ? '#E91E63' : '#2196F3';
+            const ic = currentUser.gender === 'Female' ? 'fa-female' : 'fa-male';
+            
+            document.getElementById('main-content').innerHTML = `
+                <div class="card" style="text-align:center; padding-top:30px;">
+                    <div style="width:100px; height:100px; border-radius:50%; margin:0 auto 15px; display:flex; justify-content:center; align-items:center; font-size:3rem; background:${cl}; color:${tc}; box-shadow:0 10px 20px rgba(0,0,0,0.05);">
+                        <i class="fas ${ic}"></i>
+                    </div>
+                    <h2 style="margin-bottom:5px;">${currentUser.name}</h2>
+                    <p style="color:var(--text-sec); font-size:0.9rem;">${currentUser.email}</p>
+                    <div style="margin:15px 0; display:flex; justify-content:center; gap:10px;">
+                         <span style="background:var(--bg); padding:5px 15px; border-radius:20px; font-size:0.8rem;">📅 Joined: ${currentUser.joined || 'N/A'}</span>
+                    </div>
+                    <button onclick="editProfile()" class="btn btn-sec" style="width:48%; display:inline-block; margin-right:2%;"><i class="fas fa-pen"></i> Edit</button>
+                    <button onclick="clearHistory()" class="btn btn-danger" style="width:48%; display:inline-block;"><i class="fas fa-trash"></i> History</button>
+                </div>
+                <h3 style="margin-left:5px;">Recent Results</h3>
+                <div id="hist-list">Loading...</div>
+            `;
+            const q = query(collection(db, "results"), where("userId", "==", currentUser.uid));
+            const s = await getDocs(q);
+            let h = s.empty ? "<p style='text-align:center; color:var(--text-sec); margin-top:20px;'>No exams taken yet.</p>" : "";
+            s.forEach(d => {
+                let p = (d.data().score / d.data().total) * 100;
+                let c = p >= 80 ? 'green' : p >= 50 ? 'orange' : 'red';
+                h += `<div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                    <div><b style="font-size:1rem;">${d.data().exam}</b><br><small style="color:var(--text-sec)">${d.data().date}</small></div>
+                    <b style="color:${c}; font-size:1.2rem;">${d.data().score}/${d.data().total}</b>
+                </div>`
+            });
+            document.getElementById('hist-list').innerHTML = h;
+        }
+
+        window.editProfile = () => {
+            openModal("Edit Profile", `
+                <input id="e-name" value="${currentUser.name}" placeholder="Name">
+                <select id="e-gender"><option value="Male">Male</option><option value="Female">Female</option></select>
+                <input id="e-edu" value="${currentUser.education}" placeholder="Education">
+                <button onclick="saveProfile()" class="btn btn-primary">Save Changes</button>
+            `);
+            document.getElementById('e-gender').value = currentUser.gender || 'Male';
+        }
+        window.saveProfile = async () => {
+            const n=document.getElementById('e-name').value, g=document.getElementById('e-gender').value, e=document.getElementById('e-edu').value;
+            await updateDoc(doc(db, "users", currentUser.uid), { name: n, gender: g, education: e });
+            currentUser.name = n; currentUser.gender = g; currentUser.education = e; closeModal(); renderProfile();
+        }
+        window.clearHistory = async () => {
+            if(confirm("Are you sure you want to delete all exam history?")) {
+                const q = query(collection(db, "results"), where("userId", "==", currentUser.uid));
+                const s = await getDocs(q);
+                s.forEach(async (d) => await deleteDoc(d.ref));
+                renderProfile();
+            }
+        }
+
+        // --- NEW MCQ ENGINE ---
         window.startExam = async (id, title, time) => {
             const div = document.getElementById('main-content');
-            div.innerHTML = `<div id="q-area">Loading...</div>`;
-            const s = await getDocs(query(collection(db, "questions"), where("examId", "==", id)));
-            if(s.empty) return div.innerHTML = "No questions.";
-            
-            let qs=[]; s.forEach(d=>qs.push({id:d.id, ...d.data()}));
+            div.innerHTML = `<div id="q-area" style="padding-bottom:50px;">Loading questions...</div>`;
+            const q = query(collection(db, "questions"), where("examId", "==", id));
+            const snap = await getDocs(q);
+            if(snap.empty) return div.innerHTML = "<div class='card'>No questions found for this exam.</div>";
+
+            let qs = []; snap.forEach(d => qs.push({id: d.id, ...d.data()}));
             window.currentQ = qs; window.userAns = {};
 
-            document.getElementById('q-area').innerHTML = `
-                <div style="position:sticky; top:75px; background:var(--primary); color:white; padding:15px; border-radius:15px; margin-bottom:20px; z-index:90; display:flex; justify-content:space-between;"><b>${title}</b><span id="timer">00:00</span></div>
-                ${qs.map((d, i) => `
-                    <div class="card">
-                        <p style="font-weight:600; margin-bottom:15px; font-size:1.1rem;">${i+1}. ${d.question}</p>
+            let html = `
+                <div style="position:sticky; top:75px; background:var(--card-bg); color:var(--text); padding:15px; border-radius:15px; margin-bottom:20px; z-index:90; display:flex; justify-content:space-between; align-items:center; box-shadow:var(--shadow); border:1px solid var(--border);">
+                    <b style="color:var(--primary); font-size:1.1rem;">${title}</b>
+                    <span id="timer" style="background:var(--danger); color:white; padding:5px 12px; border-radius:20px; font-weight:bold;">00:00</span>
+                </div>`;
+
+            qs.forEach((d, i) => {
+                // Fix potential Key mismatch (q vs question)
+                const qText = d.question || d.q || "Untitled Question";
+                
+                html += `
+                <div class="card mcq-anim" style="animation-delay: ${i*0.05}s">
+                    <p style="font-weight:600; font-size:1.1rem; color:var(--text); margin-bottom:15px;">
+                        <span style="color:var(--primary)">Q${i+1}.</span> ${qText}
+                    </p>
+                    <div id="opts-${d.id}">
                         ${d.options.map((o, idx) => `
-                            <div class="mcq-option" id="opt-${d.id}-${idx+1}" onclick="selectOption('${d.id}', ${idx+1})">
-                                <div class="mcq-circle"></div> <span>${o}</span>
+                            <div class="mcq-option" onclick="selectOpt('${d.id}', ${idx+1}, this)">
+                                <div class="mcq-circle"></div>
+                                <span>${o}</span>
                             </div>
                         `).join('')}
-                    </div>`).join('')}
-                <button onclick="submitExam('${title}')" class="btn btn-primary" style="margin-bottom:50px;">Submit Exam</button>
-            `;
+                    </div>
+                </div>`;
+            });
+
+            html += `<button onclick="submitExam('${title}')" class="btn btn-primary" style="margin-top:20px;">Submit Exam</button>`;
+            document.getElementById('q-area').innerHTML = html;
 
             let left = time*60;
             if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
-                let m=Math.floor(left/60), s=left%60; document.getElementById('timer').innerText = `${m}:${s<10?'0'+s:s}`;
+                let m=Math.floor(left/60), s=left%60; 
+                document.getElementById('timer').innerText = `${m}:${s<10?'0'+s:s}`;
+                if(left <= 30) document.getElementById('timer').style.animation = "pulse 1s infinite";
                 left--; if(left<0) submitExam(title);
             }, 1000);
         }
 
-        window.selectOption = (qid, val) => {
-            window.userAns[qid] = val;
+        window.selectOpt = (qid, idx, el) => {
+            window.userAns[qid] = idx;
             // Visual Update
-            for(let i=1; i<=4; i++) {
-                const el = document.getElementById(`opt-${qid}-${i}`);
-                if(el) el.classList.remove('selected');
-            }
-            const sel = document.getElementById(`opt-${qid}-${val}`);
-            if(sel) sel.classList.add('selected');
+            const p = document.getElementById(`opts-${qid}`);
+            Array.from(p.children).forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
         }
 
         window.submitExam = async (title) => {
             clearInterval(timerInterval); toggleLoader(true);
-            let score=0, review='';
+            let score = 0, review = '';
+            
             window.currentQ.forEach((q, i) => {
-                const ans = window.userAns[q.id], correct = ans === q.correct;
+                const ans = window.userAns[q.id];
+                const correct = ans === parseInt(q.correct);
+                const qText = q.question || q.q;
+
                 if(correct) score++;
-                review += `<div class="card" style="border-left:5px solid ${correct?'#00b894':'#ff7675'}; padding:15px;"><p><b>Q${i+1}:</b> ${q.question}</p><p>Your Ans: <b>${ans?q.options[ans-1]:'Skipped'}</b> ${correct?'✅':'❌'}</p>${!correct?`<p style="color:#00b894">Correct: ${q.options[q.correct-1]}</p>`:''}</div>`;
+                
+                review += `<div style="padding:15px; background:var(--bg); margin-bottom:10px; border-radius:12px; border-left:4px solid ${correct?'var(--success)':'var(--danger)'};">
+                    <p style="font-size:0.9rem;"><b>Q${i+1}:</b> ${qText}</p>
+                    <div style="margin-top:5px; font-size:0.9rem;">
+                        Your Ans: <b style="color:${correct?'var(--success)':'var(--danger)'}">${ans ? q.options[ans-1] : 'Skipped'}</b>
+                        ${!correct ? `<br>Correct: <b style="color:var(--success)">${q.options[parseInt(q.correct)-1]}</b>` : ''}
+                    </div>
+                </div>`;
             });
-            const np = (currentUser.points||0)+score;
-            await updateDoc(doc(db,"users",currentUser.uid),{points:np});
-            await addDoc(collection(db,"results"),{userId:currentUser.uid, exam:title, score, total:window.currentQ.length, date:new Date().toLocaleDateString()});
+
+            const np = (currentUser.points||0) + score;
+            await updateDoc(doc(db, "users", currentUser.uid), { points: np });
+            await addDoc(collection(db, "results"), { userId: currentUser.uid, exam: title, score, total: window.currentQ.length, date: new Date().toLocaleDateString() });
             currentUser.points = np;
+            
             renderHome();
-            openModal(`Result: ${score}/${window.currentQ.length}`, `<h1 style="text-align:center; color:var(--primary); font-size:3rem;">${score}</h1>${review}`);
+            openModal(`Result: ${score}/${window.currentQ.length}`, `
+                <div style="text-align:center; padding:20px 0;">
+                    <h1 style="font-size:4rem; color:var(--primary); line-height:1;">${score}</h1>
+                    <p style="color:var(--text-sec)">Out of ${window.currentQ.length}</p>
+                </div>
+                ${review}`);
             toggleLoader(false);
         }
 
-        // ADMIN PANEL
+        // --- ADMIN PANEL ---
         window.renderAdmin = () => {
             updateNav(3);
             document.getElementById('main-content').innerHTML = `
@@ -320,87 +551,195 @@
                     <div class="admin-item" onclick="admView('exam')"><i class="fas fa-file-alt"></i><h4>Exams</h4></div>
                     <div class="admin-item" onclick="admView('student')"><i class="fas fa-users"></i><h4>Students</h4></div>
                     <div class="admin-item" onclick="admView('routine')"><i class="fas fa-calendar"></i><h4>Routine</h4></div>
-                    <div class="admin-item" onclick="admView('notes')"><i class="fas fa-file-pdf"></i><h4>Notes</h4></div>
+                    <div class="admin-item" onclick="admView('notes')"><i class="fas fa-file-pdf"></i><h4>Notes/PDF</h4></div>
                     <div class="admin-item" onclick="admView('broadcast')"><i class="fas fa-bullhorn"></i><h4>Broadcast</h4></div>
                     <div class="admin-item" onclick="admView('settings')"><i class="fas fa-cogs"></i><h4>Settings</h4></div>
-                </div><div id="adm-area" style="margin-top:20px;"></div>
+                </div>
+                <div id="adm-area" style="margin-top:20px;"></div>
             `;
         }
 
         window.admView = async (m) => {
-            const a = document.getElementById('adm-area'); a.innerHTML='<div class="card">Loading...</div>';
-            if(m==='exam') {
-                a.innerHTML = `
+            const area = document.getElementById('adm-area');
+            area.innerHTML = '<div class="card">Loading...</div>';
+
+            if(m === 'exam') {
+                area.innerHTML = `
                     <div class="card"><h3>Create Exam</h3><input id="nt" placeholder="Title"><input id="nm" type="number" placeholder="Time (Min)"><button onclick="addExam()" class="btn btn-primary">Create</button></div>
-                    <div class="card"><h3>Manage Exams</h3><div id="el"></div></div>
-                    <div class="card"><h3>Add MCQ (JSON)</h3><div style="display:flex; gap:10px;"><select id="es"></select><button onclick="copyFormat()" class="btn btn-sec" style="width:auto; margin:0 0 10px 0;">Copy Format</button></div><textarea id="jt" rows="4" placeholder="Paste JSON here..."></textarea><button onclick="upJson()" class="btn btn-primary">Upload</button></div>`;
-                const s = await getDocs(collection(db, "exams")); let h='', o=''; 
-                s.forEach(d=>{ h+=`<div class="card" style="display:flex; justify-content:space-between; align-items:center;"><b>${d.data().title}</b><button class="btn btn-danger" style="width:auto; padding:8px;" onclick="delDoc('exams','${d.id}')"><i class="fas fa-trash"></i></button></div>`; o+=`<option value="${d.id}">${d.data().title}</option>`; });
-                document.getElementById('el').innerHTML = h||"<p>No exams</p>"; document.getElementById('es').innerHTML = o;
+                    <div class="card">
+                        <h3>Manage Exams</h3>
+                        <p style="font-size:0.8rem; color:var(--text-sec); margin-bottom:10px;">Tap to Delete</p>
+                        <div id="el" class="grid-container"></div>
+                    </div>
+                    <div class="card"><h3>Add MCQ (JSON)</h3><div style="display:flex; gap:10px;"><select id="es"></select><button onclick="copyFormat()" class="btn btn-sec" style="width:auto; margin:0 0 15px 0;">Copy Format</button></div><textarea id="jt" rows="4" placeholder="Paste JSON here..."></textarea><button onclick="upJson()" class="btn btn-primary">Upload</button></div>`;
+                
+                const s = await getDocs(collection(db, "exams")); 
+                let h='', o=''; 
+                s.forEach(d=>{ 
+                    // Card View for Exams
+                    h+=`<div class="mini-card" onclick="delDoc('exams','${d.id}')">
+                        <i class="fas fa-file-contract" style="color:var(--primary)"></i>
+                        <h4>${d.data().title}</h4>
+                        <small>${d.data().time} Min</small>
+                    </div>`; 
+                    o+=`<option value="${d.id}">${d.data().title}</option>`; 
+                });
+                document.getElementById('el').innerHTML = h || "<p>No exams.</p>"; 
+                document.getElementById('es').innerHTML = o;
             }
-            if(m==='student') {
-                const s = await getDocs(collection(db, "users")); allStudents = [];
-                s.forEach(d => { if(d.data().role!=='admin') allStudents.push({id:d.id, ...d.data()}) });
-                a.innerHTML = `<div class="card"><h3>Students</h3><input id="st-search" placeholder="Search Name/Email..." onkeyup="filterStudents()"></div><div id="sl"></div>`;
-                renderStudentList(allStudents);
+
+            if(m === 'student') {
+                area.innerHTML = `
+                    <div class="card">
+                        <h3>Registered Students</h3>
+                        <input id="search-box" placeholder="Search by Name or Email..." style="margin-top:10px;">
+                        <div id="sl" class="grid-container">Loading...</div>
+                    </div>`;
+                
+                const s = await getDocs(collection(db, "users"));
+                allStudentsCache = [];
+                s.forEach(d => { if(d.data().role !== 'admin') allStudentsCache.push({id: d.id, ...d.data()}); });
+                
+                renderStudentList(allStudentsCache);
+
+                // Search Event
+                document.getElementById('search-box').addEventListener('input', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    const filtered = allStudentsCache.filter(u => u.name.toLowerCase().includes(term) || u.email.toLowerCase().includes(term));
+                    renderStudentList(filtered);
+                });
             }
-            // Other admin views remain similar but with card styles
-            if(m==='routine') { a.innerHTML=`<div class="card"><h3>Add Routine</h3><input id="rt" placeholder="Title"><input id="rm" placeholder="Time"><button onclick="addRt()" class="btn btn-primary">Add</button></div><div id="rl"></div>`; loadList('routines','rl'); }
-            if(m==='notes') { a.innerHTML=`<div class="card"><h3>Add Note</h3><input id="pt" placeholder="Title"><input id="pl" placeholder="Link"><button onclick="addNt()" class="btn btn-primary">Add</button></div><div id="nl"></div>`; loadList('notes','nl'); }
-            if(m==='broadcast') { a.innerHTML=`<div class="card"><h3>Broadcast</h3><textarea id="bcm" placeholder="Message"></textarea><button onclick="sendBc()" class="btn btn-primary">Send</button><button onclick="clrBc()" class="btn btn-sec">Clear</button></div>`; }
-            if(m==='settings') { a.innerHTML=`<div class="card"><h3>Actions</h3><button onclick="resetLb()" class="btn btn-danger">Reset Ranks</button><div style="margin-top:15px;"><input id="adm-mail" placeholder="User Email"><button onclick="mkAdmin()" class="btn btn-primary">Make Admin</button></div></div>`; }
+
+            if(m === 'routine') {
+                area.innerHTML = `<div class="card"><h3>Add Routine</h3><input id="rt" placeholder="Title"><input id="rm" placeholder="Time"><button onclick="addRT()" class="btn btn-primary">Add</button></div><div class="card"><h3>Manage</h3><div id="rl"></div></div>`;
+                const s = await getDocs(collection(db, "routines")); let h=''; s.forEach(d=>{ h+=`<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border);"><span>${d.data().title}</span><button class="btn btn-danger" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="delDoc('routines','${d.id}')">Del</button></div>`; });
+                document.getElementById('rl').innerHTML = h;
+            }
+            if(m === 'notes') {
+                area.innerHTML = `<div class="card"><h3>Add PDF</h3><input id="pt" placeholder="Title"><input id="pl" placeholder="Link"><button onclick="addNT()" class="btn btn-primary">Add</button></div><div class="card"><h3>Manage</h3><div id="nl"></div></div>`;
+                const s = await getDocs(collection(db, "notes")); let h=''; s.forEach(d=>{ h+=`<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border);"><span>${d.data().title}</span><button class="btn btn-danger" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="delDoc('notes','${d.id}')">Del</button></div>`; });
+                document.getElementById('nl').innerHTML = h;
+            }
+            if(m === 'broadcast') {
+                area.innerHTML = `<div class="card"><h3>Broadcast</h3><textarea id="bcm" rows="3" placeholder="Write message..."></textarea><button onclick="sendBC()" class="btn btn-primary">Send</button><button onclick="clearBC()" class="btn btn-sec">Clear</button></div>`;
+            }
+            if(m === 'settings') {
+                area.innerHTML = `<div class="card"><h3>Theme</h3><div style="display:flex; gap:10px; margin-top:10px;">
+                    <div onclick="setTh('#6C63FF')" style="width:40px; height:40px; background:#6C63FF; border-radius:50%; cursor:pointer;"></div>
+                    <div onclick="setTh('#00b894')" style="width:40px; height:40px; background:#00b894; border-radius:50%; cursor:pointer;"></div>
+                    <div onclick="setTh('#FF6584')" style="width:40px; height:40px; background:#FF6584; border-radius:50%; cursor:pointer;"></div>
+                </div><h3 style="margin-top:20px;">Actions</h3><button onclick="resetRank()" class="btn btn-danger">Reset All Ranks</button><div style="margin-top:10px;"><input id="adm-mail" placeholder="User Email to make Admin"><button onclick="makeAdmin()" class="btn btn-primary">Add Admin</button></div></div>`;
+            }
         }
 
+        // Render Student Helper
         window.renderStudentList = (list) => {
-            const div = document.getElementById('sl'); div.innerHTML='';
-            list.forEach(u => div.innerHTML += `
-                <div class="card student-card" onclick="viewUser('${u.id}')">
-                    <div class="student-avatar">${u.name.charAt(0)}</div>
-                    <div style="flex:1;"><b>${u.name}</b><br><small>${u.email}</small></div>
-                </div>`);
+            let h = '';
+            list.forEach(u => {
+                const isBan = u.isBanned ? '<span class="banned-badge">BANNED</span>' : '';
+                const avatar = u.gender === 'Female' ? 'fa-female' : 'fa-male';
+                const color = u.gender === 'Female' ? '#E91E63' : '#2196F3';
+                
+                h += `<div class="mini-card" onclick="viewUser('${u.id}')">
+                    ${isBan}
+                    <i class="fas ${avatar}" style="color:${color}"></i>
+                    <h4>${u.name}</h4>
+                    <small>${u.education}</small>
+                </div>`;
+            });
+            document.getElementById('sl').innerHTML = h || '<p>No students found.</p>';
         }
-        window.filterStudents = () => {
-            const q = document.getElementById('st-search').value.toLowerCase();
-            const f = allStudents.filter(u => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q));
-            renderStudentList(f);
+
+        // --- ACTIONS ---
+        window.addExam = async () => { await addDoc(collection(db, "exams"), {title:document.getElementById('nt').value, time:parseInt(document.getElementById('nm').value)}); showMsg("Created"); admView('exam'); }
+        window.upJson = async () => { 
+            try { 
+                const d=JSON.parse(document.getElementById('jt').value); 
+                // Fix structure
+                for(const q of d) {
+                   await addDoc(collection(db,"questions"),{
+                       examId:document.getElementById('es').value, 
+                       question: q.question || q.q, // Handle both formats
+                       options: q.options,
+                       correct: q.correct
+                   }); 
+                }
+                showMsg("Uploaded Successfully"); 
+            } catch(e){showMsg("JSON Error: Check format");} 
         }
+        window.addRT = async () => { await addDoc(collection(db, "routines"), {title:document.getElementById('rt').value, time:document.getElementById('rm').value}); showMsg("Added"); admView('routine'); }
+        window.addNT = async () => { await addDoc(collection(db, "notes"), {title:document.getElementById('pt').value, link:document.getElementById('pl').value}); showMsg("Added"); admView('notes'); }
+        
+        window.delDoc = async (c, id) => { 
+            if(confirm("Are you sure you want to delete this?")) { 
+                await deleteDoc(doc(db, c, id)); 
+                showMsg("Deleted"); 
+                // Refresh views
+                if(c==='exams') admView('exam');
+                else if(c==='routines') admView('routine');
+                else if(c==='notes') admView('notes');
+            } 
+        }
+        
+        window.sendBC = async () => { await setDoc(doc(db, "settings", "broadcast"), {message: document.getElementById('bcm').value}); showMsg("Sent"); }
+        window.clearBC = async () => { await deleteDoc(doc(db, "settings", "broadcast")); showMsg("Cleared"); }
+        window.setTh = async (c) => { await setDoc(doc(db,"settings","theme"),{color:c}); document.documentElement.style.setProperty('--primary', c); showMsg("Theme Set"); }
+        window.resetRank = async () => { if(confirm("Reset all points to 0?")) { const s=await getDocs(collection(db,"users")); s.forEach(d=> updateDoc(d.ref, {points:0})); showMsg("Reset Done"); } }
+        
+        // VIEW USER & BAN LOGIC
         window.viewUser = async (uid) => {
-            const u = await getDoc(doc(db,"users",uid));
-            const r = await getDocs(query(collection(db,"results"), where("userId","==",uid)));
-            let h = ""; r.forEach(d => h += `<div><b>${d.data().exam}</b>: ${d.data().score}/${d.data().total}</div>`);
+            const uSnap = await getDoc(doc(db, "users", uid));
+            const u = uSnap.data();
+            const q = query(collection(db, "results"), where("userId", "==", uid));
+            const s = await getDocs(q);
+            let h = ""; s.forEach(d => h += `<div style="font-size:0.9rem; border-bottom:1px solid var(--border); padding:5px;"><b>${d.data().exam}</b>: ${d.data().score}/${d.data().total}</div>`);
+            
+            const btnText = u.isBanned ? "Unban Student" : "Ban Student";
+            const btnColor = u.isBanned ? "var(--success)" : "var(--danger)";
+
             openModal("Student Details", `
-                <h3>${u.data().name}</h3><p>${u.data().email}</p><p>Joined: ${u.data().joined}</p><p>Edu: ${u.data().education}</p>
-                <button onclick="delDoc('users','${uid}')" class="btn btn-danger" style="margin-bottom:15px;">Ban User</button>
-                <hr><h4>History</h4>${h||"No exams"}
+                <div style="text-align:center;">
+                    <h3 style="color:var(--primary)">${u.name}</h3>
+                    <p>${u.email}</p>
+                    <p style="font-size:0.8rem; color:var(--text-sec)">Joined: ${u.joined}</p>
+                    <button onclick="toggleBan('${uid}', ${u.isBanned})" class="btn" style="background:${btnColor}; color:white; margin:15px 0;">${btnText}</button>
+                </div>
+                <hr style="border:1px solid var(--border); margin:10px 0;">
+                <h4>Exam History</h4>
+                <div style="max-height:150px; overflow-y:auto;">${h||"No exams taken."}</div>
             `);
         }
 
-        // OTHER FUNCTIONS
-        window.loadList = async (c, id) => {
-            const s = await getDocs(collection(db, c)); let h='';
-            s.forEach(d => h+=`<div class="card" style="display:flex; justify-content:space-between;"><span>${d.data().title}</span><button class="btn btn-danger" style="width:auto; padding:5px 10px;" onclick="delDoc('${c}','${d.id}')"><i class="fas fa-trash"></i></button></div>`);
-            document.getElementById(id).innerHTML = h;
+        window.toggleBan = async (uid, currentStatus) => {
+            await updateDoc(doc(db, "users", uid), { isBanned: !currentStatus });
+            showMsg(currentStatus ? "User Unbanned" : "User Banned");
+            closeModal();
+            admView('student'); // Refresh list
         }
-        window.addExam = async () => { await addDoc(collection(db,"exams"),{title:document.getElementById('nt').value, time:parseInt(document.getElementById('nm').value)}); showMsg("Created"); admView('exam'); }
-        window.upJson = async () => { try { const d=JSON.parse(document.getElementById('jt').value); for(const q of d) await addDoc(collection(db,"questions"),{examId:document.getElementById('es').value, ...q}); showMsg("Uploaded"); } catch(e){showMsg("JSON Error");} }
-        window.copyFormat = () => { navigator.clipboard.writeText(`[{"question":"Q?","options":["A","B","C","D"],"correct":1}]`); showMsg("Copied!"); }
-        window.addRt = async () => { await addDoc(collection(db,"routines"),{title:document.getElementById('rt').value, time:document.getElementById('rm').value}); showMsg("Added"); admView('routine'); }
-        window.addNt = async () => { await addDoc(collection(db,"notes"),{title:document.getElementById('pt').value, link:document.getElementById('pl').value}); showMsg("Added"); admView('notes'); }
-        window.delDoc = async (c, id) => { if(confirm("Delete?")) { await deleteDoc(doc(db,c,id)); showMsg("Deleted"); admView(c==='users'?'student':c==='exams'?'exam':c.slice(0,-1)); } }
-        window.sendBc = async () => { await setDoc(doc(db,"settings","broadcast"),{message:document.getElementById('bcm').value}); showMsg("Sent"); }
-        window.clrBc = async () => { await deleteDoc(doc(db,"settings","broadcast")); showMsg("Cleared"); }
-        window.resetLb = async () => { if(confirm("Reset Ranks?")) { const s=await getDocs(collection(db,"users")); s.forEach(d=>updateDoc(d.ref,{points:0})); showMsg("Reset Done"); } }
-        window.mkAdmin = async () => { const q=query(collection(db,"users"), where("email","==",document.getElementById('adm-mail').value)); const s=await getDocs(q); if(s.empty) return showMsg("Not found"); s.forEach(d=>updateDoc(d.ref,{role:'admin'})); showMsg("Admin Added"); }
 
-        // RENDERS
-        window.renderProfile = async () => { updateNav(2); document.getElementById('main-content').innerHTML = `<h3>Profile</h3><div class="card" style="text-align:center;"><div class="avatar ${currentUser.gender==='Female'?'female':'male'}"><i class="fas ${currentUser.gender==='Female'?'fa-female':'fa-male'}"></i></div><h2>${currentUser.name}</h2><p>${currentUser.email}</p><button onclick="editPro()" class="btn btn-primary">Edit</button><button onclick="clrHist()" class="btn btn-danger">Clear History</button></div>`; }
-        window.editPro = () => openModal("Edit", `<input id="en" value="${currentUser.name}"><button onclick="savePro()" class="btn btn-primary">Save</button>`);
-        window.savePro = async () => { const n=document.getElementById('en').value; await updateDoc(doc(db,"users",currentUser.uid),{name:n}); currentUser.name=n; closeModal(); renderProfile(); }
-        window.clrHist = async () => { if(confirm("Clear?")) { const s=await getDocs(query(collection(db,"results"),where("userId","==",currentUser.uid))); s.forEach(d=>deleteDoc(d.ref)); showMsg("Cleared"); renderProfile(); } }
-        window.renderLeaderboard = async () => { updateNav(1); document.getElementById('main-content').innerHTML='<h3>Rank</h3><div id="lb"></div>'; const s=await getDocs(collection(db,"users")); let u=[]; s.forEach(d=>u.push(d.data())); u.sort((a,b)=>(b.points||0)-(a.points||0)); u.slice(0,20).forEach((x,i)=>{ document.getElementById('lb').innerHTML+=`<div class="card" style="display:flex; justify-content:space-between; border-left:5px solid ${i<3?'#FFD700':'transparent'}"><b>#${i+1} ${x.name}</b><span>${x.points||0} pts</span></div>`; }); }
-        
-        async function loadServerTheme() { const s=await getDoc(doc(db,"settings","theme")); if(s.exists()) document.documentElement.style.setProperty('--primary', s.data().color); }
-        window.viewRoutine = showRoutineView; window.viewNotes = showNotesView; // Shortcuts for home
+        window.makeAdmin = async () => {
+            const email = document.getElementById('adm-mail').value;
+            const q = query(collection(db, "users"), where("email", "==", email));
+            const s = await getDocs(q);
+            if(s.empty) return showMsg("User not found");
+            s.forEach(d => updateDoc(d.ref, {role:'admin'}));
+            showMsg("Admin Added!");
+        }
+
+        window.copyFormat = () => {
+            // Correct format for new engine
+            const fmt = `[{"question":"Question Name?","options":["A","B","C","D"],"correct":1}]`;
+            navigator.clipboard.writeText(fmt);
+            showMsg("Format Copied!");
+        }
+
+        // --- LOADERS ---
+        async function loadServerTheme() { const s = await getDoc(doc(db, "settings", "theme")); if(s.exists()) document.documentElement.style.setProperty('--primary', s.data().color); }
+        function updateNav(i) { document.querySelectorAll('.nav-item').forEach((n,x)=> n.classList.toggle('active', i===x)); }
+        function openModal(t, b) { document.getElementById('modal-title').innerText = t; document.getElementById('modal-body').innerHTML = b; document.getElementById('generic-modal').style.display = 'flex'; }
+        window.closeModal = () => document.getElementById('generic-modal').style.display = 'none';
+        function toggleLoader(s) { document.getElementById('loader').style.display = s?'flex':'none'; }
+
     </script>
 </body>
 </html>
