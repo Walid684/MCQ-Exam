@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ExamPro Ultimate</title>
+    <title>ExamPro Final Fixed</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
@@ -13,77 +13,66 @@
             --primary: #6C63FF; 
             --primary-dark: #5a52d5;
             --accent: #FF6584;
-            --success: #00b894;
             --bg: #F4F7F6;
             --white: #ffffff;
             --text: #2d3436;
-            --glass: rgba(255, 255, 255, 0.90);
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --glass: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 25px rgba(0,0,0,0.06);
             --radius: 16px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Hind Siliguri', sans-serif; }
         body { background: var(--bg); color: var(--text); padding-bottom: 90px; -webkit-tap-highlight-color: transparent; transition: background 0.3s; }
         
-        /* Animations */
-        @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Loader */
         #loader { position: fixed; inset: 0; background: var(--white); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .spinner { width: 50px; height: 50px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .spinner { width: 45px; height: 45px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
 
-        /* Screen Layout */
-        .screen { display: none; min-height: 100vh; animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .screen { display: none; min-height: 100vh; animation: fadeIn 0.3s ease-out; }
         .active-screen { display: block; }
 
-        /* 1. AUTH SCREEN (PREMIUM ANIMATED) */
-        .auth-wrapper { min-height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 20px; position: relative; overflow: hidden; }
-        .auth-wrapper::before { content: ''; position: absolute; width: 300px; height: 300px; background: rgba(255,255,255,0.1); border-radius: 50%; top: -50px; right: -50px; }
-        .auth-wrapper::after { content: ''; position: absolute; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%; bottom: -50px; left: -50px; }
-        
-        .auth-card { background: var(--white); width: 100%; max-width: 400px; padding: 40px 30px; border-radius: 25px; box-shadow: 0 25px 50px rgba(0,0,0,0.2); text-align: center; z-index: 10; }
+        /* AUTH SCREEN */
+        .auth-wrapper { min-height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 20px; }
+        .auth-card { background: var(--white); width: 100%; max-width: 400px; padding: 40px 30px; border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); text-align: center; }
         
         .input-group { position: relative; margin-bottom: 15px; text-align: left; }
         .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; }
-        .input-group input, .input-group select { width: 100%; padding: 14px 14px 14px 45px; border: 1px solid #eee; border-radius: 12px; background: #f8f9fa; outline: none; transition: 0.3s; }
-        .input-group input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1); }
+        .input-group input, .input-group select { width: 100%; padding: 12px 12px 12px 40px; border: 1px solid #eee; border-radius: 12px; background: #f8f9fa; outline: none; transition: 0.3s; }
+        .input-group input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1); }
 
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 1rem; margin-top: 10px; }
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 8px 15px rgba(108, 99, 255, 0.3); }
-        .btn-primary:active { transform: scale(0.98); }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 1rem; margin-top: 10px; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3); }
         .btn-google { background: white; border: 1px solid #ddd; color: #333; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
-        /* 2. APP HEADER & LAYOUT */
-        header { background: var(--glass); backdrop-filter: blur(15px); padding: 15px 20px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 5px 20px rgba(0,0,0,0.03); }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
-        .points-badge { background: #FFF0DA; color: #FF9F43; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
+        /* APP HEADER */
+        header { background: var(--glass); backdrop-filter: blur(10px); padding: 15px 20px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 5px 20px rgba(0,0,0,0.03); }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .points-badge { background: #FFF0DA; color: #FF9F43; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; }
 
         .container { padding: 20px; max-width: 800px; margin: 0 auto; }
         .card { background: var(--white); padding: 20px; border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); position: relative; }
         
-        /* 3. DASHBOARD GRID */
+        /* DASHBOARD */
         .dash-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
         .dash-btn { background: var(--white); padding: 15px 10px; border-radius: 15px; text-align: center; box-shadow: var(--shadow); cursor: pointer; transition: 0.3s; }
-        .dash-btn i { font-size: 1.5rem; margin-bottom: 5px; display: block; }
-        .dash-btn span { font-size: 0.75rem; font-weight: 600; color: #555; }
         .dash-btn:active { transform: scale(0.95); }
 
-        /* 4. ADMIN PANEL STYLES */
+        /* ADMIN PANEL STYLES */
         .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .admin-item { background: var(--white); padding: 20px; border-radius: 15px; text-align: center; box-shadow: var(--shadow); border-bottom: 3px solid var(--primary); cursor: pointer; }
-        .admin-item i { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
-        .admin-item h4 { font-size: 0.9rem; color: #333; }
+        .admin-item { background: var(--white); padding: 20px; border-radius: 15px; text-align: center; box-shadow: var(--shadow); border-bottom: 4px solid var(--primary); cursor: pointer; }
+        .admin-item i { font-size: 1.8rem; color: var(--primary); margin-bottom: 8px; }
+        
+        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f9f9f9; border-radius: 10px; margin-bottom: 8px; }
+        .del-btn { background: #ffebeb; color: #ff4757; border: none; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: 600; }
 
-        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
-        .del-btn { background: #ffebeb; color: #ff4757; border: none; padding: 5px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
-
-        /* 5. PROFILE & AVATAR */
-        .avatar-container { width: 100px; height: 100px; margin: 0 auto 15px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 3rem; position: relative; border: 4px solid var(--white); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        /* PROFILE */
+        .avatar-container { width: 90px; height: 90px; margin: 0 auto 10px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; position: relative; border: 4px solid var(--white); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .male { background: #E3F2FD; color: #2196F3; }
         .female { background: #FCE4EC; color: #E91E63; }
-        .edit-badge { position: absolute; bottom: 0; right: 0; background: var(--text); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; cursor: pointer; }
+        .edit-badge { position: absolute; bottom: 0; right: 0; background: var(--text); color: white; width: 25px; height: 25px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.8rem; cursor: pointer; }
 
         /* Bottom Nav */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--white); display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; border-radius: 20px 20px 0 0; }
@@ -94,6 +83,11 @@
         /* Modal */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-content { background: white; width: 90%; max-width: 450px; padding: 25px; border-radius: 20px; max-height: 85vh; overflow-y: auto; animation: slideUp 0.3s; }
+        
+        /* Review Section */
+        .review-box { border-left: 4px solid #ddd; padding: 10px; background: #f9f9f9; margin-bottom: 10px; border-radius: 8px; }
+        .review-box.correct { border-left-color: #00b894; background: #e6fffa; }
+        .review-box.wrong { border-left-color: #ff7675; background: #fff0f0; }
 
     </style>
 </head>
@@ -105,7 +99,7 @@
         <div class="auth-wrapper">
             <div class="auth-card">
                 <h1 style="color:var(--primary); margin-bottom:5px;">ExamPro</h1>
-                <p style="color:#888; margin-bottom:25px;">The Ultimate Learning Platform</p>
+                <p style="color:#888; margin-bottom:25px;">Master Your Preparation</p>
                 
                 <div id="login-form">
                     <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="l-email" placeholder="Email Address"></div>
@@ -248,9 +242,9 @@
 
             div.innerHTML = `
                 ${bcHTML}
-                <div class="card" style="background:linear-gradient(135deg, var(--primary), var(--primary-dark)); color:white; border:none;">
+                <div class="card" style="background:linear-gradient(135deg, var(--primary), var(--primary-dark)); color:white; border:none; padding:25px;">
                     <h3>Hello, ${currentUser.name}! 👋</h3>
-                    <p style="opacity:0.9">Ready for today's challenge?</p>
+                    <p style="opacity:0.9">Your journey continues here.</p>
                 </div>
                 
                 <div class="dash-grid">
@@ -259,7 +253,7 @@
                     <div class="dash-btn" onclick="showNotesView()"><i class="fas fa-book-open" style="color:#00CFE8"></i><span>Notes</span></div>
                 </div>
 
-                <h3>Available Exams</h3>
+                <h3 style="margin-bottom:15px;">Available Exams</h3>
                 <div id="exam-list">Loading...</div>
             `;
             loadExams();
@@ -269,7 +263,7 @@
             const list = document.getElementById('exam-list');
             const snap = await getDocs(collection(db, "exams"));
             list.innerHTML = '';
-            if(snap.empty) return list.innerHTML = '<p>No exams available.</p>';
+            if(snap.empty) return list.innerHTML = '<p style="text-align:center; color:#999;">No active exams.</p>';
             snap.forEach(d => {
                 const data = d.data();
                 list.innerHTML += `
@@ -280,12 +274,12 @@
             });
         }
 
-        // --- STUDENT FEATURES (ROUTINE & NOTES) ---
+        // --- STUDENT FEATURES ---
         window.showRoutineView = async () => {
             openModal("Class Routine", "Loading...");
             const snap = await getDocs(collection(db, "routines"));
             let html = snap.empty ? "<p>No routine added.</p>" : "";
-            snap.forEach(d => html += `<div style="padding:10px; border-bottom:1px solid #eee; display:flex; justify-content:space-between;"><span>${d.data().title}</span><b>${d.data().time}</b></div>`);
+            snap.forEach(d => html += `<div class="list-item"><span>${d.data().title}</span><b>${d.data().time}</b></div>`);
             document.getElementById('modal-body').innerHTML = html;
         }
 
@@ -293,7 +287,7 @@
             openModal("Lecture Notes / PDF", "Loading...");
             const snap = await getDocs(collection(db, "notes"));
             let html = snap.empty ? "<p>No notes available.</p>" : "";
-            snap.forEach(d => html += `<div class="card" style="padding:10px; display:flex; justify-content:space-between; align-items:center;"><span>📄 ${d.data().title}</span><a href="${d.data().link}" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">Download</a></div>`);
+            snap.forEach(d => html += `<div class="list-item"><span>📄 ${d.data().title}</span><a href="${d.data().link}" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">Download</a></div>`);
             document.getElementById('modal-body').innerHTML = html;
         }
 
@@ -307,9 +301,9 @@
             users.sort((a,b) => (b.points||0) - (a.points||0));
             let html = '';
             users.slice(0, 20).forEach((u, i) => {
-                let color = i<3 ? '#FFD700' : '#eee';
+                let color = i<3 ? '#FFD700' : 'transparent';
                 html += `<div class="card" style="display:flex; align-items:center; border-left:5px solid ${color};">
-                    <b style="font-size:1.2rem; margin-right:15px;">#${i+1}</b>
+                    <b style="font-size:1.2rem; margin-right:15px; width:30px;">#${i+1}</b>
                     <div style="flex:1;"><h4>${u.name}</h4><small>${u.education}</small></div>
                     <b style="color:var(--primary)">${u.points||0} pts</b>
                 </div>`;
@@ -317,7 +311,7 @@
             document.getElementById('lb-list').innerHTML = html;
         }
 
-        // --- PROFILE & EDIT ---
+        // --- PROFILE ---
         window.renderProfile = async () => {
             updateNav(2);
             const avatarClass = currentUser.gender === 'Female' ? 'female' : 'male';
@@ -331,7 +325,7 @@
                     </div>
                     <h2>${currentUser.name}</h2>
                     <p>${currentUser.email}</p>
-                    <div style="margin-top:10px;"><span style="background:#eee; padding:5px 10px; border-radius:10px;">${currentUser.education}</span></div>
+                    <div style="margin-top:10px;"><span style="background:#eee; padding:5px 10px; border-radius:10px; font-size:0.8rem;">Joined: ${currentUser.joined || 'N/A'}</span></div>
                 </div>
                 <h3>Exam History</h3>
                 <div id="hist-list">Loading...</div>
@@ -339,17 +333,17 @@
             
             const q = query(collection(db, "results"), where("userId", "==", currentUser.uid));
             const snap = await getDocs(q);
-            let html = snap.empty ? "<p>No exams taken.</p>" : "";
-            snap.forEach(d => html += `<div class="card" style="display:flex; justify-content:space-between;"><span>${d.data().exam}</span><b>${d.data().score}/${d.data().total}</b></div>`);
+            let html = snap.empty ? "<p style='text-align:center; color:#999'>No exams taken.</p>" : "";
+            snap.forEach(d => html += `<div class="card" style="display:flex; justify-content:space-between; padding:15px;"><span>${d.data().exam}</span><b>${d.data().score}/${d.data().total}</b></div>`);
             document.getElementById('hist-list').innerHTML = html;
         }
 
         window.editProfile = () => {
             openModal("Edit Profile", `
                 <input id="e-name" value="${currentUser.name}" placeholder="Name">
-                <select id="e-gender" style="width:100%; padding:14px; margin-bottom:10px; border:1px solid #eee; border-radius:12px;"><option value="Male">Male</option><option value="Female">Female</option></select>
+                <select id="e-gender" style="width:100%; padding:14px; margin-bottom:10px; border:1px solid #eee; border-radius:12px; background:#f9f9f9;"><option value="Male">Male</option><option value="Female">Female</option></select>
                 <input id="e-edu" value="${currentUser.education}" placeholder="Education">
-                <button onclick="saveProfile()" class="btn btn-primary">Save</button>
+                <button onclick="saveProfile()" class="btn btn-primary">Save Changes</button>
             `);
             document.getElementById('e-gender').value = currentUser.gender || 'Male';
         }
@@ -361,25 +355,33 @@
             closeModal(); renderProfile();
         }
 
-        // --- EXAM SYSTEM ---
+        // --- EXAM SYSTEM (FIXED SUBMIT) ---
         window.startExam = async (id, title, time) => {
             const div = document.getElementById('main-content');
             div.innerHTML = `<div id="q-area">Loading...</div>`;
             const q = query(collection(db, "questions"), where("examId", "==", id));
             const snap = await getDocs(q);
-            if(snap.empty) return div.innerHTML = "No questions.";
+            if(snap.empty) return div.innerHTML = "No questions found.";
 
             let questions = [];
             snap.forEach(d => questions.push({id: d.id, ...d.data()}));
             window.currentQ = questions; window.userAns = {};
 
+            // Exam UI
             document.getElementById('q-area').innerHTML = `
-                <div style="position:sticky; top:75px; background:var(--accent); color:white; padding:10px; border-radius:10px; margin-bottom:15px; z-index:90; display:flex; justify-content:space-between;"><span>${title}</span><span id="timer">00:00</span></div>
+                <div style="position:sticky; top:75px; background:var(--accent); color:white; padding:10px 15px; border-radius:10px; margin-bottom:15px; z-index:90; display:flex; justify-content:space-between; box-shadow:0 5px 15px rgba(255, 101, 132, 0.4);">
+                    <span>${title}</span><span id="timer" style="font-weight:bold;">00:00</span>
+                </div>
                 ${questions.map((d, i) => `
-                    <div class="card"><p><b>${i+1}. ${d.question}</b></p>
-                    ${d.options.map((o, idx) => `<label style="display:block; padding:10px; border:1px solid #eee; margin-top:5px; border-radius:8px;"><input type="radio" name="${d.id}" value="${idx+1}" onchange="window.userAns['${d.id}']=${idx+1}"> ${o}</label>`).join('')}
+                    <div class="card">
+                        <p style="font-weight:600; margin-bottom:10px;">${i+1}. ${d.question}</p>
+                        ${d.options.map((o, idx) => `
+                            <label style="display:block; padding:10px; border:1px solid #eee; margin-top:5px; border-radius:8px; cursor:pointer;">
+                                <input type="radio" name="${d.id}" value="${idx+1}" onchange="window.userAns['${d.id}']=${idx+1}"> ${o}
+                            </label>
+                        `).join('')}
                     </div>`).join('')}
-                <button onclick="submitExam('${title}')" class="btn btn-primary" style="margin-bottom:50px;">Submit</button>
+                <button onclick="submitExam('${title}')" class="btn btn-primary" style="margin-bottom:50px;">Submit Exam</button>
             `;
 
             let left = time*60;
@@ -388,27 +390,35 @@
                 let m = Math.floor(left/60), s = left%60;
                 document.getElementById('timer').innerText = `${m}:${s<10?'0'+s:s}`;
                 left--;
-                if(left<0) { clearInterval(timerInterval); submitExam(title); }
+                if(left<0) { submitExam(title); }
             }, 1000);
         }
 
         window.submitExam = async (title) => {
-            clearInterval(timerInterval); toggleLoader(true);
+            clearInterval(timerInterval); 
+            toggleLoader(true);
+            
             let score = 0, review = '';
             window.currentQ.forEach((q, i) => {
                 const ans = window.userAns[q.id], correct = ans === q.correct;
                 if(correct) score++;
-                review += `<div style="padding:10px; background:${correct?'#eafff8':'#fff0f3'}; margin-bottom:5px; border-radius:8px; text-align:left;"><b>Q${i+1}:</b> ${q.question}<br>Your Ans: ${ans?q.options[ans-1]:'Skipped'} ${correct?'✅':'❌'}<br>${!correct?'Correct: '+q.options[q.correct-1]:''}</div>`;
+                review += `<div class="review-box ${correct?'correct':'wrong'}"><p><b>Q${i+1}:</b> ${q.question}</p><small>Your Ans: ${ans?q.options[ans-1]:'Skipped'} ${correct?'✅':'❌'}</small><br><small style="color:#00b894">${!correct?'Correct: '+q.options[q.correct-1]:''}</small></div>`;
             });
+
+            // Update DB
             const newPoints = (currentUser.points||0) + score;
             await updateDoc(doc(db, "users", currentUser.uid), { points: newPoints });
             await addDoc(collection(db, "results"), { userId: currentUser.uid, exam: title, score, total: window.currentQ.length, date: new Date().toLocaleDateString() });
+            
             currentUser.points = newPoints;
-            openModal(`Result: ${score}/${window.currentQ.length}`, `<h1 style="color:var(--primary); text-align:center;">${score}</h1><div style="max-height:300px; overflow-y:auto;">${review}</div>`);
             toggleLoader(false);
+            
+            // Go back to Home and show Modal
+            renderHome(); 
+            openModal(`Result: ${score}/${window.currentQ.length}`, `<h1 style="color:var(--primary); text-align:center; font-size:3rem;">${score}</h1><div style="max-height:300px; overflow-y:auto; margin-top:10px;">${review}</div>`);
         }
 
-        // --- ADMIN PANEL (ULTIMATE) ---
+        // --- ADMIN PANEL (RESTORED & IMPROVED) ---
         window.renderAdmin = () => {
             updateNav(3);
             document.getElementById('main-content').innerHTML = `
@@ -416,8 +426,8 @@
                     <div class="admin-item" onclick="admView('exam')"><i class="fas fa-file-alt"></i><h4>Exams</h4></div>
                     <div class="admin-item" onclick="admView('student')"><i class="fas fa-users"></i><h4>Students</h4></div>
                     <div class="admin-item" onclick="admView('routine')"><i class="fas fa-calendar"></i><h4>Routine</h4></div>
-                    <div class="admin-item" onclick="admView('notes')"><i class="fas fa-book"></i><h4>PDF/Notes</h4></div>
-                    <div class="admin-item" onclick="admView('lb')"><i class="fas fa-trophy"></i><h4>Reset Rank</h4></div>
+                    <div class="admin-item" onclick="admView('notes')"><i class="fas fa-file-pdf"></i><h4>Notes/PDF</h4></div>
+                    <div class="admin-item" onclick="admView('broadcast')"><i class="fas fa-bullhorn"></i><h4>Broadcast</h4></div>
                     <div class="admin-item" onclick="admView('theme')"><i class="fas fa-palette"></i><h4>Theme</h4></div>
                 </div>
                 <div id="adm-area" style="margin-top:20px;"></div>
@@ -430,45 +440,52 @@
 
             if(mode === 'exam') {
                 area.innerHTML = `
-                    <div class="card"><h3>Create Exam</h3><input id="nt" placeholder="Title"><input id="nm" type="number" placeholder="Min"><button onclick="addExam()" class="btn btn-primary">Create</button></div>
+                    <div class="card"><h3>Create Exam</h3><input id="nt" placeholder="Title"><input id="nm" type="number" placeholder="Time (Min)"><button onclick="addExam()" class="btn btn-primary">Create</button></div>
                     <div class="card"><h3>Manage Exams</h3><div id="el"></div></div>
-                    <div class="card"><h3>Add MCQ (JSON)</h3><select id="es" style="width:100%; padding:10px; margin-bottom:10px;"></select><textarea id="jt" rows="3" style="width:100%;" placeholder='[{"q":"..","options":[".."],"correct":1}]'></textarea><button onclick="upJson()" class="btn btn-primary">Upload</button></div>`;
+                    <div class="card"><h3>Add MCQ (JSON)</h3><select id="es" style="width:100%; padding:14px; margin-bottom:10px; border:1px solid #eee; border-radius:12px; background:#fff;"></select><textarea id="jt" rows="3" style="width:100%; padding:10px; border:1px solid #eee; border-radius:12px;" placeholder='[{"q":"..","options":[".."],"correct":1}]'></textarea><button onclick="upJson()" class="btn btn-primary">Upload</button></div>`;
                 const s = await getDocs(collection(db, "exams"));
-                let h='', o=''; s.forEach(d=>{ h+=`<div class="list-item"><span>${d.data().title}</span><button class="del-btn" onclick="delDoc('exams','${d.id}')">Del</button></div>`; o+=`<option value="${d.id}">${d.data().title}</option>`; });
+                let h='', o=''; s.forEach(d=>{ h+=`<div class="list-item"><span>${d.data().title}</span><button class="del-btn" onclick="delDoc('exams','${d.id}')">Delete</button></div>`; o+=`<option value="${d.id}">${d.data().title}</option>`; });
                 document.getElementById('el').innerHTML = h; document.getElementById('es').innerHTML = o;
             }
             if(mode === 'student') {
                 const s = await getDocs(collection(db, "users"));
-                let h=''; s.forEach(d=>{ if(d.data().role!=='admin') h+=`<div class="list-item"><span>${d.data().name} (${d.data().email})</span><button class="del-btn" onclick="delDoc('users','${d.id}')">Ban</button></div>`; });
-                area.innerHTML = `<div class="card"><h3>Students</h3>${h}</div>`;
+                let h=''; s.forEach(d=>{ if(d.data().role!=='admin') h+=`<div class="list-item"><div style="text-align:left;"><b>${d.data().name}</b><br><small style="color:#888">Joined: ${d.data().joined}</small></div><button class="del-btn" onclick="delDoc('users','${d.id}')">Ban</button></div>`; });
+                area.innerHTML = `<div class="card"><h3>Registered Students</h3>${h}</div>`;
             }
             if(mode === 'routine') {
-                area.innerHTML = `<div class="card"><h3>Add Routine</h3><input id="rt" placeholder="Title (e.g. ICT Class)"><input id="rm" placeholder="Time (e.g. 8:00 PM)"><button onclick="addRoutine()" class="btn btn-primary">Add</button></div><div class="card"><h3>Manage</h3><div id="rl"></div></div>`;
+                area.innerHTML = `<div class="card"><h3>Add Routine</h3><input id="rt" placeholder="Title (e.g. ICT Class)"><input id="rm" placeholder="Time (e.g. 8:00 PM)"><button onclick="addRoutine()" class="btn btn-primary">Add</button></div><div class="card"><h3>Current Routine</h3><div id="rl"></div></div>`;
                 const s = await getDocs(collection(db, "routines"));
-                let h=''; s.forEach(d=>{ h+=`<div class="list-item"><span>${d.data().title}</span><button class="del-btn" onclick="delDoc('routines','${d.id}')">Del</button></div>`; });
+                let h=''; s.forEach(d=>{ h+=`<div class="list-item"><span>${d.data().title} - ${d.data().time}</span><button class="del-btn" onclick="delDoc('routines','${d.id}')">Del</button></div>`; });
                 document.getElementById('rl').innerHTML = h;
             }
             if(mode === 'notes') {
-                area.innerHTML = `<div class="card"><h3>Add PDF Link</h3><input id="pt" placeholder="Title"><input id="pl" placeholder="Link (Drive/PDF)"><button onclick="addNote()" class="btn btn-primary">Add</button></div><div class="card"><h3>Manage</h3><div id="nl"></div></div>`;
+                area.innerHTML = `<div class="card"><h3>Add Note/PDF</h3><input id="pt" placeholder="Title"><input id="pl" placeholder="Link (Drive/PDF)"><button onclick="addNote()" class="btn btn-primary">Add</button></div><div class="card"><h3>Manage Notes</h3><div id="nl"></div></div>`;
                 const s = await getDocs(collection(db, "notes"));
                 let h=''; s.forEach(d=>{ h+=`<div class="list-item"><span>${d.data().title}</span><button class="del-btn" onclick="delDoc('notes','${d.id}')">Del</button></div>`; });
                 document.getElementById('nl').innerHTML = h;
             }
-            if(mode === 'lb') {
-                area.innerHTML = `<div class="card" style="text-align:center;"><h3>Reset Leaderboard</h3><p>This will set everyone's points to 0.</p><button onclick="resetLb()" class="btn" style="background:red; color:white;">Reset All Points</button></div>`;
+            if(mode === 'broadcast') {
+                area.innerHTML = `<div class="card"><h3>Broadcast Message</h3><input id="bcm" placeholder="Message"><button onclick="sendBC()" class="btn btn-primary">Send</button><button onclick="clearBC()" class="btn" style="background:#eee; color:#333; margin-top:5px;">Clear</button></div>`;
             }
             if(mode === 'theme') {
-                area.innerHTML = `<div class="card"><h3>App Theme</h3><div style="display:flex; gap:10px;"><div onclick="setTh('#6C63FF')" style="width:40px; height:40px; background:#6C63FF; border-radius:50%; cursor:pointer;"></div><div onclick="setTh('#00b894')" style="width:40px; height:40px; background:#00b894; border-radius:50%; cursor:pointer;"></div><div onclick="setTh('#ff7675')" style="width:40px; height:40px; background:#ff7675; border-radius:50%; cursor:pointer;"></div></div></div>`;
+                area.innerHTML = `<div class="card"><h3>App Theme</h3><div style="display:flex; gap:10px; margin-top:10px;">
+                    <div onclick="setTh('#6C63FF')" style="width:40px; height:40px; background:#6C63FF; border-radius:50%; cursor:pointer;"></div>
+                    <div onclick="setTh('#00b894')" style="width:40px; height:40px; background:#00b894; border-radius:50%; cursor:pointer;"></div>
+                    <div onclick="setTh('#FF6584')" style="width:40px; height:40px; background:#FF6584; border-radius:50%; cursor:pointer;"></div>
+                    <div onclick="setTh('#2d3436')" style="width:40px; height:40px; background:#2d3436; border-radius:50%; cursor:pointer;"></div>
+                    <div onclick="setTh('#0984e3')" style="width:40px; height:40px; background:#0984e3; border-radius:50%; cursor:pointer;"></div>
+                </div></div>`;
             }
         }
 
-        // Admin Actions
+        // Admin Functions
         window.addExam = async () => { await addDoc(collection(db, "exams"), {title:document.getElementById('nt').value, time:parseInt(document.getElementById('nm').value)}); alert("Done"); admView('exam'); }
         window.upJson = async () => { try { const d=JSON.parse(document.getElementById('jt').value); for(const q of d) await addDoc(collection(db,"questions"),{examId:document.getElementById('es').value, ...q}); alert("Done"); } catch(e){alert("Error");} }
         window.addRoutine = async () => { await addDoc(collection(db, "routines"), {title:document.getElementById('rt').value, time:document.getElementById('rm').value}); alert("Added"); admView('routine'); }
         window.addNote = async () => { await addDoc(collection(db, "notes"), {title:document.getElementById('pt').value, link:document.getElementById('pl').value}); alert("Added"); admView('notes'); }
         window.delDoc = async (c, id) => { if(confirm("Sure?")) { await deleteDoc(doc(db, c, id)); alert("Deleted"); admView(c==='users'?'student':c==='exams'?'exam':c.slice(0,-1)); } }
-        window.resetLb = async () => { if(confirm("RESET ALL POINTS?")) { const s=await getDocs(collection(db,"users")); s.forEach(d=> updateDoc(d.ref, {points:0})); alert("Reset Complete"); } }
+        window.sendBC = async () => { await setDoc(doc(db, "settings", "broadcast"), {message: document.getElementById('bcm').value}); alert("Sent"); }
+        window.clearBC = async () => { await deleteDoc(doc(db, "settings", "broadcast")); alert("Cleared"); }
         window.setTh = async (c) => { await setDoc(doc(db,"settings","theme"),{color:c}); document.documentElement.style.setProperty('--primary', c); alert("Theme Set"); }
 
         // --- UTILS ---
