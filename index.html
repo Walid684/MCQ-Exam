@@ -36,7 +36,12 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Hind Siliguri', sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 90px; transition: background 0.3s, color 0.3s; -webkit-tap-highlight-color: transparent; }
+        body { 
+            background: var(--bg); color: var(--text); padding-bottom: 90px; 
+            transition: background 0.3s, color 0.3s; 
+            -webkit-tap-highlight-color: transparent; 
+            overscroll-behavior-y: contain; /* Prevents default browser refresh to use ours */
+        }
         
         /* UTILS */
         .screen { display: none; min-height: 100vh; animation: fadeIn 0.4s ease; }
@@ -85,10 +90,9 @@
         .btn-sec { background: var(--border); color: var(--text); }
         .btn:active { transform: scale(0.98); }
 
-        /* 2. HEADER UPDATED (More Padding for Status Bar) */
+        /* HEADER */
         header { 
             background: var(--primary);
-            /* Increased top padding to 50px for status bar area */
             padding: 50px 20px 15px 20px; 
             position: sticky; top: 0; z-index: 100;
             display: flex; justify-content: space-between; align-items: center; 
@@ -183,22 +187,27 @@
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-content { background: var(--card-bg); width: 90%; max-width: 450px; padding: 25px; border-radius: 20px; max-height: 85vh; overflow-y: auto; animation: slideUp 0.3s; }
 
-        /* 1. CUSTOM CONFIRM MODAL FIXED (Centered & Safe) */
+        /* 1. FIXED: CONFIRM MODAL CENTERING */
         #confirm-modal {
-            position: fixed; inset: 0; 
+            position: fixed; 
+            top: 0; left: 0;
+            width: 100vw; height: 100vh; /* Force Full Screen */
             background: rgba(0,0,0,0.6); 
-            z-index: 110000; /* Extremely high Z-Index */
-            display: none; 
+            z-index: 110000; 
+            display: none; /* Initially hidden */
             align-items: center; 
             justify-content: center; 
-            padding: 20px; /* Safe padding from edges */
             backdrop-filter: blur(4px);
-            animation: fadeIn 0.2s;
         }
+        /* When class 'flex' is added via JS, it overrides display: none */
+        #confirm-modal.show-flex {
+            display: flex !important;
+        }
+
         .confirm-box {
             background: var(--card-bg); 
-            width: 100%; 
-            max-width: 320px; /* Max width constraint */
+            width: 85%; /* Responsive width */
+            max-width: 320px; 
             padding: 25px;
             border-radius: 20px; 
             text-align: center; 
@@ -206,11 +215,20 @@
             transform: scale(0.9); 
             animation: popIn 0.3s forwards; 
             border: 1px solid var(--border);
+            margin: auto; /* Extra safety for centering */
         }
-        .confirm-icon {
-            font-size: 3rem; color: var(--danger); margin-bottom: 15px;
-        }
+        .confirm-icon { font-size: 3rem; color: var(--danger); margin-bottom: 15px; }
         .confirm-btns { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
+
+        /* PULL TO REFRESH INDICATOR */
+        #refresh-indicator {
+            position: fixed; top: -50px; left: 50%; transform: translateX(-50%);
+            background: var(--card-bg); padding: 10px; border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); z-index: 9999;
+            transition: top 0.3s;
+            display: flex; justify-content: center; align-items: center;
+            width: 40px; height: 40px; color: var(--primary);
+        }
 
         /* SMALL SPINNER FOR API */
         #loader { position: fixed; inset: 0; background: rgba(255,255,255,0.7); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(2px); }
@@ -220,6 +238,8 @@
     </style>
 </head>
 <body>
+
+    <div id="refresh-indicator"><i class="fas fa-sync-alt fa-spin"></i></div>
 
     <div id="splash-screen">
         <div class="splash-logo-container">
@@ -328,7 +348,7 @@
         let timerInterval;
         let allStudentsCache = [];
 
-        // 3. PROFESSIONAL AVATAR IMAGES (Direct URLs)
+        // AVATAR IMAGES
         const AVATAR_MALE = "https://cdn-icons-png.flaticon.com/512/4825/4825038.png";
         const AVATAR_FEMALE = "https://cdn-icons-png.flaticon.com/512/4825/4825112.png";
 
@@ -341,18 +361,52 @@
             }
         }
 
-        // --- CUSTOM CONFIRM LOGIC ---
+        // --- 2. PULL TO REFRESH LOGIC ---
+        let touchStart = 0;
+        let touchEnd = 0;
+        const refInd = document.getElementById('refresh-indicator');
+        
+        window.addEventListener('touchstart', e => {
+            if(window.scrollY === 0) touchStart = e.changedTouches[0].screenY;
+        }, {passive: true});
+
+        window.addEventListener('touchmove', e => {
+            if(window.scrollY === 0 && touchStart > 0) {
+                touchEnd = e.changedTouches[0].screenY;
+                if(touchEnd > touchStart) {
+                    const pull = Math.min((touchEnd - touchStart) * 0.4, 80); // Resistance
+                    refInd.style.top = `${pull}px`;
+                }
+            }
+        }, {passive: true});
+
+        window.addEventListener('touchend', e => {
+            if(window.scrollY === 0 && touchStart > 0) {
+                touchEnd = e.changedTouches[0].screenY;
+                if(touchEnd - touchStart > 150) { // Threshold to trigger refresh
+                    refInd.style.top = '20px'; // Hold position
+                    location.reload();
+                } else {
+                    refInd.style.top = '-50px'; // Hide
+                }
+            }
+            touchStart = 0;
+        }, {passive: true});
+
+
+        // --- CUSTOM CONFIRM LOGIC (FIXED) ---
         let confirmResolver = null;
         window.customConfirm = (msg) => {
             const m = document.getElementById('confirm-modal');
             document.getElementById('conf-msg').innerText = msg;
-            m.style.display = 'flex';
+            m.classList.add('show-flex'); // Use class to enforce flex
             return new Promise((resolve) => {
                 confirmResolver = resolve;
             });
         }
         window.resolveConfirm = (val) => {
-            document.getElementById('confirm-modal').style.display = 'none';
+            const m = document.getElementById('confirm-modal');
+            m.classList.remove('show-flex');
             if(confirmResolver) confirmResolver(val);
         }
 
@@ -552,11 +606,11 @@
             document.getElementById('lb-list').innerHTML = h;
         }
 
-        // --- PROFILE (UPDATED WITH IMAGES) ---
+        // --- PROFILE ---
         window.renderProfile = async () => {
             updateNav(2);
             
-            // USE IMAGE URL INSTEAD OF ICON
+            // USE IMAGE URL
             const avatarUrl = currentUser.gender === 'Female' ? AVATAR_FEMALE : AVATAR_MALE;
             
             document.getElementById('main-content').innerHTML = `
@@ -803,7 +857,6 @@
             }
         }
 
-        // 3. UPDATED RENDER STUDENT LIST (With Images)
         window.renderStudentList = (list) => {
             let h = '';
             list.forEach(u => {
