@@ -3,150 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ExamPro Premium</title>
+    <title>ExamPro Ultra</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- PREMIUM CSS DESIGN --- */
+        /* --- DYNAMIC THEME CSS --- */
         :root {
-            --primary: #4e54c8;
-            --primary-dark: #8f94fb;
+            --primary: #4e54c8; /* Default Color */
+            --primary-dark: #3a3f99;
             --accent: #ff6b6b;
             --bg: #f4f7f6;
-            --glass: rgba(255, 255, 255, 0.95);
-            --shadow: 0 8px 30px rgba(0,0,0,0.08);
+            --white: #ffffff;
             --text: #2d3436;
+            --glass: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Hind Siliguri', sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 80px; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 80px; -webkit-tap-highlight-color: transparent; transition: background 0.3s; }
         
-        /* Smooth Loader */
-        #loader { position: fixed; inset: 0; background: #fff; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s; }
-        .spinner { width: 50px; height: 50px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        /* অ্যানিমেশন কি-ফ্রেম */
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Auth Screen */
-        .screen { display: none; min-height: 100vh; animation: fadeIn 0.4s ease-out; }
+        /* লোডার */
+        #loader { position: fixed; inset: 0; background: var(--white); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s; }
+        .spinner { width: 50px; height: 50px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+        /* স্ক্রিন */
+        .screen { display: none; min-height: 100vh; animation: slideUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1); }
         .active-screen { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .auth-container {
-            height: 100vh; display: flex; justify-content: center; align-items: center;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            padding: 20px;
-        }
-        .auth-card {
-            background: white; width: 100%; max-width: 400px; padding: 40px 30px;
-            border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); text-align: center;
-        }
-        .auth-card h2 { color: var(--primary); font-weight: 700; margin-bottom: 5px; font-size: 2rem; }
-        .auth-card p { color: #888; margin-bottom: 25px; font-size: 0.9rem; }
+        /* ১. লগইন পেজ ডিজাইন (আপডেট) */
+        .auth-container { height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 20px; }
+        .auth-card { background: var(--white); width: 100%; max-width: 420px; padding: 30px; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); text-align: center; position: relative; overflow: hidden; }
+        .auth-card::before { content: ''; position: absolute; top: -50px; right: -50px; width: 100px; height: 100px; background: var(--accent); opacity: 0.1; border-radius: 50%; }
         
-        .input-box { position: relative; margin-bottom: 15px; }
-        .input-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; }
-        .input-box input {
-            width: 100%; padding: 14px 14px 14px 45px; border: 1px solid #eee;
-            border-radius: 12px; background: #f9f9f9; outline: none; transition: 0.3s;
-        }
-        .input-box input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.1); }
-
-        .btn {
-            width: 100%; padding: 14px; border: none; border-radius: 12px;
-            font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 1rem;
-        }
-        .btn-primary { background: var(--primary); color: white; margin-bottom: 10px; box-shadow: 0 5px 15px rgba(78, 84, 200, 0.3); }
-        .btn-primary:active { transform: scale(0.98); }
-        .btn-google { background: #fff; border: 1px solid #ddd; color: #333; display: flex; justify-content: center; gap: 10px; align-items: center; margin-top: 15px; }
-        .divider { margin: 15px 0; color: #aaa; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; }
-        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #eee; }
-
-        /* Main App Header */
-        header {
-            background: var(--glass); backdrop-filter: blur(10px);
-            padding: 15px 20px; position: sticky; top: 0; z-index: 100;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-        .logo { font-size: 1.4rem; font-weight: 800; background: linear-gradient(to right, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .input-box { position: relative; margin-bottom: 15px; text-align: left; }
+        .input-box label { font-size: 0.8rem; color: #666; margin-left: 5px; }
+        .input-box input, .input-box select { width: 100%; padding: 12px 12px 12px 40px; border: 1px solid #eee; border-radius: 12px; background: #f9f9f9; outline: none; margin-top: 5px; }
+        .input-box i { position: absolute; left: 15px; bottom: 13px; color: #aaa; }
         
-        /* Container & Cards */
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 1rem; margin-top: 10px; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .btn-google { background: white; border: 1px solid #ddd; color: #333; display: flex; align-items: center; justify-content: center; gap: 10px; }
+
+        /* ২. হেডার এবং অ্যাপ */
+        header { background: var(--glass); backdrop-filter: blur(10px); padding: 15px 20px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
+        
         .container { padding: 20px; max-width: 800px; margin: 0 auto; }
-        .card {
-            background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px;
-            box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.02);
-        }
-        .section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; color: #444; display: flex; justify-content: space-between; align-items: center; }
+        .card { background: var(--white); padding: 20px; border-radius: 16px; margin-bottom: 15px; box-shadow: var(--shadow); position: relative; }
+        
+        /* ৩. প্রোফাইল ডিজাইন (আপডেট) */
+        .profile-header { text-align: center; margin-bottom: 20px; }
+        .avatar-box { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 3rem; background: #eee; position: relative; border: 3px solid var(--primary); }
+        .male-avatar { background: #e3f2fd; color: #2196f3; }
+        .female-avatar { background: #fce4ec; color: #e91e63; }
+        .edit-icon { position: absolute; bottom: 0; right: 0; background: var(--text); color: white; width: 30px; height: 30px; border-radius: 50%; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        
+        /* ব্রডকাস্ট নোটিফিকেশন */
+        .broadcast-alert { background: linear-gradient(to right, #ff9966, #ff5e62); color: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; display: none; animation: pulse 2s infinite; }
 
-        /* Exam List */
-        .exam-item { display: flex; justify-content: space-between; align-items: center; }
-        .exam-info h4 { font-size: 1rem; color: #333; }
-        .exam-info span { font-size: 0.8rem; background: #eef2ff; color: var(--primary); padding: 4px 10px; border-radius: 20px; font-weight: 500; }
-        .start-btn { padding: 8px 20px; font-size: 0.85rem; background: linear-gradient(to right, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 50px; cursor: pointer; }
+        /* অ্যাডমিন ট্যাব */
+        .admin-nav { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; }
+        .tab-btn { white-space: nowrap; padding: 8px 15px; border-radius: 20px; border: 1px solid #eee; background: white; cursor: pointer; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Admin Styles */
-        .admin-tab-btns { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
-        .tab-btn { white-space: nowrap; padding: 8px 15px; border-radius: 8px; border: 1px solid #ddd; background: transparent; cursor: pointer; }
-        .tab-btn.active { background: var(--text); color: white; border-color: var(--text); }
-        .user-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .user-info small { color: #888; display: block; }
-        .ban-btn { background: #ffebeb; color: var(--accent); border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; }
-
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: white;
-            display: flex; justify-content: space-around; padding: 12px 0;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000;
-            border-top-left-radius: 20px; border-top-right-radius: 20px;
-        }
+        /* বটম বার */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--white); display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; border-top-left-radius: 20px; border-top-right-radius: 20px; }
         .nav-item { text-align: center; color: #b2bec3; font-size: 0.75rem; cursor: pointer; transition: 0.3s; }
         .nav-item i { font-size: 1.3rem; display: block; margin-bottom: 4px; }
         .nav-item.active { color: var(--primary); transform: translateY(-3px); }
 
-        /* MCQ Interface */
-        .mcq-container { padding-bottom: 100px; }
-        .mcq-box { background: white; padding: 20px; margin-bottom: 20px; border-radius: 15px; box-shadow: var(--shadow); }
-        .mcq-question { font-weight: 600; font-size: 1rem; margin-bottom: 15px; line-height: 1.5; }
-        .option-label {
-            display: flex; align-items: center; padding: 12px; border: 2px solid #f0f0f0;
-            margin-bottom: 10px; border-radius: 10px; cursor: pointer; transition: 0.2s;
-        }
-        .option-label:hover, .option-label:has(input:checked) { border-color: var(--primary); background: #eef2ff; }
-        .option-label input { margin-right: 12px; accent-color: var(--primary); transform: scale(1.2); }
-        .timer-badge { position: fixed; top: 70px; right: 20px; background: var(--accent); color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; z-index: 90; box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4); }
-
+        /* Modal */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; align-items: center; justify-content: center; }
+        .modal-content { background: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 15px; max-height: 80vh; overflow-y: auto; }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div class="spinner"></div>
-    </div>
+    <div id="loader"><div class="spinner"></div></div>
 
     <section id="auth-screen" class="screen">
         <div class="auth-container">
             <div class="auth-card">
                 <h2>ExamPro</h2>
-                <p>Login to start your journey</p>
+                <p>Login to your account</p>
                 
-                <div class="input-box">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" id="email" placeholder="Email Address">
-                </div>
-                <div class="input-box">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="pass" placeholder="Password">
+                <div id="login-form">
+                    <div class="input-box"><i class="fas fa-envelope"></i><input type="email" id="l-email" placeholder="Email"></div>
+                    <div class="input-box"><i class="fas fa-lock"></i><input type="password" id="l-pass" placeholder="Password"></div>
+                    <button onclick="handleLogin()" class="btn btn-primary">Log In</button>
+                    <p style="margin-top:15px; font-size:0.9rem;">New here? <span onclick="toggleAuth('signup')" style="color:var(--primary); cursor:pointer; font-weight:bold;">Create Account</span></p>
                 </div>
 
-                <button onclick="handleLogin()" class="btn btn-primary">Log In</button>
-                <button onclick="handleSignup()" class="btn" style="background:#eee; color:#333">Create Account</button>
-                
-                <div class="divider">OR</div>
-                
-                <button onclick="handleGoogleLogin()" class="btn btn-google">
-                    <img src="https://img.icons8.com/color/24/000000/google-logo.png"/> Continue with Google
-                </button>
+                <div id="signup-form" style="display:none;">
+                    <div class="input-box"><i class="fas fa-user"></i><input type="text" id="s-name" placeholder="Full Name"></div>
+                    <div class="input-box"><i class="fas fa-venus-mars"></i>
+                        <select id="s-gender">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="input-box"><i class="fas fa-graduation-cap"></i><input type="text" id="s-edu" placeholder="Education (e.g. HSC)"></div>
+                    <div class="input-box"><i class="fas fa-envelope"></i><input type="email" id="s-email" placeholder="Email"></div>
+                    <div class="input-box"><i class="fas fa-lock"></i><input type="password" id="s-pass" placeholder="Password"></div>
+                    <button onclick="handleSignup()" class="btn btn-primary">Sign Up</button>
+                    <p style="margin-top:15px; font-size:0.9rem;">Already have account? <span onclick="toggleAuth('login')" style="color:var(--primary); cursor:pointer; font-weight:bold;">Log In</span></p>
+                </div>
+
+                <div class="divider" style="margin:20px 0; border-top:1px solid #eee;"></div>
+                <button onclick="handleGoogle()" class="btn btn-google"><i class="fab fa-google" style="color:#db4437"></i> Google Login</button>
             </div>
         </div>
     </section>
@@ -154,34 +125,49 @@
     <section id="app-screen" class="screen">
         <header>
             <div class="logo">ExamPro</div>
-            <div style="display:flex; gap:15px; align-items:center;">
-                <span id="header-user" style="font-size:0.8rem; font-weight:600; color:#555;"></span>
-                <i onclick="handleLogout()" class="fas fa-sign-out-alt" style="color:var(--accent); font-size:1.2rem; cursor:pointer;"></i>
-            </div>
+            <i onclick="handleLogout()" class="fas fa-power-off" style="color:var(--accent); font-size:1.2rem; cursor:pointer;"></i>
         </header>
 
         <div id="main-content" class="container">
             </div>
 
         <nav class="bottom-nav">
-            <div class="nav-item active" onclick="renderHome()">
-                <i class="fas fa-home"></i> <span>Home</span>
-            </div>
-            <div class="nav-item" onclick="renderProfile()">
-                <i class="fas fa-user-circle"></i> <span>Profile</span>
-            </div>
-            <div class="nav-item" id="admin-nav" style="display:none;" onclick="renderAdmin()">
-                <i class="fas fa-shield-alt"></i> <span>Admin</span>
-            </div>
+            <div class="nav-item active" onclick="renderHome()"><i class="fas fa-home"></i> <span>Home</span></div>
+            <div class="nav-item" onclick="renderProfile()"><i class="fas fa-user"></i> <span>Profile</span></div>
+            <div class="nav-item" id="admin-nav" style="display:none;" onclick="renderAdmin()"><i class="fas fa-cogs"></i> <span>Admin</span></div>
         </nav>
     </section>
+
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <h3>Edit Profile</h3>
+            <div class="input-box"><label>Name</label><input id="edit-name"></div>
+            <div class="input-box"><label>Gender</label>
+                <select id="edit-gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            <div class="input-box"><label>Education</label><input id="edit-edu"></div>
+            <button onclick="saveProfile()" class="btn btn-primary">Save Changes</button>
+            <button onclick="document.getElementById('edit-modal').style.display='none'" class="btn" style="background:#eee">Cancel</button>
+        </div>
+    </div>
+
+    <div id="user-details-modal" class="modal">
+        <div class="modal-content">
+            <h3>Student Details</h3>
+            <div id="user-info-body">Loading...</div>
+            <button onclick="document.getElementById('user-details-modal').style.display='none'" class="btn btn-primary" style="margin-top:15px;">Close</button>
+        </div>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // --- ফায়ারবেস কনফিগারেশন ---
+        // CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyBW0-UiTB83ikUOztrT6ECAkOlnzxykKYQ",
             authDomain: "mcq-exam-b150e.firebaseapp.com",
@@ -193,7 +179,6 @@
         };
         const ADMIN_EMAIL = "mdwld2005@gmail.com";
 
-        // অ্যাপ ইনিশিয়ালাইজ
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -202,70 +187,78 @@
         let currentUser = null;
         let timerInterval;
 
-        // --- AUTH ACTIONS (গ্লোবাল) ---
+        // --- AUTH LOGIC ---
+        window.toggleAuth = (mode) => {
+            document.getElementById('login-form').style.display = mode==='login'?'block':'none';
+            document.getElementById('signup-form').style.display = mode==='signup'?'block':'none';
+        }
+
         window.handleLogin = async () => {
             try {
                 toggleLoader(true);
-                const e = document.getElementById('email').value;
-                const p = document.getElementById('pass').value;
-                await signInWithEmailAndPassword(auth, e, p);
+                await signInWithEmailAndPassword(auth, document.getElementById('l-email').value, document.getElementById('l-pass').value);
             } catch(e) { alert(e.message); toggleLoader(false); }
-        };
+        }
 
         window.handleSignup = async () => {
+            const name = document.getElementById('s-name').value;
+            const gender = document.getElementById('s-gender').value;
+            const edu = document.getElementById('s-edu').value;
+            const email = document.getElementById('s-email').value;
+            const pass = document.getElementById('s-pass').value;
+
+            if(!name || !gender || !edu) return alert("Please fill all details");
+
             try {
                 toggleLoader(true);
-                const e = document.getElementById('email').value;
-                const p = document.getElementById('pass').value;
-                const res = await createUserWithEmailAndPassword(auth, e, p);
-                await saveUser(res.user);
-                alert("Account Created!");
+                const res = await createUserWithEmailAndPassword(auth, email, pass);
+                await setDoc(doc(db, "users", res.user.uid), {
+                    name, gender, education: edu, email,
+                    role: email === ADMIN_EMAIL ? 'admin' : 'student',
+                    joined: new Date().toLocaleDateString()
+                });
+                alert("Welcome to ExamPro!");
             } catch(e) { alert(e.message); toggleLoader(false); }
-        };
+        }
 
-        window.handleGoogleLogin = async () => {
+        window.handleGoogle = async () => {
             try {
                 const res = await signInWithPopup(auth, googleProvider);
-                await saveUser(res.user);
+                const userRef = doc(db, "users", res.user.uid);
+                const snap = await getDoc(userRef);
+                
+                if(!snap.exists()) {
+                    // Google দিয়ে লগইন করলে ডিফল্ট ডাটা
+                    await setDoc(userRef, {
+                        name: res.user.displayName,
+                        email: res.user.email,
+                        gender: 'Male', // ডিফল্ট, পরে এডিট করবে
+                        education: 'Not Set',
+                        role: res.user.email === ADMIN_EMAIL ? 'admin' : 'student',
+                        joined: new Date().toLocaleDateString()
+                    });
+                }
             } catch(e) { alert(e.message); }
-        };
+        }
 
         window.handleLogout = () => signOut(auth).then(()=>location.reload());
 
-        async function saveUser(user) {
-            const ref = doc(db, "users", user.uid);
-            const snap = await getDoc(ref);
-            if(!snap.exists()) {
-                await setDoc(ref, {
-                    email: user.email,
-                    name: user.displayName || user.email.split('@')[0],
-                    role: user.email === ADMIN_EMAIL ? 'admin' : 'student',
-                    joined: new Date().toLocaleDateString()
-                });
-            }
-        }
-
-        // --- AUTH STATE OBSERVER ---
+        // --- MAIN APP LOGIC ---
         onAuthStateChanged(auth, async (user) => {
             if(user) {
-                // ইউজার ডাটা এবং রোল চেক
+                // থিম লোড করা
+                loadTheme();
+                
                 const snap = await getDoc(doc(db, "users", user.uid));
-                if(snap.exists()) {
-                    currentUser = { uid: user.uid, ...snap.data() };
-                } else {
-                    currentUser = { uid: user.uid, email: user.email, role: 'student', name: 'User' };
-                }
-
-                // UI আপডেট
+                currentUser = { uid: user.uid, ...snap.data() };
+                
                 document.getElementById('auth-screen').classList.remove('active-screen');
                 document.getElementById('app-screen').classList.add('active-screen');
-                document.getElementById('header-user').innerText = currentUser.name;
-
-                if(currentUser.role === 'admin') {
-                    document.getElementById('admin-nav').style.display = 'block';
-                }
-
+                
+                if(currentUser.role === 'admin') document.getElementById('admin-nav').style.display = 'block';
+                
                 renderHome();
+                checkBroadcast();
             } else {
                 document.getElementById('app-screen').classList.remove('active-screen');
                 document.getElementById('auth-screen').classList.add('active-screen');
@@ -273,321 +266,369 @@
             toggleLoader(false);
         });
 
-        // --- HOME PAGE ---
+        // --- HOME ---
         window.renderHome = async () => {
             updateNav(0);
             const div = document.getElementById('main-content');
             div.innerHTML = `
-                <div class="card" style="background:linear-gradient(135deg, #6C63FF, #8f94fb); color:white;">
-                    <h3>Welcome Back, ${currentUser.name}! 👋</h3>
-                    <p style="opacity:0.9; margin-top:5px;">Ready to test your skills today?</p>
+                <div id="broadcast-box" class="broadcast-alert"></div>
+                <div class="card" style="background: linear-gradient(to right, var(--primary), var(--primary-dark)); color: white;">
+                    <h3>Hi, ${currentUser.name}! 👋</h3>
+                    <p style="opacity:0.9">Education: ${currentUser.education}</p>
                 </div>
-                <div class="section-title">Available Exams</div>
+                <h3 style="margin:15px 0;">Available Exams</h3>
                 <div id="exam-list">Loading...</div>
             `;
-
+            
             const snap = await getDocs(collection(db, "exams"));
             const list = document.getElementById('exam-list');
             list.innerHTML = '';
-
-            if(snap.empty) list.innerHTML = '<p style="text-align:center; color:#999">No exams available.</p>';
+            
+            if(snap.empty) list.innerHTML = '<p>No exams available</p>';
 
             snap.forEach(d => {
                 const data = d.data();
-                const item = document.createElement('div');
-                item.className = 'card exam-item';
-                item.innerHTML = `
-                    <div class="exam-info">
-                        <h4>${data.title}</h4>
-                        <span>${data.time} Min</span>
+                list.innerHTML += `
+                    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <h4>${data.title}</h4>
+                            <span style="font-size:0.8rem; background:#eee; padding:3px 8px; border-radius:10px;">${data.time} Mins</span>
+                        </div>
+                        <button onclick="startExam('${d.id}', '${data.title}', ${data.time})" class="btn btn-primary" style="width:auto; margin:0; padding:8px 15px;">Start</button>
                     </div>
-                    <button class="start-btn" onclick="startExam('${d.id}', '${data.title}', ${data.time})">Start</button>
                 `;
-                list.appendChild(item);
             });
-        };
+            checkBroadcast();
+        }
+
+        // --- PROFILE UI & LOGIC ---
+        window.renderProfile = async () => {
+            updateNav(1);
+            // জেন্ডার অনুযায়ী আইকন
+            const avatarClass = currentUser.gender === 'Female' ? 'female-avatar' : 'male-avatar';
+            const iconClass = currentUser.gender === 'Female' ? 'fa-female' : 'fa-male';
+
+            const div = document.getElementById('main-content');
+            div.innerHTML = `
+                <div class="card" style="text-align:center; margin-top:30px;">
+                    <div class="avatar-box ${avatarClass}">
+                        <i class="fas ${iconClass}"></i>
+                        <div class="edit-icon" onclick="openEditModal()"><i class="fas fa-pen"></i></div>
+                    </div>
+                    <h2>${currentUser.name}</h2>
+                    <p style="color:#666">${currentUser.email}</p>
+                    <div style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
+                        <span style="background:#f0f0f0; padding:5px 10px; border-radius:15px; font-size:0.8rem;">${currentUser.gender}</span>
+                        <span style="background:#f0f0f0; padding:5px 10px; border-radius:15px; font-size:0.8rem;">${currentUser.education}</span>
+                    </div>
+                </div>
+                <h3>Exam History</h3>
+                <div id="history-list">Loading...</div>
+            `;
+            loadHistory('history-list', currentUser.uid);
+        }
+
+        window.openEditModal = () => {
+            document.getElementById('edit-name').value = currentUser.name;
+            document.getElementById('edit-gender').value = currentUser.gender || 'Male';
+            document.getElementById('edit-edu').value = currentUser.education || '';
+            document.getElementById('edit-modal').style.display = 'flex';
+        }
+
+        window.saveProfile = async () => {
+            const name = document.getElementById('edit-name').value;
+            const gender = document.getElementById('edit-gender').value;
+            const edu = document.getElementById('edit-edu').value;
+
+            await updateDoc(doc(db, "users", currentUser.uid), { name, gender, education: edu });
+            
+            // লোকাল আপডেট
+            currentUser.name = name;
+            currentUser.gender = gender;
+            currentUser.education = edu;
+            
+            document.getElementById('edit-modal').style.display = 'none';
+            alert("Profile Updated!");
+            renderProfile();
+        }
 
         // --- EXAM LOGIC ---
         window.startExam = async (id, title, time) => {
             const div = document.getElementById('main-content');
-            div.innerHTML = `<div class="timer-badge" id="timer">00:00</div><div id="q-container" class="mcq-container">Loading Questions...</div>`;
+            div.innerHTML = `<div style="position:fixed; top:70px; right:20px; background:var(--accent); color:white; padding:5px 15px; border-radius:20px; font-weight:bold; z-index:90;" id="timer">00:00</div><div id="q-area">Loading...</div>`;
             
             const q = query(collection(db, "questions"), where("examId", "==", id));
             const snap = await getDocs(q);
-            const container = document.getElementById('q-container');
-            container.innerHTML = `<h3 style="margin-bottom:20px;">${title}</h3>`;
             
-            if(snap.empty) { container.innerHTML = "No questions found."; return; }
+            if(snap.empty) return div.innerHTML = "No questions found.";
 
             let questions = [];
             let i = 1;
-            snap.forEach(doc => {
-                const data = doc.data();
-                questions.push({id: doc.id, ...data});
-                container.innerHTML += `
-                    <div class="mcq-box">
-                        <div class="mcq-question">${i++}. ${data.question}</div>
-                        ${data.options.map((opt, idx) => `
-                            <label class="option-label">
-                                <input type="radio" name="${doc.id}" value="${idx+1}">
-                                <span>${opt}</span>
-                            </label>
+            const area = document.getElementById('q-area');
+            area.innerHTML = `<h3>${title}</h3>`;
+            
+            snap.forEach(d => {
+                const data = d.data();
+                questions.push({id: d.id, ...data});
+                area.innerHTML += `
+                    <div class="card">
+                        <p><b>${i++}. ${data.question}</b></p>
+                        ${data.options.map((o, idx) => `
+                            <div style="padding:10px; border:1px solid #eee; margin-top:5px; border-radius:8px;">
+                                <input type="radio" name="${d.id}" value="${idx+1}"> ${o}
+                            </div>
                         `).join('')}
                     </div>
                 `;
             });
-
-            container.innerHTML += `<button onclick="submitExam('${title}')" class="btn btn-primary" style="margin-top:20px;">Submit Exam</button>`;
-            window.currentQuestions = questions;
-
+            area.innerHTML += `<button onclick="submitExam('${title}')" class="btn btn-primary" style="margin-bottom:50px;">Submit Exam</button>`;
+            
             // Timer
-            let timeLeft = time * 60;
+            window.currentQ = questions;
+            let left = time * 60;
             if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
-                let m = Math.floor(timeLeft / 60);
-                let s = timeLeft % 60;
+                let m = Math.floor(left/60);
+                let s = left%60;
                 document.getElementById('timer').innerText = `${m}:${s<10?'0'+s:s}`;
-                timeLeft--;
-                if(timeLeft < 0) {
-                    clearInterval(timerInterval);
-                    alert("Time Up!");
-                    submitExam(title);
-                }
+                left--;
+                if(left<0) { clearInterval(timerInterval); submitExam(title); }
             }, 1000);
-        };
+        }
 
         window.submitExam = async (title) => {
             clearInterval(timerInterval);
-            toggleLoader(true);
             let score = 0;
-            window.currentQuestions.forEach(q => {
+            window.currentQ.forEach(q => {
                 const sel = document.querySelector(`input[name="${q.id}"]:checked`);
                 if(sel && parseInt(sel.value) == q.correct) score++;
             });
-
-            await addDoc(collection(db, "results"), {
-                userId: currentUser.uid,
-                exam: title,
-                score: score,
-                total: window.currentQuestions.length,
-                date: new Date().toLocaleDateString()
-            });
-
-            alert(`You scored: ${score}/${window.currentQuestions.length}`);
-            renderProfile();
-            toggleLoader(false);
-        };
-
-        // --- PROFILE ---
-        window.renderProfile = async () => {
-            updateNav(1);
-            const div = document.getElementById('main-content');
-            div.innerHTML = `
-                <div class="card" style="text-align:center;">
-                    <div style="width:80px; height:80px; background:#eee; border-radius:50%; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:2rem; color:#aaa;">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3>${currentUser.name}</h3>
-                    <p style="color:#888">${currentUser.email}</p>
-                    <span style="background:#eef2ff; color:var(--primary); padding:3px 10px; border-radius:10px; font-size:0.8rem;">${currentUser.role.toUpperCase()}</span>
-                </div>
-                <div class="section-title">Exam History</div>
-                <div id="history">Loading...</div>
-            `;
-
-            const q = query(collection(db, "results"), where("userId", "==", currentUser.uid));
-            const snap = await getDocs(q);
-            const hist = document.getElementById('history');
-            hist.innerHTML = '';
             
-            if(snap.empty) hist.innerHTML = '<p style="text-align:center; color:#999">No history found.</p>';
-
-            snap.forEach(d => {
-                const data = d.data();
-                hist.innerHTML += `
-                    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <h4 style="font-size:0.95rem;">${data.exam}</h4>
-                            <small>${data.date}</small>
-                        </div>
-                        <h3 style="color:var(--primary)">${data.score}/${data.total}</h3>
-                    </div>
-                `;
+            await addDoc(collection(db, "results"), {
+                userId: currentUser.uid, exam: title, score, total: window.currentQ.length, date: new Date().toLocaleDateString()
             });
-        };
+            alert(`Score: ${score}/${window.currentQ.length}`);
+            renderProfile();
+        }
 
-        // --- ADMIN PANEL ---
+        // --- ADMIN PANEL (UPDATED) ---
         window.renderAdmin = () => {
             updateNav(2);
             const div = document.getElementById('main-content');
             div.innerHTML = `
-                <div class="admin-tab-btns">
-                    <button class="tab-btn active" onclick="switchTab('create')">Create Exam</button>
-                    <button class="tab-btn" onclick="switchTab('users')">Manage Users</button>
-                    <button class="tab-btn" onclick="switchTab('mcq')">Add MCQ</button>
+                <div class="admin-nav">
+                    <button class="tab-btn active" onclick="switchAdmin('create', this)">Create</button>
+                    <button class="tab-btn" onclick="switchAdmin('manage', this)">Exams</button>
+                    <button class="tab-btn" onclick="switchAdmin('users', this)">Students</button>
+                    <button class="tab-btn" onclick="switchAdmin('broadcast', this)">Broadcast</button>
+                    <button class="tab-btn" onclick="switchAdmin('theme', this)">Theme</button>
                 </div>
+                <div id="admin-body"></div>
+            `;
+            renderCreateExam(); // Default
+        }
 
-                <div id="tab-create" class="admin-tab">
-                    <div class="card">
-                        <h3>Create New Exam</h3>
-                        <input id="new-title" class="input-box" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ddd; border-radius:8px;" placeholder="Exam Title">
-                        <input id="new-time" type="number" class="input-box" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ddd; border-radius:8px;" placeholder="Time (Minutes)">
-                        <button onclick="createExam()" class="btn btn-primary">Create</button>
-                    </div>
+        window.switchAdmin = (tab, btn) => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if(tab === 'create') renderCreateExam();
+            if(tab === 'manage') renderManageExams();
+            if(tab === 'users') renderUsersList();
+            if(tab === 'broadcast') renderBroadcast();
+            if(tab === 'theme') renderThemeSettings();
+        }
+
+        // 1. Create & Manage Exams
+        function renderCreateExam() {
+            document.getElementById('admin-body').innerHTML = `
+                <div class="card">
+                    <h3>Create New Exam</h3>
+                    <input id="new-t" class="input-box" placeholder="Exam Title" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ddd;">
+                    <input id="new-tm" type="number" placeholder="Time (min)" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ddd;">
+                    <button onclick="createExam()" class="btn btn-primary">Create</button>
                 </div>
-
-                <div id="tab-users" class="admin-tab" style="display:none;">
-                    <div class="card">
-                        <h3>All Users</h3>
-                        <div id="user-list">Loading...</div>
-                    </div>
-                </div>
-
-                <div id="tab-mcq" class="admin-tab" style="display:none;">
-                    <div class="card">
-                        <h3>Add Questions</h3>
-                        <select id="exam-select" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;"></select>
-                        
-                        <div style="margin-top:15px; border-top:1px solid #eee; padding-top:10px;">
-                            <label style="font-size:0.9rem; font-weight:bold;">Method 1: Manual</label>
-                            <input id="q-text" placeholder="Question" style="width:100%; padding:8px; margin:5px 0; border:1px solid #ddd; border-radius:5px;">
-                            <input id="op1" placeholder="Option 1" style="width:48%; padding:8px; margin:5px 0; border:1px solid #ddd; border-radius:5px;">
-                            <input id="op2" placeholder="Option 2" style="width:48%; padding:8px; margin:5px 0; border:1px solid #ddd; border-radius:5px;">
-                            <input id="op3" placeholder="Option 3" style="width:48%; padding:8px; margin:5px 0; border:1px solid #ddd; border-radius:5px;">
-                            <input id="op4" placeholder="Option 4" style="width:48%; padding:8px; margin:5px 0; border:1px solid #ddd; border-radius:5px;">
-                            <input id="correct" type="number" placeholder="Correct (1-4)" style="width:100%; padding:8px; margin:5px 0; border:1px solid #ddd; border-radius:5px;">
-                            <button onclick="addSingleMCQ()" class="btn btn-primary" style="padding:10px; font-size:0.9rem;">Add Question</button>
-                        </div>
-
-                        <div style="margin-top:20px; border-top:1px solid #eee; padding-top:10px;">
-                            <label style="font-size:0.9rem; font-weight:bold;">Method 2: JSON Bulk</label>
-                            <textarea id="json-in" rows="5" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; margin-top:5px;" placeholder='[{"q":"...","options":["A","B","C","D"],"correct":1}]'></textarea>
-                            <button onclick="uploadJson()" class="btn btn-primary" style="padding:10px; font-size:0.9rem;">Upload JSON</button>
-                            <button onclick="sampleJson()" class="btn" style="background:#eee; font-size:0.8rem; padding:5px;">Copy Sample</button>
-                        </div>
-                    </div>
+                <div class="card">
+                    <h3>Add Questions (JSON)</h3>
+                    <select id="exam-select" style="width:100%; padding:10px; border:1px solid #ddd;"></select>
+                    <textarea id="json-in" rows="5" style="width:100%; margin-top:10px; border:1px solid #ddd;" placeholder='[{"q":"...","options":[...],"correct":1}]'></textarea>
+                    <button onclick="uploadJson()" class="btn btn-primary">Upload</button>
                 </div>
             `;
-            loadAdminData();
-        };
+            loadExamsSelect();
+        }
 
-        // Admin Helpers
-        window.switchTab = (id) => {
-            document.querySelectorAll('.admin-tab').forEach(t => t.style.display = 'none');
-            document.getElementById('tab-'+id).style.display = 'block';
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            if(id === 'users') loadUsers();
-        };
-
-        window.createExam = async () => {
-            const t = document.getElementById('new-title').value;
-            const time = document.getElementById('new-time').value;
-            if(t && time) {
-                await addDoc(collection(db, "exams"), { title: t, time: parseInt(time) });
-                alert("Exam Created!"); loadAdminData();
-            }
-        };
-
-        async function loadUsers() {
-            const list = document.getElementById('user-list');
-            const snap = await getDocs(collection(db, "users"));
+        async function renderManageExams() {
+            const div = document.getElementById('admin-body');
+            div.innerHTML = '<h3>Manage Exams</h3><div id="del-list">Loading...</div>';
+            const snap = await getDocs(collection(db, "exams"));
+            const list = document.getElementById('del-list');
             list.innerHTML = '';
             snap.forEach(d => {
+                const data = d.data();
+                list.innerHTML += `
+                    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>${data.title}</span>
+                        <button onclick="deleteExam('${d.id}')" class="btn" style="width:auto; background:#ffebeb; color:red; padding:5px 10px;">Delete</button>
+                    </div>
+                `;
+            });
+        }
+
+        window.createExam = async () => {
+            const t = document.getElementById('new-t').value;
+            const tm = document.getElementById('new-tm').value;
+            if(t && tm) { await addDoc(collection(db, "exams"), { title: t, time: parseInt(tm) }); alert("Created!"); renderAdmin(); }
+        }
+
+        window.deleteExam = async (id) => {
+            if(confirm("Delete this exam? Questions will remain.")) {
+                await deleteDoc(doc(db, "exams", id));
+                renderManageExams();
+            }
+        }
+
+        // 2. Users List (Student Details)
+        async function renderUsersList() {
+            const div = document.getElementById('admin-body');
+            div.innerHTML = '<h3>Registered Students</h3><div id="u-list">Loading...</div>';
+            const snap = await getDocs(collection(db, "users"));
+            const list = document.getElementById('u-list');
+            list.innerHTML = '';
+            
+            snap.forEach(d => {
                 const u = d.data();
-                if(d.id !== currentUser.uid) { // Don't show self
+                if(u.role !== 'admin') {
                     list.innerHTML += `
-                        <div class="user-row">
-                            <div class="user-info">
-                                <strong>${u.name}</strong>
-                                <small>${u.email} (${u.role})</small>
+                        <div class="card" onclick="viewUserHistory('${d.id}', '${u.name}')" style="cursor:pointer;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div style="width:40px; height:40px; background:#eee; border-radius:50%; display:flex; justify-content:center; align-items:center;">
+                                    <i class="fas ${u.gender==='Female'?'fa-female':'fa-male'}" style="color:${u.gender==='Female'?'#e91e63':'#2196f3'}"></i>
+                                </div>
+                                <div>
+                                    <h4>${u.name}</h4>
+                                    <small>${u.education} • Joined: ${u.joined || 'N/A'}</small>
+                                </div>
                             </div>
-                            <button onclick="deleteUser('${d.id}')" class="ban-btn">Delete</button>
                         </div>
                     `;
                 }
             });
         }
 
-        window.deleteUser = async (id) => {
-            if(confirm("Are you sure? This user will lose access.")) {
-                await deleteDoc(doc(db, "users", id));
-                loadUsers();
-            }
-        };
-
-        // MCQ Functions
-        async function loadAdminData() {
-            const sel = document.getElementById('exam-select');
-            if(sel) {
-                sel.innerHTML = '';
-                const snap = await getDocs(collection(db, "exams"));
-                snap.forEach(d => {
-                    sel.innerHTML += `<option value="${d.id}">${d.data().title}</option>`;
-                });
-            }
+        window.viewUserHistory = async (uid, name) => {
+            const modal = document.getElementById('user-details-modal');
+            const body = document.getElementById('user-info-body');
+            modal.style.display = 'flex';
+            body.innerHTML = `<h4>${name}'s History</h4><hr style="margin:10px 0;"><div id="modal-history">Loading...</div>`;
+            loadHistory('modal-history', uid);
         }
 
-        window.addSingleMCQ = async () => {
-            const eid = document.getElementById('exam-select').value;
-            const q = document.getElementById('q-text').value;
-            const ops = [
-                document.getElementById('op1').value,
-                document.getElementById('op2').value,
-                document.getElementById('op3').value,
-                document.getElementById('op4').value
-            ];
-            const cor = document.getElementById('correct').value;
+        // 3. Broadcast
+        function renderBroadcast() {
+            document.getElementById('admin-body').innerHTML = `
+                <div class="card">
+                    <h3>Send Broadcast</h3>
+                    <p style="color:#666; font-size:0.9rem; margin-bottom:10px;">Message will appear on everyone's dashboard.</p>
+                    <textarea id="bc-msg" rows="3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:10px;" placeholder="Write message..."></textarea>
+                    <button onclick="sendBroadcast()" class="btn btn-primary">Send Notification</button>
+                    <button onclick="clearBroadcast()" class="btn" style="background:#eee; color:#333">Clear Notification</button>
+                </div>
+            `;
+        }
 
-            if(eid && q && cor) {
-                await addDoc(collection(db, "questions"), {
-                    examId: eid, question: q, options: ops, correct: parseInt(cor)
-                });
-                alert("Question Added!");
-                // Clear inputs
-                document.getElementById('q-text').value = '';
-            } else { alert("Fill all fields"); }
-        };
+        window.sendBroadcast = async () => {
+            const msg = document.getElementById('bc-msg').value;
+            if(msg) {
+                await setDoc(doc(db, "settings", "broadcast"), { message: msg, date: new Date().toLocaleDateString() });
+                alert("Message Sent!");
+            }
+        }
+        
+        window.clearBroadcast = async () => {
+            await deleteDoc(doc(db, "settings", "broadcast"));
+            alert("Notification Cleared!");
+        }
+
+        // 4. Theme Settings
+        function renderThemeSettings() {
+            document.getElementById('admin-body').innerHTML = `
+                <div class="card">
+                    <h3>App Theme Color</h3>
+                    <p>Select a primary color for the app:</p>
+                    <div style="display:flex; gap:10px; margin-top:15px;">
+                        <div onclick="setAppTheme('#4e54c8')" style="width:40px; height:40px; background:#4e54c8; border-radius:50%; cursor:pointer; border:2px solid #ddd;"></div>
+                        <div onclick="setAppTheme('#11998e')" style="width:40px; height:40px; background:#11998e; border-radius:50%; cursor:pointer; border:2px solid #ddd;"></div>
+                        <div onclick="setAppTheme('#ff4757')" style="width:40px; height:40px; background:#ff4757; border-radius:50%; cursor:pointer; border:2px solid #ddd;"></div>
+                        <div onclick="setAppTheme('#2c3e50')" style="width:40px; height:40px; background:#2c3e50; border-radius:50%; cursor:pointer; border:2px solid #ddd;"></div>
+                        <div onclick="setAppTheme('#8e44ad')" style="width:40px; height:40px; background:#8e44ad; border-radius:50%; cursor:pointer; border:2px solid #ddd;"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.setAppTheme = async (color) => {
+            await setDoc(doc(db, "settings", "theme"), { color: color });
+            document.documentElement.style.setProperty('--primary', color);
+            alert("Theme Updated! Refresh to see changes.");
+        }
+
+        // --- HELPERS ---
+        async function loadHistory(elementId, uid) {
+            const list = document.getElementById(elementId);
+            const q = query(collection(db, "results"), where("userId", "==", uid));
+            const snap = await getDocs(q);
+            list.innerHTML = '';
+            if(snap.empty) list.innerHTML = '<p style="color:#999">No exams taken yet.</p>';
+            snap.forEach(d => {
+                const data = d.data();
+                list.innerHTML += `
+                    <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
+                        <span>${data.exam}</span>
+                        <b style="color:var(--primary)">${data.score}/${data.total}</b>
+                    </div>
+                `;
+            });
+        }
+
+        async function loadExamsSelect() {
+            const sel = document.getElementById('exam-select');
+            const snap = await getDocs(collection(db, "exams"));
+            sel.innerHTML = '';
+            snap.forEach(d => sel.innerHTML += `<option value="${d.id}">${d.data().title}</option>`);
+        }
 
         window.uploadJson = async () => {
             const eid = document.getElementById('exam-select').value;
             const txt = document.getElementById('json-in').value;
             try {
                 const data = JSON.parse(txt);
-                let count = 0;
-                for(const q of data) {
-                    await addDoc(collection(db, "questions"), {
-                        examId: eid, question: q.q, options: q.options, correct: q.correct
-                    });
-                    count++;
-                }
-                alert(`${count} Questions Uploaded!`);
+                for(const q of data) await addDoc(collection(db, "questions"), { examId: eid, ...q });
+                alert("Uploaded!");
             } catch(e) { alert("Invalid JSON"); }
-        };
+        }
 
-        window.sampleJson = () => {
-            document.getElementById('json-in').value = `[
-  {
-    "q": "What is 2+2?",
-    "options": ["3", "4", "5", "6"],
-    "correct": 2
-  }
-]`;
-        };
+        async function checkBroadcast() {
+            const snap = await getDoc(doc(db, "settings", "broadcast"));
+            const box = document.getElementById('broadcast-box');
+            if(snap.exists()) {
+                box.style.display = 'block';
+                box.innerHTML = `<i class="fas fa-bullhorn"></i> <b>Admin Notice:</b> ${snap.data().message}`;
+            } else { box.style.display = 'none'; }
+        }
 
-        // --- UTILS ---
-        function updateNav(idx) {
-            document.querySelectorAll('.nav-item').forEach((n, i) => {
-                if(i === idx) n.classList.add('active');
-                else n.classList.remove('active');
+        async function loadTheme() {
+            const snap = await getDoc(doc(db, "settings", "theme"));
+            if(snap.exists()) {
+                document.documentElement.style.setProperty('--primary', snap.data().color);
+            }
+        }
+
+        function updateNav(i) {
+            document.querySelectorAll('.nav-item').forEach((n, idx) => {
+                if(i===idx) n.classList.add('active'); else n.classList.remove('active');
             });
         }
-        function toggleLoader(show) {
-            document.getElementById('loader').style.opacity = show ? '1' : '0';
-            setTimeout(() => {
-                document.getElementById('loader').style.display = show ? 'flex' : 'none';
-            }, 500);
-        }
+        function toggleLoader(show) { document.getElementById('loader').style.display = show?'flex':'none'; }
 
     </script>
 </body>
