@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Exam Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="loader-overlay">
+        <div class="spinner"></div>
+        <p>Loading System...</p>
+    </div>
+
+    <section id="auth-section">
+        <div class="container" id="container">
+            <div class="form-container sign-up-container">
+                <form id="signup-form">
+                    <h1>Create Account</h1>
+                    <div class="social-container">
+                        <a href="#" id="google-signup" class="social"><i class="fab fa-google"></i></a>
+                    </div>
+                    <span>or use email for registration</span>
+                    <input type="text" id="signup-name" placeholder="Name" required />
+                    <input type="email" id="signup-email" placeholder="Email" required />
+                    <input type="password" id="signup-pass" placeholder="Password" required />
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
+            <div class="form-container sign-in-container">
+                <form id="login-form">
+                    <h1>Sign in</h1>
+                    <div class="social-container">
+                        <a href="#" id="google-login" class="social"><i class="fab fa-google"></i></a>
+                    </div>
+                    <span>or use your account</span>
+                    <input type="email" id="login-email" placeholder="Email" required />
+                    <input type="password" id="login-pass" placeholder="Password" required />
+                    <button type="submit">Sign In</button>
+                </form>
+            </div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1>Welcome Back!</h1>
+                        <p>To keep connected with us please login</p>
+                        <button class="ghost" id="signIn">Sign In</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1>Hello, Student!</h1>
+                        <p>Enter your details and start journey</p>
+                        <button class="ghost" id="signUp">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="main-app" style="display: none;">
+        
+        <nav>
+            <div class="logo"><i class="fas fa-graduation-cap"></i> ExamPro</div>
+            <ul>
+                <li onclick="showPage('home-page')">Home</li>
+                <li onclick="showPage('profile-page')">Profile</li>
+                <li id="admin-link" style="display:none;" onclick="showPage('admin-page')">Admin</li>
+                <li onclick="logoutUser()" style="color: #ff416c;">Logout</li>
+            </ul>
+        </nav>
+
+        <section id="home-page" class="page active">
+            <div class="hero-box">
+                <h1>Welcome, <span id="user-display-name">User</span>!</h1>
+                <p>Ready to test your knowledge?</p>
+                <button class="start-btn" onclick="startExamSetup()">Start New Exam</button>
+            </div>
+        </section>
+
+        <section id="exam-page" class="page">
+            <div class="exam-header">
+                <h2>MCQ Exam</h2>
+                <div id="timer" class="stylish-timer">10:00</div>
+            </div>
+            <div id="question-container">
+                </div>
+            <button id="submit-btn" onclick="submitExam()">Submit Exam</button>
+        </section>
+
+        <section id="profile-page" class="page">
+            <div class="card">
+                <h2>Your Profile</h2>
+                <p><strong>Name:</strong> <span id="p-name">Loading...</span></p>
+                <p><strong>Email:</strong> <span id="p-email">Loading...</span></p>
+                <hr>
+                <h3>Exam History</h3>
+                <div id="score-list">Loading history...</div>
+            </div>
+        </section>
+
+        <section id="admin-page" class="page">
+            <div class="card">
+                <h2>Admin Panel</h2>
+                
+                <div class="admin-add-box">
+                    <h3>Add Question</h3>
+                    <input type="text" id="q-text" placeholder="Enter Question">
+                    <div class="grid-2">
+                        <input type="text" id="op1" placeholder="Option 1">
+                        <input type="text" id="op2" placeholder="Option 2">
+                        <input type="text" id="op3" placeholder="Option 3">
+                        <input type="text" id="op4" placeholder="Option 4">
+                    </div>
+                    <input type="number" id="correct-op" placeholder="Correct Option No (1-4)">
+                    <button onclick="addQuestion()" class="admin-btn">Add to Database</button>
+                </div>
+
+                <hr>
+                
+                <h3>Manage Questions</h3>
+                <button onclick="loadAdminQuestions()" class="ghost" style="color:#333; border:1px solid #333; margin-bottom:10px;">Refresh List</button>
+                <div id="admin-questions-list"></div>
+            </div>
+        </section>
+
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
