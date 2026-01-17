@@ -1,11 +1,8 @@
-// Firebase Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// ----------------------------------------------------
-// আপনার দেওয়া কনফিগারেশন বসানো হয়েছে
-// ----------------------------------------------------
+// --- SETUP ---
 const firebaseConfig = {
   apiKey: "AIzaSyBW0-UiTB83ikUOztrT6ECAkOlnzxykKYQ",
   authDomain: "mcq-exam-b150e.firebaseapp.com",
@@ -16,348 +13,316 @@ const firebaseConfig = {
   measurementId: "G-9NS51NRGER"
 };
 
-// আপনার অ্যাডমিন ইমেইল
 const ADMIN_EMAIL = "mdwld2005@gmail.com"; 
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
-// Global Variables
-let currentQuestions = [];
+let currentExamId = null;
+let currentExamQuestions = [];
 let timerInterval;
 
-// --- Helper: Loader Control ---
-const toggleLoader = (show) => {
-    const loader = document.getElementById('loader-overlay');
-    if(loader) loader.style.display = show ? 'flex' : 'none';
-};
+// --- UTILS ---
+const loader = (show) => document.getElementById('loader').style.display = show ? 'flex' : 'none';
 
-// --- Helper: Navigation ---
-window.showPage = (pageId) => {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
+window.navTo = (viewName) => {
+    document.getElementById('page-title').innerText = viewName.toUpperCase();
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
+    document.getElementById(`view-${viewName}`).classList.add('active-view');
     
-    // Page specific loads
-    if (pageId === 'profile-page') loadProfileStats();
-    if (pageId === 'admin-page') loadAdminQuestions();
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    // Simple nav highlight logic
+    if(viewName === 'home') document.querySelector('.bottom-nav .nav-item:nth-child(1)').classList.add('active');
+    if(viewName === 'profile') document.querySelector('.bottom-nav .nav-item:nth-child(2)').classList.add('active');
+    if(viewName === 'admin') document.querySelector('#nav-admin').classList.add('active');
+    
+    if(viewName === 'home') loadExamList();
 };
 
-// --- 1. AUTHENTICATION LOGIC ---
-
-// Animation Toggle
-const signUpBtn = document.getElementById('signUp');
-const signInBtn = document.getElementById('signIn');
-const container = document.getElementById('container');
-
-if(signUpBtn && signInBtn && container) {
-    signUpBtn.addEventListener('click', () => container.classList.add("right-panel-active"));
-    signInBtn.addEventListener('click', () => container.classList.remove("right-panel-active"));
-}
-
-// Sign Up
-const signupForm = document.getElementById('signup-form');
-if(signupForm) {
-    signupForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        toggleLoader(true);
-        const email = document.getElementById('signup-email').value;
-        const pass = document.getElementById('signup-pass').value;
-        const name = document.getElementById('signup-name').value;
-
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-            // Save user data
-            await setDoc(doc(db, "users", userCredential.user.uid), {
-                name: name,
-                email: email,
-                role: email === ADMIN_EMAIL ? "admin" : "student"
-            });
-            alert("অ্যাকাউন্ট তৈরি হয়েছে! আপনি লগইন অবস্থায় আছেন।");
-        } catch (error) {
-            alert("Error: " + error.message);
-        } finally {
-            toggleLoader(false);
-        }
-    });
-}
-
-// Login
-const loginForm = document.getElementById('login-form');
-if(loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        toggleLoader(true);
-        const email = document.getElementById('login-email').value;
-        const pass = document.getElementById('login-pass').value;
-
-        try {
-            await signInWithEmailAndPassword(auth, email, pass);
-        } catch (error) {
-            alert("Login Failed: " + error.message);
-        } finally {
-            toggleLoader(false);
-        }
-    });
-}
-
-// Google Login
-const googleLoginBtn = document.getElementById('google-login');
-if(googleLoginBtn) {
-    googleLoginBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        try {
-            await signInWithPopup(auth, googleProvider);
-        } catch (error) {
-            console.error(error);
-        }
-    });
-}
-
-const googleSignupBtn = document.getElementById('google-signup');
-if(googleSignupBtn) {
-    googleSignupBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        try {
-            const result = await signInWithPopup(auth, googleProvider);
-            // Ensure user doc exists
-            const userRef = doc(db, "users", result.user.uid);
-            const docSnap = await getDoc(userRef);
-            if (!docSnap.exists()) {
-                await setDoc(userRef, {
-                    name: result.user.displayName,
-                    email: result.user.email,
-                    role: result.user.email === ADMIN_EMAIL ? "admin" : "student"
-                });
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    });
-}
-
-// Log Out
-window.logoutUser = () => {
-    signOut(auth).then(() => {
-        alert("লগ আউট সফল হয়েছে।");
-        location.reload();
-    });
+window.switchAdminTab = (tab) => {
+    document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+    document.getElementById(`tab-${tab}`).classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
 };
 
-// Auth State Monitor (Main Logic)
+// --- AUTH ---
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        document.getElementById('auth-section').style.display = 'none';
-        document.getElementById('main-app').style.display = 'block';
-        toggleLoader(false); 
-
-        // Get User Info
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
+        document.getElementById('auth-screen').classList.remove('active-screen');
+        document.getElementById('app-screen').classList.add('active-screen');
         
-        if (docSnap.exists()) {
-            const userData = docSnap.data();
-            const displayName = userData.name || user.displayName || "User";
-            
-            document.getElementById('user-display-name').innerText = displayName;
-            document.getElementById('p-name').innerText = displayName;
-            document.getElementById('p-email').innerText = user.email;
+        // Get User Data
+        const snap = await getDoc(doc(db, "users", user.uid));
+        const userData = snap.exists() ? snap.data() : { name: user.email };
+        
+        document.getElementById('u-name').innerText = userData.name;
+        document.getElementById('p-name').innerText = userData.name;
+        document.getElementById('p-email').innerText = user.email;
 
-            // Admin Check
-            if (user.email === ADMIN_EMAIL) {
-                document.getElementById('admin-link').style.display = 'block';
-            }
+        if (user.email === ADMIN_EMAIL) {
+            document.getElementById('nav-admin').style.display = 'flex';
+            loadAdminExamList(); // For Bulk Import Dropdown
+            loadAdminManageList();
         }
+        loadExamList();
+        loadHistory();
     } else {
-        document.getElementById('auth-section').style.display = 'flex';
-        document.getElementById('main-app').style.display = 'none';
-        toggleLoader(false);
+        document.getElementById('auth-screen').classList.add('active-screen');
+        document.getElementById('app-screen').classList.remove('active-screen');
     }
 });
 
-// --- 2. EXAM SYSTEM ---
+window.handleLogin = async () => {
+    loader(true);
+    try {
+        await signInWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-pass').value);
+    } catch(e) { alert(e.message); }
+    loader(false);
+};
 
-window.startExamSetup = async () => {
-    showPage('exam-page');
-    toggleLoader(true);
-    const qContainer = document.getElementById('question-container');
-    qContainer.innerHTML = '';
+window.handleSignup = async () => {
+    loader(true);
+    try {
+        const email = document.getElementById('auth-email').value;
+        const res = await createUserWithEmailAndPassword(auth, email, document.getElementById('auth-pass').value);
+        await setDoc(doc(db, "users", res.user.uid), { name: email.split('@')[0], email: email });
+    } catch(e) { alert(e.message); }
+    loader(false);
+};
+
+document.getElementById('google-btn').addEventListener('click', async () => {
+    try { await signInWithPopup(auth, googleProvider); } catch(e) { console.log(e); }
+});
+
+window.logoutUser = () => signOut(auth).then(()=>location.reload());
+
+
+// --- STUDENT FEATURES ---
+
+// 1. Load available exams
+async function loadExamList() {
+    const container = document.getElementById('exam-list-container');
+    container.innerHTML = '<div class="spinner" style="margin:20px auto"></div>';
     
-    const querySnapshot = await getDocs(collection(db, "questions"));
-    currentQuestions = [];
+    const snap = await getDocs(collection(db, "exams"));
+    container.innerHTML = '';
+    
+    if(snap.empty) { container.innerHTML = '<p style="text-align:center">No exams found.</p>'; return; }
 
-    if (querySnapshot.empty) {
-        qContainer.innerHTML = "<p>অ্যাডমিন এখনো কোনো প্রশ্ন যুক্ত করেননি।</p>";
-        toggleLoader(false);
-        return;
-    }
-
-    querySnapshot.forEach((doc, index) => {
-        const data = doc.data();
-        currentQuestions.push({ id: doc.id, ...data });
-        
-        const html = `
-            <div class="mcq-box">
-                <p><strong>${index + 1}. ${data.question}</strong></p>
-                ${data.options.map((opt, i) => 
-                    `<label style="display:block; margin:5px 0; cursor:pointer;">
-                        <input type="radio" name="q_${doc.id}" value="${i+1}"> ${opt}
-                    </label>`
-                ).join('')}
+    snap.forEach(doc => {
+        const exam = doc.data();
+        container.innerHTML += `
+            <div class="exam-card">
+                <div class="exam-info">
+                    <h4>${exam.title}</h4>
+                    <span>${exam.subject}</span>
+                    <span>${exam.time} Mins</span>
+                </div>
+                <button class="start-btn-sm" onclick="startExam('${doc.id}', '${exam.title}', ${exam.time})">Start</button>
             </div>
         `;
-        qContainer.innerHTML += html;
+    });
+}
+
+// 2. Start specific exam
+window.startExam = async (examId, title, time) => {
+    currentExamId = examId;
+    navTo('exam');
+    document.getElementById('exam-subject').innerText = title;
+    
+    const qArea = document.getElementById('question-area');
+    qArea.innerHTML = '<div class="spinner"></div>';
+    
+    // Fetch questions for this exam
+    const q = query(collection(db, "questions"), where("examId", "==", examId));
+    const snap = await getDocs(q);
+    currentExamQuestions = [];
+    
+    if(snap.empty) { qArea.innerHTML = "No questions in this exam yet."; return; }
+
+    qArea.innerHTML = '';
+    snap.forEach((doc, idx) => {
+        const data = doc.data();
+        currentExamQuestions.push({id: doc.id, ...data});
+        qArea.innerHTML += `
+            <div class="mcq-box">
+                <p>${idx+1}. ${data.question}</p>
+                ${data.options.map((opt, i) => `
+                    <label class="option-label">
+                        <input type="radio" name="q_${doc.id}" value="${i+1}"> ${opt}
+                    </label>
+                `).join('')}
+            </div>
+        `;
     });
 
-    // Start Timer (e.g. 10 minutes)
-    let time = 600; 
-    const timerDisplay = document.getElementById('timer');
+    // Timer Logic
+    let timeLeft = time * 60;
+    const tDisplay = document.getElementById('timer-display');
     clearInterval(timerInterval);
-    
     timerInterval = setInterval(() => {
-        const min = Math.floor(time / 60);
-        let sec = time % 60;
-        sec = sec < 10 ? '0' + sec : sec;
-        timerDisplay.innerText = `${min}:${sec}`;
-        time--;
-        
-        if (time < 0) {
+        const m = Math.floor(timeLeft / 60);
+        const s = timeLeft % 60;
+        tDisplay.innerText = `${m}:${s < 10 ? '0'+s : s}`;
+        timeLeft--;
+        if(timeLeft < 0) {
             clearInterval(timerInterval);
-            alert("সময় শেষ!");
-            window.submitExam();
+            submitExam();
         }
     }, 1000);
-    
-    toggleLoader(false);
 };
 
+// 3. Submit
 window.submitExam = async () => {
     clearInterval(timerInterval);
-    toggleLoader(true);
+    loader(true);
     let score = 0;
     
-    currentQuestions.forEach(q => {
-        const selected = document.querySelector(`input[name="q_${q.id}"]:checked`);
-        if (selected && parseInt(selected.value) === q.correct) {
-            score++;
-        }
+    currentExamQuestions.forEach(q => {
+        const sel = document.querySelector(`input[name="q_${q.id}"]:checked`);
+        if(sel && parseInt(sel.value) === q.correct) score++;
     });
 
-    const user = auth.currentUser;
-    try {
-        await addDoc(collection(db, "results"), {
-            userId: user.uid,
-            score: score,
-            total: currentQuestions.length,
-            date: new Date().toLocaleDateString()
-        });
-        alert(`এক্সাম শেষ! আপনার স্কোর: ${score}/${currentQuestions.length}`);
-        showPage('profile-page');
-    } catch (e) {
-        console.error(e);
-        alert("রেজাল্ট সেভ করতে সমস্যা হয়েছে।");
-    } finally {
-        toggleLoader(false);
-    }
-};
-
-// --- 3. ADMIN PANEL ---
-
-window.addQuestion = async () => {
-    // Security check inside function just in case
-    if (auth.currentUser.email !== ADMIN_EMAIL) {
-        return alert("Access Denied!");
-    }
-
-    const qText = document.getElementById('q-text').value;
-    const op1 = document.getElementById('op1').value;
-    const op2 = document.getElementById('op2').value;
-    const op3 = document.getElementById('op3').value;
-    const op4 = document.getElementById('op4').value;
-    const correct = document.getElementById('correct-op').value;
-
-    if (!qText || !correct) return alert("সব তথ্য পূরণ করুন");
-
-    try {
-        await addDoc(collection(db, "questions"), {
-            question: qText,
-            options: [op1, op2, op3, op4],
-            correct: parseInt(correct)
-        });
-        alert("প্রশ্ন যুক্ত করা হয়েছে!");
-        
-        // Clear inputs
-        document.getElementById('q-text').value = '';
-        document.getElementById('op1').value = '';
-        document.getElementById('op2').value = '';
-        document.getElementById('op3').value = '';
-        document.getElementById('op4').value = '';
-        document.getElementById('correct-op').value = '';
-
-        loadAdminQuestions();
-    } catch (e) {
-        alert("Error: " + e.message);
-    }
-};
-
-window.loadAdminQuestions = async () => {
-    const list = document.getElementById('admin-questions-list');
-    list.innerHTML = "Loading...";
-    const snapshot = await getDocs(collection(db, "questions"));
-    list.innerHTML = "";
-    
-    if (snapshot.empty) {
-        list.innerHTML = "No questions found.";
-        return;
-    }
-
-    snapshot.forEach(doc => {
-        const data = doc.data();
-        const div = document.createElement('div');
-        div.className = "admin-item";
-        div.innerHTML = `
-            <span>${data.question}</span>
-            <button onclick="deleteQuestion('${doc.id}')" style="background:red; width:auto; margin:0; padding:5px 10px;">Delete</button>
-        `;
-        list.appendChild(div);
+    await addDoc(collection(db, "results"), {
+        userId: auth.currentUser.uid,
+        examId: currentExamId,
+        examName: document.getElementById('exam-subject').innerText,
+        score: score,
+        total: currentExamQuestions.length,
+        date: new Date().toLocaleDateString()
     });
+
+    alert(`Result: ${score} / ${currentExamQuestions.length}`);
+    loader(false);
+    navTo('profile');
+    loadHistory();
 };
 
-window.deleteQuestion = async (id) => {
-    if(confirm("আপনি কি এই প্রশ্নটি ডিলিট করতে চান?")) {
-        try {
-            await deleteDoc(doc(db, "questions", id));
-            loadAdminQuestions();
-        } catch(e) {
-            alert("Error: " + e.message);
-        }
-    }
-};
-
-// --- 4. PROFILE STATS ---
-
-window.loadProfileStats = async () => {
-    const user = auth.currentUser;
-    const list = document.getElementById('score-list');
+async function loadHistory() {
+    const list = document.getElementById('history-list');
+    const q = query(collection(db, "results"), where("userId", "==", auth.currentUser.uid));
+    const snap = await getDocs(q);
     
-    // Create query
-    const q = query(collection(db, "results"), where("userId", "==", user.uid));
-    const snapshot = await getDocs(q);
-    
-    if (snapshot.empty) {
-        list.innerHTML = "আপনি এখনো কোনো এক্সাম দেননি।";
-        return;
-    }
-    
-    let html = "";
-    snapshot.forEach(doc => {
+    list.innerHTML = snap.empty ? '<p style="text-align:center">No history.</p>' : '';
+    snap.forEach(doc => {
         const d = doc.data();
-        html += `<div style="padding:10px; border-bottom:1px solid #ddd; display:flex; justify-content:space-between;">
-                    <span>${d.date}</span>
-                    <span style="font-weight:bold; color:#FF4B2B;">${d.score}/${d.total}</span>
-                 </div>`;
+        list.innerHTML += `
+            <div class="history-item">
+                <div>
+                    <h4>${d.examName}</h4>
+                    <small>${d.date}</small>
+                </div>
+                <h3 style="color:var(--primary)">${d.score}/${d.total}</h3>
+            </div>
+        `;
     });
-    list.innerHTML = html;
+}
+
+
+// --- ADMIN FEATURES ---
+
+// 1. Create Exam
+window.createNewExam = async () => {
+    const title = document.getElementById('new-exam-title').value;
+    const sub = document.getElementById('new-exam-subject').value;
+    const time = document.getElementById('new-exam-time').value;
+
+    if(!title || !time) return alert("Fill all details");
+    
+    loader(true);
+    await addDoc(collection(db, "exams"), {
+        title: title,
+        subject: sub,
+        time: parseInt(time),
+        createdAt: new Date()
+    });
+    alert("Exam Created!");
+    loader(false);
+    loadAdminExamList();
+    loadAdminManageList();
+};
+
+// 2. Load Select Dropdown for Bulk Upload
+async function loadAdminExamList() {
+    const select = document.getElementById('bulk-exam-select');
+    const snap = await getDocs(collection(db, "exams"));
+    select.innerHTML = '<option value="">Select Exam First</option>';
+    snap.forEach(doc => {
+        select.innerHTML += `<option value="${doc.id}">${doc.data().title}</option>`;
+    });
+}
+
+// 3. Load List to Manage (Delete)
+async function loadAdminManageList() {
+    const div = document.getElementById('admin-exam-list');
+    const snap = await getDocs(collection(db, "exams"));
+    div.innerHTML = '';
+    snap.forEach(doc => {
+        div.innerHTML += `
+            <div class="exam-card">
+                <span>${doc.data().title}</span>
+                <button onclick="deleteExam('${doc.id}')" style="background:red; color:white; border:none; padding:5px; border-radius:5px;">Del</button>
+            </div>`;
+    });
+}
+
+window.deleteExam = async (id) => {
+    if(confirm("Delete Exam? Questions will remain orphaned.")) {
+        await deleteDoc(doc(db, "exams", id));
+        loadAdminManageList();
+        loadAdminExamList();
+    }
+}
+
+// 4. BULK UPLOAD
+window.fillSampleJson = () => {
+    const sample = `[
+  {
+    "q": "বাংলাদেশের রাজধানী কোনটি?",
+    "options": ["ঢাকা", "চট্টগ্রাম", "খুলনা", "সিলেট"],
+    "correct": 1
+  },
+  {
+    "q": "কম্পিউটারের মস্তিষ্ক কোনটি?",
+    "options": ["RAM", "CPU", "HDD", "Mouse"],
+    "correct": 2
+  }
+]`;
+    document.getElementById('bulk-json').value = sample;
+};
+
+window.uploadBulkQuestions = async () => {
+    const examId = document.getElementById('bulk-exam-select').value;
+    const jsonText = document.getElementById('bulk-json').value;
+
+    if(!examId) return alert("Please select an exam first!");
+    
+    try {
+        const questions = JSON.parse(jsonText);
+        if(!Array.isArray(questions)) throw new Error("Format invalid. Must be an array []");
+        
+        loader(true);
+        let count = 0;
+        
+        // Batch upload logic (using loop for simplicity)
+        for(const item of questions) {
+            await addDoc(collection(db, "questions"), {
+                examId: examId,
+                question: item.q,
+                options: item.options,
+                correct: item.correct
+            });
+            count++;
+        }
+        
+        alert(`${count} questions added successfully!`);
+        document.getElementById('bulk-json').value = '';
+    } catch(e) {
+        alert("JSON Error: " + e.message);
+    } finally {
+        loader(false);
+    }
 };
