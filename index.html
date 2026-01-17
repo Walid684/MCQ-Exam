@@ -3,133 +3,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ExamPro Mobile</title>
+    <title>ExamPro Final</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS ডিজাইন --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        :root { --primary: #6C63FF; --dark: #2f3542; --light: #f8f9fa; --white: #fff; --danger: #ff4757; }
+        
+        body { background: var(--light); color: var(--dark); padding-bottom: 80px; -webkit-tap-highlight-color: transparent; }
+        
+        /* লোডার */
+        #loader { position: fixed; inset: 0; background: white; z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* স্ক্রিন ম্যানেজমেন্ট */
+        .screen { display: none; min-height: 100vh; }
+        .active-screen { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* লগইন পেজ */
+        .auth-box { 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90%; max-width: 400px; background: white; padding: 30px; 
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center;
+        }
+        .input-group { position: relative; margin-bottom: 15px; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; outline: none; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+
+        /* হেডার */
+        header { 
+            background: white; padding: 15px 20px; position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .logo { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+        
+        /* কার্ড এবং লিস্ট */
+        .container { padding: 20px; }
+        .card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .exam-item { display: flex; justify-content: space-between; align-items: center; }
+        
+        /* MCQ বক্স */
+        .mcq-box { background: white; padding: 15px; margin-bottom: 15px; border-radius: 10px; }
+        .option { display: block; padding: 10px; border: 1px solid #eee; margin: 5px 0; border-radius: 8px; }
+        .option input { margin-right: 10px; }
+
+        /* বটম ন্যাভিগেশন */
+        .bottom-nav { 
+            position: fixed; bottom: 0; left: 0; width: 100%; background: white; 
+            display: flex; justify-content: space-around; padding: 10px 0; 
+            border-top: 1px solid #eee; z-index: 1000;
+        }
+        .nav-item { text-align: center; color: #aaa; font-size: 0.8rem; cursor: pointer; }
+        .nav-item i { font-size: 1.4rem; display: block; margin-bottom: 2px; }
+        .nav-item.active { color: var(--primary); }
+    </style>
 </head>
 <body>
 
-    <div id="app-loader">
-        <div class="loader-circle"></div>
+    <div id="loader">
+        <div class="spinner"></div>
+        <p style="margin-top:10px">লোডিং...</p>
     </div>
 
-    <div id="toast-box"></div>
-
-    <section id="auth-screen">
-        <div class="auth-container">
-            <div class="toggle-box">
-                <div id="btn-bg"></div>
-                <button type="button" class="toggle-btn active" id="show-login-btn">Log In</button>
-                <button type="button" class="toggle-btn" id="show-signup-btn">Sign Up</button>
+    <section id="auth-screen" class="screen">
+        <div class="auth-box">
+            <h2 style="color:var(--primary); margin-bottom:10px;">ExamPro</h2>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="ইমেইল">
             </div>
-
-            <div class="forms-wrapper">
-                
-                <form id="login-form" class="auth-form">
-                    <h2>Welcome Back!</h2>
-                    <p>আপনার অ্যাকাউন্টে লগইন করুন</p>
-                    
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="login-email" placeholder="Email Address" required>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="login-pass" placeholder="Password" required>
-                    </div>
-
-                    <button type="submit" class="submit-btn">LOG IN</button>
-                    
-                    <div class="divider"><span>OR</span></div>
-                    <button type="button" id="google-login-btn" class="social-btn">
-                        <i class="fab fa-google"></i> Continue with Google
-                    </button>
-                </form>
-
-                <form id="signup-form" class="auth-form" style="display: none;">
-                    <h2>Create Account</h2>
-                    <p>নতুন অ্যাকাউন্ট তৈরি করুন</p>
-                    
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        <input type="text" id="signup-name" placeholder="Full Name" required>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="signup-email" placeholder="Email Address" required>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="signup-pass" placeholder="Password (6+ chars)" required>
-                    </div>
-
-                    <button type="submit" class="submit-btn">SIGN UP</button>
-                </form>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="পাসওয়ার্ড">
             </div>
+            <button onclick="doLogin()" class="btn btn-primary">লগ ইন</button>
+            <button onclick="doSignup()" class="btn btn-outline">নতুন অ্যাকাউন্ট</button>
         </div>
     </section>
 
-    <section id="app-screen" style="display: none;">
-        
+    <section id="app-screen" class="screen">
         <header>
             <div class="logo">ExamPro</div>
-            <div class="header-icons">
-                <i class="fas fa-sync-alt" id="refresh-btn"></i>
-                <i class="fas fa-sign-out-alt" id="logout-btn" style="color: #ff4757;"></i>
-            </div>
+            <i onclick="doLogout()" class="fas fa-power-off" style="color:var(--danger); font-size:1.2rem;"></i>
         </header>
 
-        <main>
-            <div id="view-home" class="view active">
-                <div class="user-welcome">
-                    <h3>Hi, <span id="display-name">User</span>! 👋</h3>
-                    <p>আজকের এক্সাম দিতে প্রস্তুত?</p>
-                </div>
-
-                <div id="exam-list" class="grid-container">
-                    <p class="loading-text">এক্সাম লিস্ট লোড হচ্ছে...</p>
-                </div>
+        <div id="main-content" class="container">
             </div>
-
-            <div id="view-exam" class="view">
-                <div class="exam-header-card">
-                    <h3 id="active-exam-title">Exam Title</h3>
-                    <div class="timer-badge">
-                        <i class="far fa-clock"></i> <span id="timer">00:00</span>
-                    </div>
-                </div>
-                <div id="questions-container"></div>
-                <button id="submit-exam-btn" class="submit-btn fixed-bottom">Submit Exam</button>
-            </div>
-
-            <div id="view-admin" class="view">
-                <h3>Admin Panel</h3>
-                <div class="admin-card">
-                    <h4>Create Exam</h4>
-                    <input type="text" id="admin-exam-title" placeholder="Title" class="simple-input">
-                    <input type="number" id="admin-exam-time" placeholder="Time (min)" class="simple-input">
-                    <button id="create-exam-btn" class="submit-btn small">Create</button>
-                </div>
-                <div class="admin-card">
-                    <h4>Add Question (JSON)</h4>
-                    <select id="admin-exam-select" class="simple-input"></select>
-                    <textarea id="admin-json-input" rows="5" class="simple-input" placeholder='[{"q":"...","options":[...],"correct":1}]'></textarea>
-                    <button id="upload-json-btn" class="submit-btn small">Upload</button>
-                </div>
-            </div>
-        </main>
 
         <nav class="bottom-nav">
-            <div class="nav-item active" data-target="view-home">
-                <i class="fas fa-home"></i> <span>Home</span>
+            <div class="nav-item active" onclick="renderHome()">
+                <i class="fas fa-home"></i> <span>হোম</span>
             </div>
-            <div class="nav-item" id="admin-nav-item" style="display: none;" data-target="view-admin">
-                <i class="fas fa-shield-alt"></i> <span>Admin</span>
+            <div class="nav-item" onclick="renderProfile()">
+                <i class="fas fa-user"></i> <span>প্রোফাইল</span>
+            </div>
+            <div class="nav-item" id="admin-btn" style="display:none;" onclick="renderAdmin()">
+                <i class="fas fa-shield-alt"></i> <span>অ্যাডমিন</span>
             </div>
         </nav>
     </section>
 
-    <script type="module" src="script.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // --- কনফিগারেশন ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyBW0-UiTB83ikUOztrT6ECAkOlnzxykKYQ",
+            authDomain: "mcq-exam-b150e.firebaseapp.com",
+            projectId: "mcq-exam-b150e",
+            storageBucket: "mcq-exam-b150e.firebasestorage.app",
+            messagingSenderId: "751727102033",
+            appId: "1:751727102033:web:35995f15619e300872d070",
+            measurementId: "G-9NS51NRGER"
+        };
+        const ADMIN_EMAIL = "mdwld2005@gmail.com";
+
+        // --- অ্যাপ শুরু ---
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        let currentUserData = null;
+        let currentQuestions = [];
+        let timerInterval;
+
+        // --- গ্লোবাল ফাংশন সেটআপ (HTML থেকে কল করার জন্য) ---
+        window.doLogin = async () => {
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('password').value;
+            try { await signInWithEmailAndPassword(auth, e, p); } 
+            catch(err) { alert(err.message); }
+        };
+
+        window.doSignup = async () => {
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('password').value;
+            try { 
+                const res = await createUserWithEmailAndPassword(auth, e, p);
+                await setDoc(doc(db, "users", res.user.uid), {
+                    email: e, role: e === ADMIN_EMAIL ? 'admin' : 'student'
+                });
+                alert("অ্যাকাউন্ট তৈরি হয়েছে!");
+            } catch(err) { alert(err.message); }
+        };
+
+        window.doLogout = () => signOut(auth).then(()=> location.reload());
+
+        // --- অথ চেকার ---
+        onAuthStateChanged(auth, async (user) => {
+            if(user) {
+                // ইউজার ডাটা আনা
+                const snap = await getDoc(doc(db, "users", user.uid));
+                currentUserData = snap.exists() ? snap.data() : { role: 'student' };
+                
+                // স্ক্রিন পরিবর্তন
+                document.getElementById('auth-screen').classList.remove('active-screen');
+                document.getElementById('app-screen').classList.add('active-screen');
+                
+                // অ্যাডমিন বাটন চেক
+                if(user.email === ADMIN_EMAIL || currentUserData.role === 'admin') {
+                    document.getElementById('admin-btn').style.display = 'block';
+                }
+                
+                renderHome(); // ডিফল্ট পেজ
+            } else {
+                document.getElementById('app-screen').classList.remove('active-screen');
+                document.getElementById('auth-screen').classList.add('active-screen');
+            }
+            document.getElementById('loader').style.display = 'none';
+        });
+
+        // --- ১. হোম পেজ রেন্ডার ---
+        window.renderHome = async () => {
+            updateNav(0);
+            const container = document.getElementById('main-content');
+            container.innerHTML = '<h3>এক্সাম তালিকা</h3><div id="list">লোডিং...</div>';
+            
+            const snap = await getDocs(collection(db, "exams"));
+            const list = document.getElementById('list');
+            list.innerHTML = '';
+            
+            if(snap.empty) list.innerHTML = '<p>কোনো এক্সাম নেই</p>';
+            
+            snap.forEach(d => {
+                const data = d.data();
+                const div = document.createElement('div');
+                div.className = 'card exam-item';
+                div.innerHTML = `
+                    <div>
+                        <h4>${data.title}</h4>
+                        <small>${data.time} মিনিট</small>
+                    </div>
+                    <button class="btn btn-primary" style="width:auto; padding:5px 15px;" 
+                        onclick="startExam('${d.id}', '${data.title}', ${data.time})">Start</button>
+                `;
+                list.appendChild(div);
+            });
+        };
+
+        // --- ২. প্রোফাইল পেজ রেন্ডার ---
+        window.renderProfile = async () => {
+            updateNav(1);
+            const user = auth.currentUser;
+            const container = document.getElementById('main-content');
+            container.innerHTML = `
+                <div class="card" style="text-align:center">
+                    <h3>${user.email}</h3>
+                    <p>রোল: ${currentUserData.role}</p>
+                </div>
+                <h3>অতীত ফলাফল</h3>
+                <div id="history">লোডিং...</div>
+            `;
+            
+            const q = query(collection(db, "results"), where("userId", "==", user.uid));
+            const snap = await getDocs(q);
+            const hist = document.getElementById('history');
+            hist.innerHTML = '';
+            
+            if(snap.empty) hist.innerHTML = '<p>কোনো পরীক্ষা দেননি</p>';
+            
+            snap.forEach(d => {
+                const data = d.data();
+                hist.innerHTML += `
+                    <div class="card" style="display:flex; justify-content:space-between">
+                        <span>${data.examName}</span>
+                        <b style="color:var(--primary)">${data.score}/${data.total}</b>
+                    </div>`;
+            });
+        };
+
+        // --- ৩. অ্যাডমিন পেজ রেন্ডার ---
+        window.renderAdmin = async () => {
+            updateNav(2);
+            const container = document.getElementById('main-content');
+            container.innerHTML = `
+                <div class="card">
+                    <h3>নতুন এক্সাম</h3>
+                    <input id="ex-title" placeholder="নাম" style="width:100%; margin:5px 0; padding:10px;">
+                    <input id="ex-time" type="number" placeholder="সময় (মিনিট)" style="width:100%; margin:5px 0; padding:10px;">
+                    <button onclick="createExam()" class="btn btn-primary">তৈরি করুন</button>
+                </div>
+                <div class="card">
+                    <h3>প্রশ্ন যোগ করুন (JSON)</h3>
+                    <select id="ex-select" style="width:100%; padding:10px; margin-bottom:10px;"></select>
+                    <textarea id="json-in" rows="5" style="width:100%; border:1px solid #ddd;" placeholder='[{"q":"...","options":["..."],"correct":1}]'></textarea>
+                    <button onclick="uploadJson()" class="btn btn-primary">আপলোড</button>
+                </div>
+                <button onclick="deleteAllQ()" class="btn btn-outline" style="color:red; border-color:red">সব প্রশ্ন ডিলিট করুন</button>
+            `;
+            
+            // ড্রপডাউন লোড
+            const sel = document.getElementById('ex-select');
+            const snap = await getDocs(collection(db, "exams"));
+            snap.forEach(d => {
+                sel.innerHTML += `<option value="${d.id}">${d.data().title}</option>`;
+            });
+        };
+
+        // --- এক্সাম লজিক ---
+        window.startExam = async (id, title, time) => {
+            const container = document.getElementById('main-content');
+            container.innerHTML = `<div style="position:sticky; top:60px; background:var(--light); padding:10px; z-index:90; display:flex; justify-content:space-between">
+                <h3>${title}</h3> <h3 id="timer" style="color:red">00:00</h3>
+            </div><div id="q-area">লোডিং...</div>`;
+            
+            const q = query(collection(db, "questions"), where("examId", "==", id));
+            const snap = await getDocs(q);
+            const area = document.getElementById('q-area');
+            area.innerHTML = '';
+            currentQuestions = [];
+            
+            if(snap.empty) { area.innerHTML = 'প্রশ্ন নেই'; return; }
+
+            let i = 1;
+            snap.forEach(d => {
+                const data = d.data();
+                currentQuestions.push({id: d.id, ...data});
+                area.innerHTML += `
+                    <div class="mcq-box">
+                        <p><b>${i++}. ${data.question}</b></p>
+                        ${data.options.map((o, idx) => `
+                            <label class="option">
+                                <input type="radio" name="${d.id}" value="${idx+1}"> ${o}
+                            </label>
+                        `).join('')}
+                    </div>`;
+            });
+            area.innerHTML += `<button onclick="submitExam('${title}')" class="btn btn-primary" style="margin-bottom:80px">জমা দিন</button>`;
+
+            // টাইমার
+            let left = time * 60;
+            if(timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                const m = Math.floor(left/60);
+                const s = left%60;
+                document.getElementById('timer').innerText = `${m}:${s<10?'0'+s:s}`;
+                left--;
+                if(left < 0) {
+                    clearInterval(timerInterval);
+                    alert("সময় শেষ!");
+                    submitExam(title);
+                }
+            }, 1000);
+        };
+
+        window.submitExam = async (examTitle) => {
+            clearInterval(timerInterval);
+            let score = 0;
+            currentQuestions.forEach(q => {
+                const sel = document.querySelector(`input[name="${q.id}"]:checked`);
+                if(sel && parseInt(sel.value) == q.correct) score++;
+            });
+            
+            await addDoc(collection(db, "results"), {
+                userId: auth.currentUser.uid,
+                examName: examTitle,
+                score: score,
+                total: currentQuestions.length,
+                date: new Date().toLocaleDateString()
+            });
+            
+            alert(`আপনার স্কোর: ${score}/${currentQuestions.length}`);
+            renderProfile();
+        };
+
+        // --- অ্যাডমিন অ্যাকশন ---
+        window.createExam = async () => {
+            const t = document.getElementById('ex-title').value;
+            const time = document.getElementById('ex-time').value;
+            if(t && time) {
+                await addDoc(collection(db, "exams"), { title: t, time: parseInt(time) });
+                alert("তৈরি হয়েছে!"); renderAdmin();
+            }
+        };
+
+        window.uploadJson = async () => {
+            const eid = document.getElementById('ex-select').value;
+            const txt = document.getElementById('json-in').value;
+            try {
+                const data = JSON.parse(txt);
+                for(const q of data) {
+                    await addDoc(collection(db, "questions"), { examId: eid, ...q });
+                }
+                alert("আপলোড সম্পন্ন!");
+            } catch(e) { alert("JSON ভুল: " + e.message); }
+        };
+
+        window.deleteAllQ = async () => {
+            if(confirm("সব প্রশ্ন মুছতে চান?")) {
+                const snap = await getDocs(collection(db, "questions"));
+                snap.forEach(d => deleteDoc(d.ref));
+                alert("মুছে ফেলা হয়েছে");
+            }
+        };
+
+        // --- ইউটিলিটি ---
+        function updateNav(idx) {
+            document.querySelectorAll('.nav-item').forEach((n, i) => {
+                if(i === idx) n.classList.add('active');
+                else n.classList.remove('active');
+            });
+        }
+    </script>
 </body>
 </html>
