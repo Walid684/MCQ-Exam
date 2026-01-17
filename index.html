@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ExamPro Ultra</title>
+    <title>ExamPro </title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
@@ -40,7 +40,7 @@
             background: var(--bg); color: var(--text); padding-bottom: 90px; 
             transition: background 0.3s, color 0.3s; 
             -webkit-tap-highlight-color: transparent; 
-            overscroll-behavior-y: contain; /* Prevents default browser refresh to use ours */
+            overscroll-behavior-y: contain; /* Important for pull-to-refresh */
         }
         
         /* UTILS */
@@ -187,36 +187,43 @@
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-content { background: var(--card-bg); width: 90%; max-width: 450px; padding: 25px; border-radius: 20px; max-height: 85vh; overflow-y: auto; animation: slideUp 0.3s; }
 
-        /* 1. FIXED: CONFIRM MODAL CENTERING */
+        /* --- 1. FIXED POPUP CENTER (IMPORTANT) --- */
         #confirm-modal {
             position: fixed; 
-            top: 0; left: 0;
-            width: 100vw; height: 100vh; /* Force Full Screen */
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
             background: rgba(0,0,0,0.6); 
-            z-index: 110000; 
-            display: none; /* Initially hidden */
-            align-items: center; 
-            justify-content: center; 
+            z-index: 110000; /* Super high z-index */
             backdrop-filter: blur(4px);
+            
+            /* Hidden by default */
+            display: none;
+            
+            /* Flexbox to CENTER content */
+            justify-content: center;
+            align-items: center;
         }
-        /* When class 'flex' is added via JS, it overrides display: none */
-        #confirm-modal.show-flex {
+
+        /* Class to trigger display: flex (instead of JS setting display: block) */
+        #confirm-modal.active {
             display: flex !important;
         }
 
         .confirm-box {
             background: var(--card-bg); 
-            width: 85%; /* Responsive width */
+            width: 90%; 
             max-width: 320px; 
             padding: 25px;
             border-radius: 20px; 
             text-align: center; 
             box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            transform: scale(0.9); 
-            animation: popIn 0.3s forwards; 
             border: 1px solid var(--border);
-            margin: auto; /* Extra safety for centering */
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* NO MARGINS NEEDED WITH FLEXBOX */
         }
+        
         .confirm-icon { font-size: 3rem; color: var(--danger); margin-bottom: 15px; }
         .confirm-btns { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
 
@@ -374,7 +381,7 @@
             if(window.scrollY === 0 && touchStart > 0) {
                 touchEnd = e.changedTouches[0].screenY;
                 if(touchEnd > touchStart) {
-                    const pull = Math.min((touchEnd - touchStart) * 0.4, 80); // Resistance
+                    const pull = Math.min((touchEnd - touchStart) * 0.4, 80); 
                     refInd.style.top = `${pull}px`;
                 }
             }
@@ -383,30 +390,33 @@
         window.addEventListener('touchend', e => {
             if(window.scrollY === 0 && touchStart > 0) {
                 touchEnd = e.changedTouches[0].screenY;
-                if(touchEnd - touchStart > 150) { // Threshold to trigger refresh
-                    refInd.style.top = '20px'; // Hold position
-                    location.reload();
+                if(touchEnd - touchStart > 120) { 
+                    refInd.style.top = '20px';
+                    setTimeout(() => location.reload(), 300); // Reload slightly delayed
                 } else {
-                    refInd.style.top = '-50px'; // Hide
+                    refInd.style.top = '-50px'; 
                 }
             }
             touchStart = 0;
         }, {passive: true});
 
 
-        // --- CUSTOM CONFIRM LOGIC (FIXED) ---
+        // --- 3. CUSTOM CONFIRM LOGIC (FIXED) ---
         let confirmResolver = null;
         window.customConfirm = (msg) => {
             const m = document.getElementById('confirm-modal');
             document.getElementById('conf-msg').innerText = msg;
-            m.classList.add('show-flex'); // Use class to enforce flex
+            
+            // Add 'active' class to enable display: flex
+            m.classList.add('active'); 
+            
             return new Promise((resolve) => {
                 confirmResolver = resolve;
             });
         }
         window.resolveConfirm = (val) => {
             const m = document.getElementById('confirm-modal');
-            m.classList.remove('show-flex');
+            m.classList.remove('active'); // Remove class to hide
             if(confirmResolver) confirmResolver(val);
         }
 
