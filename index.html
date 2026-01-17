@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ExamPro Mobile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="app-loader">
+        <div class="loader-circle"></div>
+    </div>
+
+    <div id="toast-box"></div>
+
+    <section id="auth-screen">
+        <div class="auth-container">
+            <div class="toggle-box">
+                <div id="btn-bg"></div>
+                <button type="button" class="toggle-btn active" id="show-login-btn">Log In</button>
+                <button type="button" class="toggle-btn" id="show-signup-btn">Sign Up</button>
+            </div>
+
+            <div class="forms-wrapper">
+                
+                <form id="login-form" class="auth-form">
+                    <h2>Welcome Back!</h2>
+                    <p>আপনার অ্যাকাউন্টে লগইন করুন</p>
+                    
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="login-email" placeholder="Email Address" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="login-pass" placeholder="Password" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">LOG IN</button>
+                    
+                    <div class="divider"><span>OR</span></div>
+                    <button type="button" id="google-login-btn" class="social-btn">
+                        <i class="fab fa-google"></i> Continue with Google
+                    </button>
+                </form>
+
+                <form id="signup-form" class="auth-form" style="display: none;">
+                    <h2>Create Account</h2>
+                    <p>নতুন অ্যাকাউন্ট তৈরি করুন</p>
+                    
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="signup-name" placeholder="Full Name" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="signup-email" placeholder="Email Address" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="signup-pass" placeholder="Password (6+ chars)" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">SIGN UP</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="app-screen" style="display: none;">
+        
+        <header>
+            <div class="logo">ExamPro</div>
+            <div class="header-icons">
+                <i class="fas fa-sync-alt" id="refresh-btn"></i>
+                <i class="fas fa-sign-out-alt" id="logout-btn" style="color: #ff4757;"></i>
+            </div>
+        </header>
+
+        <main>
+            <div id="view-home" class="view active">
+                <div class="user-welcome">
+                    <h3>Hi, <span id="display-name">User</span>! 👋</h3>
+                    <p>আজকের এক্সাম দিতে প্রস্তুত?</p>
+                </div>
+
+                <div id="exam-list" class="grid-container">
+                    <p class="loading-text">এক্সাম লিস্ট লোড হচ্ছে...</p>
+                </div>
+            </div>
+
+            <div id="view-exam" class="view">
+                <div class="exam-header-card">
+                    <h3 id="active-exam-title">Exam Title</h3>
+                    <div class="timer-badge">
+                        <i class="far fa-clock"></i> <span id="timer">00:00</span>
+                    </div>
+                </div>
+                <div id="questions-container"></div>
+                <button id="submit-exam-btn" class="submit-btn fixed-bottom">Submit Exam</button>
+            </div>
+
+            <div id="view-admin" class="view">
+                <h3>Admin Panel</h3>
+                <div class="admin-card">
+                    <h4>Create Exam</h4>
+                    <input type="text" id="admin-exam-title" placeholder="Title" class="simple-input">
+                    <input type="number" id="admin-exam-time" placeholder="Time (min)" class="simple-input">
+                    <button id="create-exam-btn" class="submit-btn small">Create</button>
+                </div>
+                <div class="admin-card">
+                    <h4>Add Question (JSON)</h4>
+                    <select id="admin-exam-select" class="simple-input"></select>
+                    <textarea id="admin-json-input" rows="5" class="simple-input" placeholder='[{"q":"...","options":[...],"correct":1}]'></textarea>
+                    <button id="upload-json-btn" class="submit-btn small">Upload</button>
+                </div>
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <div class="nav-item active" data-target="view-home">
+                <i class="fas fa-home"></i> <span>Home</span>
+            </div>
+            <div class="nav-item" id="admin-nav-item" style="display: none;" data-target="view-admin">
+                <i class="fas fa-shield-alt"></i> <span>Admin</span>
+            </div>
+        </nav>
+    </section>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
