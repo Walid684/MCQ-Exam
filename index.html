@@ -3,92 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ExamPro Final</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>ExamPro Premium</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS ডিজাইন --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        :root { --primary: #6C63FF; --dark: #2f3542; --light: #f8f9fa; --white: #fff; --danger: #ff4757; }
+        /* --- PREMIUM CSS DESIGN --- */
+        :root {
+            --primary: #4e54c8;
+            --primary-dark: #8f94fb;
+            --accent: #ff6b6b;
+            --bg: #f4f7f6;
+            --glass: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 30px rgba(0,0,0,0.08);
+            --text: #2d3436;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Hind Siliguri', sans-serif; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 80px; -webkit-tap-highlight-color: transparent; }
         
-        body { background: var(--light); color: var(--dark); padding-bottom: 80px; -webkit-tap-highlight-color: transparent; }
-        
-        /* লোডার */
-        #loader { position: fixed; inset: 0; background: white; z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; }
-        .spinner { width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        /* Smooth Loader */
+        #loader { position: fixed; inset: 0; background: #fff; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s; }
+        .spinner { width: 50px; height: 50px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* স্ক্রিন ম্যানেজমেন্ট */
-        .screen { display: none; min-height: 100vh; }
-        .active-screen { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* Auth Screen */
+        .screen { display: none; min-height: 100vh; animation: fadeIn 0.4s ease-out; }
+        .active-screen { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* লগইন পেজ */
-        .auth-box { 
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 90%; max-width: 400px; background: white; padding: 30px; 
-            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center;
+        .auth-container {
+            height: 100vh; display: flex; justify-content: center; align-items: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 20px;
         }
-        .input-group { position: relative; margin-bottom: 15px; }
-        .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; outline: none; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; margin-top: 10px; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
-
-        /* হেডার */
-        header { 
-            background: white; padding: 15px 20px; position: sticky; top: 0; z-index: 100;
-            display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        .auth-card {
+            background: white; width: 100%; max-width: 400px; padding: 40px 30px;
+            border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); text-align: center;
         }
-        .logo { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+        .auth-card h2 { color: var(--primary); font-weight: 700; margin-bottom: 5px; font-size: 2rem; }
+        .auth-card p { color: #888; margin-bottom: 25px; font-size: 0.9rem; }
         
-        /* কার্ড এবং লিস্ট */
-        .container { padding: 20px; }
-        .card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .input-box { position: relative; margin-bottom: 15px; }
+        .input-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; }
+        .input-box input {
+            width: 100%; padding: 14px 14px 14px 45px; border: 1px solid #eee;
+            border-radius: 12px; background: #f9f9f9; outline: none; transition: 0.3s;
+        }
+        .input-box input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.1); }
+
+        .btn {
+            width: 100%; padding: 14px; border: none; border-radius: 12px;
+            font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 1rem;
+        }
+        .btn-primary { background: var(--primary); color: white; margin-bottom: 10px; box-shadow: 0 5px 15px rgba(78, 84, 200, 0.3); }
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-google { background: #fff; border: 1px solid #ddd; color: #333; display: flex; justify-content: center; gap: 10px; align-items: center; margin-top: 15px; }
+        .divider { margin: 15px 0; color: #aaa; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #eee; }
+
+        /* Main App Header */
+        header {
+            background: var(--glass); backdrop-filter: blur(10px);
+            padding: 15px 20px; position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .logo { font-size: 1.4rem; font-weight: 800; background: linear-gradient(to right, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Container & Cards */
+        .container { padding: 20px; max-width: 800px; margin: 0 auto; }
+        .card {
+            background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px;
+            box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.02);
+        }
+        .section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; color: #444; display: flex; justify-content: space-between; align-items: center; }
+
+        /* Exam List */
         .exam-item { display: flex; justify-content: space-between; align-items: center; }
-        
-        /* MCQ বক্স */
-        .mcq-box { background: white; padding: 15px; margin-bottom: 15px; border-radius: 10px; }
-        .option { display: block; padding: 10px; border: 1px solid #eee; margin: 5px 0; border-radius: 8px; }
-        .option input { margin-right: 10px; }
+        .exam-info h4 { font-size: 1rem; color: #333; }
+        .exam-info span { font-size: 0.8rem; background: #eef2ff; color: var(--primary); padding: 4px 10px; border-radius: 20px; font-weight: 500; }
+        .start-btn { padding: 8px 20px; font-size: 0.85rem; background: linear-gradient(to right, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 50px; cursor: pointer; }
 
-        /* বটম ন্যাভিগেশন */
-        .bottom-nav { 
-            position: fixed; bottom: 0; left: 0; width: 100%; background: white; 
-            display: flex; justify-content: space-around; padding: 10px 0; 
-            border-top: 1px solid #eee; z-index: 1000;
+        /* Admin Styles */
+        .admin-tab-btns { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .tab-btn { white-space: nowrap; padding: 8px 15px; border-radius: 8px; border: 1px solid #ddd; background: transparent; cursor: pointer; }
+        .tab-btn.active { background: var(--text); color: white; border-color: var(--text); }
+        .user-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .user-info small { color: #888; display: block; }
+        .ban-btn { background: #ffebeb; color: var(--accent); border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: white;
+            display: flex; justify-content: space-around; padding: 12px 0;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000;
+            border-top-left-radius: 20px; border-top-right-radius: 20px;
         }
-        .nav-item { text-align: center; color: #aaa; font-size: 0.8rem; cursor: pointer; }
-        .nav-item i { font-size: 1.4rem; display: block; margin-bottom: 2px; }
-        .nav-item.active { color: var(--primary); }
+        .nav-item { text-align: center; color: #b2bec3; font-size: 0.75rem; cursor: pointer; transition: 0.3s; }
+        .nav-item i { font-size: 1.3rem; display: block; margin-bottom: 4px; }
+        .nav-item.active { color: var(--primary); transform: translateY(-3px); }
+
+        /* MCQ Interface */
+        .mcq-container { padding-bottom: 100px; }
+        .mcq-box { background: white; padding: 20px; margin-bottom: 20px; border-radius: 15px; box-shadow: var(--shadow); }
+        .mcq-question { font-weight: 600; font-size: 1rem; margin-bottom: 15px; line-height: 1.5; }
+        .option-label {
+            display: flex; align-items: center; padding: 12px; border: 2px solid #f0f0f0;
+            margin-bottom: 10px; border-radius: 10px; cursor: pointer; transition: 0.2s;
+        }
+        .option-label:hover, .option-label:has(input:checked) { border-color: var(--primary); background: #eef2ff; }
+        .option-label input { margin-right: 12px; accent-color: var(--primary); transform: scale(1.2); }
+        .timer-badge { position: fixed; top: 70px; right: 20px; background: var(--accent); color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; z-index: 90; box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4); }
+
     </style>
 </head>
 <body>
 
     <div id="loader">
         <div class="spinner"></div>
-        <p style="margin-top:10px">লোডিং...</p>
     </div>
 
     <section id="auth-screen" class="screen">
-        <div class="auth-box">
-            <h2 style="color:var(--primary); margin-bottom:10px;">ExamPro</h2>
-            <div class="input-group">
-                <input type="email" id="email" placeholder="ইমেইল">
+        <div class="auth-container">
+            <div class="auth-card">
+                <h2>ExamPro</h2>
+                <p>Login to start your journey</p>
+                
+                <div class="input-box">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" placeholder="Email Address">
+                </div>
+                <div class="input-box">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="pass" placeholder="Password">
+                </div>
+
+                <button onclick="handleLogin()" class="btn btn-primary">Log In</button>
+                <button onclick="handleSignup()" class="btn" style="background:#eee; color:#333">Create Account</button>
+                
+                <div class="divider">OR</div>
+                
+                <button onclick="handleGoogleLogin()" class="btn btn-google">
+                    <img src="https://img.icons8.com/color/24/000000/google-logo.png"/> Continue with Google
+                </button>
             </div>
-            <div class="input-group">
-                <input type="password" id="password" placeholder="পাসওয়ার্ড">
-            </div>
-            <button onclick="doLogin()" class="btn btn-primary">লগ ইন</button>
-            <button onclick="doSignup()" class="btn btn-outline">নতুন অ্যাকাউন্ট</button>
         </div>
     </section>
 
     <section id="app-screen" class="screen">
         <header>
             <div class="logo">ExamPro</div>
-            <i onclick="doLogout()" class="fas fa-power-off" style="color:var(--danger); font-size:1.2rem;"></i>
+            <div style="display:flex; gap:15px; align-items:center;">
+                <span id="header-user" style="font-size:0.8rem; font-weight:600; color:#555;"></span>
+                <i onclick="handleLogout()" class="fas fa-sign-out-alt" style="color:var(--accent); font-size:1.2rem; cursor:pointer;"></i>
+            </div>
         </header>
 
         <div id="main-content" class="container">
@@ -96,23 +165,23 @@
 
         <nav class="bottom-nav">
             <div class="nav-item active" onclick="renderHome()">
-                <i class="fas fa-home"></i> <span>হোম</span>
+                <i class="fas fa-home"></i> <span>Home</span>
             </div>
             <div class="nav-item" onclick="renderProfile()">
-                <i class="fas fa-user"></i> <span>প্রোফাইল</span>
+                <i class="fas fa-user-circle"></i> <span>Profile</span>
             </div>
-            <div class="nav-item" id="admin-btn" style="display:none;" onclick="renderAdmin()">
-                <i class="fas fa-shield-alt"></i> <span>অ্যাডমিন</span>
+            <div class="nav-item" id="admin-nav" style="display:none;" onclick="renderAdmin()">
+                <i class="fas fa-shield-alt"></i> <span>Admin</span>
             </div>
         </nav>
     </section>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // --- কনফিগারেশন ---
+        // --- ফায়ারবেস কনফিগারেশন ---
         const firebaseConfig = {
             apiKey: "AIzaSyBW0-UiTB83ikUOztrT6ECAkOlnzxykKYQ",
             authDomain: "mcq-exam-b150e.firebaseapp.com",
@@ -124,252 +193,402 @@
         };
         const ADMIN_EMAIL = "mdwld2005@gmail.com";
 
-        // --- অ্যাপ শুরু ---
+        // অ্যাপ ইনিশিয়ালাইজ
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        
-        let currentUserData = null;
-        let currentQuestions = [];
+        const googleProvider = new GoogleAuthProvider();
+
+        let currentUser = null;
         let timerInterval;
 
-        // --- গ্লোবাল ফাংশন সেটআপ (HTML থেকে কল করার জন্য) ---
-        window.doLogin = async () => {
-            const e = document.getElementById('email').value;
-            const p = document.getElementById('password').value;
-            try { await signInWithEmailAndPassword(auth, e, p); } 
-            catch(err) { alert(err.message); }
+        // --- AUTH ACTIONS (গ্লোবাল) ---
+        window.handleLogin = async () => {
+            try {
+                toggleLoader(true);
+                const e = document.getElementById('email').value;
+                const p = document.getElementById('pass').value;
+                await signInWithEmailAndPassword(auth, e, p);
+            } catch(e) { alert(e.message); toggleLoader(false); }
         };
 
-        window.doSignup = async () => {
-            const e = document.getElementById('email').value;
-            const p = document.getElementById('password').value;
-            try { 
+        window.handleSignup = async () => {
+            try {
+                toggleLoader(true);
+                const e = document.getElementById('email').value;
+                const p = document.getElementById('pass').value;
                 const res = await createUserWithEmailAndPassword(auth, e, p);
-                await setDoc(doc(db, "users", res.user.uid), {
-                    email: e, role: e === ADMIN_EMAIL ? 'admin' : 'student'
-                });
-                alert("অ্যাকাউন্ট তৈরি হয়েছে!");
-            } catch(err) { alert(err.message); }
+                await saveUser(res.user);
+                alert("Account Created!");
+            } catch(e) { alert(e.message); toggleLoader(false); }
         };
 
-        window.doLogout = () => signOut(auth).then(()=> location.reload());
+        window.handleGoogleLogin = async () => {
+            try {
+                const res = await signInWithPopup(auth, googleProvider);
+                await saveUser(res.user);
+            } catch(e) { alert(e.message); }
+        };
 
-        // --- অথ চেকার ---
+        window.handleLogout = () => signOut(auth).then(()=>location.reload());
+
+        async function saveUser(user) {
+            const ref = doc(db, "users", user.uid);
+            const snap = await getDoc(ref);
+            if(!snap.exists()) {
+                await setDoc(ref, {
+                    email: user.email,
+                    name: user.displayName || user.email.split('@')[0],
+                    role: user.email === ADMIN_EMAIL ? 'admin' : 'student',
+                    joined: new Date().toLocaleDateString()
+                });
+            }
+        }
+
+        // --- AUTH STATE OBSERVER ---
         onAuthStateChanged(auth, async (user) => {
             if(user) {
-                // ইউজার ডাটা আনা
+                // ইউজার ডাটা এবং রোল চেক
                 const snap = await getDoc(doc(db, "users", user.uid));
-                currentUserData = snap.exists() ? snap.data() : { role: 'student' };
-                
-                // স্ক্রিন পরিবর্তন
+                if(snap.exists()) {
+                    currentUser = { uid: user.uid, ...snap.data() };
+                } else {
+                    currentUser = { uid: user.uid, email: user.email, role: 'student', name: 'User' };
+                }
+
+                // UI আপডেট
                 document.getElementById('auth-screen').classList.remove('active-screen');
                 document.getElementById('app-screen').classList.add('active-screen');
-                
-                // অ্যাডমিন বাটন চেক
-                if(user.email === ADMIN_EMAIL || currentUserData.role === 'admin') {
-                    document.getElementById('admin-btn').style.display = 'block';
+                document.getElementById('header-user').innerText = currentUser.name;
+
+                if(currentUser.role === 'admin') {
+                    document.getElementById('admin-nav').style.display = 'block';
                 }
-                
-                renderHome(); // ডিফল্ট পেজ
+
+                renderHome();
             } else {
                 document.getElementById('app-screen').classList.remove('active-screen');
                 document.getElementById('auth-screen').classList.add('active-screen');
             }
-            document.getElementById('loader').style.display = 'none';
+            toggleLoader(false);
         });
 
-        // --- ১. হোম পেজ রেন্ডার ---
+        // --- HOME PAGE ---
         window.renderHome = async () => {
             updateNav(0);
-            const container = document.getElementById('main-content');
-            container.innerHTML = '<h3>এক্সাম তালিকা</h3><div id="list">লোডিং...</div>';
-            
+            const div = document.getElementById('main-content');
+            div.innerHTML = `
+                <div class="card" style="background:linear-gradient(135deg, #6C63FF, #8f94fb); color:white;">
+                    <h3>Welcome Back, ${currentUser.name}! 👋</h3>
+                    <p style="opacity:0.9; margin-top:5px;">Ready to test your skills today?</p>
+                </div>
+                <div class="section-title">Available Exams</div>
+                <div id="exam-list">Loading...</div>
+            `;
+
             const snap = await getDocs(collection(db, "exams"));
-            const list = document.getElementById('list');
+            const list = document.getElementById('exam-list');
             list.innerHTML = '';
-            
-            if(snap.empty) list.innerHTML = '<p>কোনো এক্সাম নেই</p>';
-            
+
+            if(snap.empty) list.innerHTML = '<p style="text-align:center; color:#999">No exams available.</p>';
+
             snap.forEach(d => {
                 const data = d.data();
-                const div = document.createElement('div');
-                div.className = 'card exam-item';
-                div.innerHTML = `
-                    <div>
+                const item = document.createElement('div');
+                item.className = 'card exam-item';
+                item.innerHTML = `
+                    <div class="exam-info">
                         <h4>${data.title}</h4>
-                        <small>${data.time} মিনিট</small>
+                        <span>${data.time} Min</span>
                     </div>
-                    <button class="btn btn-primary" style="width:auto; padding:5px 15px;" 
-                        onclick="startExam('${d.id}', '${data.title}', ${data.time})">Start</button>
+                    <button class="start-btn" onclick="startExam('${d.id}', '${data.title}', ${data.time})">Start</button>
                 `;
-                list.appendChild(div);
+                list.appendChild(item);
             });
         };
 
-        // --- ২. প্রোফাইল পেজ রেন্ডার ---
-        window.renderProfile = async () => {
-            updateNav(1);
-            const user = auth.currentUser;
-            const container = document.getElementById('main-content');
-            container.innerHTML = `
-                <div class="card" style="text-align:center">
-                    <h3>${user.email}</h3>
-                    <p>রোল: ${currentUserData.role}</p>
-                </div>
-                <h3>অতীত ফলাফল</h3>
-                <div id="history">লোডিং...</div>
-            `;
-            
-            const q = query(collection(db, "results"), where("userId", "==", user.uid));
-            const snap = await getDocs(q);
-            const hist = document.getElementById('history');
-            hist.innerHTML = '';
-            
-            if(snap.empty) hist.innerHTML = '<p>কোনো পরীক্ষা দেননি</p>';
-            
-            snap.forEach(d => {
-                const data = d.data();
-                hist.innerHTML += `
-                    <div class="card" style="display:flex; justify-content:space-between">
-                        <span>${data.examName}</span>
-                        <b style="color:var(--primary)">${data.score}/${data.total}</b>
-                    </div>`;
-            });
-        };
-
-        // --- ৩. অ্যাডমিন পেজ রেন্ডার ---
-        window.renderAdmin = async () => {
-            updateNav(2);
-            const container = document.getElementById('main-content');
-            container.innerHTML = `
-                <div class="card">
-                    <h3>নতুন এক্সাম</h3>
-                    <input id="ex-title" placeholder="নাম" style="width:100%; margin:5px 0; padding:10px;">
-                    <input id="ex-time" type="number" placeholder="সময় (মিনিট)" style="width:100%; margin:5px 0; padding:10px;">
-                    <button onclick="createExam()" class="btn btn-primary">তৈরি করুন</button>
-                </div>
-                <div class="card">
-                    <h3>প্রশ্ন যোগ করুন (JSON)</h3>
-                    <select id="ex-select" style="width:100%; padding:10px; margin-bottom:10px;"></select>
-                    <textarea id="json-in" rows="5" style="width:100%; border:1px solid #ddd;" placeholder='[{"q":"...","options":["..."],"correct":1}]'></textarea>
-                    <button onclick="uploadJson()" class="btn btn-primary">আপলোড</button>
-                </div>
-                <button onclick="deleteAllQ()" class="btn btn-outline" style="color:red; border-color:red">সব প্রশ্ন ডিলিট করুন</button>
-            `;
-            
-            // ড্রপডাউন লোড
-            const sel = document.getElementById('ex-select');
-            const snap = await getDocs(collection(db, "exams"));
-            snap.forEach(d => {
-                sel.innerHTML += `<option value="${d.id}">${d.data().title}</option>`;
-            });
-        };
-
-        // --- এক্সাম লজিক ---
+        // --- EXAM LOGIC ---
         window.startExam = async (id, title, time) => {
-            const container = document.getElementById('main-content');
-            container.innerHTML = `<div style="position:sticky; top:60px; background:var(--light); padding:10px; z-index:90; display:flex; justify-content:space-between">
-                <h3>${title}</h3> <h3 id="timer" style="color:red">00:00</h3>
-            </div><div id="q-area">লোডিং...</div>`;
+            const div = document.getElementById('main-content');
+            div.innerHTML = `<div class="timer-badge" id="timer">00:00</div><div id="q-container" class="mcq-container">Loading Questions...</div>`;
             
             const q = query(collection(db, "questions"), where("examId", "==", id));
             const snap = await getDocs(q);
-            const area = document.getElementById('q-area');
-            area.innerHTML = '';
-            currentQuestions = [];
+            const container = document.getElementById('q-container');
+            container.innerHTML = `<h3 style="margin-bottom:20px;">${title}</h3>`;
             
-            if(snap.empty) { area.innerHTML = 'প্রশ্ন নেই'; return; }
+            if(snap.empty) { container.innerHTML = "No questions found."; return; }
 
+            let questions = [];
             let i = 1;
-            snap.forEach(d => {
-                const data = d.data();
-                currentQuestions.push({id: d.id, ...data});
-                area.innerHTML += `
+            snap.forEach(doc => {
+                const data = doc.data();
+                questions.push({id: doc.id, ...data});
+                container.innerHTML += `
                     <div class="mcq-box">
-                        <p><b>${i++}. ${data.question}</b></p>
-                        ${data.options.map((o, idx) => `
-                            <label class="option">
-                                <input type="radio" name="${d.id}" value="${idx+1}"> ${o}
+                        <div class="mcq-question">${i++}. ${data.question}</div>
+                        ${data.options.map((opt, idx) => `
+                            <label class="option-label">
+                                <input type="radio" name="${doc.id}" value="${idx+1}">
+                                <span>${opt}</span>
                             </label>
                         `).join('')}
-                    </div>`;
+                    </div>
+                `;
             });
-            area.innerHTML += `<button onclick="submitExam('${title}')" class="btn btn-primary" style="margin-bottom:80px">জমা দিন</button>`;
 
-            // টাইমার
-            let left = time * 60;
+            container.innerHTML += `<button onclick="submitExam('${title}')" class="btn btn-primary" style="margin-top:20px;">Submit Exam</button>`;
+            window.currentQuestions = questions;
+
+            // Timer
+            let timeLeft = time * 60;
             if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
-                const m = Math.floor(left/60);
-                const s = left%60;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
                 document.getElementById('timer').innerText = `${m}:${s<10?'0'+s:s}`;
-                left--;
-                if(left < 0) {
+                timeLeft--;
+                if(timeLeft < 0) {
                     clearInterval(timerInterval);
-                    alert("সময় শেষ!");
+                    alert("Time Up!");
                     submitExam(title);
                 }
             }, 1000);
         };
 
-        window.submitExam = async (examTitle) => {
+        window.submitExam = async (title) => {
             clearInterval(timerInterval);
+            toggleLoader(true);
             let score = 0;
-            currentQuestions.forEach(q => {
+            window.currentQuestions.forEach(q => {
                 const sel = document.querySelector(`input[name="${q.id}"]:checked`);
                 if(sel && parseInt(sel.value) == q.correct) score++;
             });
-            
+
             await addDoc(collection(db, "results"), {
-                userId: auth.currentUser.uid,
-                examName: examTitle,
+                userId: currentUser.uid,
+                exam: title,
                 score: score,
-                total: currentQuestions.length,
+                total: window.currentQuestions.length,
                 date: new Date().toLocaleDateString()
             });
-            
-            alert(`আপনার স্কোর: ${score}/${currentQuestions.length}`);
+
+            alert(`You scored: ${score}/${window.currentQuestions.length}`);
             renderProfile();
+            toggleLoader(false);
         };
 
-        // --- অ্যাডমিন অ্যাকশন ---
+        // --- PROFILE ---
+        window.renderProfile = async () => {
+            updateNav(1);
+            const div = document.getElementById('main-content');
+            div.innerHTML = `
+                <div class="card" style="text-align:center;">
+                    <div style="width:80px; height:80px; background:#eee; border-radius:50%; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:2rem; color:#aaa;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>${currentUser.name}</h3>
+                    <p style="color:#888">${currentUser.email}</p>
+                    <span style="background:#eef2ff; color:var(--primary); padding:3px 10px; border-radius:10px; font-size:0.8rem;">${currentUser.role.toUpperCase()}</span>
+                </div>
+                <div class="section-title">Exam History</div>
+                <div id="history">Loading...</div>
+            `;
+
+            const q = query(collection(db, "results"), where("userId", "==", currentUser.uid));
+            const snap = await getDocs(q);
+            const hist = document.getElementById('history');
+            hist.innerHTML = '';
+            
+            if(snap.empty) hist.innerHTML = '<p style="text-align:center; color:#999">No history found.</p>';
+
+            snap.forEach(d => {
+                const data = d.data();
+                hist.innerHTML += `
+                    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <h4 style="font-size:0.95rem;">${data.exam}</h4>
+                            <small>${data.date}</small>
+                        </div>
+                        <h3 style="color:var(--primary)">${data.score}/${data.total}</h3>
+                    </div>
+                `;
+            });
+        };
+
+        // --- ADMIN PANEL ---
+        window.renderAdmin = () => {
+            updateNav(2);
+            const div = document.getElementById('main-content');
+            div.innerHTML = `
+                <div class="admin-tab-btns">
+                    <button class="tab-btn active" onclick="switchTab('create')">Create Exam</button>
+                    <button class="tab-btn" onclick="switchTab('users')">Manage Users</button>
+                    <button class="tab-btn" onclick="switchTab('mcq')">Add MCQ</button>
+                </div>
+
+                <div id="tab-create" class="admin-tab">
+                    <div class="card">
+                        <h3>Create New Exam</h3>
+                        <input id="new-title" class="input-box" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ddd; border-radius:8px;" placeholder="Exam Title">
+                        <input id="new-time" type="number" class="input-box" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ddd; border-radius:8px;" placeholder="Time (Minutes)">
+                        <button onclick="createExam()" class="btn btn-primary">Create</button>
+                    </div>
+                </div>
+
+                <div id="tab-users" class="admin-tab" style="display:none;">
+                    <div class="card">
+                        <h3>All Users</h3>
+                        <div id="user-list">Loading...</div>
+                    </div>
+                </div>
+
+                <div id="tab-mcq" class="admin-tab" style="display:none;">
+                    <div class="card">
+                        <h3>Add Questions</h3>
+                        <select id="exam-select" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;"></select>
+                        
+                        <div style="margin-top:15px; border-top:1px solid #eee; padding-top:10px;">
+                            <label style="font-size:0.9rem; font-weight:bold;">Method 1: Manual</label>
+                            <input id="q-text" placeholder="Question" style="width:100%; padding:8px; margin:5px 0; border:1px solid #ddd; border-radius:5px;">
+                            <input id="op1" placeholder="Option 1" style="width:48%; padding:8px; margin:5px 0; border:1px solid #ddd; border-radius:5px;">
+                            <input id="op2" placeholder="Option 2" style="width:48%; padding:8px; margin:5px 0; border:1px solid #ddd; border-radius:5px;">
+                            <input id="op3" placeholder="Option 3" style="width:48%; padding:8px; margin:5px 0; border:1px solid #ddd; border-radius:5px;">
+                            <input id="op4" placeholder="Option 4" style="width:48%; padding:8px; margin:5px 0; border:1px solid #ddd; border-radius:5px;">
+                            <input id="correct" type="number" placeholder="Correct (1-4)" style="width:100%; padding:8px; margin:5px 0; border:1px solid #ddd; border-radius:5px;">
+                            <button onclick="addSingleMCQ()" class="btn btn-primary" style="padding:10px; font-size:0.9rem;">Add Question</button>
+                        </div>
+
+                        <div style="margin-top:20px; border-top:1px solid #eee; padding-top:10px;">
+                            <label style="font-size:0.9rem; font-weight:bold;">Method 2: JSON Bulk</label>
+                            <textarea id="json-in" rows="5" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; margin-top:5px;" placeholder='[{"q":"...","options":["A","B","C","D"],"correct":1}]'></textarea>
+                            <button onclick="uploadJson()" class="btn btn-primary" style="padding:10px; font-size:0.9rem;">Upload JSON</button>
+                            <button onclick="sampleJson()" class="btn" style="background:#eee; font-size:0.8rem; padding:5px;">Copy Sample</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            loadAdminData();
+        };
+
+        // Admin Helpers
+        window.switchTab = (id) => {
+            document.querySelectorAll('.admin-tab').forEach(t => t.style.display = 'none');
+            document.getElementById('tab-'+id).style.display = 'block';
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            if(id === 'users') loadUsers();
+        };
+
         window.createExam = async () => {
-            const t = document.getElementById('ex-title').value;
-            const time = document.getElementById('ex-time').value;
+            const t = document.getElementById('new-title').value;
+            const time = document.getElementById('new-time').value;
             if(t && time) {
                 await addDoc(collection(db, "exams"), { title: t, time: parseInt(time) });
-                alert("তৈরি হয়েছে!"); renderAdmin();
+                alert("Exam Created!"); loadAdminData();
             }
+        };
+
+        async function loadUsers() {
+            const list = document.getElementById('user-list');
+            const snap = await getDocs(collection(db, "users"));
+            list.innerHTML = '';
+            snap.forEach(d => {
+                const u = d.data();
+                if(d.id !== currentUser.uid) { // Don't show self
+                    list.innerHTML += `
+                        <div class="user-row">
+                            <div class="user-info">
+                                <strong>${u.name}</strong>
+                                <small>${u.email} (${u.role})</small>
+                            </div>
+                            <button onclick="deleteUser('${d.id}')" class="ban-btn">Delete</button>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        window.deleteUser = async (id) => {
+            if(confirm("Are you sure? This user will lose access.")) {
+                await deleteDoc(doc(db, "users", id));
+                loadUsers();
+            }
+        };
+
+        // MCQ Functions
+        async function loadAdminData() {
+            const sel = document.getElementById('exam-select');
+            if(sel) {
+                sel.innerHTML = '';
+                const snap = await getDocs(collection(db, "exams"));
+                snap.forEach(d => {
+                    sel.innerHTML += `<option value="${d.id}">${d.data().title}</option>`;
+                });
+            }
+        }
+
+        window.addSingleMCQ = async () => {
+            const eid = document.getElementById('exam-select').value;
+            const q = document.getElementById('q-text').value;
+            const ops = [
+                document.getElementById('op1').value,
+                document.getElementById('op2').value,
+                document.getElementById('op3').value,
+                document.getElementById('op4').value
+            ];
+            const cor = document.getElementById('correct').value;
+
+            if(eid && q && cor) {
+                await addDoc(collection(db, "questions"), {
+                    examId: eid, question: q, options: ops, correct: parseInt(cor)
+                });
+                alert("Question Added!");
+                // Clear inputs
+                document.getElementById('q-text').value = '';
+            } else { alert("Fill all fields"); }
         };
 
         window.uploadJson = async () => {
-            const eid = document.getElementById('ex-select').value;
+            const eid = document.getElementById('exam-select').value;
             const txt = document.getElementById('json-in').value;
             try {
                 const data = JSON.parse(txt);
+                let count = 0;
                 for(const q of data) {
-                    await addDoc(collection(db, "questions"), { examId: eid, ...q });
+                    await addDoc(collection(db, "questions"), {
+                        examId: eid, question: q.q, options: q.options, correct: q.correct
+                    });
+                    count++;
                 }
-                alert("আপলোড সম্পন্ন!");
-            } catch(e) { alert("JSON ভুল: " + e.message); }
+                alert(`${count} Questions Uploaded!`);
+            } catch(e) { alert("Invalid JSON"); }
         };
 
-        window.deleteAllQ = async () => {
-            if(confirm("সব প্রশ্ন মুছতে চান?")) {
-                const snap = await getDocs(collection(db, "questions"));
-                snap.forEach(d => deleteDoc(d.ref));
-                alert("মুছে ফেলা হয়েছে");
-            }
+        window.sampleJson = () => {
+            document.getElementById('json-in').value = `[
+  {
+    "q": "What is 2+2?",
+    "options": ["3", "4", "5", "6"],
+    "correct": 2
+  }
+]`;
         };
 
-        // --- ইউটিলিটি ---
+        // --- UTILS ---
         function updateNav(idx) {
             document.querySelectorAll('.nav-item').forEach((n, i) => {
                 if(i === idx) n.classList.add('active');
                 else n.classList.remove('active');
             });
         }
+        function toggleLoader(show) {
+            document.getElementById('loader').style.opacity = show ? '1' : '0';
+            setTimeout(() => {
+                document.getElementById('loader').style.display = show ? 'flex' : 'none';
+            }, 500);
+        }
+
     </script>
 </body>
 </html>
