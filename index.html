@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ExamPro</title>
+    <title>ExamPro </title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
@@ -11,7 +11,7 @@
         /* --- CSS VARIABLES --- */
         :root {
             --primary: #6C63FF;
-            --primary-dark: #5a52d5;
+            --primary-dark: #5a52d5; 
             --primary-light: #6c63ff26;
             --bg: #F4F7F6;
             --card-bg: #ffffff;
@@ -26,8 +26,6 @@
             --warning: #ffa502;
             --live-color: #ff3838;
             --medium: #f39c12;
-            --teacher-color: #3498db;
-            --owner-color: #9b59b6;
         }
 
         .dark-mode {
@@ -42,19 +40,19 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Hind Siliguri', sans-serif; }
-        body {
-            background: var(--bg); color: var(--text); padding-bottom: 90px;
-            transition: background 0.3s, color 0.3s;
-            -webkit-tap-highlight-color: transparent;
+        body { 
+            background: var(--bg); color: var(--text); padding-bottom: 90px; 
+            transition: background 0.3s, color 0.3s; 
+            -webkit-tap-highlight-color: transparent; 
             overscroll-behavior-y: contain;
         }
-
+        
         /* UTILS */
         .screen { display: none; min-height: 100vh; animation: fadeIn 0.4s ease; }
         .active-screen { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
+        
         /* SPLASH SCREEN STYLES */
         #splash-screen {
             position: fixed; inset: 0; background: var(--bg); z-index: 99999;
@@ -83,8 +81,8 @@
 
         /* NETWORK STATUS POPUP */
         #network-status {
-            position: fixed; top: 0; left: 0; width: 100%;
-            background: var(--danger); color: white; text-align: center;
+            position: fixed; top: 0; left: 0; width: 100%; 
+            background: var(--danger); color: white; text-align: center; 
             padding: 12px; z-index: 100000; display: none;
             font-weight: 600; box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
@@ -96,7 +94,7 @@
             outline: none; transition: 0.3s;
         }
         input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15); }
-
+        
         /* BUTTONS */
         .btn { width: 100%; padding: 15px; border: none; border-radius: 15px; font-weight: 600; cursor: pointer; font-size: 1rem; margin-top: 5px; transition: 0.2s; }
         .btn-primary { background: var(--primary); color: white; box-shadow: 0 8px 20px rgba(0,0,0, 0.2); }
@@ -104,26 +102,24 @@
         .btn-sec { background: var(--border); color: var(--text); }
         .btn-success { background: var(--success); color: white; }
         .btn-warning { background: var(--warning); color: white; }
-        .btn-teacher { background: var(--teacher-color); color: white; }
-        .btn-owner { background: var(--owner-color); color: white; }
         .btn:active { transform: scale(0.98); }
 
         /* HEADER */
-        header {
+        header { 
             background: var(--primary);
             padding: 30px 15px 15px 20px;
             position: sticky; top: 0; z-index: 100;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex; justify-content: space-between; align-items: center; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
             transition: background 0.3s ease;
         }
         .logo { font-size: 1.4rem; font-weight: 800; color: var(--white) !important; }
         #theme-icon { color: var(--white) !important; opacity: 0.9; }
-
+        
         /* CARDS */
         .container { padding: 20px; max-width: 800px; margin: 0 auto; }
         .card { background: var(--card-bg); padding: 20px; border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-
+        
         /* NOTIFICATION SLIDER */
         .news-slider { width: 100%; overflow: hidden; margin-bottom: 15px; display: none; }
         .news-track { display: flex; gap: 10px; animation: slideLeft 15s linear infinite; }
@@ -147,7 +143,7 @@
             100% { box-shadow: 0 0 0 0 rgba(108, 99, 255, 0); }
         }
 
-        /* NOTIFICATION POPUP */
+        /* NOTIFICATION POPUP - UPDATED */
         .notification-popup {
             position: fixed; top: 70px; right: 20px;
             background: var(--card-bg); padding: 15px; border-radius: 15px;
@@ -231,20 +227,11 @@
         .mini-card small { font-size: 0.75rem; color: var(--text-sec); }
         .banned-badge { position: absolute; top: 0; right: 0; background: var(--danger); color: white; font-size: 0.6rem; padding: 2px 8px; border-bottom-left-radius: 10px; }
 
-        /* PROFILE BADGES */
-        .role-badge {
-            display: inline-block; padding: 3px 10px; border-radius: 20px;
-            font-size: 0.7rem; font-weight: 600; margin-left: 5px;
-        }
-        .student-badge { background: linear-gradient(45deg, var(--primary), #8f94fb); color: white; }
-        .teacher-badge { background: linear-gradient(45deg, var(--teacher-color), #3498db); color: white; }
-        .owner-badge { background: linear-gradient(45deg, var(--owner-color), #9b59b6); color: white; }
-
         /* DASHBOARD & ADMIN */
         .dash-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
         .dash-btn { background: var(--card-bg); padding: 20px 10px; border-radius: 18px; text-align: center; box-shadow: var(--shadow); cursor: pointer; border: 1px solid var(--border); }
-
-        .admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+        
+        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .admin-item { background: var(--card-bg); padding: 20px; border-radius: 18px; text-align: center; box-shadow: var(--shadow); cursor: pointer; border-bottom: 4px solid var(--primary); }
         .admin-item i { font-size: 1.8rem; color: var(--primary); margin-bottom: 10px; }
 
@@ -269,40 +256,23 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 56, 56, 0); }
         }
 
-        /* AVATAR SELECTION */
-        .avatar-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 15px 0;
+        /* THEME SLIDER */
+        .theme-slider-container { margin-top: 20px; padding: 10px; background: var(--bg); border-radius: 15px; }
+        input[type=range].thermo { -webkit-appearance: none; width: 100%; margin: 10px 0; background: transparent; }
+        input[type=range].thermo::-webkit-slider-runnable-track {
+            width: 100%; height: 12px; cursor: pointer;
+            background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+            border-radius: 10px; border: 1px solid #ddd;
         }
-        .avatar-option {
-            width: 70px; height: 70px; border-radius: 50%; object-fit: cover;
-            border: 3px solid transparent; cursor: pointer; transition: 0.2s;
+        input[type=range].thermo::-webkit-slider-thumb {
+            height: 25px; width: 25px; border-radius: 50%; background: #ffffff;
+            cursor: pointer; -webkit-appearance: none; margin-top: -7px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3); border: 3px solid var(--text);
         }
-        .avatar-option.selected { border-color: var(--primary); transform: scale(1.05); }
-
-        /* MESSAGE STYLES */
-        .message-card {
-            background: var(--card-bg); padding: 15px; border-radius: 15px;
-            margin-bottom: 10px; border-left: 4px solid var(--primary);
-        }
-        .message-sender { font-weight: 600; color: var(--primary); margin-bottom: 5px; }
-        .message-time { font-size: 0.7rem; color: var(--text-sec); }
-        .message-reply {
-            margin-top: 10px; padding: 10px; background: var(--bg);
-            border-radius: 10px; border-left: 3px solid var(--success);
-        }
-        .message-reply-admin { border-left: 3px solid var(--teacher-color); }
 
         /* NAV */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: var(--card-bg); display: flex; justify-content: space-around;
-            padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-            z-index: 1000; border-top: 1px solid var(--border);
-        }
-        .nav-item {
-            text-align: center; color: #aaa; font-size: 0.7rem; cursor: pointer;
-            flex: 1; display: flex; flex-direction: column; align-items: center;
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; border-top: 1px solid var(--border); }
+        .nav-item { text-align: center; color: #aaa; font-size: 0.7rem; cursor: pointer; }
         .nav-item.active { color: var(--primary); transform: translateY(-3px); }
         .nav-item i { font-size: 1.3rem; margin-bottom: 3px; display: block; }
 
@@ -316,30 +286,40 @@
         #custom-alert.show { display: block; animation: popIn 0.3s forwards; }
         @keyframes popIn { to { transform: translate(-50%, -50%) scale(1); } }
 
-        .modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-            z-index: 2000; display: none; align-items: center; justify-content: center;
-            backdrop-filter: blur(5px); padding: 20px;
-        }
-        .modal-content {
-            background: var(--card-bg); width: 90%; max-width: 450px;
-            padding: 25px; border-radius: 20px; max-height: 85vh;
-            overflow-y: auto; animation: slideUp 0.3s;
-        }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-content { background: var(--card-bg); width: 90%; max-width: 450px; padding: 25px; border-radius: 20px; max-height: 85vh; overflow-y: auto; animation: slideUp 0.3s; }
 
         /* FIXED POPUP CENTER */
         #confirm-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 110000;
-            backdrop-filter: blur(4px); display: none;
-            justify-content: center; align-items: center;
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.6); 
+            z-index: 110000;
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
         }
-        #confirm-modal.active { display: flex !important; }
+
+        #confirm-modal.active {
+            display: flex !important;
+        }
+
         .confirm-box {
-            background: var(--card-bg); width: 90%; max-width: 320px; padding: 25px;
-            border-radius: 20px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            border: 1px solid var(--border); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--card-bg); 
+            width: 90%; 
+            max-width: 320px; 
+            padding: 25px;
+            border-radius: 20px; 
+            text-align: center; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        
         .confirm-icon { font-size: 3rem; color: var(--danger); margin-bottom: 15px; }
         .confirm-btns { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
 
@@ -348,21 +328,20 @@
             position: fixed; top: -50px; left: 50%; transform: translateX(-50%);
             background: var(--card-bg); padding: 10px; border-radius: 50%;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1); z-index: 9999;
-            transition: top 0.3s; display: flex; justify-content: center;
-            align-items: center; width: 40px; height: 40px; color: var(--primary);
+            transition: top 0.3s;
+            display: flex; justify-content: center; align-items: center;
+            width: 40px; height: 40px; color: var(--primary);
         }
 
         /* SMALL SPINNER FOR API */
-        #loader {
-            position: fixed; inset: 0; background: rgba(255,255,255,0.7);
-            z-index: 9999; display: none; justify-content: center;
-            align-items: center; backdrop-filter: blur(2px);
-        }
+        #loader { position: fixed; inset: 0; background: rgba(255,255,255,0.7); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(2px); }
         .spinner { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* SHARE MODAL */
-        .share-options { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .share-options {
+            display: flex; flex-direction: column; gap: 10px; margin-top: 15px;
+        }
         .share-option-btn {
             display: flex; align-items: center; gap: 10px;
             padding: 15px; border-radius: 12px; background: var(--bg);
@@ -372,53 +351,25 @@
             border-color: var(--primary); background: var(--primary-light);
             transform: translateX(5px);
         }
-        .share-option-btn i { font-size: 1.5rem; width: 40px; text-align: center; }
+        .share-option-btn i {
+            font-size: 1.5rem; width: 40px; text-align: center;
+        }
         .telegram-btn { color: #0088cc; }
         .website-btn { color: var(--primary); }
         .app-btn { color: var(--success); }
 
-        /* SUPPORT MESSAGES */
-        .message-container { margin-top: 20px; }
-        .message-input-container {
-            display: flex; gap: 10px; margin-top: 15px;
-        }
-        .message-input-container textarea {
-            flex: 1; margin-bottom: 0;
-        }
-        .message-bubble {
-            max-width: 80%; padding: 10px 15px; border-radius: 15px;
-            margin-bottom: 10px; position: relative;
-        }
-        .message-bubble.sent {
-            background: var(--primary-light); margin-left: auto;
-            border-bottom-right-radius: 5px;
-        }
-        .message-bubble.received {
-            background: var(--bg); margin-right: auto;
-            border-bottom-left-radius: 5px;
-        }
-
-        /* EXAM REVIEW */
-        .review-container { max-height: 60vh; overflow-y: auto; padding-right: 10px; }
-        .review-item {
-            background: var(--bg); padding: 15px; border-radius: 12px;
-            margin-bottom: 10px; border-left: 4px solid var(--primary);
-        }
-        .review-correct { border-left-color: var(--success); }
-        .review-wrong { border-left-color: var(--danger); }
-        .review-skipped { border-left-color: var(--warning); }
     </style>
 </head>
 <body>
 
     <div id="refresh-indicator"><i class="fas fa-sync-alt fa-spin"></i></div>
-
+    
     <!-- Network Status Popup -->
     <div id="network-status">
         <i class="fas fa-wifi-slash"></i> No internet connection. Please check your network.
     </div>
 
-    <!-- Notification Popup -->
+    <!-- Notification Popup - UPDATED -->
     <div class="notification-popup" id="notification-popup">
         <div class="notification-header">
             <h4 style="color: var(--primary); margin:0;">Notifications</h4>
@@ -462,7 +413,7 @@
             <div class="card" style="width:100%; max-width:400px; text-align:center; border:none;">
                 <h1 style="color:var(--primary); font-size:2.5rem; margin-bottom:5px;">ExamPro</h1>
                 <p style="color:var(--text-sec); margin-bottom:30px;">Login to continue</p>
-
+                
                 <div id="login-form">
                     <input type="email" id="l-email" placeholder="Email Address">
                     <input type="password" id="l-pass" placeholder="Password">
@@ -472,10 +423,6 @@
 
                 <div id="signup-form" style="display:none;">
                     <input type="text" id="s-name" placeholder="Full Name">
-                    <select id="s-role">
-                        <option value="student">Student</option>
-                        <option value="teacher">Teacher</option>
-                    </select>
                     <select id="s-gender"><option value="">Select Gender</option><option value="Male">Male</option><option value="Female">Female</option></select>
                     <input type="text" id="s-edu" placeholder="Education (e.g. HSC)">
                     <input type="email" id="s-email" placeholder="Email">
@@ -483,11 +430,9 @@
                     <button onclick="handleSignup()" class="btn btn-primary">Sign Up</button>
                     <p style="margin-top:20px; color:var(--text-sec);">Have account? <b onclick="toggleAuth('login')" style="color:var(--primary); cursor:pointer;">Log In</b></p>
                 </div>
-
+                
                 <div style="margin:20px 0; border-top:1px solid var(--border);"></div>
-                <button onclick="handleGoogle()" class="btn" style="background:white; border:1px solid #ddd; color:#333;">
-                    <i class="fab fa-google" style="color:#EA4335"></i> Continue with Google
-                </button>
+                <button onclick="handleGoogle()" class="btn" style="background:white; border:1px solid #ddd; color:#333;"><i class="fab fa-google" style="color:#EA4335"></i> Continue with Google</button>
             </div>
         </div>
     </section>
@@ -509,7 +454,6 @@
             <div class="nav-item active" onclick="renderHome()"><i class="fas fa-home"></i> <span>Home</span></div>
             <div class="nav-item" onclick="renderLeaderboard()"><i class="fas fa-trophy"></i> <span>Rank</span></div>
             <div class="nav-item" onclick="renderProfile()"><i class="fas fa-user"></i> <span>Profile</span></div>
-            <div class="nav-item" id="support-nav" onclick="renderSupport()"><i class="fas fa-headset"></i> <span>Support</span></div>
             <div class="nav-item" id="admin-nav" style="display:none;" onclick="renderAdmin()"><i class="fas fa-th-large"></i> <span>Admin</span></div>
         </nav>
     </section>
@@ -563,7 +507,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc, onSnapshot, Timestamp, writeBatch, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc, onSnapshot, Timestamp, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // CONFIG
         const firebaseConfig = {
@@ -575,7 +519,7 @@
             appId: "1:751727102033:web:35995f15619e300872d070",
             measurementId: "G-9NS51NRGER"
         };
-
+        
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -587,28 +531,9 @@
         let allNotifications = [];
         let unreadNotifications = 0;
 
-        // AVATAR IMAGES - Multiple options
-        const MALE_AVATARS = [
-            "https://cdn-icons-png.flaticon.com/512/4825/4825038.png",
-            "https://cdn-icons-png.flaticon.com/512/4825/4825039.png",
-            "https://cdn-icons-png.flaticon.com/512/4825/4825040.png",
-            "https://cdn-icons-png.flaticon.com/512/4825/4825041.png",
-            "https://cdn-icons-png.flaticon.com/512/4825/4825042.png",
-            "https://cdn-icons-png.flaticon.com/512/4825/4825043.png"
-        ];
-
-        const FEMALE_AVATARS = [
-            "https://cdn-icons-png.flaticon.com/512/4825/4825112.png",
-            "https://cdn-icons-png.flaticon.com/512/4825/4825113.png",
-            "https://cdn-icons-png.flaticon.com/512/4825/4825114.png",
-            "https://cdn-icons-png.flaticon.com/512/4825/4825115.png",
-            "https://cdn-icons-png.flaticon.com/512/4825/4825116.png",
-            "https://cdn-icons-png.flaticon.com/512/4825/4825117.png"
-        ];
-
-        // DEFAULT AVATARS
-        const DEFAULT_MALE_AVATAR = MALE_AVATARS[0];
-        const DEFAULT_FEMALE_AVATAR = FEMALE_AVATARS[0];
+        // AVATAR IMAGES
+        const AVATAR_MALE = "https://cdn-icons-png.flaticon.com/512/4825/4825038.png";
+        const AVATAR_FEMALE = "https://cdn-icons-png.flaticon.com/512/4825/4825112.png";
 
         // SHARE LINKS DEFAULT
         let shareLinks = {
@@ -644,7 +569,7 @@
         let touchStart = 0;
         let touchEnd = 0;
         const refInd = document.getElementById('refresh-indicator');
-
+        
         window.addEventListener('touchstart', e => {
             if(window.scrollY === 0) touchStart = e.changedTouches[0].screenY;
         }, {passive: true});
@@ -653,7 +578,7 @@
             if(window.scrollY === 0 && touchStart > 0) {
                 touchEnd = e.changedTouches[0].screenY;
                 if(touchEnd > touchStart) {
-                    const pull = Math.min((touchEnd - touchStart) * 0.4, 80);
+                    const pull = Math.min((touchEnd - touchStart) * 0.4, 80); 
                     refInd.style.top = `${pull}px`;
                 }
             }
@@ -662,11 +587,11 @@
         window.addEventListener('touchend', e => {
             if(window.scrollY === 0 && touchStart > 0) {
                 touchEnd = e.changedTouches[0].screenY;
-                if(touchEnd - touchStart > 120) {
+                if(touchEnd - touchStart > 120) { 
                     refInd.style.top = '20px';
                     setTimeout(() => location.reload(), 300);
                 } else {
-                    refInd.style.top = '-50px';
+                    refInd.style.top = '-50px'; 
                 }
             }
             touchStart = 0;
@@ -677,7 +602,7 @@
         window.customConfirm = (msg) => {
             const m = document.getElementById('confirm-modal');
             document.getElementById('conf-msg').innerText = msg;
-            m.classList.add('active');
+            m.classList.add('active'); 
             return new Promise((resolve) => {
                 confirmResolver = resolve;
             });
@@ -720,10 +645,10 @@
             if (shareLinksSnap.exists()) {
                 shareLinks = shareLinksSnap.data();
             }
-
+            
             let shareUrl = "";
             let platformName = "";
-
+            
             switch(platform) {
                 case 'telegram':
                     shareUrl = shareLinks.telegram || "https://t.me/your_bot";
@@ -738,9 +663,9 @@
                     platformName = "App";
                     break;
             }
-
+            
             const shareText = `Hey! Check out ExamPro - the best exam preparation app! Join me using this ${platformName} link: ${shareUrl}`;
-
+            
             if (navigator.share) {
                 try {
                     await navigator.share({
@@ -755,7 +680,7 @@
             } else {
                 copyToClipboard(shareText);
             }
-
+            
             closeShareModal();
         }
 
@@ -775,7 +700,7 @@
         function showNotificationPopup(title, message) {
             const popup = document.getElementById('notification-popup');
             popup.style.display = 'block';
-
+            
             // Auto hide after 5 seconds
             setTimeout(() => {
                 popup.style.display = 'none';
@@ -799,7 +724,7 @@
         async function loadNotifications() {
             const q = query(collection(db, "notifications"), where("userId", "==", currentUser.uid));
             const snap = await getDocs(q);
-
+            
             allNotifications = [];
             unreadNotifications = 0;
             snap.forEach(doc => {
@@ -807,10 +732,10 @@
                 allNotifications.push(notif);
                 if(!notif.read) unreadNotifications++;
             });
-
+            
             // Sort by timestamp (newest first)
             allNotifications.sort((a, b) => b.timestamp?.toMillis() - a.timestamp?.toMillis());
-
+            
             updateNotificationUI();
         }
 
@@ -818,7 +743,7 @@
             const list = document.getElementById('notification-list');
             const countElem = document.getElementById('notification-count');
             const clearAllBtn = document.getElementById('clear-all-btn');
-
+            
             if(allNotifications.length === 0) {
                 list.innerHTML = '<p style="text-align:center; color:var(--text-sec); padding:10px;">No notifications</p>';
                 clearAllBtn.style.display = 'none';
@@ -848,7 +773,7 @@
                 list.innerHTML = html;
                 clearAllBtn.style.display = 'block';
             }
-
+            
             // Update notification count badge
             if(unreadNotifications > 0) {
                 countElem.textContent = unreadNotifications > 9 ? '9+' : unreadNotifications;
@@ -868,13 +793,13 @@
             if(await customConfirm("Clear all notifications?")) {
                 const q = query(collection(db, "notifications"), where("userId", "==", currentUser.uid));
                 const snap = await getDocs(q);
-
+                
                 const batch = writeBatch(db);
                 snap.forEach(doc => {
                     batch.delete(doc.ref);
                 });
                 await batch.commit();
-
+                
                 loadNotifications();
                 showMsg("All notifications cleared!");
             }
@@ -886,7 +811,6 @@
                 case 'routine': return 'fa-calendar';
                 case 'note': return 'fa-book';
                 case 'broadcast': return 'fa-bullhorn';
-                case 'message': return 'fa-comment';
                 default: return 'fa-bell';
             }
         }
@@ -894,7 +818,7 @@
         function formatTime(timestamp) {
             const now = Date.now();
             const diff = now - timestamp;
-
+            
             if(diff < 60000) return 'Just now';
             if(diff < 3600000) return `${Math.floor(diff/60000)} min ago`;
             if(diff < 86400000) return `${Math.floor(diff/3600000)} hour ago`;
@@ -917,162 +841,30 @@
             });
         }
 
-        // --- MESSAGE/SUPPORT FUNCTIONS ---
-        async function sendMessageToAdmin(message) {
-            await addDoc(collection(db, "messages"), {
-                userId: currentUser.uid,
-                userName: currentUser.name,
-                userEmail: currentUser.email,
-                message: message,
-                timestamp: Timestamp.now(),
-                replied: false,
-                replyMessage: "",
-                repliedBy: "",
-                repliedAt: null
-            });
-
-            // Send notification to all admins
-            const adminsSnap = await getDocs(query(collection(db, "users"), where("role", "in", ["admin", "owner"])));
-            adminsSnap.forEach(async (adminDoc) => {
-                await sendNotification(
-                    adminDoc.id,
-                    "New Support Message",
-                    `${currentUser.name} sent a support message`,
-                    'message'
-                );
-            });
-
-            showMsg("Message sent to admin!");
-        }
-
-        async function loadMessages() {
-            const q = query(collection(db, "messages"), where("userId", "==", currentUser.uid), orderBy("timestamp", "desc"));
-            const snap = await getDocs(q);
-            let html = '';
-            snap.forEach(doc => {
-                const msg = doc.data();
-                const time = formatTime(msg.timestamp?.toMillis() || Date.now());
-                html += `
-                    <div class="message-card">
-                        <div class="message-sender">You</div>
-                        <p>${msg.message}</p>
-                        <div class="message-time">${time}</div>
-                        ${msg.replied ? `
-                            <div class="message-reply ${msg.repliedBy === 'admin' ? 'message-reply-admin' : ''}">
-                                <div style="font-weight:600; color:var(--success);">Admin Reply:</div>
-                                <p>${msg.replyMessage}</p>
-                                <div style="font-size:0.7rem; color:var(--text-sec); margin-top:5px;">
-                                    Replied by: ${msg.repliedBy}
-                                </div>
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            });
-            return html || '<p style="text-align:center; color:var(--text-sec); padding:20px;">No messages yet</p>';
-        }
-
-        async function loadAdminInbox() {
-            const q = query(collection(db, "messages"), orderBy("timestamp", "desc"));
-            const snap = await getDocs(q);
-            let html = '';
-            snap.forEach(doc => {
-                const msg = doc.data();
-                const time = formatTime(msg.timestamp?.toMillis() || Date.now());
-                const repliedBadge = msg.replied ? '<span style="background:var(--success); color:white; padding:2px 8px; border-radius:10px; font-size:0.7rem;">Replied</span>' :
-                                                   '<span style="background:var(--danger); color:white; padding:2px 8px; border-radius:10px; font-size:0.7rem;">Pending</span>';
-
-                html += `
-                    <div class="message-card">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div class="message-sender">${msg.userName} (${msg.userEmail})</div>
-                            ${repliedBadge}
-                        </div>
-                        <p>${msg.message}</p>
-                        <div class="message-time">${time}</div>
-
-                        ${!msg.replied ? `
-                            <div style="margin-top:10px; display:flex; gap:10px;">
-                                <textarea id="reply-${doc.id}" placeholder="Type your reply..." rows="2" style="flex:1; margin-bottom:0;"></textarea>
-                                <button onclick="sendReply('${doc.id}')" class="btn btn-success" style="width:auto; padding:10px 15px;">Send</button>
-                            </div>
-                        ` : `
-                            <div class="message-reply">
-                                <div style="font-weight:600; color:var(--success);">Your Reply:</div>
-                                <p>${msg.replyMessage}</p>
-                            </div>
-                        `}
-                    </div>
-                `;
-            });
-            return html || '<p style="text-align:center; color:var(--text-sec); padding:20px;">No messages yet</p>';
-        }
-
-        window.sendReply = async (messageId) => {
-            const replyText = document.getElementById(`reply-${messageId}`).value;
-            if(!replyText) return showMsg("Please write a reply");
-
-            await updateDoc(doc(db, "messages", messageId), {
-                replied: true,
-                replyMessage: replyText,
-                repliedBy: currentUser.name,
-                repliedAt: Timestamp.now()
-            });
-
-            // Send notification to the user
-            const msgDoc = await getDoc(doc(db, "messages", messageId));
-            if(msgDoc.exists()) {
-                await sendNotification(
-                    msgDoc.data().userId,
-                    "Admin Replied to Your Message",
-                    replyText,
-                    'message'
-                );
-            }
-
-            showMsg("Reply sent!");
-            admView('inbox');
-        }
-
         // --- AUTH ---
         window.toggleAuth = (m) => {
             document.getElementById('login-form').style.display = m==='login'?'block':'none';
             document.getElementById('signup-form').style.display = m==='signup'?'block':'none';
         }
         window.handleLogin = async () => {
-            try {
-                toggleLoader(true);
-                await signInWithEmailAndPassword(auth, document.getElementById('l-email').value, document.getElementById('l-pass').value);
-            }
-            catch(e) {
-                showMsg(e.message);
-                toggleLoader(false);
+            try { 
+                toggleLoader(true); 
+                await signInWithEmailAndPassword(auth, document.getElementById('l-email').value, document.getElementById('l-pass').value); 
+            } 
+            catch(e) { 
+                showMsg(e.message); 
+                toggleLoader(false); 
             }
         }
         window.handleSignup = async () => {
-            const n=document.getElementById('s-name').value,
-                  r=document.getElementById('s-role').value,
-                  g=document.getElementById('s-gender').value,
-                  e=document.getElementById('s-edu').value;
-            if(!n || !g || !r) return showMsg("Please fill all details");
+            const n=document.getElementById('s-name').value, g=document.getElementById('s-gender').value, e=document.getElementById('s-edu').value;
+            if(!n || !g) return showMsg("Please fill all details");
             try {
                 toggleLoader(true);
                 const res = await createUserWithEmailAndPassword(auth, document.getElementById('s-email').value, document.getElementById('s-pass').value);
-
-                // Set default avatar based on gender
-                const defaultAvatar = g === 'Female' ? DEFAULT_FEMALE_AVATAR : DEFAULT_MALE_AVATAR;
-
                 await setDoc(doc(db, "users", res.user.uid), {
-                    name: n,
-                    role: r,
-                    gender: g,
-                    education: e,
-                    email: res.user.email,
-                    points: 0,
-                    level: 1,
-                    avatar: defaultAvatar,
-                    joined: new Date().toLocaleDateString(),
-                    isBanned: false,
+                    name: n, gender: g, education: e, email: res.user.email, role: 'student', 
+                    points: 0, level: 1, joined: new Date().toLocaleDateString(), isBanned: false,
                     examsTaken: []
                 });
                 showMsg("Account Created!");
@@ -1084,18 +876,10 @@
                 const ref = doc(db, "users", res.user.uid);
                 const snap = await getDoc(ref);
                 if(!snap.exists()) {
-                    await setDoc(ref, {
-                        name: res.user.displayName,
-                        email: res.user.email,
-                        role: 'student',
-                        gender: 'Male',
-                        education: 'Not Set',
-                        avatar: DEFAULT_MALE_AVATAR,
-                        points: 0,
-                        level: 1,
-                        joined: new Date().toLocaleDateString(),
-                        isBanned: false,
-                        examsTaken: []
+                    await setDoc(ref, { 
+                        name: res.user.displayName, email: res.user.email, gender: 'Male', 
+                        education: 'Not Set', role: 'student', points: 0, level: 1, 
+                        joined: new Date().toLocaleDateString(), isBanned: false, examsTaken: []
                     });
                 }
             } catch(e) { showMsg(e.message); }
@@ -1111,11 +895,11 @@
                 if (shareLinksSnap.exists()) {
                     shareLinks = shareLinksSnap.data();
                 }
-
+                
                 const snap = await getDoc(doc(db, "users", user.uid));
                 if(snap.exists()) {
                     currentUser = { uid: user.uid, ...snap.data() };
-
+                    
                     if(currentUser.isBanned) {
                         await signOut(auth);
                         showMsg("You are BANNED by Admin.");
@@ -1126,20 +910,11 @@
 
                     document.getElementById('auth-screen').classList.remove('active-screen');
                     document.getElementById('app-screen').classList.add('active-screen');
-
-                    // Show admin nav for admin/owner
-                    if(currentUser.role === 'admin' || currentUser.role === 'owner') {
-                        document.getElementById('admin-nav').style.display = 'block';
-                    }
-
-                    // Show support nav for students
-                    if(currentUser.role === 'student') {
-                        document.getElementById('support-nav').style.display = 'block';
-                    }
-
+                    if(currentUser.role === 'admin') document.getElementById('admin-nav').style.display = 'block';
+                    
                     loadNotifications();
                     setupNotificationListener();
-
+                    
                     renderHome();
                 } else {
                     await signOut(auth);
@@ -1149,13 +924,13 @@
                 document.getElementById('auth-screen').classList.add('active-screen');
             }
             toggleLoader(false);
-            setTimeout(hideSplash, 500);
+            setTimeout(hideSplash, 500); 
         });
 
         // Notification listener
         function setupNotificationListener() {
             if(!currentUser) return;
-
+            
             const q = query(collection(db, "notifications"), where("userId", "==", currentUser.uid));
             onSnapshot(q, (snapshot) => {
                 snapshot.docChanges().forEach((change) => {
@@ -1175,7 +950,7 @@
         window.renderHome = async () => {
             updateNav(0);
             const div = document.getElementById('main-content');
-
+            
             const bcSnap = await getDoc(doc(db, "settings", "broadcast"));
             let bcHTML = bcSnap.exists() ? `<div class="card" style="background:linear-gradient(to right, #ff9966, #ff5e62); color:white; padding:15px; animation:fadeIn 0.5s; display:flex; gap:10px; align-items:center;"><i class="fas fa-bullhorn"></i> <div><b>NOTICE:</b> ${bcSnap.data().message}</div></div>` : '';
 
@@ -1194,7 +969,7 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="dash-grid">
                     <div class="dash-btn" onclick="showRoutineView()"><i class="fas fa-calendar-alt" style="color:#FF9F43; font-size:1.5rem; margin-bottom:5px;"></i><br>Routine</div>
                     <div class="dash-btn" onclick="renderLeaderboard()"><i class="fas fa-trophy" style="color:#28C76F; font-size:1.5rem; margin-bottom:5px;"></i><br>Rank</div>
@@ -1206,20 +981,20 @@
                 <h3 style="margin-bottom:15px; color:var(--text); display:flex; align-items:center; gap:10px;"><i class="fas fa-clock" style="color:var(--primary)"></i> Live Exams</h3>
                 <div id="exam-list">Loading...</div>
             `;
-
+            
             loadRecentUpdates();
 
             const s = await getDocs(collection(db, "exams"));
             const l = document.getElementById('exam-list');
             l.innerHTML = '';
             if(s.empty) return l.innerHTML = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No exams available right now.</p>';
-
+            
             s.forEach(d => {
                 const data = d.data();
                 const examId = d.id;
                 const isTaken = currentUser.examsTaken && currentUser.examsTaken.includes(examId);
                 const isRecent = data.createdAt && (Date.now() - data.createdAt) < 24 * 60 * 60 * 1000;
-
+                
                 l.innerHTML += `
                     <div class="card" style="display:flex; justify-content:space-between; align-items:center; border-left: 5px solid var(--primary); position:relative;">
                         ${isRecent ? '<div class="live-badge"><i class="fas fa-circle"></i> LIVE</div>' : ''}
@@ -1227,8 +1002,8 @@
                             <h4 style="font-size:1.1rem; margin-bottom:5px;">${data.title}</h4>
                             <small style="color:var(--text-sec); background:var(--bg); padding:3px 8px; border-radius:5px;">⏱ ${data.time} Min</small>
                         </div>
-                        <button onclick="${isTaken ? 'showMsg(\'You have already taken this exam!\')' : `startExam('${examId}', '${data.title}', ${data.time})`}"
-                                class="btn ${isTaken ? 'btn-sec' : 'btn-primary'}"
+                        <button onclick="${isTaken ? 'showMsg(\'You have already taken this exam!\')' : `startExam('${examId}', '${data.title}', ${data.time})`}" 
+                                class="btn ${isTaken ? 'btn-sec' : 'btn-primary'}" 
                                 style="width:auto; margin:0; padding:8px 20px; font-size:0.9rem;"
                                 ${isTaken ? 'disabled' : ''}>
                             ${isTaken ? 'Already Taken' : 'Start'}
@@ -1243,21 +1018,21 @@
             let updates = [];
 
             const eSnap = await getDocs(collection(db, "exams"));
-            eSnap.forEach(d => {
-                if(d.data().createdAt && (now - d.data().createdAt) < oneDay)
-                    updates.push(`🆕 New Exam: ${d.data().title}`);
+            eSnap.forEach(d => { 
+                if(d.data().createdAt && (now - d.data().createdAt) < oneDay) 
+                    updates.push(`🆕 New Exam: ${d.data().title}`); 
             });
 
             const rSnap = await getDocs(collection(db, "routines"));
-            rSnap.forEach(d => {
-                if(d.data().createdAt && (now - d.data().createdAt) < oneDay)
-                    updates.push(`📅 Routine Updated: ${d.data().title}`);
+            rSnap.forEach(d => { 
+                if(d.data().createdAt && (now - d.data().createdAt) < oneDay) 
+                    updates.push(`📅 Routine Updated: ${d.data().title}`); 
             });
 
             const nSnap = await getDocs(collection(db, "notes"));
-            nSnap.forEach(d => {
-                if(d.data().createdAt && (now - d.data().createdAt) < oneDay)
-                    updates.push(`📄 New Note: ${d.data().title}`);
+            nSnap.forEach(d => { 
+                if(d.data().createdAt && (now - d.data().createdAt) < oneDay) 
+                    updates.push(`📄 New Note: ${d.data().title}`); 
             });
 
             if(currentUser) {
@@ -1275,7 +1050,7 @@
                 document.getElementById('news-area').style.display = 'block';
                 const track = document.getElementById('news-track');
                 let html = updates.map(u => `<div class="news-item ${updates.indexOf(u) === 0 ? 'new-notification' : ''}"><i class="fas fa-bell"></i> ${u}</div>`).join('');
-                if(updates.length < 3) html += html + html;
+                if(updates.length < 3) html += html + html; 
                 track.innerHTML = html;
             }
         }
@@ -1302,11 +1077,11 @@
             document.getElementById('main-content').innerHTML = `
             <div class="card" style="background:var(--bg); text-align:center;"><h3>🏆 Top Students</h3></div>
             <div id="lb-list" style="margin-top:10px;">Loading...</div>`;
-
+            
             const snap = await getDocs(collection(db, "users"));
             let u = []; snap.forEach(d => u.push({id: d.id, ...d.data()}));
             u.sort((a,b) => (b.points||0) - (a.points||0));
-
+            
             let h = '';
             u.slice(0, 50).forEach((x, i) => {
                 let badge = i<3 ? ["🥇","🥈","🥉"][i] : `#${i+1}`;
@@ -1325,67 +1100,16 @@
             document.getElementById('lb-list').innerHTML = h;
         }
 
-        // --- SUPPORT ---
-        window.renderSupport = async () => {
-            updateNav(3);
-            document.getElementById('main-content').innerHTML = `
-                <div class="card">
-                    <h3 style="color:var(--primary); margin-bottom:15px;"><i class="fas fa-headset"></i> Support Center</h3>
-                    <p style="color:var(--text-sec); margin-bottom:20px;">Send a message to admin for any queries or issues.</p>
-
-                    <div class="message-input-container">
-                        <textarea id="support-message" placeholder="Type your message here..." rows="3"></textarea>
-                    </div>
-                    <button onclick="sendSupportMessage()" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i> Send Message
-                    </button>
-                </div>
-
-                <h3 style="margin:20px 0 10px 0;">Previous Messages</h3>
-                <div id="messages-list">Loading...</div>
-            `;
-
-            const messagesHtml = await loadMessages();
-            document.getElementById('messages-list').innerHTML = messagesHtml;
-        }
-
-        window.sendSupportMessage = async () => {
-            const message = document.getElementById('support-message').value;
-            if(!message.trim()) return showMsg("Please write a message");
-
-            await sendMessageToAdmin(message);
-            document.getElementById('support-message').value = '';
-
-            // Reload messages
-            const messagesHtml = await loadMessages();
-            document.getElementById('messages-list').innerHTML = messagesHtml;
-        }
-
         // --- PROFILE ---
         window.renderProfile = async () => {
             updateNav(2);
-
-            // Determine role badge
-            let roleBadgeClass = 'student-badge';
-            let roleText = 'Student';
-            if(currentUser.role === 'teacher') {
-                roleBadgeClass = 'teacher-badge';
-                roleText = 'Teacher';
-            } else if(currentUser.role === 'admin' || currentUser.role === 'owner') {
-                roleBadgeClass = 'owner-badge';
-                roleText = currentUser.role === 'owner' ? 'Owner' : 'Admin';
-            }
-
+            
+            const avatarUrl = currentUser.gender === 'Female' ? AVATAR_FEMALE : AVATAR_MALE;
+            
             document.getElementById('main-content').innerHTML = `
-                <div class="card" style="text-align:center; padding-top:30px; position:relative;">
-                    <div style="position:absolute; top:20px; right:20px;">
-                        <span class="role-badge ${roleBadgeClass}">${roleText}</span>
-                    </div>
-                    <div style="width:110px; height:110px; border-radius:50%; margin:0 auto 15px; display:flex; justify-content:center; align-items:center; box-shadow:0 10px 20px rgba(0,0,0,0.1); border: 4px solid var(--bg); overflow:hidden; position:relative;">
-                        <img src="${currentUser.avatar || (currentUser.gender === 'Female' ? DEFAULT_FEMALE_AVATAR : DEFAULT_MALE_AVATAR)}" style="width:100%; height:100%; object-fit:cover;">
-                        <div onclick="editProfile()" style="position:absolute; bottom:0; right:0; background:var(--primary); color:white; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;">
-                            <i class="fas fa-camera" style="font-size:0.8rem;"></i>
-                        </div>
+                <div class="card" style="text-align:center; padding-top:30px;">
+                    <div style="width:110px; height:110px; border-radius:50%; margin:0 auto 15px; display:flex; justify-content:center; align-items:center; box-shadow:0 10px 20px rgba(0,0,0,0.1); border: 4px solid var(--bg); overflow:hidden;">
+                        <img src="${avatarUrl}" style="width:100%; height:100%; object-fit:cover;">
                     </div>
                     <h2 style="margin-bottom:5px;">${currentUser.name}</h2>
                     <p style="color:var(--text-sec); font-size:0.9rem;">${currentUser.email}</p>
@@ -1395,129 +1119,67 @@
                     </div>
                     <div style="margin:15px 0;">
                         <span style="background:var(--bg); padding:5px 15px; border-radius:20px; font-size:0.8rem;">📅 Joined: ${currentUser.joined || 'N/A'}</span>
-                        <span style="background:var(--bg); padding:5px 15px; border-radius:20px; font-size:0.8rem; margin-left:5px;">${currentUser.education || 'Not Set'}</span>
                     </div>
-
+                    
                     <!-- Share Button -->
                     <button onclick="showShareOptions()" class="btn btn-primary" style="margin-top:10px;">
                         <i class="fas fa-share-alt"></i> Share with Friends
                     </button>
-
+                    
                     <div style="display:flex; gap:10px; margin-top:15px;">
-                        <button onclick="editProfile()" class="btn btn-sec" style="width:48%;"><i class="fas fa-pen"></i> Edit Profile</button>
-                        <button onclick="clearHistory()" class="btn btn-danger" style="width:48%;"><i class="fas fa-trash"></i> Clear History</button>
+                        <button onclick="editProfile()" class="btn btn-sec" style="width:48%;"><i class="fas fa-pen"></i> Edit</button>
+                        <button onclick="clearHistory()" class="btn btn-danger" style="width:48%;"><i class="fas fa-trash"></i> History</button>
                     </div>
-
+                    
                     <button onclick="handleLogout()" class="btn" style="margin-top:15px; background:var(--bg); color:var(--danger); border:1px solid var(--danger);"><i class="fas fa-sign-out-alt"></i> Logout Securely</button>
                 </div>
                 <h3 style="margin-left:5px;">Recent Results</h3>
                 <div id="hist-list">Loading...</div>
             `;
-
-            const q = query(collection(db, "results"), where("userId", "==", currentUser.uid), orderBy("date", "desc"));
+            
+            const q = query(collection(db, "results"), where("userId", "==", currentUser.uid));
             const s = await getDocs(q);
             let h = s.empty ? "<p style='text-align:center; color:var(--text-sec); margin-top:20px;'>No exams taken yet.</p>" : "";
             s.forEach(d => {
-                const data = d.data();
-                let percentage = (data.score / data.total) * 100;
+                let percentage = (d.data().score / d.data().total) * 100;
                 let cardClass = "result-card-medium";
                 if (percentage >= 80) {
                     cardClass = "result-card-green";
                 } else if (percentage <= 40) {
                     cardClass = "result-card-red";
                 }
-                h += `<div class="card ${cardClass}" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="showExamReview('${d.id}')">
-                    <div><b style="font-size:1rem;">${data.exam}</b><br><small style="color:var(--text-sec)">${data.date}</small></div>
-                    <b style="font-size:1.2rem;">${data.score}/${data.total}</b>
+                h += `<div class="card ${cardClass}" style="display:flex; justify-content:space-between; align-items:center;">
+                    <div><b style="font-size:1rem;">${d.data().exam}</b><br><small style="color:var(--text-sec)">${d.data().date}</small></div>
+                    <b style="font-size:1.2rem;">${d.data().score}/${d.data().total}</b>
                 </div>`
             });
             document.getElementById('hist-list').innerHTML = h;
         }
 
-        window.showExamReview = async (resultId) => {
-            const resultDoc = await getDoc(doc(db, "results", resultId));
-            if(resultDoc.exists()) {
-                const data = resultDoc.data();
-                openModal(`Exam Review: ${data.exam}`, `
-                    <div class="review-container">
-                        <div style="text-align:center; margin-bottom:20px;">
-                            <h1 style="font-size:3rem; color:var(--primary);">${data.score}/${data.total}</h1>
-                            <p style="color:var(--text-sec)">Score: ${((data.score/data.total)*100).toFixed(1)}%</p>
-                        </div>
-                        ${data.review || '<p style="text-align:center; color:var(--text-sec);">No review available for this exam.</p>'}
-                    </div>
-                `);
-            }
-        }
-
         window.editProfile = () => {
-            const avatarUrl = currentUser.avatar || (currentUser.gender === 'Female' ? DEFAULT_FEMALE_AVATAR : DEFAULT_MALE_AVATAR);
-            const avatars = currentUser.gender === 'Female' ? FEMALE_AVATARS : MALE_AVATARS;
-
-            let avatarOptions = '';
-            avatars.forEach((avatar, index) => {
-                const selected = avatar === avatarUrl ? 'selected' : '';
-                avatarOptions += `<img src="${avatar}" class="avatar-option ${selected}" onclick="selectAvatar(this, '${avatar}')">`;
-            });
-
             openModal("Edit Profile", `
                 <input id="e-name" value="${currentUser.name}" placeholder="Name">
-                <select id="e-gender" onchange="changeAvatarGender()">
-                    <option value="Male" ${currentUser.gender === 'Male' ? 'selected' : ''}>Male</option>
-                    <option value="Female" ${currentUser.gender === 'Female' ? 'selected' : ''}>Female</option>
-                </select>
+                <select id="e-gender"><option value="Male">Male</option><option value="Female">Female</option></select>
                 <input id="e-edu" value="${currentUser.education}" placeholder="Education">
-                <h4 style="margin-top:20px;">Select Avatar</h4>
-                <div id="avatar-container" class="avatar-grid">
-                    ${avatarOptions}
-                </div>
-                <input type="hidden" id="selected-avatar" value="${avatarUrl}">
                 <button onclick="saveProfile()" class="btn btn-primary">Save Changes</button>
             `);
+            document.getElementById('e-gender').value = currentUser.gender || 'Male';
         }
-
-        window.selectAvatar = (element, avatarUrl) => {
-            document.querySelectorAll('.avatar-option').forEach(img => img.classList.remove('selected'));
-            element.classList.add('selected');
-            document.getElementById('selected-avatar').value = avatarUrl;
-        }
-
-        window.changeAvatarGender = () => {
-            const gender = document.getElementById('e-gender').value;
-            const avatars = gender === 'Female' ? FEMALE_AVATARS : MALE_AVATARS;
-            let avatarOptions = '';
-            avatars.forEach((avatar, index) => {
-                avatarOptions += `<img src="${avatar}" class="avatar-option" onclick="selectAvatar(this, '${avatar}')">`;
-            });
-            document.getElementById('avatar-container').innerHTML = avatarOptions;
-            // Select first avatar by default
-            document.getElementById('selected-avatar').value = gender === 'Female' ? DEFAULT_FEMALE_AVATAR : DEFAULT_MALE_AVATAR;
-            document.querySelector('.avatar-option').classList.add('selected');
-        }
-
         window.saveProfile = async () => {
-            const n=document.getElementById('e-name').value,
-                  g=document.getElementById('e-gender').value,
-                  e=document.getElementById('e-edu').value,
-                  a=document.getElementById('selected-avatar').value;
-            await updateDoc(doc(db, "users", currentUser.uid), { name: n, gender: g, education: e, avatar: a });
-            currentUser.name = n;
-            currentUser.gender = g;
-            currentUser.education = e;
-            currentUser.avatar = a;
-            closeModal();
-            renderProfile();
+            const n=document.getElementById('e-name').value, g=document.getElementById('e-gender').value, e=document.getElementById('e-edu').value;
+            await updateDoc(doc(db, "users", currentUser.uid), { name: n, gender: g, education: e });
+            currentUser.name = n; currentUser.gender = g; currentUser.education = e; closeModal(); renderProfile();
         }
-
+        
         window.clearHistory = async () => {
             if(await customConfirm("Are you sure you want to delete all exam history?")) {
                 const q = query(collection(db, "results"), where("userId", "==", currentUser.uid));
                 const s = await getDocs(q);
                 s.forEach(async (d) => await deleteDoc(d.ref));
-
+                
                 await updateDoc(doc(db, "users", currentUser.uid), { examsTaken: [] });
                 currentUser.examsTaken = [];
-
+                
                 renderProfile();
             }
         }
@@ -1528,7 +1190,7 @@
                 showMsg("You have already taken this exam!");
                 return;
             }
-
+            
             const div = document.getElementById('main-content');
             div.innerHTML = `<div id="q-area" style="padding-bottom:50px;">Loading questions...</div>`;
             const q = query(collection(db, "questions"), where("examId", "==", id));
@@ -1569,7 +1231,7 @@
             let left = time*60;
             if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
-                let m=Math.floor(left/60), s=left%60;
+                let m=Math.floor(left/60), s=left%60; 
                 document.getElementById('timer').innerText = `${m}:${s<10?'0'+s:s}`;
                 if(left <= 30) {
                     document.getElementById('timer').style.animation = "pulse 1s infinite";
@@ -1587,13 +1249,13 @@
         }
 
         window.submitExam = async (title) => {
-            clearInterval(timerInterval);
+            clearInterval(timerInterval); 
             toggleLoader(true);
-
+            
             let score = 0, totalQuestions = window.currentQ.length;
             let pointsChange = 0;
             let review = '';
-
+            
             // NEW SCORING SYSTEM: Correct = +1, Wrong = -0.5
             window.currentQ.forEach((q, i) => {
                 const ans = window.userAns[q.id];
@@ -1610,20 +1272,19 @@
                     }
                 }
                 // Skipped questions get 0 marks, no points change
-
-                const answerClass = correct ? 'review-correct' : (ans ? 'review-wrong' : 'review-skipped');
-                review += `<div class="review-item ${answerClass}">
+                
+                review += `<div style="padding:15px; background:var(--bg); margin-bottom:10px; border-radius:12px; border-left:4px solid ${correct?'var(--success)':'var(--danger)'};">
                     <p style="font-size:0.9rem;"><b>Q${i+1}:</b> ${qText}</p>
                     <div style="margin-top:5px; font-size:0.9rem;">
-                        Your Answer: <b style="color:${correct?'var(--success)':(ans?'var(--danger)':'var(--warning)')}">${ans ? q.options[ans-1] : 'Skipped'}</b>
-                        ${!correct ? `<br>Correct Answer: <b style="color:var(--success)">${q.options[parseInt(q.correct)-1]}</b>` : ''}
+                        Your Ans: <b style="color:${correct?'var(--success)':'var(--danger)'}">${ans ? q.options[ans-1] : 'Skipped'}</b>
+                        ${!correct ? `<br>Correct: <b style="color:var(--success)">${q.options[parseInt(q.correct)-1]}</b>` : ''}
                     </div>
                 </div>`;
             });
 
             // Ensure score is not negative
             if (score < 0) score = 0;
-
+            
             // Calculate percentage for card color
             const percentage = (score / totalQuestions) * 100;
             let resultCardClass = "result-card-medium";
@@ -1636,39 +1297,38 @@
             // Calculate new points and level
             const newPoints = Math.max(0, (currentUser.points || 0) + pointsChange);
             const newLevel = Math.floor(newPoints / 100) + 1;
-
+            
             // Update user data
             const examsTaken = currentUser.examsTaken || [];
             if(!examsTaken.includes(window.currentExamId)) {
                 examsTaken.push(window.currentExamId);
             }
-
-            await updateDoc(doc(db, "users", currentUser.uid), {
-                points: newPoints,
+            
+            await updateDoc(doc(db, "users", currentUser.uid), { 
+                points: newPoints, 
                 level: newLevel,
                 examsTaken: examsTaken
             });
-
-            // Save result with decimal score AND review
-            await addDoc(collection(db, "results"), {
-                userId: currentUser.uid,
-                exam: title,
+            
+            // Save result with decimal score
+            await addDoc(collection(db, "results"), { 
+                userId: currentUser.uid, 
+                exam: title, 
                 examId: window.currentExamId,
-                score: score.toFixed(1),
-                total: totalQuestions,
+                score: score.toFixed(1), 
+                total: totalQuestions, 
                 pointsChange: pointsChange,
-                date: new Date().toLocaleDateString(),
-                review: review
+                date: new Date().toLocaleDateString() 
             });
-
+            
             // Update current user object
             currentUser.points = newPoints;
             currentUser.level = newLevel;
             currentUser.examsTaken = examsTaken;
-
+            
             // Send notification for exam completion
             await sendNotification(currentUser.uid, "Exam Completed!", `You scored ${score.toFixed(1)}/${totalQuestions} in ${title}. Points: ${pointsChange > 0 ? '+' : ''}${pointsChange}`, 'exam');
-
+            
             renderHome();
             openModal(`Result: ${score.toFixed(1)}/${totalQuestions}`, `
                 <div style="text-align:center; padding:20px 0;">
@@ -1691,38 +1351,22 @@
                         </div>
                     </div>
                 </div>
-                <h3 style="margin-bottom:15px;">Exam Review</h3>
-                <div style="max-height:40vh; overflow-y:auto; padding-right:10px;">
-                    ${review}
-                </div>
-            `);
+                ${review}`);
             toggleLoader(false);
         }
 
         // --- ADMIN PANEL - UPDATED ---
         window.renderAdmin = () => {
-            updateNav(4);
-            let adminGrid = `
-                <div class="admin-item" onclick="admView('exam')"><i class="fas fa-file-alt"></i><h4>Exams</h4></div>
-                <div class="admin-item" onclick="admView('student')"><i class="fas fa-users"></i><h4>Students</h4></div>`;
-
-            // Show teacher management only for owners
-            if(currentUser.role === 'owner') {
-                adminGrid += `<div class="admin-item" onclick="admView('teachers')"><i class="fas fa-chalkboard-teacher"></i><h4>Teachers</h4></div>`;
-            }
-
-            adminGrid += `
-                <div class="admin-item" onclick="admView('routine')"><i class="fas fa-calendar"></i><h4>Routine</h4></div>
-                <div class="admin-item" onclick="admView('notes')"><i class="fas fa-file-pdf"></i><h4>Notes/PDF</h4></div>
-                <div class="admin-item" onclick="admView('broadcast')"><i class="fas fa-bullhorn"></i><h4>Broadcast</h4></div>
-                <div class="admin-item" onclick="admView('inbox')"><i class="fas fa-inbox"></i><h4>Inbox</h4></div>
-                <div class="admin-item" onclick="admView('notifications')"><i class="fas fa-bell"></i><h4>Notifications</h4></div>
-                <div class="admin-item" onclick="admView('settings')"><i class="fas fa-cogs"></i><h4>Settings</h4></div>
-            `;
-
+            updateNav(3);
             document.getElementById('main-content').innerHTML = `
                 <div class="admin-grid">
-                    ${adminGrid}
+                    <div class="admin-item" onclick="admView('exam')"><i class="fas fa-file-alt"></i><h4>Exams</h4></div>
+                    <div class="admin-item" onclick="admView('student')"><i class="fas fa-users"></i><h4>Students</h4></div>
+                    <div class="admin-item" onclick="admView('routine')"><i class="fas fa-calendar"></i><h4>Routine</h4></div>
+                    <div class="admin-item" onclick="admView('notes')"><i class="fas fa-file-pdf"></i><h4>Notes/PDF</h4></div>
+                    <div class="admin-item" onclick="admView('broadcast')"><i class="fas fa-bullhorn"></i><h4>Broadcast</h4></div>
+                    <div class="admin-item" onclick="admView('notifications')"><i class="fas fa-bell"></i><h4>Notifications</h4></div>
+                    <div class="admin-item" onclick="admView('settings')"><i class="fas fa-cogs"></i><h4>Settings</h4></div>
                 </div>
                 <div id="adm-area" style="margin-top:20px;"></div>
             `;
@@ -1741,18 +1385,18 @@
                         <div id="el" class="grid-container"></div>
                     </div>
                     <div class="card"><h3>Add MCQ (JSON)</h3><div style="display:flex; gap:10px;"><select id="es"></select><button onclick="copyFormat()" class="btn btn-sec" style="width:auto; margin:0 0 15px 0;">Copy Format</button></div><textarea id="jt" rows="4" placeholder="Paste JSON here..."></textarea><button onclick="upJson()" class="btn btn-primary">Upload</button></div>`;
-
-                const s = await getDocs(collection(db, "exams"));
-                let h='', o='';
-                s.forEach(d=>{
+                
+                const s = await getDocs(collection(db, "exams")); 
+                let h='', o=''; 
+                s.forEach(d=>{ 
                     h+=`<div class="mini-card" onclick="delDoc('exams','${d.id}')">
                         <i class="fas fa-file-contract" style="color:var(--primary)"></i>
                         <h4>${d.data().title}</h4>
                         <small>${d.data().time} Min</small>
-                    </div>`;
-                    o+=`<option value="${d.id}">${d.data().title}</option>`;
+                    </div>`; 
+                    o+=`<option value="${d.id}">${d.data().title}</option>`; 
                 });
-                document.getElementById('el').innerHTML = h || "<p>No exams.</p>";
+                document.getElementById('el').innerHTML = h || "<p>No exams.</p>"; 
                 document.getElementById('es').innerHTML = o;
             }
 
@@ -1763,11 +1407,11 @@
                         <input id="search-box" placeholder="Search by Name or Email..." style="margin-top:10px;">
                         <div id="sl" class="grid-container">Loading...</div>
                     </div>`;
-
+                
                 const s = await getDocs(collection(db, "users"));
                 allStudentsCache = [];
-                s.forEach(d => { if(d.data().role === 'student') allStudentsCache.push({id: d.id, ...d.data()}); });
-
+                s.forEach(d => { if(d.data().role !== 'admin') allStudentsCache.push({id: d.id, ...d.data()}); });
+                
                 renderStudentList(allStudentsCache);
                 document.getElementById('search-box').addEventListener('input', (e) => {
                     const term = e.target.value.toLowerCase();
@@ -1776,61 +1420,22 @@
                 });
             }
 
-            if(m === 'teachers') {
-                area.innerHTML = `
-                    <div class="card">
-                        <h3>Manage Teachers</h3>
-                        <input id="teacher-email" placeholder="Teacher Email to Add">
-                        <button onclick="addTeacher()" class="btn btn-primary">Add Teacher</button>
-                    </div>
-                    <div class="card">
-                        <h3>Current Teachers</h3>
-                        <div id="teacher-list" class="grid-container">Loading...</div>
-                    </div>
-                `;
-
-                const s = await getDocs(query(collection(db, "users"), where("role", "==", "teacher")));
-                let h = '';
-                s.forEach(d => {
-                    const teacher = d.data();
-                    h += `<div class="mini-card">
-                        <img src="${teacher.avatar || DEFAULT_MALE_AVATAR}">
-                        <h4>${teacher.name}</h4>
-                        <small>${teacher.email}</small>
-                        <button onclick="removeTeacher('${d.id}')" class="btn btn-danger" style="margin-top:5px; padding:5px 10px; font-size:0.7rem;">Remove</button>
-                    </div>`;
-                });
-                document.getElementById('teacher-list').innerHTML = h || '<p>No teachers added yet.</p>';
-            }
-
             if(m === 'routine') {
                 area.innerHTML = `<div class="card"><h3>Add Routine</h3><input id="rt" placeholder="Title"><input id="rm" placeholder="Time"><button onclick="addRT()" class="btn btn-primary">Add</button></div><div class="card"><h3>Manage</h3><div id="rl"></div></div>`;
                 const s = await getDocs(collection(db, "routines")); let h=''; s.forEach(d=>{ h+=`<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border);"><span>${d.data().title}</span><button class="btn btn-danger" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="delDoc('routines','${d.id}')">Del</button></div>`; });
                 document.getElementById('rl').innerHTML = h;
             }
-
+            
             if(m === 'notes') {
                 area.innerHTML = `<div class="card"><h3>Add PDF</h3><input id="pt" placeholder="Title"><input id="pl" placeholder="Link"><button onclick="addNT()" class="btn btn-primary">Add</button></div><div class="card"><h3>Manage</h3><div id="nl"></div></div>`;
                 const s = await getDocs(collection(db, "notes")); let h=''; s.forEach(d=>{ h+=`<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border);"><span>${d.data().title}</span><button class="btn btn-danger" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="delDoc('notes','${d.id}')">Del</button></div>`; });
                 document.getElementById('nl').innerHTML = h;
             }
-
+            
             if(m === 'broadcast') {
                 area.innerHTML = `<div class="card"><h3>Broadcast Message</h3><textarea id="bcm" rows="3" placeholder="Write message..."></textarea><button onclick="sendBC()" class="btn btn-primary">Send to All</button><button onclick="clearBC()" class="btn btn-sec">Clear</button></div>`;
             }
-
-            if(m === 'inbox') {
-                area.innerHTML = `
-                    <div class="card">
-                        <h3>Support Inbox</h3>
-                        <div id="inbox-list"></div>
-                    </div>
-                `;
-
-                const inboxHtml = await loadAdminInbox();
-                document.getElementById('inbox-list').innerHTML = inboxHtml;
-            }
-
+            
             if(m === 'notifications') {
                 area.innerHTML = `
                     <div class="card">
@@ -1850,54 +1455,46 @@
                         </select>
                         <input id="notif-user" placeholder="User Email (if specific)" style="display:none;">
                         <button onclick="sendNotificationToUsers()" class="btn btn-primary">Send Notification</button>
+                        <button onclick="clearAllNotificationsAdmin()" class="btn btn-danger" style="margin-top:10px;">
+                            <i class="fas fa-trash"></i> Clear All Notifications (All Users)
+                        </button>
                     </div>
                     <div class="card">
                         <h3>Recent Notifications</h3>
                         <div id="notif-list"></div>
                     </div>
                 `;
-
+                
                 document.getElementById('notif-target').addEventListener('change', function() {
                     document.getElementById('notif-user').style.display = this.value === 'specific' ? 'block' : 'none';
                 });
-
-                // Load recent notifications with user names
+                
+                // Load recent notifications
                 const notifSnap = await getDocs(collection(db, "notifications"));
                 let notifHtml = '';
-                for (const doc of notifSnap.docs) {
+                notifSnap.forEach(doc => {
                     const data = doc.data();
-                    // Get user name
-                    let userName = "Unknown User";
-                    try {
-                        const userDoc = await getDoc(doc(db, "users", data.userId));
-                        if(userDoc.exists()) {
-                            userName = userDoc.data().name;
-                        }
-                    } catch(e) {
-                        console.log("Error fetching user:", e);
-                    }
-
                     notifHtml += `<div style="padding:10px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
                         <div>
                             <div><b>${data.title}</b></div>
                             <div style="font-size:0.8rem;">${data.message}</div>
-                            <div style="font-size:0.7rem; color:var(--text-sec);">To: ${userName}</div>
+                            <div style="font-size:0.7rem; color:var(--text-sec);">To: ${data.userId}</div>
                         </div>
                         <button onclick="deleteNotificationAdmin('${doc.id}')" class="notification-delete">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>`;
-                }
+                });
                 document.getElementById('notif-list').innerHTML = notifHtml || '<p>No notifications sent yet.</p>';
             }
-
+            
             if(m === 'settings') {
                 // Load existing share links
                 const shareLinksSnap = await getDoc(doc(db, "settings", "shareLinks"));
                 if (shareLinksSnap.exists()) {
                     shareLinks = shareLinksSnap.data();
                 }
-
+                
                 area.innerHTML = `<div class="card"><h3>Theme Color</h3>
                 <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
                     <div onclick="setTh('#6C63FF')" style="width:35px; height:35px; background:#6C63FF; border-radius:50%; cursor:pointer;"></div>
@@ -1907,21 +1504,22 @@
                     <div onclick="setTh('#3498db')" style="width:35px; height:35px; background:#3498db; border-radius:50%; cursor:pointer;"></div>
                     <div onclick="setTh('#9b59b6')" style="width:35px; height:35px; background:#9b59b6; border-radius:50%; cursor:pointer;"></div>
                 </div>
-
+                
                 <h4 style="margin-top:20px;">Adjust Tone</h4>
                 <div class="theme-slider-container">
                     <input type="range" min="0" max="360" value="0" class="thermo" id="hue-slider" oninput="slideTheme(this.value)">
                     <p style="text-align:center; font-size:0.8rem;">Slide to change color</p>
                 </div>
-
+                
                 <h3 style="margin-top:20px;">Share Links</h3>
                 <input id="telegram-link" value="${shareLinks.telegram || ''}" placeholder="Telegram Bot Link">
                 <input id="website-link" value="${shareLinks.website || ''}" placeholder="Website Link">
                 <input id="app-link" value="${shareLinks.app || ''}" placeholder="App Download Link">
                 <button onclick="saveShareLinks()" class="btn btn-primary">Save Share Links</button>
-
+                
                 <h3 style="margin-top:20px;">Actions</h3>
-                <button onclick="resetRank()" class="btn btn-danger">Reset All Ranks</button></div>`;
+                <button onclick="resetRank()" class="btn btn-danger">Reset All Ranks</button>
+                <div style="margin-top:10px;"><input id="adm-mail" placeholder="User Email to make Admin"><button onclick="makeAdmin()" class="btn btn-primary">Add Admin</button></div></div>`;
             }
         }
 
@@ -1929,8 +1527,8 @@
             let h = '';
             list.forEach(u => {
                 const isBan = u.isBanned ? '<span class="banned-badge">BANNED</span>' : '';
-                const av = u.avatar || (u.gender === 'Female' ? DEFAULT_FEMALE_AVATAR : DEFAULT_MALE_AVATAR);
-
+                const av = u.gender === 'Female' ? AVATAR_FEMALE : AVATAR_MALE;
+                
                 h += `<div class="mini-card" onclick="viewUser('${u.id}')">
                     ${isBan}
                     <img src="${av}">
@@ -1943,130 +1541,130 @@
         }
 
         // --- ACTIONS ---
-        window.addExam = async () => {
+        window.addExam = async () => { 
             await addDoc(collection(db, "exams"), {
-                title:document.getElementById('nt').value,
-                time:parseInt(document.getElementById('nm').value),
+                title:document.getElementById('nt').value, 
+                time:parseInt(document.getElementById('nm').value), 
                 createdAt: Date.now()
-            });
-
+            }); 
+            
             const usersSnap = await getDocs(collection(db, "users"));
             usersSnap.forEach(async (userDoc) => {
-                if(userDoc.data().role !== 'admin' && userDoc.data().role !== 'owner') {
+                if(userDoc.data().role !== 'admin') {
                     await sendNotification(
-                        userDoc.id,
-                        "New Exam Available!",
+                        userDoc.id, 
+                        "New Exam Available!", 
                         `A new exam "${document.getElementById('nt').value}" has been added. Check it out!`,
                         'exam'
                     );
                 }
             });
-
-            showMsg("Created");
-            admView('exam');
+            
+            showMsg("Created"); 
+            admView('exam'); 
         }
-
-        window.upJson = async () => {
-            try {
-                const d=JSON.parse(document.getElementById('jt').value);
+        
+        window.upJson = async () => { 
+            try { 
+                const d=JSON.parse(document.getElementById('jt').value); 
                 for(const q of d) {
                    await addDoc(collection(db,"questions"),{
-                       examId:document.getElementById('es').value,
-                       question: q.question || q.q,
+                       examId:document.getElementById('es').value, 
+                       question: q.question || q.q, 
                        options: q.options,
                        correct: q.correct
-                   });
+                   }); 
                 }
-                showMsg("Uploaded Successfully");
-            } catch(e){showMsg("JSON Error: Check format");}
+                showMsg("Uploaded Successfully"); 
+            } catch(e){showMsg("JSON Error: Check format");} 
         }
-
-        window.addRT = async () => {
+        
+        window.addRT = async () => { 
             await addDoc(collection(db, "routines"), {
-                title:document.getElementById('rt').value,
-                time:document.getElementById('rm').value,
+                title:document.getElementById('rt').value, 
+                time:document.getElementById('rm').value, 
                 createdAt: Date.now()
-            });
-
+            }); 
+            
             const usersSnap = await getDocs(collection(db, "users"));
             usersSnap.forEach(async (userDoc) => {
-                if(userDoc.data().role !== 'admin' && userDoc.data().role !== 'owner') {
+                if(userDoc.data().role !== 'admin') {
                     await sendNotification(
-                        userDoc.id,
-                        "Routine Updated!",
+                        userDoc.id, 
+                        "Routine Updated!", 
                         `New routine "${document.getElementById('rt').value}" has been added.`,
                         'routine'
                     );
                 }
             });
-
-            showMsg("Added");
-            admView('routine');
+            
+            showMsg("Added"); 
+            admView('routine'); 
         }
-
-        window.addNT = async () => {
+        
+        window.addNT = async () => { 
             await addDoc(collection(db, "notes"), {
-                title:document.getElementById('pt').value,
-                link:document.getElementById('pl').value,
+                title:document.getElementById('pt').value, 
+                link:document.getElementById('pl').value, 
                 createdAt: Date.now()
-            });
-
+            }); 
+            
             const usersSnap = await getDocs(collection(db, "users"));
             usersSnap.forEach(async (userDoc) => {
-                if(userDoc.data().role !== 'admin' && userDoc.data().role !== 'owner') {
+                if(userDoc.data().role !== 'admin') {
                     await sendNotification(
-                        userDoc.id,
-                        "New Note Added!",
+                        userDoc.id, 
+                        "New Note Added!", 
                         `A new note "${document.getElementById('pt').value}" is available.`,
                         'note'
                     );
                 }
             });
-
-            showMsg("Added");
-            admView('notes');
+            
+            showMsg("Added"); 
+            admView('notes'); 
         }
-
-        window.delDoc = async (c, id) => {
-            if(await customConfirm("Are you sure you want to delete this?")) {
-                await deleteDoc(doc(db, c, id));
-                showMsg("Deleted");
+        
+        window.delDoc = async (c, id) => { 
+            if(await customConfirm("Are you sure you want to delete this?")) { 
+                await deleteDoc(doc(db, c, id)); 
+                showMsg("Deleted"); 
                 if(c==='exams') admView('exam');
                 else if(c==='routines') admView('routine');
                 else if(c==='notes') admView('notes');
-            }
+            } 
         }
-
-        window.sendBC = async () => {
+        
+        window.sendBC = async () => { 
             const message = document.getElementById('bcm').value;
             await setDoc(doc(db, "settings", "broadcast"), {message: message});
-
+            
             const usersSnap = await getDocs(collection(db, "users"));
             usersSnap.forEach(async (userDoc) => {
-                if(userDoc.data().role !== 'admin' && userDoc.data().role !== 'owner') {
+                if(userDoc.data().role !== 'admin') {
                     await sendNotification(
-                        userDoc.id,
-                        "Important Announcement!",
+                        userDoc.id, 
+                        "Important Announcement!", 
                         message,
                         'broadcast'
                     );
                 }
             });
-
-            showMsg("Broadcast Sent to All Users");
+            
+            showMsg("Broadcast Sent to All Users"); 
         }
-
-        window.clearBC = async () => {
-            await deleteDoc(doc(db, "settings", "broadcast"));
-            showMsg("Cleared");
+        
+        window.clearBC = async () => { 
+            await deleteDoc(doc(db, "settings", "broadcast")); 
+            showMsg("Cleared"); 
         }
-
-        window.setTh = async (c) => {
-            await setDoc(doc(db,"settings","theme"),{color:c});
-            document.documentElement.style.setProperty('--primary', c);
-            showMsg("Theme Set");
+        
+        window.setTh = async (c) => { 
+            await setDoc(doc(db,"settings","theme"),{color:c}); 
+            document.documentElement.style.setProperty('--primary', c); 
+            showMsg("Theme Set"); 
         }
-
+        
         window.slideTheme = (val) => {
             const color = `hsl(${val}, 70%, 60%)`;
             document.documentElement.style.setProperty('--primary', color);
@@ -2076,21 +1674,21 @@
             }, 1000);
         }
 
-        window.resetRank = async () => {
-            if(await customConfirm("Reset all points to 0 and levels to 1?")) {
-                const s=await getDocs(collection(db,"users"));
-                s.forEach(d=> updateDoc(d.ref, {points:0, level:1, examsTaken: []}));
-                showMsg("Reset Done");
-            }
+        window.resetRank = async () => { 
+            if(await customConfirm("Reset all points to 0 and levels to 1?")) { 
+                const s=await getDocs(collection(db,"users")); 
+                s.forEach(d=> updateDoc(d.ref, {points:0, level:1, examsTaken: []})); 
+                showMsg("Reset Done"); 
+            } 
         }
-
+        
         window.viewUser = async (uid) => {
             const uSnap = await getDoc(doc(db, "users", uid));
             const u = uSnap.data();
             const q = query(collection(db, "results"), where("userId", "==", uid));
             const s = await getDocs(q);
             let h = ""; s.forEach(d => h += `<div style="font-size:0.9rem; border-bottom:1px solid var(--border); padding:5px;"><b>${d.data().exam}</b>: ${d.data().score}/${d.data().total} (${d.data().pointsChange > 0 ? '+' : ''}${d.data().pointsChange} pts)</div>`);
-
+            
             const btnText = u.isBanned ? "Unban Student" : "Ban Student";
             const btnColor = u.isBanned ? "var(--success)" : "var(--danger)";
 
@@ -2109,7 +1707,7 @@
                             <div style="font-size:0.8rem;">Level</div>
                         </div>
                     </div>
-
+                    
                     <div style="margin:15px 0;">
                         <h4>Adjust Level/Points</h4>
                         <div style="display:flex; gap:10px;">
@@ -2118,7 +1716,7 @@
                         </div>
                         <button onclick="adjustUserPoints('${uid}')" class="btn btn-primary" style="margin-top:10px;">Update</button>
                     </div>
-
+                    
                     <button onclick="toggleBan('${uid}', ${u.isBanned})" class="btn" style="background:${btnColor}; color:white; margin:15px 0;">${btnText}</button>
                 </div>
                 <hr style="border:1px solid var(--border); margin:10px 0;">
@@ -2130,12 +1728,12 @@
         window.adjustUserPoints = async (uid) => {
             const newPoints = parseInt(document.getElementById('adj-points').value) || 0;
             const newLevel = parseInt(document.getElementById('adj-level').value) || 1;
-
-            await updateDoc(doc(db, "users", uid), {
-                points: newPoints,
-                level: newLevel
+            
+            await updateDoc(doc(db, "users", uid), { 
+                points: newPoints, 
+                level: newLevel 
             });
-
+            
             showMsg("User points and level updated!");
             closeModal();
             admView('student');
@@ -2145,32 +1743,16 @@
             await updateDoc(doc(db, "users", uid), { isBanned: !currentStatus });
             showMsg(currentStatus ? "User Unbanned" : "User Banned");
             closeModal();
-            admView('student');
+            admView('student'); 
         }
 
-        window.addTeacher = async () => {
-            const email = document.getElementById('teacher-email').value;
+        window.makeAdmin = async () => {
+            const email = document.getElementById('adm-mail').value;
             const q = query(collection(db, "users"), where("email", "==", email));
             const s = await getDocs(q);
             if(s.empty) return showMsg("User not found");
-            
-            const userDoc = s.docs[0];
-            const userData = userDoc.data();
-            
-            if(userData.role === 'teacher') return showMsg("User is already a teacher");
-            
-            await updateDoc(doc(db, "users", userDoc.id), {role:'teacher'});
-            showMsg("Teacher Added!");
-            document.getElementById('teacher-email').value = '';
-            admView('teachers');
-        }
-
-        window.removeTeacher = async (uid) => {
-            if(await customConfirm("Remove this teacher?")) {
-                await updateDoc(doc(db, "users", uid), {role:'student'});
-                showMsg("Teacher removed!");
-                admView('teachers');
-            }
+            s.forEach(d => updateDoc(d.ref, {role:'admin'}));
+            showMsg("Admin Added!");
         }
 
         window.copyFormat = () => {
@@ -2185,36 +1767,49 @@
             const type = document.getElementById('notif-type').value;
             const target = document.getElementById('notif-target').value;
             const specificUser = document.getElementById('notif-user').value;
-
+            
             if(!title || !message) return showMsg("Please fill all fields");
-
+            
             if(target === 'all') {
                 const usersSnap = await getDocs(collection(db, "users"));
                 let count = 0;
-
+                
                 for(const userDoc of usersSnap.docs) {
-                    if(userDoc.data().role !== 'admin' && userDoc.data().role !== 'owner') {
+                    if(userDoc.data().role !== 'admin') {
                         await sendNotification(userDoc.id, title, message, type);
                         count++;
                     }
                 }
-
+                
                 showMsg(`Notification sent to ${count} users!`);
             } else {
                 const q = query(collection(db, "users"), where("email", "==", specificUser));
                 const s = await getDocs(q);
-
+                
                 if(s.empty) return showMsg("User not found");
-
+                
                 s.forEach(async (doc) => {
                     await sendNotification(doc.id, title, message, type);
                 });
-
+                
                 showMsg("Notification sent to specific user!");
             }
-
+            
             document.getElementById('notif-title').value = '';
             document.getElementById('notif-message').value = '';
+        }
+
+        window.clearAllNotificationsAdmin = async () => {
+            if(await customConfirm("Clear all notifications for all users?")) {
+                const snap = await getDocs(collection(db, "notifications"));
+                const batch = writeBatch(db);
+                snap.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+                showMsg("All notifications cleared!");
+                admView('notifications');
+            }
         }
 
         window.deleteNotificationAdmin = async (notificationId) => {
@@ -2233,30 +1828,27 @@
                 website: websiteLink,
                 app: appLink
             });
-
+            
             shareLinks = { telegram: telegramLink, website: websiteLink, app: appLink };
             showMsg("Share links saved!");
         }
 
         // --- LOADERS ---
-        async function loadServerTheme() {
-            const s = await getDoc(doc(db, "settings", "theme"));
-            if(s.exists()) document.documentElement.style.setProperty('--primary', s.data().color);
+        async function loadServerTheme() { 
+            const s = await getDoc(doc(db, "settings", "theme")); 
+            if(s.exists()) document.documentElement.style.setProperty('--primary', s.data().color); 
         }
-        function updateNav(i) {
-            document.querySelectorAll('.nav-item').forEach((n,x)=> {
-                n.classList.remove('active');
-                if(i===x) n.classList.add('active');
-            });
+        function updateNav(i) { 
+            document.querySelectorAll('.nav-item').forEach((n,x)=> n.classList.toggle('active', i===x)); 
         }
-        function openModal(t, b) {
-            document.getElementById('modal-title').innerText = t;
-            document.getElementById('modal-body').innerHTML = b;
-            document.getElementById('generic-modal').style.display = 'flex';
+        function openModal(t, b) { 
+            document.getElementById('modal-title').innerText = t; 
+            document.getElementById('modal-body').innerHTML = b; 
+            document.getElementById('generic-modal').style.display = 'flex'; 
         }
         window.closeModal = () => document.getElementById('generic-modal').style.display = 'none';
-        function toggleLoader(s) {
-            document.getElementById('loader').style.display = s?'flex':'none';
+        function toggleLoader(s) { 
+            document.getElementById('loader').style.display = s?'flex':'none'; 
         }
 
     </script>
