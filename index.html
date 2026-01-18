@@ -489,6 +489,45 @@
             align-items: center;
             border: 1px solid var(--border);
         }
+
+        /* EXAM LEADERBOARD TAB */
+        .exam-leaderboard-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            background: var(--bg);
+            border-radius: 15px;
+            padding: 5px;
+        }
+        .exam-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .exam-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* REVIEW PAGE */
+        .review-question {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            background: var(--bg);
+        }
+        .review-correct {
+            border-left: 4px solid var(--success);
+        }
+        .review-wrong {
+            border-left: 4px solid var(--danger);
+        }
+        .review-skipped {
+            border-left: 4px solid var(--warning);
+        }
     </style>
 </head>
 <body>
@@ -584,6 +623,7 @@
         <nav class="bottom-nav">
             <div class="nav-item active" onclick="renderHome()"><i class="fas fa-home"></i> <span>Home</span></div>
             <div class="nav-item" onclick="renderLeaderboard()"><i class="fas fa-trophy"></i> <span>Rank</span></div>
+            <div class="nav-item" onclick="renderReview()"><i class="fas fa-clipboard-check"></i> <span>Review</span></div>
             <div class="nav-item" onclick="renderProfile()"><i class="fas fa-user"></i> <span>Profile</span></div>
             <div class="nav-item" id="admin-nav" style="display:none;" onclick="renderAdmin()"><i class="fas fa-th-large"></i> <span>Admin</span></div>
         </nav>
@@ -648,7 +688,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc, onSnapshot, Timestamp, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc, onSnapshot, Timestamp, writeBatch, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // CONFIG
         const firebaseConfig = {
@@ -871,6 +911,7 @@
 
         // --- NOTIFICATION FUNCTIONS ---
         function showNotificationPopup(title, message) {
+            playNotificationSound();
             const popup = document.getElementById('notification-popup');
             popup.style.display = 'block';
             
@@ -1299,12 +1340,41 @@
         // --- LEADERBOARD ---
         window.renderLeaderboard = async () => {
             updateNav(1);
+            const examsSnap = await getDocs(collection(db, "exams"));
+            let exams = [];
+            examsSnap.forEach(doc => {
+                exams.push({id: doc.id, ...doc.data()});
+            });
+            
+            let tabsHTML = `
+                <div class="exam-leaderboard-tabs">
+                    <div class="exam-tab active" onclick="loadOverallLeaderboard()">Overall</div>
+            `;
+            
+            exams.forEach(exam => {
+                tabsHTML += `<div class="exam-tab" onclick="loadExamLeaderboard('${exam.id}', '${exam.title}')">${exam.title}</div>`;
+            });
+            
+            tabsHTML += `</div>`;
+            
             document.getElementById('main-content').innerHTML = `
-            <div class="card" style="background:var(--bg); text-align:center;"><h3>🏆 Top Students</h3></div>
-            <div id="lb-list" style="margin-top:10px;">Loading...</div>`;
+                <div class="card" style="background:var(--bg); text-align:center;">
+                    <h3>🏆 Leaderboard</h3>
+                    ${tabsHTML}
+                </div>
+                <div id="lb-list" style="margin-top:10px;">Loading...</div>
+            `;
+            
+            loadOverallLeaderboard();
+        }
+
+        async function loadOverallLeaderboard() {
+            document.querySelectorAll('.exam-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.exam-tab')[0].classList.add('active');
             
             const snap = await getDocs(collection(db, "users"));
             let u = []; snap.forEach(d => u.push({id: d.id, ...d.data()}));
+            u = u.filter(user => user.role !== 'admin');
             u.sort((a,b) => (b.points||0) - (a.points||0));
             
             let h = '';
@@ -1325,9 +1395,134 @@
             document.getElementById('lb-list').innerHTML = h;
         }
 
+        async function loadExamLeaderboard(examId, examTitle) {
+            document.querySelectorAll('.exam-tab').forEach(tab => tab.classList.remove('active'));
+            
+            const tabs = document.querySelectorAll('.exam-tab');
+            for(let i = 0; i < tabs.length; i++) {
+                if(tabs[i].textContent === examTitle || tabs[i].textContent === "Overall") {
+                    continue;
+                }
+                if(tabs[i].onclick && tabs[i].onclick.toString().includes(examId)) {
+                    tabs[i].classList.add('active');
+                    break;
+                }
+            }
+            
+            const q = query(collection(db, "results"), where("examId", "==", examId), orderBy("score", "desc"));
+            const snap = await getDocs(q);
+            let results = [];
+            
+            for(const doc of snap.docs) {
+                const result = doc.data();
+                const userSnap = await getDoc(doc(db, "users", result.userId));
+                if(userSnap.exists()) {
+                    const userData = userSnap.data();
+                    results.push({
+                        userId: result.userId,
+                        name: userData.name,
+                        education: userData.education,
+                        score: result.score,
+                        total: result.total,
+                        date: result.date
+                    });
+                }
+            }
+            
+            let h = '';
+            results.slice(0, 50).forEach((x, i) => {
+                let badge = i<3 ? ["🥇","🥈","🥉"][i] : `#${i+1}`;
+                let bg = i<3 ? 'border: 2px solid var(--primary);' : '';
+                h += `<div class="card" style="display:flex; align-items:center; padding:15px; ${bg}">
+                    <b style="font-size:1.3rem; margin-right:15px; width:40px; text-align:center;">${badge}</b>
+                    <div style="flex:1;">
+                        <h4 style="margin-bottom:2px;">${x.name}</h4>
+                        <small style="color:var(--text-sec)">${x.education}</small>
+                    </div>
+                    <div style="background:var(--bg); padding:5px 10px; border-radius:8px;">
+                        <b style="color:var(--primary)">${x.score}/${x.total}</b> <small>score</small>
+                    </div>
+                </div>`;
+            });
+            
+            if(results.length === 0) {
+                h = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No results for this exam yet.</p>';
+            }
+            
+            document.getElementById('lb-list').innerHTML = h;
+        }
+
+        // --- REVIEW PAGE ---
+        window.renderReview = async () => {
+            updateNav(2);
+            document.getElementById('main-content').innerHTML = `
+                <div class="card" style="background:var(--bg); text-align:center;">
+                    <h3>📝 Exam Reviews</h3>
+                    <p style="color:var(--text-sec);">Review your past exam performances</p>
+                </div>
+                <div id="review-list" style="margin-top:10px;">Loading...</div>
+            `;
+
+            const q = query(collection(db, "results"), where("userId", "==", currentUser.uid), orderBy("date", "desc"));
+            const s = await getDocs(q);
+            let h = s.empty ? "<p style='text-align:center; color:var(--text-sec); margin-top:20px;'>You haven't taken any exams yet.</p>" : "";
+            s.forEach(doc => {
+                const data = doc.data();
+                const percentage = (data.score / data.total) * 100;
+                let cardClass = "result-card-medium";
+                if (percentage >= 80) {
+                    cardClass = "result-card-green";
+                } else if (percentage <= 40) {
+                    cardClass = "result-card-red";
+                }
+                
+                h += `
+                    <div class="card ${cardClass}" style="margin-bottom:15px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <h4 style="font-size:1rem; margin-bottom:5px;">${data.exam}</h4>
+                                <small style="color:var(--text-sec);">${data.date}</small>
+                            </div>
+                            <b style="font-size:1.2rem; color:var(--primary);">${data.score}/${data.total}</b>
+                        </div>
+                        <button onclick="showReviewDetail('${doc.id}')" class="btn btn-primary" style="width:100%; margin-top:10px;">
+                            <i class="fas fa-eye"></i> View Review
+                        </button>
+                    </div>
+                `;
+            });
+            document.getElementById('review-list').innerHTML = h;
+        }
+
+        window.showReviewDetail = async (resultId) => {
+            const docSnap = await getDoc(doc(db, "results", resultId));
+            if(docSnap.exists()) {
+                const data = docSnap.data();
+                let reviewHTML = '';
+                if(data.review && Array.isArray(data.review)) {
+                    data.review.forEach((item, index) => {
+                        const reviewClass = item.correct ? 'review-correct' : (item.userAnswer === 'Skipped' ? 'review-skipped' : 'review-wrong');
+                        reviewHTML += `
+                            <div class="review-question ${reviewClass}">
+                                <p style="font-size:0.9rem; font-weight:600;"><b>Q${index+1}:</b> ${item.question}</p>
+                                <div style="margin-top:5px; font-size:0.9rem;">
+                                    <div>Your Answer: <b style="color:${item.correct ? 'var(--success)' : (item.userAnswer === 'Skipped' ? 'var(--warning)' : 'var(--danger)')}">${item.userAnswer}</b></div>
+                                    ${!item.correct && item.userAnswer !== 'Skipped' ? `<div>Correct Answer: <b style="color:var(--success)">${item.correctAnswer}</b></div>` : ''}
+                                    <div style="margin-top:3px; font-size:0.8rem; color:var(--text-sec);">${item.correct ? '✓ Correct' : (item.userAnswer === 'Skipped' ? '⏸ Skipped' : '✗ Wrong')}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    reviewHTML = '<p style="text-align:center; color:var(--text-sec);">No review details available.</p>';
+                }
+                openModal(`Review: ${data.exam} (${data.score}/${data.total})`, reviewHTML);
+            }
+        }
+
         // --- PROFILE - UPDATED ---
         window.renderProfile = async () => {
-            updateNav(2);
+            updateNav(3);
             
             const avatarUrl = currentUser.avatar || (currentUser.gender === 'Female' ? AVATAR_FEMALE[0] : AVATAR_MALE[0]);
             
@@ -1378,7 +1573,7 @@
                 ${renderSupportSection()}
             `;
             
-            const q = query(collection(db, "results"), where("userId", "==", currentUser.uid));
+            const q = query(collection(db, "results"), where("userId", "==", currentUser.uid), orderBy("date", "desc"));
             const s = await getDocs(q);
             let h = s.empty ? "<p style='text-align:center; color:var(--text-sec); margin-top:20px;'>No exams taken yet.</p>" : "";
             s.forEach(d => {
@@ -1573,7 +1768,7 @@
             
             let score = 0, totalQuestions = window.currentQ.length;
             let pointsChange = 0;
-            let review = '';
+            let reviewData = [];
             
             // NEW SCORING SYSTEM: Correct = +1, Wrong = -0.5
             window.currentQ.forEach((q, i) => {
@@ -1592,13 +1787,13 @@
                 }
                 // Skipped questions get 0 marks, no points change
                 
-                review += `<div style="padding:15px; background:var(--bg); margin-bottom:10px; border-radius:12px; border-left:4px solid ${correct?'var(--success)':'var(--danger)'};">
-                    <p style="font-size:0.9rem;"><b>Q${i+1}:</b> ${qText}</p>
-                    <div style="margin-top:5px; font-size:0.9rem;">
-                        Your Ans: <b style="color:${correct?'var(--success)':'var(--danger)'}">${ans ? q.options[ans-1] : 'Skipped'}</b>
-                        ${!correct ? `<br>Correct: <b style="color:var(--success)">${q.options[parseInt(q.correct)-1]}</b>` : ''}
-                    </div>
-                </div>`;
+                // Save review data
+                reviewData.push({
+                    question: qText,
+                    userAnswer: ans ? q.options[ans-1] : 'Skipped',
+                    correctAnswer: q.options[parseInt(q.correct)-1],
+                    correct: correct
+                });
             });
 
             // Ensure score is not negative
@@ -1629,7 +1824,7 @@
                 examsTaken: examsTaken
             });
             
-            // Save result with decimal score
+            // Save result with decimal score and review data
             await addDoc(collection(db, "results"), { 
                 userId: currentUser.uid, 
                 exam: title, 
@@ -1637,6 +1832,7 @@
                 score: score.toFixed(1), 
                 total: totalQuestions, 
                 pointsChange: pointsChange,
+                review: reviewData,
                 date: new Date().toLocaleDateString() 
             });
             
@@ -1673,13 +1869,13 @@
                         </div>
                     </div>
                 </div>
-                ${review}`);
+                <button onclick="renderReview()" class="btn btn-primary">View Detailed Review</button>`);
             toggleLoader(false);
         }
 
         // --- ADMIN PANEL - UPDATED ---
         window.renderAdmin = () => {
-            updateNav(3);
+            updateNav(4);
             document.getElementById('main-content').innerHTML = `
                 <div class="admin-grid">
                     <div class="admin-item" onclick="admView('exam')"><i class="fas fa-file-alt"></i><h4>Exams</h4></div>
@@ -2103,11 +2299,66 @@
                     </div>
                     
                     <button onclick="toggleBan('${uid}', ${u.isBanned})" class="btn" style="background:${btnColor}; color:white; margin:15px 0;">${btnText}</button>
+                    
+                    <button onclick="deleteStudent('${uid}')" class="btn btn-danger" style="margin-top:10px; margin-bottom:10px;">
+                        <i class="fas fa-trash"></i> Delete Student
+                    </button>
+                    
+                    <button onclick="deleteStudentResults('${uid}')" class="btn btn-warning" style="margin-bottom:10px;">
+                        <i class="fas fa-trash-alt"></i> Delete Student Results Only
+                    </button>
                 </div>
                 <hr style="border:1px solid var(--border); margin:10px 0;">
                 <h4>Exam History</h4>
                 <div style="max-height:150px; overflow-y:auto;">${h||"No exams taken."}</div>
             `);
+        }
+
+        window.deleteStudent = async (uid) => {
+            if(await customConfirm("Are you sure you want to delete this student? This will delete ALL data including user account, results, and notifications.")) {
+                // Delete user
+                await deleteDoc(doc(db, "users", uid));
+                
+                // Delete results
+                const q1 = query(collection(db, "results"), where("userId", "==", uid));
+                const snap1 = await getDocs(q1);
+                const batch1 = writeBatch(db);
+                snap1.forEach(doc => batch1.delete(doc.ref));
+                await batch1.commit();
+                
+                // Delete notifications
+                const q2 = query(collection(db, "notifications"), where("userId", "==", uid));
+                const snap2 = await getDocs(q2);
+                const batch2 = writeBatch(db);
+                snap2.forEach(doc => batch2.delete(doc.ref));
+                await batch2.commit();
+                
+                showMsg("Student deleted successfully!");
+                closeModal();
+                admView('student');
+            }
+        }
+
+        window.deleteStudentResults = async (uid) => {
+            if(await customConfirm("Are you sure you want to delete all exam results for this student?")) {
+                // Delete results
+                const q = query(collection(db, "results"), where("userId", "==", uid));
+                const snap = await getDocs(q);
+                const batch = writeBatch(db);
+                snap.forEach(doc => batch.delete(doc.ref));
+                await batch.commit();
+                
+                // Update user's examsTaken
+                await updateDoc(doc(db, "users", uid), { 
+                    examsTaken: [],
+                    points: 0,
+                    level: 1
+                });
+                
+                showMsg("Student results deleted successfully!");
+                closeModal();
+                admView('student');
+            }
         }
 
         window.adjustUserPoints = async (uid) => {
@@ -2274,4 +2525,4 @@
 
     </script>
 </body>
-</html>
+            </html>
