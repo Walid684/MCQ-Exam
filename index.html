@@ -715,7 +715,7 @@
         let allNotifications = [];
         let unreadNotifications = 0;
 
-        // AVATAR IMAGES - UPDATED WITH MORE OPTIONS
+        // AVATAR IMAGES
         const AVATAR_MALE = [
             "https://cdn-icons-png.flaticon.com/512/4825/4825038.png",
             "https://cdn-icons-png.flaticon.com/512/4333/4333609.png",
@@ -818,7 +818,7 @@
             touchStart = 0;
         }, {passive: true});
 
-        // --- CUSTOM CONFIRM LOGIC (FIXED) ---
+        // --- CUSTOM CONFIRM LOGIC ---
         let confirmResolver = null;
         window.customConfirm = (msg) => {
             const m = document.getElementById('confirm-modal');
@@ -895,7 +895,6 @@
                         url: shareUrl,
                     });
                 } catch (err) {
-                    console.log('Error sharing:', err);
                     copyToClipboard(shareText);
                 }
             } else {
@@ -1366,7 +1365,7 @@
             }
         }
 
-        // --- LEADERBOARD - COMPLETELY REWRITTEN ---
+        // --- LEADERBOARD ---
         window.renderLeaderboard = async () => {
             updateNav(1);
             document.getElementById('main-content').innerHTML = `
@@ -1404,7 +1403,6 @@
         }
 
         async function loadLeaderboardData(type, examTitle = '') {
-            // Update active tab
             document.querySelectorAll('.exam-tab').forEach(tab => tab.classList.remove('active'));
             if(type === 'overall') {
                 document.getElementById('tab-overall').classList.add('active');
@@ -1495,10 +1493,8 @@
                     userIds.push(result.userId);
                 });
                 
-                // Sort by score
                 results.sort((a, b) => b.score - a.score);
                 
-                // Get user details
                 let leaderboardData = [];
                 for(let i = 0; i < Math.min(results.length, 50); i++) {
                     const result = results[i];
@@ -1548,7 +1544,7 @@
             }
         }
 
-        // --- REVIEW PAGE - COMPLETELY REWRITTEN ---
+        // --- REVIEW PAGE ---
         window.renderReview = async () => {
             updateNav(2);
             document.getElementById('main-content').innerHTML = `
@@ -1575,7 +1571,6 @@
                     });
                 });
                 
-                // Sort by date (newest first)
                 reviews.sort((a, b) => {
                     if(a.timestamp && b.timestamp) {
                         return b.timestamp.toMillis() - a.timestamp.toMillis();
@@ -1663,7 +1658,7 @@
             }
         }
 
-        // --- PROFILE - UPDATED ---
+        // --- PROFILE ---
         window.renderProfile = async () => {
             updateNav(3);
             
@@ -1731,7 +1726,6 @@
                     let results = [];
                     s.forEach(d => results.push({id: d.id, ...d.data()}));
                     
-                    // Sort by date (newest first)
                     results.sort((a, b) => {
                         if(a.timestamp && b.timestamp) {
                             return b.timestamp.toMillis() - a.timestamp.toMillis();
@@ -1864,7 +1858,7 @@
             }
         }
 
-        // --- MCQ ENGINE - UPDATED ---
+        // --- MCQ ENGINE ---
         window.startExam = async (id, title, time) => {
             if(currentUser.examsTaken && currentUser.examsTaken.includes(id)) {
                 showMsg("You have already taken this exam!");
@@ -2054,7 +2048,7 @@
             }
         }
 
-        // --- ADMIN PANEL - UPDATED ---
+        // --- ADMIN PANEL ---
         window.renderAdmin = () => {
             updateNav(4);
             document.getElementById('main-content').innerHTML = `
@@ -2096,6 +2090,7 @@
         }
 
         async function loadExamAdminView() {
+            const area = document.getElementById('adm-area');
             area.innerHTML = `
                 <div class="card"><h3>Create Exam</h3><input id="nt" placeholder="Title"><input id="nm" type="number" placeholder="Time (Min)"><button onclick="addExam()" class="btn btn-primary">Create</button></div>
                 <div class="card">
@@ -2125,6 +2120,7 @@
         }
 
         async function loadStudentAdminView() {
+            const area = document.getElementById('adm-area');
             area.innerHTML = `
                 <div class="card">
                     <h3>Registered Students</h3>
@@ -2168,6 +2164,9 @@
         }
 
         function renderStudentList(list) {
+            const sl = document.getElementById('sl');
+            if (!sl) return;
+            
             let h = '';
             list.forEach(u => {
                 const isBan = u.isBanned ? '<span class="banned-badge">BANNED</span>' : '';
@@ -2181,10 +2180,585 @@
                     <small style="color:var(--primary); font-weight:600;">${u.points} pts</small>
                 </div>`;
             });
-            document.getElementById('sl').innerHTML = h || '<p>No students found.</p>';
+            sl.innerHTML = h || '<p>No students found.</p>';
         }
 
-        // ... (বাকি admin ফাংশনগুলো আগের মতোই রাখুন, শুধু error handling যোগ করুন)
+        window.addExam = async () => { 
+            await addDoc(collection(db, "exams"), {
+                title:document.getElementById('nt').value, 
+                time:parseInt(document.getElementById('nm').value), 
+                createdAt: Date.now()
+            }); 
+            
+            const usersSnap = await getDocs(collection(db, "users"));
+            usersSnap.forEach(async (userDoc) => {
+                if(userDoc.data().role !== 'admin') {
+                    await sendNotification(
+                        userDoc.id, 
+                        "New Exam Available!", 
+                        `A new exam "${document.getElementById('nt').value}" has been added. Check it out!`,
+                        'exam'
+                    );
+                }
+            });
+            
+            showMsg("Created"); 
+            admView('exam'); 
+        }
+        
+        window.upJson = async () => { 
+            try { 
+                const d=JSON.parse(document.getElementById('jt').value); 
+                for(const q of d) {
+                   await addDoc(collection(db,"questions"),{
+                       examId:document.getElementById('es').value, 
+                       question: q.question || q.q, 
+                       options: q.options,
+                       correct: q.correct
+                   }); 
+                }
+                showMsg("Uploaded Successfully"); 
+            } catch(e){showMsg("JSON Error: Check format");} 
+        }
+        
+        window.delDoc = async (c, id) => { 
+            if(await customConfirm("Are you sure you want to delete this?")) { 
+                await deleteDoc(doc(db, c, id)); 
+                showMsg("Deleted"); 
+                if(c==='exams') admView('exam');
+                else if(c==='routines') admView('routine');
+                else if(c==='notes') admView('notes');
+            } 
+        }
+        
+        async function loadRoutineAdminView() {
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `<div class="card"><h3>Add Routine</h3><input id="rt" placeholder="Title"><input id="rm" placeholder="Time"><button onclick="addRT()" class="btn btn-primary">Add</button></div><div class="card"><h3>Manage</h3><div id="rl"></div></div>`;
+            
+            try {
+                const s = await getDocs(collection(db, "routines")); 
+                let h=''; 
+                s.forEach(d=>{ 
+                    h+=`<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border);"><span>${d.data().title}</span><button class="btn btn-danger" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="delDoc('routines','${d.id}')">Del</button></div>`; 
+                });
+                document.getElementById('rl').innerHTML = h;
+            } catch(error) {
+                console.error("Error loading routines:", error);
+                document.getElementById('rl').innerHTML = '<p style="color:var(--danger);">Error loading routines</p>';
+            }
+        }
+        
+        window.addRT = async () => { 
+            await addDoc(collection(db, "routines"), {
+                title:document.getElementById('rt').value, 
+                time:document.getElementById('rm').value, 
+                createdAt: Date.now()
+            }); 
+            
+            const usersSnap = await getDocs(collection(db, "users"));
+            usersSnap.forEach(async (userDoc) => {
+                if(userDoc.data().role !== 'admin') {
+                    await sendNotification(
+                        userDoc.id, 
+                        "Routine Updated!", 
+                        `New routine "${document.getElementById('rt').value}" has been added.`,
+                        'routine'
+                    );
+                }
+            });
+            
+            showMsg("Added"); 
+            admView('routine'); 
+        }
+        
+        async function loadNotesAdminView() {
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `<div class="card"><h3>Add PDF</h3><input id="pt" placeholder="Title"><input id="pl" placeholder="Link"><button onclick="addNT()" class="btn btn-primary">Add</button></div><div class="card"><h3>Manage</h3><div id="nl"></div></div>`;
+            
+            try {
+                const s = await getDocs(collection(db, "notes")); 
+                let h=''; 
+                s.forEach(d=>{ 
+                    h+=`<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border);"><span>${d.data().title}</span><button class="btn btn-danger" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="delDoc('notes','${d.id}')">Del</button></div>`; 
+                });
+                document.getElementById('nl').innerHTML = h;
+            } catch(error) {
+                console.error("Error loading notes:", error);
+                document.getElementById('nl').innerHTML = '<p style="color:var(--danger);">Error loading notes</p>';
+            }
+        }
+        
+        window.addNT = async () => { 
+            await addDoc(collection(db, "notes"), {
+                title:document.getElementById('pt').value, 
+                link:document.getElementById('pl').value, 
+                createdAt: Date.now()
+            }); 
+            
+            const usersSnap = await getDocs(collection(db, "users"));
+            usersSnap.forEach(async (userDoc) => {
+                if(userDoc.data().role !== 'admin') {
+                    await sendNotification(
+                        userDoc.id, 
+                        "New Note Added!", 
+                        `A new note "${document.getElementById('pt').value}" is available.`,
+                        'note'
+                    );
+                }
+            });
+            
+            showMsg("Added"); 
+            admView('notes'); 
+        }
+        
+        async function loadBroadcastAdminView() {
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `<div class="card"><h3>Broadcast Message</h3><textarea id="bcm" rows="3" placeholder="Write message..."></textarea><button onclick="sendBC()" class="btn btn-primary">Send to All</button><button onclick="clearBC()" class="btn btn-sec">Clear</button></div>`;
+        }
+        
+        window.sendBC = async () => { 
+            const message = document.getElementById('bcm').value;
+            await setDoc(doc(db, "settings", "broadcast"), {message: message});
+            
+            const usersSnap = await getDocs(collection(db, "users"));
+            usersSnap.forEach(async (userDoc) => {
+                if(userDoc.data().role !== 'admin') {
+                    await sendNotification(
+                        userDoc.id, 
+                        "Important Announcement!", 
+                        message,
+                        'broadcast'
+                    );
+                }
+            });
+            
+            showMsg("Broadcast Sent to All Users"); 
+        }
+        
+        window.clearBC = async () => { 
+            await deleteDoc(doc(db, "settings", "broadcast")); 
+            showMsg("Cleared"); 
+        }
+        
+        async function loadNotificationsAdminView() {
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `
+                <div class="card">
+                    <h3>Send Notification</h3>
+                    <input id="notif-title" placeholder="Notification Title">
+                    <textarea id="notif-message" rows="3" placeholder="Notification Message"></textarea>
+                    <select id="notif-type">
+                        <option value="general">General</option>
+                        <option value="exam">Exam</option>
+                        <option value="routine">Routine</option>
+                        <option value="note">Note</option>
+                        <option value="broadcast">Broadcast</option>
+                        <option value="support">Support</option>
+                    </select>
+                    <select id="notif-target">
+                        <option value="all">All Users</option>
+                        <option value="specific">Specific User</option>
+                    </select>
+                    <input id="notif-user" placeholder="User Email (if specific)" style="display:none;">
+                    <button onclick="sendNotificationToUsers()" class="btn btn-primary">Send Notification</button>
+                    <button onclick="clearAllNotificationsAdmin()" class="btn btn-danger" style="margin-top:10px;">
+                        <i class="fas fa-trash"></i> Clear All Notifications (All Users)
+                    </button>
+                </div>
+                <div class="card">
+                    <h3>Recent Notifications</h3>
+                    <div id="notif-list" style="max-height:300px; overflow-y:auto;">Loading...</div>
+                </div>
+            `;
+            
+            document.getElementById('notif-target').addEventListener('change', function() {
+                document.getElementById('notif-user').style.display = this.value === 'specific' ? 'block' : 'none';
+            });
+            
+            await loadAdminNotifications();
+        }
+        
+        async function loadAdminNotifications() {
+            try {
+                const notifSnap = await getDocs(collection(db, "notifications"));
+                let notifHtml = '';
+                
+                const usersSnap = await getDocs(collection(db, "users"));
+                const usersMap = {};
+                usersSnap.forEach(doc => {
+                    usersMap[doc.id] = doc.data().name;
+                });
+                
+                for (const doc of notifSnap.docs) {
+                    const data = doc.data();
+                    const userName = usersMap[data.userId] || data.userId;
+                    
+                    notifHtml += `<div style="padding:10px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div><b>${data.title}</b></div>
+                            <div style="font-size:0.8rem;">${data.message}</div>
+                            <div style="font-size:0.7rem; color:var(--text-sec);">To: ${userName}</div>
+                            <div style="font-size:0.7rem; color:var(--text-sec);">Time: ${formatTime(data.timestamp?.toMillis() || Date.now())}</div>
+                        </div>
+                        <button onclick="deleteNotificationAdmin('${doc.id}')" class="notification-delete">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>`;
+                }
+                
+                document.getElementById('notif-list').innerHTML = notifHtml || '<p>No notifications sent yet.</p>';
+            } catch(error) {
+                console.error("Error loading admin notifications:", error);
+                document.getElementById('notif-list').innerHTML = '<p style="color:var(--danger);">Error loading notifications</p>';
+            }
+        }
+        
+        window.sendNotificationToUsers = async () => {
+            const title = document.getElementById('notif-title').value;
+            const message = document.getElementById('notif-message').value;
+            const type = document.getElementById('notif-type').value;
+            const target = document.getElementById('notif-target').value;
+            const specificUser = document.getElementById('notif-user').value;
+            
+            if(!title || !message) return showMsg("Please fill all fields");
+            
+            if(target === 'all') {
+                const usersSnap = await getDocs(collection(db, "users"));
+                let count = 0;
+                
+                for(const userDoc of usersSnap.docs) {
+                    if(userDoc.data().role !== 'admin') {
+                        await sendNotification(userDoc.id, title, message, type);
+                        count++;
+                    }
+                }
+                
+                showMsg(`Notification sent to ${count} users!`);
+            } else {
+                const q = query(collection(db, "users"), where("email", "==", specificUser));
+                const s = await getDocs(q);
+                
+                if(s.empty) return showMsg("User not found");
+                
+                s.forEach(async (doc) => {
+                    await sendNotification(doc.id, title, message, type);
+                });
+                
+                showMsg("Notification sent to specific user!");
+            }
+            
+            document.getElementById('notif-title').value = '';
+            document.getElementById('notif-message').value = '';
+            admView('notifications');
+        }
+        
+        window.clearAllNotificationsAdmin = async () => {
+            if(await customConfirm("Clear all notifications for all users?")) {
+                const snap = await getDocs(collection(db, "notifications"));
+                const batch = writeBatch(db);
+                snap.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+                showMsg("All notifications cleared!");
+                admView('notifications');
+            }
+        }
+        
+        window.deleteNotificationAdmin = async (notificationId) => {
+            await deleteDoc(doc(db, "notifications", notificationId));
+            showMsg("Notification deleted!");
+            admView('notifications');
+        }
+        
+        async function loadSupportAdminView() {
+            await loadSupportLinks();
+            
+            const area = document.getElementById('adm-area');
+            let supportListHtml = '';
+            
+            if (supportLinks.length === 0) {
+                supportListHtml = '<p style="text-align:center; color:var(--text-sec); padding:10px;">No support links added yet.</p>';
+            } else {
+                supportLinks.forEach(link => {
+                    supportListHtml += `
+                        <div class="support-admin-item">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div class="support-icon" style="background: ${link.color || '#6C63FF'}; width:40px; height:40px;">
+                                    <i class="${link.icon}"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight:600;">${link.title}</div>
+                                    <div style="font-size:0.8rem; color:var(--text-sec);">${link.link}</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-danger" style="width:auto; padding:5px 10px;" onclick="deleteSupportLink('${link.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+            }
+            
+            area.innerHTML = `
+                <div class="card">
+                    <h3>Add Support Link</h3>
+                    <input id="sp-title" placeholder="Title (e.g. Telegram Group)">
+                    <input id="sp-icon" placeholder="Font Awesome icon (e.g. fab fa-telegram)">
+                    <input id="sp-link" placeholder="Link URL">
+                    <input id="sp-desc" placeholder="Description (optional)">
+                    <input id="sp-color" type="color" value="#6C63FF">
+                    <input id="sp-order" type="number" placeholder="Order (optional)" value="0">
+                    <button onclick="addSupportLink()" class="btn btn-primary">Add Support Link</button>
+                </div>
+                
+                <div class="card">
+                    <h3>Manage Support Links</h3>
+                    <div class="support-admin-grid" id="support-links-list">
+                        ${supportListHtml}
+                    </div>
+                </div>
+            `;
+        }
+        
+        window.addSupportLink = async () => {
+            const title = document.getElementById('sp-title').value;
+            const icon = document.getElementById('sp-icon').value;
+            const link = document.getElementById('sp-link').value;
+            const description = document.getElementById('sp-desc').value;
+            const color = document.getElementById('sp-color').value;
+            const order = parseInt(document.getElementById('sp-order').value) || 0;
+
+            if(!title || !icon || !link) return showMsg("Please fill all required fields");
+
+            await addDoc(collection(db, "supportLinks"), {
+                title: title,
+                icon: icon,
+                link: link,
+                description: description,
+                color: color,
+                order: order,
+                createdAt: Timestamp.now()
+            });
+
+            showMsg("Support link added successfully!");
+            await loadSupportLinks();
+            admView('support');
+        }
+        
+        window.deleteSupportLink = async (id) => {
+            if(await customConfirm("Delete this support link?")) {
+                await deleteDoc(doc(db, "supportLinks", id));
+                showMsg("Support link deleted!");
+                await loadSupportLinks();
+                admView('support');
+            }
+        }
+        
+        async function loadSettingsAdminView() {
+            const shareLinksSnap = await getDoc(doc(db, "settings", "shareLinks"));
+            if (shareLinksSnap.exists()) {
+                shareLinks = shareLinksSnap.data();
+            }
+            
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `
+                <div class="card">
+                    <h3>Theme Color</h3>
+                    <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+                        <div onclick="setTh('#6C63FF')" style="width:35px; height:35px; background:#6C63FF; border-radius:50%; cursor:pointer;"></div>
+                        <div onclick="setTh('#00b894')" style="width:35px; height:35px; background:#00b894; border-radius:50%; cursor:pointer;"></div>
+                        <div onclick="setTh('#FF6584')" style="width:35px; height:35px; background:#FF6584; border-radius:50%; cursor:pointer;"></div>
+                        <div onclick="setTh('#f39c12')" style="width:35px; height:35px; background:#f39c12; border-radius:50%; cursor:pointer;"></div>
+                        <div onclick="setTh('#3498db')" style="width:35px; height:35px; background:#3498db; border-radius:50%; cursor:pointer;"></div>
+                        <div onclick="setTh('#9b59b6')" style="width:35px; height:35px; background:#9b59b6; border-radius:50%; cursor:pointer;"></div>
+                    </div>
+                    
+                    <h4 style="margin-top:20px;">Adjust Tone</h4>
+                    <div class="theme-slider-container">
+                        <input type="range" min="0" max="360" value="0" class="thermo" id="hue-slider" oninput="slideTheme(this.value)">
+                        <p style="text-align:center; font-size:0.8rem;">Slide to change color</p>
+                    </div>
+                    
+                    <h3 style="margin-top:20px;">Share Links</h3>
+                    <input id="telegram-link" value="${shareLinks.telegram || ''}" placeholder="Telegram Bot Link">
+                    <input id="website-link" value="${shareLinks.website || ''}" placeholder="Website Link">
+                    <input id="app-link" value="${shareLinks.app || ''}" placeholder="App Download Link">
+                    <button onclick="saveShareLinks()" class="btn btn-primary">Save Share Links</button>
+                    
+                    <h3 style="margin-top:20px;">Actions</h3>
+                    <button onclick="resetRank()" class="btn btn-danger">Reset All Ranks</button>
+                    <div style="margin-top:10px;"><input id="adm-mail" placeholder="User Email to make Admin"><button onclick="makeAdmin()" class="btn btn-primary">Add Admin</button></div>
+                </div>
+            `;
+        }
+        
+        window.setTh = async (c) => { 
+            await setDoc(doc(db,"settings","theme"),{color:c}); 
+            document.documentElement.style.setProperty('--primary', c); 
+            showMsg("Theme Set"); 
+        }
+        
+        window.slideTheme = (val) => {
+            const color = `hsl(${val}, 70%, 60%)`;
+            document.documentElement.style.setProperty('--primary', color);
+            if(window.saveThemeTimeout) clearTimeout(window.saveThemeTimeout);
+            window.saveThemeTimeout = setTimeout(async() => {
+                 await setDoc(doc(db,"settings","theme"),{color:color});
+            }, 1000);
+        }
+        
+        window.resetRank = async () => { 
+            if(await customConfirm("Reset all points to 0 and levels to 1?")) { 
+                const s=await getDocs(collection(db,"users")); 
+                s.forEach(d=> updateDoc(d.ref, {points:0, level:1, examsTaken: []})); 
+                showMsg("Reset Done"); 
+            } 
+        }
+        
+        window.makeAdmin = async () => {
+            const email = document.getElementById('adm-mail').value;
+            const q = query(collection(db, "users"), where("email", "==", email));
+            const s = await getDocs(q);
+            if(s.empty) return showMsg("User not found");
+            s.forEach(d => updateDoc(d.ref, {role:'admin'}));
+            showMsg("Admin Added!");
+        }
+        
+        window.saveShareLinks = async () => {
+            const telegramLink = document.getElementById('telegram-link').value;
+            const websiteLink = document.getElementById('website-link').value;
+            const appLink = document.getElementById('app-link').value;
+
+            await setDoc(doc(db, "settings", "shareLinks"), {
+                telegram: telegramLink,
+                website: websiteLink,
+                app: appLink
+            });
+            
+            shareLinks = { telegram: telegramLink, website: websiteLink, app: appLink };
+            showMsg("Share links saved!");
+        }
+        
+        window.viewUser = async (uid) => {
+            const uSnap = await getDoc(doc(db, "users", uid));
+            const u = uSnap.data();
+            const q = query(collection(db, "results"), where("userId", "==", uid));
+            const s = await getDocs(q);
+            let h = ""; s.forEach(d => h += `<div style="font-size:0.9rem; border-bottom:1px solid var(--border); padding:5px;"><b>${d.data().exam}</b>: ${d.data().score}/${d.data().total} (${d.data().pointsChange > 0 ? '+' : ''}${d.data().pointsChange} pts)</div>`);
+            
+            const btnText = u.isBanned ? "Unban Student" : "Ban Student";
+            const btnColor = u.isBanned ? "var(--success)" : "var(--danger)";
+
+            openModal("Student Details", `
+                <div style="text-align:center;">
+                    <h3 style="color:var(--primary)">${u.name}</h3>
+                    <p>${u.email}</p>
+                    <p style="font-size:0.8rem; color:var(--text-sec)">Joined: ${u.joined}</p>
+                    <div style="display:flex; justify-content:center; gap:10px; margin:10px 0;">
+                        <div style="background:var(--bg); padding:10px; border-radius:10px;">
+                            <div style="font-size:1.5rem; color:var(--primary);">${u.points || 0}</div>
+                            <div style="font-size:0.8rem;">Points</div>
+                        </div>
+                        <div style="background:var(--bg); padding:10px; border-radius:10px;">
+                            <div style="font-size:1.5rem; color:var(--warning);">${u.level || 1}</div>
+                            <div style="font-size:0.8rem;">Level</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin:15px 0;">
+                        <h4>Adjust Level/Points</h4>
+                        <div style="display:flex; gap:10px;">
+                            <input type="number" id="adj-points" value="${u.points || 0}" placeholder="Points" style="width:50%;">
+                            <input type="number" id="adj-level" value="${u.level || 1}" placeholder="Level" style="width:50%;">
+                        </div>
+                        <button onclick="adjustUserPoints('${uid}')" class="btn btn-primary" style="margin-top:10px;">Update</button>
+                    </div>
+                    
+                    <button onclick="toggleBan('${uid}', ${u.isBanned})" class="btn" style="background:${btnColor}; color:white; margin:15px 0;">${btnText}</button>
+                    
+                    <button onclick="deleteStudent('${uid}')" class="btn btn-danger" style="margin-top:10px; margin-bottom:10px;">
+                        <i class="fas fa-trash"></i> Delete Student
+                    </button>
+                    
+                    <button onclick="deleteStudentResults('${uid}')" class="btn btn-warning" style="margin-bottom:10px;">
+                        <i class="fas fa-trash-alt"></i> Delete Student Results Only
+                    </button>
+                </div>
+                <hr style="border:1px solid var(--border); margin:10px 0;">
+                <h4>Exam History</h4>
+                <div style="max-height:150px; overflow-y:auto;">${h||"No exams taken."}</div>
+            `);
+        }
+        
+        window.adjustUserPoints = async (uid) => {
+            const newPoints = parseInt(document.getElementById('adj-points').value) || 0;
+            const newLevel = parseInt(document.getElementById('adj-level').value) || 1;
+            
+            await updateDoc(doc(db, "users", uid), { 
+                points: newPoints, 
+                level: newLevel 
+            });
+            
+            showMsg("User points and level updated!");
+            closeModal();
+            admView('student');
+        }
+        
+        window.toggleBan = async (uid, currentStatus) => {
+            await updateDoc(doc(db, "users", uid), { isBanned: !currentStatus });
+            showMsg(currentStatus ? "User Unbanned" : "User Banned");
+            closeModal();
+            admView('student'); 
+        }
+        
+        window.deleteStudent = async (uid) => {
+            if(await customConfirm("Are you sure you want to delete this student? This will delete ALL data including user account, results, and notifications.")) {
+                await deleteDoc(doc(db, "users", uid));
+                
+                const q1 = query(collection(db, "results"), where("userId", "==", uid));
+                const snap1 = await getDocs(q1);
+                const batch1 = writeBatch(db);
+                snap1.forEach(doc => batch1.delete(doc.ref));
+                await batch1.commit();
+                
+                const q2 = query(collection(db, "notifications"), where("userId", "==", uid));
+                const snap2 = await getDocs(q2);
+                const batch2 = writeBatch(db);
+                snap2.forEach(doc => batch2.delete(doc.ref));
+                await batch2.commit();
+                
+                showMsg("Student deleted successfully!");
+                closeModal();
+                admView('student');
+            }
+        }
+        
+        window.deleteStudentResults = async (uid) => {
+            if(await customConfirm("Are you sure you want to delete all exam results for this student?")) {
+                const q = query(collection(db, "results"), where("userId", "==", uid));
+                const snap = await getDocs(q);
+                const batch = writeBatch(db);
+                snap.forEach(doc => batch.delete(doc.ref));
+                await batch.commit();
+                
+                await updateDoc(doc(db, "users", uid), { 
+                    examsTaken: [],
+                    points: 0,
+                    level: 1
+                });
+                
+                showMsg("Student results deleted successfully!");
+                closeModal();
+                admView('student');
+            }
+        }
+        
+        window.copyFormat = () => {
+            const fmt = `[{"question":"Question Name?","options":["A","B","C","D"],"correct":4}]`;
+            navigator.clipboard.writeText(fmt);
+            showMsg("Format Copied!");
+        }
 
         // --- LOADERS ---
         async function loadServerTheme() { 
