@@ -25,6 +25,7 @@
             --white: #ffffff;
             --warning: #ffa502;
             --live-color: #ff3838;
+            --medium: #f39c12;
         }
 
         .dark-mode {
@@ -78,6 +79,14 @@
         }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* NETWORK STATUS POPUP */
+        #network-status {
+            position: fixed; top: 0; left: 0; width: 100%; 
+            background: var(--danger); color: white; text-align: center; 
+            padding: 12px; z-index: 100000; display: none;
+            font-weight: 600; box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
         /* INPUTS */
         input, select, textarea {
             width: 100%; padding: 15px; border: 2px solid var(--border); border-radius: 15px;
@@ -95,10 +104,10 @@
         .btn-warning { background: var(--warning); color: white; }
         .btn:active { transform: scale(0.98); }
 
-        /* HEADER - হেডার ছোট করা হয়েছে */
+        /* HEADER */
         header { 
             background: var(--primary);
-            padding: 30px 15px 15px 20px; /* Reduced from 50px 20px 15px 20px */
+            padding: 30px 15px 15px 20px;
             position: sticky; top: 0; z-index: 100;
             display: flex; justify-content: space-between; align-items: center; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
@@ -111,7 +120,7 @@
         .container { padding: 20px; max-width: 800px; margin: 0 auto; }
         .card { background: var(--card-bg); padding: 20px; border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); border: 1px solid var(--border); }
         
-        /* NOTIFICATION SLIDER - নতুন স্টাইল */
+        /* NOTIFICATION SLIDER */
         .news-slider { width: 100%; overflow: hidden; margin-bottom: 15px; display: none; }
         .news-track { display: flex; gap: 10px; animation: slideLeft 15s linear infinite; }
         .news-item {
@@ -134,14 +143,15 @@
             100% { box-shadow: 0 0 0 0 rgba(108, 99, 255, 0); }
         }
 
-        /* NOTIFICATION POPUP - নতুন */
+        /* NOTIFICATION POPUP - UPDATED */
         .notification-popup {
             position: fixed; top: 70px; right: 20px;
             background: var(--card-bg); padding: 15px; border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 10000;
-            display: none; width: 300px; border-left: 5px solid var(--primary);
+            display: none; width: 320px; border-left: 5px solid var(--primary);
             animation: slideInRight 0.3s ease;
             border: 1px solid var(--border);
+            max-height: 400px; overflow-y: auto;
         }
         @keyframes slideInRight {
             from { transform: translateX(100%); opacity: 0; }
@@ -155,8 +165,24 @@
             padding: 10px; border-radius: 10px; margin-bottom: 8px;
             background: var(--bg); border-left: 3px solid var(--primary);
             font-size: 0.85rem; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .notification-item-content {
+            flex: 1;
         }
         .notification-item.unread { background: var(--primary-light); font-weight: 500; }
+        .notification-delete {
+            background: transparent; border: none; color: var(--danger);
+            cursor: pointer; font-size: 1rem; margin-left: 10px;
+            width: 25px; height: 25px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; transition: 0.2s;
+        }
+        .notification-delete:hover { background: rgba(255, 71, 87, 0.1); }
+        .notification-clear-all {
+            width: 100%; margin-top: 10px; padding: 10px;
+            background: var(--danger); color: white; border-radius: 10px;
+            border: none; cursor: pointer; font-weight: 600;
+        }
 
         /* MCQ STYLES */
         .mcq-anim { animation: slideUp 0.5s ease forwards; opacity: 0; }
@@ -173,6 +199,20 @@
         }
         .mcq-option.selected .mcq-circle { border-color: var(--primary); background: var(--primary); }
         .mcq-option.selected .mcq-circle::after { content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; }
+
+        /* RESULT CARD COLOR BASED ON PERCENTAGE */
+        .result-card-green {
+            border-left: 5px solid var(--success) !important;
+            background: linear-gradient(90deg, rgba(46, 204, 113, 0.1), transparent) !important;
+        }
+        .result-card-red {
+            border-left: 5px solid var(--danger) !important;
+            background: linear-gradient(90deg, rgba(255, 71, 87, 0.1), transparent) !important;
+        }
+        .result-card-medium {
+            border-left: 5px solid var(--medium) !important;
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.1), transparent) !important;
+        }
 
         /* GRID CARDS */
         .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 10px; }
@@ -203,7 +243,7 @@
             color: white;
         }
 
-        /* LIVE BADGE - নতুন */
+        /* LIVE BADGE */
         .live-badge {
             position: absolute; top: 10px; right: 10px;
             background: var(--live-color); color: white; font-size: 0.6rem;
@@ -298,28 +338,47 @@
         .spinner { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* SHARE BUTTON */
-        .share-btn {
-            background: linear-gradient(45deg, #25D366, #128C7E);
-            color: white; border: none; padding: 10px 20px;
-            border-radius: 12px; font-weight: 600; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            margin-top: 15px; width: 100%;
+        /* SHARE MODAL */
+        .share-options {
+            display: flex; flex-direction: column; gap: 10px; margin-top: 15px;
         }
+        .share-option-btn {
+            display: flex; align-items: center; gap: 10px;
+            padding: 15px; border-radius: 12px; background: var(--bg);
+            border: 2px solid var(--border); cursor: pointer; transition: 0.2s;
+        }
+        .share-option-btn:hover {
+            border-color: var(--primary); background: var(--primary-light);
+            transform: translateX(5px);
+        }
+        .share-option-btn i {
+            font-size: 1.5rem; width: 40px; text-align: center;
+        }
+        .telegram-btn { color: #0088cc; }
+        .website-btn { color: var(--primary); }
+        .app-btn { color: var(--success); }
 
     </style>
 </head>
 <body>
 
     <div id="refresh-indicator"><i class="fas fa-sync-alt fa-spin"></i></div>
+    
+    <!-- Network Status Popup -->
+    <div id="network-status">
+        <i class="fas fa-wifi-slash"></i> No internet connection. Please check your network.
+    </div>
 
-    <!-- Notification Popup -->
+    <!-- Notification Popup - UPDATED -->
     <div class="notification-popup" id="notification-popup">
         <div class="notification-header">
             <h4 style="color: var(--primary); margin:0;">Notifications</h4>
             <i class="fas fa-times" onclick="closeNotificationPopup()" style="cursor:pointer;"></i>
         </div>
         <div id="notification-list"></div>
+        <button class="notification-clear-all" onclick="clearAllNotifications()" id="clear-all-btn" style="display:none;">
+            <i class="fas fa-trash"></i> Clear All
+        </button>
     </div>
 
     <div id="splash-screen">
@@ -407,6 +466,39 @@
         </div>
     </div>
 
+    <!-- SHARE MODAL -->
+    <div id="share-modal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom:20px; color:var(--primary); text-align:center;">
+                <i class="fas fa-share-alt"></i> Share ExamPro
+            </h2>
+            <div class="share-options">
+                <div class="share-option-btn telegram-btn" onclick="shareViaPlatform('telegram')">
+                    <i class="fab fa-telegram"></i>
+                    <div>
+                        <div style="font-weight:600;">Telegram Bot</div>
+                        <small style="color:var(--text-sec);">Share via Telegram bot</small>
+                    </div>
+                </div>
+                <div class="share-option-btn website-btn" onclick="shareViaPlatform('website')">
+                    <i class="fas fa-globe"></i>
+                    <div>
+                        <div style="font-weight:600;">Website</div>
+                        <small style="color:var(--text-sec);">Share website link</small>
+                    </div>
+                </div>
+                <div class="share-option-btn app-btn" onclick="shareViaPlatform('app')">
+                    <i class="fas fa-mobile-alt"></i>
+                    <div>
+                        <div style="font-weight:600;">App</div>
+                        <small style="color:var(--text-sec);">Share app download link</small>
+                    </div>
+                </div>
+            </div>
+            <button onclick="closeShareModal()" class="btn btn-sec" style="margin-top:20px;">Cancel</button>
+        </div>
+    </div>
+
     <!-- Audio for notification sound -->
     <audio id="notification-sound" preload="auto">
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
@@ -415,7 +507,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc, onSnapshot, Timestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc, onSnapshot, Timestamp, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // CONFIG
         const firebaseConfig = {
@@ -442,6 +534,27 @@
         // AVATAR IMAGES
         const AVATAR_MALE = "https://cdn-icons-png.flaticon.com/512/4825/4825038.png";
         const AVATAR_FEMALE = "https://cdn-icons-png.flaticon.com/512/4825/4825112.png";
+
+        // SHARE LINKS DEFAULT
+        let shareLinks = {
+            telegram: "https://t.me/your_bot",
+            website: "https://yourexampro.com",
+            app: "https://play.google.com/store/apps/details?id=com.exampro"
+        };
+
+        // --- NETWORK CONNECTIVITY ---
+        function updateNetworkStatus() {
+            const networkStatus = document.getElementById('network-status');
+            if (!navigator.onLine) {
+                networkStatus.style.display = 'block';
+            } else {
+                networkStatus.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('online', updateNetworkStatus);
+        window.addEventListener('offline', updateNetworkStatus);
+        updateNetworkStatus(); // Initial check
 
         // --- SPLASH SCREEN LOGIC ---
         function hideSplash() {
@@ -517,6 +630,66 @@
             document.getElementById('theme-icon').className = 'fas fa-sun';
         }
 
+        // --- SHARE FUNCTIONS ---
+        window.showShareOptions = () => {
+            document.getElementById('share-modal').style.display = 'flex';
+        }
+
+        window.closeShareModal = () => {
+            document.getElementById('share-modal').style.display = 'none';
+        }
+
+        window.shareViaPlatform = async (platform) => {
+            // Load share links from Firebase
+            const shareLinksSnap = await getDoc(doc(db, "settings", "shareLinks"));
+            if (shareLinksSnap.exists()) {
+                shareLinks = shareLinksSnap.data();
+            }
+            
+            let shareUrl = "";
+            let platformName = "";
+            
+            switch(platform) {
+                case 'telegram':
+                    shareUrl = shareLinks.telegram || "https://t.me/your_bot";
+                    platformName = "Telegram Bot";
+                    break;
+                case 'website':
+                    shareUrl = shareLinks.website || "https://yourexampro.com";
+                    platformName = "Website";
+                    break;
+                case 'app':
+                    shareUrl = shareLinks.app || "https://play.google.com/store/apps/details?id=com.exampro";
+                    platformName = "App";
+                    break;
+            }
+            
+            const shareText = `Hey! Check out ExamPro - the best exam preparation app! Join me using this ${platformName} link: ${shareUrl}`;
+            
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'ExamPro',
+                        text: shareText,
+                        url: shareUrl,
+                    });
+                } catch (err) {
+                    console.log('Error sharing:', err);
+                    copyToClipboard(shareText);
+                }
+            } else {
+                copyToClipboard(shareText);
+            }
+            
+            closeShareModal();
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showMsg("Link copied to clipboard! Share it with your friends.");
+            });
+        }
+
         // --- NOTIFICATION FUNCTIONS ---
         function playNotificationSound() {
             const audio = document.getElementById('notification-sound');
@@ -569,9 +742,11 @@
         function updateNotificationUI() {
             const list = document.getElementById('notification-list');
             const countElem = document.getElementById('notification-count');
+            const clearAllBtn = document.getElementById('clear-all-btn');
             
             if(allNotifications.length === 0) {
                 list.innerHTML = '<p style="text-align:center; color:var(--text-sec); padding:10px;">No notifications</p>';
+                clearAllBtn.style.display = 'none';
             } else {
                 let html = '';
                 allNotifications.forEach(notif => {
@@ -579,18 +754,24 @@
                     const time = formatTime(notif.timestamp?.toMillis() || Date.now());
                     html += `
                         <div class="notification-item ${notif.read ? '' : 'unread'}" onclick="markAsRead('${notif.id}')">
-                            <div style="display:flex; gap:10px;">
-                                <i class="fas ${icon}" style="color:var(--primary);"></i>
-                                <div>
-                                    <div style="font-weight:600;">${notif.title}</div>
-                                    <div style="font-size:0.8rem; color:var(--text-sec);">${notif.message}</div>
-                                    <div style="font-size:0.7rem; color:var(--text-sec); margin-top:3px;">${time}</div>
+                            <div class="notification-item-content">
+                                <div style="display:flex; gap:10px;">
+                                    <i class="fas ${icon}" style="color:var(--primary);"></i>
+                                    <div>
+                                        <div style="font-weight:600;">${notif.title}</div>
+                                        <div style="font-size:0.8rem; color:var(--text-sec);">${notif.message}</div>
+                                        <div style="font-size:0.7rem; color:var(--text-sec); margin-top:3px;">${time}</div>
+                                    </div>
                                 </div>
                             </div>
+                            <button class="notification-delete" onclick="deleteNotification('${notif.id}', event)">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
                     `;
                 });
                 list.innerHTML = html;
+                clearAllBtn.style.display = 'block';
             }
             
             // Update notification count badge
@@ -599,6 +780,28 @@
                 countElem.style.display = 'flex';
             } else {
                 countElem.style.display = 'none';
+            }
+        }
+
+        window.deleteNotification = async (notificationId, event) => {
+            if (event) event.stopPropagation();
+            await deleteDoc(doc(db, "notifications", notificationId));
+            loadNotifications();
+        }
+
+        window.clearAllNotifications = async () => {
+            if(await customConfirm("Clear all notifications?")) {
+                const q = query(collection(db, "notifications"), where("userId", "==", currentUser.uid));
+                const snap = await getDocs(q);
+                
+                const batch = writeBatch(db);
+                snap.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+                
+                loadNotifications();
+                showMsg("All notifications cleared!");
             }
         }
 
@@ -662,7 +865,7 @@
                 await setDoc(doc(db, "users", res.user.uid), {
                     name: n, gender: g, education: e, email: res.user.email, role: 'student', 
                     points: 0, level: 1, joined: new Date().toLocaleDateString(), isBanned: false,
-                    examsTaken: [] // নতুন ফিল্ড: পরীক্ষার তালিকা
+                    examsTaken: []
                 });
                 showMsg("Account Created!");
             } catch(e) { showMsg(e.message); toggleLoader(false); }
@@ -687,6 +890,12 @@
         onAuthStateChanged(auth, async (user) => {
             if(user) {
                 await loadServerTheme();
+                // Load share links
+                const shareLinksSnap = await getDoc(doc(db, "settings", "shareLinks"));
+                if (shareLinksSnap.exists()) {
+                    shareLinks = shareLinksSnap.data();
+                }
+                
                 const snap = await getDoc(doc(db, "users", user.uid));
                 if(snap.exists()) {
                     currentUser = { uid: user.uid, ...snap.data() };
@@ -703,9 +912,7 @@
                     document.getElementById('app-screen').classList.add('active-screen');
                     if(currentUser.role === 'admin') document.getElementById('admin-nav').style.display = 'block';
                     
-                    // Load notifications for user
                     loadNotifications();
-                    // Listen for new notifications
                     setupNotificationListener();
                     
                     renderHome();
@@ -730,11 +937,8 @@
                     if(change.type === "added") {
                         const newNotif = change.doc.data();
                         if(!newNotif.read) {
-                            // Play sound
                             playNotificationSound();
-                            // Show popup
                             showNotificationPopup(newNotif.title, newNotif.message);
-                            // Update notification list
                             loadNotifications();
                         }
                     }
@@ -831,7 +1035,6 @@
                     updates.push(`📄 New Note: ${d.data().title}`); 
             });
 
-            // Add notifications from notification collection
             if(currentUser) {
                 const notifQuery = query(collection(db, "notifications"), where("userId", "==", currentUser.uid));
                 const notifSnap = await getDocs(notifQuery);
@@ -901,10 +1104,6 @@
         window.renderProfile = async () => {
             updateNav(2);
             
-            // Get share link from settings
-            const shareLinkSnap = await getDoc(doc(db, "settings", "shareLink"));
-            const shareLink = shareLinkSnap.exists() ? shareLinkSnap.data().link : "https://yourapp.com";
-            
             const avatarUrl = currentUser.gender === 'Female' ? AVATAR_FEMALE : AVATAR_MALE;
             
             document.getElementById('main-content').innerHTML = `
@@ -923,7 +1122,7 @@
                     </div>
                     
                     <!-- Share Button -->
-                    <button onclick="shareProfile('${shareLink}')" class="share-btn">
+                    <button onclick="showShareOptions()" class="btn btn-primary" style="margin-top:10px;">
                         <i class="fas fa-share-alt"></i> Share with Friends
                     </button>
                     
@@ -942,40 +1141,19 @@
             const s = await getDocs(q);
             let h = s.empty ? "<p style='text-align:center; color:var(--text-sec); margin-top:20px;'>No exams taken yet.</p>" : "";
             s.forEach(d => {
-                let p = (d.data().score / d.data().total) * 100;
-                let c = p >= 80 ? 'green' : p >= 50 ? 'orange' : 'red';
-                h += `<div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                let percentage = (d.data().score / d.data().total) * 100;
+                let cardClass = "result-card-medium";
+                if (percentage >= 80) {
+                    cardClass = "result-card-green";
+                } else if (percentage <= 40) {
+                    cardClass = "result-card-red";
+                }
+                h += `<div class="card ${cardClass}" style="display:flex; justify-content:space-between; align-items:center;">
                     <div><b style="font-size:1rem;">${d.data().exam}</b><br><small style="color:var(--text-sec)">${d.data().date}</small></div>
-                    <b style="color:${c}; font-size:1.2rem;">${d.data().score}/${d.data().total}</b>
+                    <b style="font-size:1.2rem;">${d.data().score}/${d.data().total}</b>
                 </div>`
             });
             document.getElementById('hist-list').innerHTML = h;
-        }
-
-        // Share function
-        window.shareProfile = async (shareLink) => {
-            const shareText = `Hey! Check out ExamPro - the best exam preparation app! Join me using this link: ${shareLink}`;
-            
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: 'ExamPro',
-                        text: shareText,
-                        url: shareLink,
-                    });
-                } catch (err) {
-                    console.log('Error sharing:', err);
-                    copyToClipboard(shareText);
-                }
-            } else {
-                copyToClipboard(shareText);
-            }
-        }
-
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showMsg("Link copied to clipboard! Share it with your friends.");
-            });
         }
 
         window.editProfile = () => {
@@ -999,7 +1177,6 @@
                 const s = await getDocs(q);
                 s.forEach(async (d) => await deleteDoc(d.ref));
                 
-                // Reset examsTaken array
                 await updateDoc(doc(db, "users", currentUser.uid), { examsTaken: [] });
                 currentUser.examsTaken = [];
                 
@@ -1007,9 +1184,8 @@
             }
         }
 
-        // --- MCQ ENGINE ---
+        // --- MCQ ENGINE - UPDATED SCORING ---
         window.startExam = async (id, title, time) => {
-            // Check if already taken
             if(currentUser.examsTaken && currentUser.examsTaken.includes(id)) {
                 showMsg("You have already taken this exam!");
                 return;
@@ -1080,17 +1256,22 @@
             let pointsChange = 0;
             let review = '';
             
+            // NEW SCORING SYSTEM: Correct = +1, Wrong = -0.5
             window.currentQ.forEach((q, i) => {
                 const ans = window.userAns[q.id];
                 const correct = ans === parseInt(q.correct);
                 const qText = q.question || q.q;
 
-                if(correct) {
-                    score++;
-                    pointsChange += 10; // Correct answer: +10 points
-                } else if (ans) {
-                    pointsChange -= 5; // Wrong answer: -5 points
+                if(ans) { // If answered
+                    if(correct) {
+                        score += 1; // Correct answer = +1 mark
+                        pointsChange += 10; // Points for level
+                    } else {
+                        score -= 0.5; // Wrong answer = -0.5 mark
+                        pointsChange -= 5; // Points for level
+                    }
                 }
+                // Skipped questions get 0 marks, no points change
                 
                 review += `<div style="padding:15px; background:var(--bg); margin-bottom:10px; border-radius:12px; border-left:4px solid ${correct?'var(--success)':'var(--danger)'};">
                     <p style="font-size:0.9rem;"><b>Q${i+1}:</b> ${qText}</p>
@@ -1100,6 +1281,18 @@
                     </div>
                 </div>`;
             });
+
+            // Ensure score is not negative
+            if (score < 0) score = 0;
+            
+            // Calculate percentage for card color
+            const percentage = (score / totalQuestions) * 100;
+            let resultCardClass = "result-card-medium";
+            if (percentage >= 80) {
+                resultCardClass = "result-card-green";
+            } else if (percentage <= 40) {
+                resultCardClass = "result-card-red";
+            }
 
             // Calculate new points and level
             const newPoints = Math.max(0, (currentUser.points || 0) + pointsChange);
@@ -1117,12 +1310,12 @@
                 examsTaken: examsTaken
             });
             
-            // Save result
+            // Save result with decimal score
             await addDoc(collection(db, "results"), { 
                 userId: currentUser.uid, 
                 exam: title, 
                 examId: window.currentExamId,
-                score, 
+                score: score.toFixed(1), 
                 total: totalQuestions, 
                 pointsChange: pointsChange,
                 date: new Date().toLocaleDateString() 
@@ -1134,12 +1327,12 @@
             currentUser.examsTaken = examsTaken;
             
             // Send notification for exam completion
-            await sendNotification(currentUser.uid, "Exam Completed!", `You scored ${score}/${totalQuestions} in ${title}. Points: ${pointsChange > 0 ? '+' : ''}${pointsChange}`, 'exam');
+            await sendNotification(currentUser.uid, "Exam Completed!", `You scored ${score.toFixed(1)}/${totalQuestions} in ${title}. Points: ${pointsChange > 0 ? '+' : ''}${pointsChange}`, 'exam');
             
             renderHome();
-            openModal(`Result: ${score}/${totalQuestions}`, `
+            openModal(`Result: ${score.toFixed(1)}/${totalQuestions}`, `
                 <div style="text-align:center; padding:20px 0;">
-                    <h1 style="font-size:4rem; color:var(--primary); line-height:1;">${score}</h1>
+                    <h1 style="font-size:4rem; color:var(--primary); line-height:1;">${score.toFixed(1)}</h1>
                     <p style="color:var(--text-sec)">Out of ${totalQuestions}</p>
                     <div style="margin:15px 0; padding:15px; background:var(--bg); border-radius:12px;">
                         <div style="display:flex; justify-content:space-around;">
@@ -1162,7 +1355,7 @@
             toggleLoader(false);
         }
 
-        // --- ADMIN PANEL ---
+        // --- ADMIN PANEL - UPDATED ---
         window.renderAdmin = () => {
             updateNav(3);
             document.getElementById('main-content').innerHTML = `
@@ -1262,6 +1455,9 @@
                         </select>
                         <input id="notif-user" placeholder="User Email (if specific)" style="display:none;">
                         <button onclick="sendNotificationToUsers()" class="btn btn-primary">Send Notification</button>
+                        <button onclick="clearAllNotificationsAdmin()" class="btn btn-danger" style="margin-top:10px;">
+                            <i class="fas fa-trash"></i> Clear All Notifications (All Users)
+                        </button>
                     </div>
                     <div class="card">
                         <h3>Recent Notifications</h3>
@@ -1278,18 +1474,26 @@
                 let notifHtml = '';
                 notifSnap.forEach(doc => {
                     const data = doc.data();
-                    notifHtml += `<div style="padding:10px; border-bottom:1px solid var(--border);">
-                        <div><b>${data.title}</b></div>
-                        <div style="font-size:0.8rem;">${data.message}</div>
-                        <div style="font-size:0.7rem; color:var(--text-sec);">To: ${data.userId}</div>
+                    notifHtml += `<div style="padding:10px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div><b>${data.title}</b></div>
+                            <div style="font-size:0.8rem;">${data.message}</div>
+                            <div style="font-size:0.7rem; color:var(--text-sec);">To: ${data.userId}</div>
+                        </div>
+                        <button onclick="deleteNotificationAdmin('${doc.id}')" class="notification-delete">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>`;
                 });
                 document.getElementById('notif-list').innerHTML = notifHtml || '<p>No notifications sent yet.</p>';
             }
             
             if(m === 'settings') {
-                const shareLinkSnap = await getDoc(doc(db, "settings", "shareLink"));
-                const shareLink = shareLinkSnap.exists() ? shareLinkSnap.data().link : "";
+                // Load existing share links
+                const shareLinksSnap = await getDoc(doc(db, "settings", "shareLinks"));
+                if (shareLinksSnap.exists()) {
+                    shareLinks = shareLinksSnap.data();
+                }
                 
                 area.innerHTML = `<div class="card"><h3>Theme Color</h3>
                 <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
@@ -1307,9 +1511,11 @@
                     <p style="text-align:center; font-size:0.8rem;">Slide to change color</p>
                 </div>
                 
-                <h3 style="margin-top:20px;">Share Link</h3>
-                <input id="share-link" value="${shareLink}" placeholder="Enter share link (e.g., https://yourapp.com)">
-                <button onclick="saveShareLink()" class="btn btn-primary">Save Share Link</button>
+                <h3 style="margin-top:20px;">Share Links</h3>
+                <input id="telegram-link" value="${shareLinks.telegram || ''}" placeholder="Telegram Bot Link">
+                <input id="website-link" value="${shareLinks.website || ''}" placeholder="Website Link">
+                <input id="app-link" value="${shareLinks.app || ''}" placeholder="App Download Link">
+                <button onclick="saveShareLinks()" class="btn btn-primary">Save Share Links</button>
                 
                 <h3 style="margin-top:20px;">Actions</h3>
                 <button onclick="resetRank()" class="btn btn-danger">Reset All Ranks</button>
@@ -1342,7 +1548,6 @@
                 createdAt: Date.now()
             }); 
             
-            // Send notification to all users about new exam
             const usersSnap = await getDocs(collection(db, "users"));
             usersSnap.forEach(async (userDoc) => {
                 if(userDoc.data().role !== 'admin') {
@@ -1381,7 +1586,6 @@
                 createdAt: Date.now()
             }); 
             
-            // Send notification
             const usersSnap = await getDocs(collection(db, "users"));
             usersSnap.forEach(async (userDoc) => {
                 if(userDoc.data().role !== 'admin') {
@@ -1405,7 +1609,6 @@
                 createdAt: Date.now()
             }); 
             
-            // Send notification
             const usersSnap = await getDocs(collection(db, "users"));
             usersSnap.forEach(async (userDoc) => {
                 if(userDoc.data().role !== 'admin') {
@@ -1436,7 +1639,6 @@
             const message = document.getElementById('bcm').value;
             await setDoc(doc(db, "settings", "broadcast"), {message: message});
             
-            // Send notification to all users
             const usersSnap = await getDocs(collection(db, "users"));
             usersSnap.forEach(async (userDoc) => {
                 if(userDoc.data().role !== 'admin') {
@@ -1569,7 +1771,6 @@
             if(!title || !message) return showMsg("Please fill all fields");
             
             if(target === 'all') {
-                // Send to all users
                 const usersSnap = await getDocs(collection(db, "users"));
                 let count = 0;
                 
@@ -1582,7 +1783,6 @@
                 
                 showMsg(`Notification sent to ${count} users!`);
             } else {
-                // Send to specific user
                 const q = query(collection(db, "users"), where("email", "==", specificUser));
                 const s = await getDocs(q);
                 
@@ -1595,17 +1795,42 @@
                 showMsg("Notification sent to specific user!");
             }
             
-            // Clear fields
             document.getElementById('notif-title').value = '';
             document.getElementById('notif-message').value = '';
         }
 
-        window.saveShareLink = async () => {
-            const link = document.getElementById('share-link').value;
-            if(!link) return showMsg("Please enter a share link");
+        window.clearAllNotificationsAdmin = async () => {
+            if(await customConfirm("Clear all notifications for all users?")) {
+                const snap = await getDocs(collection(db, "notifications"));
+                const batch = writeBatch(db);
+                snap.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+                showMsg("All notifications cleared!");
+                admView('notifications');
+            }
+        }
+
+        window.deleteNotificationAdmin = async (notificationId) => {
+            await deleteDoc(doc(db, "notifications", notificationId));
+            showMsg("Notification deleted!");
+            admView('notifications');
+        }
+
+        window.saveShareLinks = async () => {
+            const telegramLink = document.getElementById('telegram-link').value;
+            const websiteLink = document.getElementById('website-link').value;
+            const appLink = document.getElementById('app-link').value;
+
+            await setDoc(doc(db, "settings", "shareLinks"), {
+                telegram: telegramLink,
+                website: websiteLink,
+                app: appLink
+            });
             
-            await setDoc(doc(db, "settings", "shareLink"), { link: link });
-            showMsg("Share link saved!");
+            shareLinks = { telegram: telegramLink, website: websiteLink, app: appLink };
+            showMsg("Share links saved!");
         }
 
         // --- LOADERS ---
