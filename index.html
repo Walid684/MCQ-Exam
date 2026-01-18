@@ -1265,10 +1265,10 @@
                 if(ans) { // If answered
                     if(correct) {
                         score += 1; // Correct answer = +1 mark
-                        pointsChange += 10; // Points for level
+                        pointsChange += 1; // Points for level
                     } else {
                         score -= 0.5; // Wrong answer = -0.5 mark
-                        pointsChange -= 5; // Points for level
+                        pointsChange -= 0.5; // Points for level
                     }
                 }
                 // Skipped questions get 0 marks, no points change
@@ -1505,7 +1505,7 @@
                     <div onclick="setTh('#9b59b6')" style="width:35px; height:35px; background:#9b59b6; border-radius:50%; cursor:pointer;"></div>
                 </div>
                 
-                <h4 style="margin-top:20px;">Adjust Tone (Thermometer)</h4>
+                <h4 style="margin-top:20px;">Adjust Tone</h4>
                 <div class="theme-slider-container">
                     <input type="range" min="0" max="360" value="0" class="thermo" id="hue-slider" oninput="slideTheme(this.value)">
                     <p style="text-align:center; font-size:0.8rem;">Slide to change color</p>
