@@ -26,6 +26,7 @@
             --warning: #ffa502;
             --live-color: #ff3838;
             --medium: #f39c12;
+            --info: #3498db;
         }
 
         .dark-mode {
@@ -102,6 +103,7 @@
         .btn-sec { background: var(--border); color: var(--text); }
         .btn-success { background: var(--success); color: white; }
         .btn-warning { background: var(--warning); color: white; }
+        .btn-info { background: var(--info); color: white; }
         .btn:active { transform: scale(0.98); }
 
         /* HEADER */
@@ -358,6 +360,202 @@
         .website-btn { color: var(--primary); }
         .app-btn { color: var(--success); }
 
+        /* PROFILE CARD ENHANCEMENTS */
+        .profile-card {
+            background: linear-gradient(135deg, var(--primary), #8f94fb);
+            color: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        /* AVATAR SELECTION GRID */
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .avatar-option {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: 0.3s;
+        }
+        .avatar-option:hover {
+            transform: scale(1.05);
+        }
+        .avatar-option.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(108, 99, 255, 0.5);
+        }
+        .avatar-option img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* CHAT STYLES */
+        .chat-container {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: var(--bg);
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+        }
+        .chat-message.sent {
+            background: var(--primary);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        .chat-message.received {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        .chat-message small {
+            display: block;
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input {
+            flex: 1;
+            margin: 0;
+        }
+        .chat-user-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .chat-user-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+        .chat-user-item:hover {
+            background: var(--bg);
+        }
+        .chat-user-item.active {
+            background: var(--primary-light);
+            border-left: 3px solid var(--primary);
+        }
+        .chat-user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+        .chat-unread {
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            margin-left: auto;
+        }
+
+        /* EXAM REVIEW MODAL */
+        .review-question {
+            padding: 15px;
+            background: var(--bg);
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .review-correct {
+            border-left: 4px solid var(--success);
+        }
+        .review-incorrect {
+            border-left: 4px solid var(--danger);
+        }
+        .review-answer {
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+        .review-answer.correct {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid var(--success);
+        }
+        .review-answer.incorrect {
+            background: rgba(255, 71, 87, 0.2);
+            border: 1px solid var(--danger);
+        }
+        .review-answer.user-answer {
+            background: rgba(108, 99, 255, 0.2);
+            border: 1px solid var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -455,7 +653,21 @@
             <div class="nav-item" onclick="renderLeaderboard()"><i class="fas fa-trophy"></i> <span>Rank</span></div>
             <div class="nav-item" onclick="renderProfile()"><i class="fas fa-user"></i> <span>Profile</span></div>
             <div class="nav-item" id="admin-nav" style="display:none;" onclick="renderAdmin()"><i class="fas fa-th-large"></i> <span>Admin</span></div>
+            <div class="nav-item" id="support-nav" style="display:none;" onclick="renderSupport()"><i class="fas fa-headset"></i> <span>Support</span></div>
         </nav>
+    </section>
+
+    <!-- CHAT SCREEN -->
+    <section id="chat-screen" class="screen">
+        <header>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <i onclick="backToPrevScreen()" class="fas fa-arrow-left" style="color:var(--white); font-size:1.2rem; cursor:pointer;"></i>
+                <div class="logo">Support Chat</div>
+            </div>
+        </header>
+        <div class="container">
+            <div id="chat-content"></div>
+        </div>
     </section>
 
     <div id="generic-modal" class="modal">
@@ -503,11 +715,21 @@
     <audio id="notification-sound" preload="auto">
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
     </audio>
+    
+    <!-- Audio for alert sound -->
+    <audio id="alert-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-message-pop-alert-2354.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Audio for chat sound -->
+    <audio id="chat-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3" type="audio/mpeg">
+    </audio>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc, onSnapshot, Timestamp, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc, onSnapshot, Timestamp, writeBatch, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // CONFIG
         const firebaseConfig = {
@@ -530,10 +752,35 @@
         let allStudentsCache = [];
         let allNotifications = [];
         let unreadNotifications = 0;
+        let chatListenerUnsubscribe = null;
+        let currentChatWith = null;
 
         // AVATAR IMAGES
         const AVATAR_MALE = "https://cdn-icons-png.flaticon.com/512/4825/4825038.png";
         const AVATAR_FEMALE = "https://cdn-icons-png.flaticon.com/512/4825/4825112.png";
+        
+        // AVATAR COLLECTIONS
+        const maleAvatars = [
+            "https://cdn-icons-png.flaticon.com/512/4825/4825038.png",
+            "https://cdn-icons-png.flaticon.com/512/4825/4825055.png",
+            "https://cdn-icons-png.flaticon.com/512/4825/4825089.png",
+            "https://cdn-icons-png.flaticon.com/512/4825/4825112.png",
+            "https://cdn-icons-png.flaticon.com/512/4825/4825130.png",
+            "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+            "https://cdn-icons-png.flaticon.com/512/921/921071.png",
+            "https://cdn-icons-png.flaticon.com/512/4333/4333609.png"
+        ];
+        
+        const femaleAvatars = [
+            "https://cdn-icons-png.flaticon.com/512/4825/4825112.png",
+            "https://cdn-icons-png.flaticon.com/512/4825/4825089.png",
+            "https://cdn-icons-png.flaticon.com/512/4825/4825055.png",
+            "https://cdn-icons-png.flaticon.com/512/4825/4825038.png",
+            "https://cdn-icons-png.flaticon.com/512/4825/4825130.png",
+            "https://cdn-icons-png.flaticon.com/512/4140/4140047.png",
+            "https://cdn-icons-png.flaticon.com/512/4323/4323004.png",
+            "https://cdn-icons-png.flaticon.com/512/6997/6997662.png"
+        ];
 
         // SHARE LINKS DEFAULT
         let shareLinks = {
@@ -555,6 +802,25 @@
         window.addEventListener('online', updateNetworkStatus);
         window.addEventListener('offline', updateNetworkStatus);
         updateNetworkStatus(); // Initial check
+
+        // --- SOUND FUNCTIONS ---
+        function playNotificationSound() {
+            const audio = document.getElementById('notification-sound');
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log("Audio play failed:", e));
+        }
+
+        function playAlertSound() {
+            const audio = document.getElementById('alert-sound');
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log("Alert sound play failed:", e));
+        }
+
+        function playChatSound() {
+            const audio = document.getElementById('chat-sound');
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log("Chat sound play failed:", e));
+        }
 
         // --- SPLASH SCREEN LOGIC ---
         function hideSplash() {
@@ -617,6 +883,7 @@
         window.showMsg = (msg) => {
             document.getElementById('alert-msg').innerText = msg;
             document.getElementById('custom-alert').classList.add('show');
+            playAlertSound();
         }
         window.closeAlert = () => document.getElementById('custom-alert').classList.remove('show');
         window.toggleTheme = () => {
@@ -691,12 +958,6 @@
         }
 
         // --- NOTIFICATION FUNCTIONS ---
-        function playNotificationSound() {
-            const audio = document.getElementById('notification-sound');
-            audio.currentTime = 0;
-            audio.play().catch(e => console.log("Audio play failed:", e));
-        }
-
         function showNotificationPopup(title, message) {
             const popup = document.getElementById('notification-popup');
             popup.style.display = 'block';
@@ -722,7 +983,7 @@
         }
 
         async function loadNotifications() {
-            const q = query(collection(db, "notifications"), where("userId", "==", currentUser.uid));
+            const q = query(collection(db, "notifications"), where("userId", "==", currentUser.uid), orderBy("timestamp", "desc"));
             const snap = await getDocs(q);
             
             allNotifications = [];
@@ -732,9 +993,6 @@
                 allNotifications.push(notif);
                 if(!notif.read) unreadNotifications++;
             });
-            
-            // Sort by timestamp (newest first)
-            allNotifications.sort((a, b) => b.timestamp?.toMillis() - a.timestamp?.toMillis());
             
             updateNotificationUI();
         }
@@ -831,8 +1089,20 @@
         }
 
         async function sendNotification(userId, title, message, type = 'general') {
+            // Get user name for admin panel display
+            let userName = "User";
+            try {
+                const userDoc = await getDoc(doc(db, "users", userId));
+                if (userDoc.exists()) {
+                    userName = userDoc.data().name;
+                }
+            } catch (e) {
+                console.log("Error getting user name:", e);
+            }
+            
             await addDoc(collection(db, "notifications"), {
                 userId: userId,
+                userName: userName,
                 title: title,
                 message: message,
                 type: type,
@@ -865,7 +1135,8 @@
                 await setDoc(doc(db, "users", res.user.uid), {
                     name: n, gender: g, education: e, email: res.user.email, role: 'student', 
                     points: 0, level: 1, joined: new Date().toLocaleDateString(), isBanned: false,
-                    examsTaken: []
+                    examsTaken: [],
+                    avatar: g === 'Female' ? femaleAvatars[0] : maleAvatars[0]
                 });
                 showMsg("Account Created!");
             } catch(e) { showMsg(e.message); toggleLoader(false); }
@@ -879,7 +1150,8 @@
                     await setDoc(ref, { 
                         name: res.user.displayName, email: res.user.email, gender: 'Male', 
                         education: 'Not Set', role: 'student', points: 0, level: 1, 
-                        joined: new Date().toLocaleDateString(), isBanned: false, examsTaken: []
+                        joined: new Date().toLocaleDateString(), isBanned: false, examsTaken: [],
+                        avatar: maleAvatars[0]
                     });
                 }
             } catch(e) { showMsg(e.message); }
@@ -910,7 +1182,12 @@
 
                     document.getElementById('auth-screen').classList.remove('active-screen');
                     document.getElementById('app-screen').classList.add('active-screen');
-                    if(currentUser.role === 'admin') document.getElementById('admin-nav').style.display = 'block';
+                    if(currentUser.role === 'admin') {
+                        document.getElementById('admin-nav').style.display = 'block';
+                        document.getElementById('support-nav').style.display = 'none';
+                    } else {
+                        document.getElementById('support-nav').style.display = 'block';
+                    }
                     
                     loadNotifications();
                     setupNotificationListener();
@@ -946,6 +1223,17 @@
             });
         }
 
+        // --- NAVIGATION ---
+        window.backToPrevScreen = () => {
+            document.getElementById('chat-screen').classList.remove('active-screen');
+            document.getElementById('app-screen').classList.add('active-screen');
+            updateNav(currentUser.role === 'admin' ? 3 : 2);
+            if(chatListenerUnsubscribe) {
+                chatListenerUnsubscribe();
+                chatListenerUnsubscribe = null;
+            }
+        }
+
         // --- HOME ---
         window.renderHome = async () => {
             updateNav(0);
@@ -956,7 +1244,7 @@
 
             div.innerHTML = `
                 ${bcHTML}
-                <div class="card" style="background:linear-gradient(135deg, var(--primary), #8f94fb); color:white; border:none; padding:25px;">
+                <div class="profile-card">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
                             <h2>Hi, ${currentUser.name.split(' ')[0]}! 👋</h2>
@@ -1100,44 +1388,54 @@
             document.getElementById('lb-list').innerHTML = h;
         }
 
-        // --- PROFILE ---
+        // --- PROFILE - ENHANCED ---
         window.renderProfile = async () => {
             updateNav(2);
             
-            const avatarUrl = currentUser.gender === 'Female' ? AVATAR_FEMALE : AVATAR_MALE;
+            const avatarUrl = currentUser.avatar || (currentUser.gender === 'Female' ? AVATAR_FEMALE : AVATAR_MALE);
             
             document.getElementById('main-content').innerHTML = `
-                <div class="card" style="text-align:center; padding-top:30px;">
-                    <div style="width:110px; height:110px; border-radius:50%; margin:0 auto 15px; display:flex; justify-content:center; align-items:center; box-shadow:0 10px 20px rgba(0,0,0,0.1); border: 4px solid var(--bg); overflow:hidden;">
-                        <img src="${avatarUrl}" style="width:100%; height:100%; object-fit:cover;">
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        <img src="${avatarUrl}" alt="Profile">
                     </div>
-                    <h2 style="margin-bottom:5px;">${currentUser.name}</h2>
-                    <p style="color:var(--text-sec); font-size:0.9rem;">${currentUser.email}</p>
-                    <div style="margin:15px 0; display:flex; justify-content:center; gap:10px;">
-                        <span style="background:var(--bg); padding:5px 15px; border-radius:20px; font-size:0.8rem;">🏆 Points: ${currentUser.points || 0}</span>
-                        <span style="background:var(--primary-light); padding:5px 15px; border-radius:20px; font-size:0.8rem; color:var(--primary);">📈 Level ${currentUser.level || 1}</span>
-                    </div>
-                    <div style="margin:15px 0;">
-                        <span style="background:var(--bg); padding:5px 15px; border-radius:20px; font-size:0.8rem;">📅 Joined: ${currentUser.joined || 'N/A'}</span>
-                    </div>
+                    <h2 style="text-align:center; margin-bottom:5px;">${currentUser.name}</h2>
+                    <p style="text-align:center; opacity:0.9; margin-bottom:15px;">${currentUser.email}</p>
                     
-                    <!-- Share Button -->
-                    <button onclick="showShareOptions()" class="btn btn-primary" style="margin-top:10px;">
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">${currentUser.points || 0}</span>
+                            <span class="stat-label">Points</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${currentUser.level || 1}</span>
+                            <span class="stat-label">Level</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${currentUser.examsTaken ? currentUser.examsTaken.length : 0}</span>
+                            <span class="stat-label">Exams</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="text-align:center;">
+                    <button onclick="showShareOptions()" class="btn btn-primary" style="margin-bottom:10px;">
                         <i class="fas fa-share-alt"></i> Share with Friends
                     </button>
                     
-                    <div style="display:flex; gap:10px; margin-top:15px;">
+                    <div style="display:flex; gap:10px; margin-bottom:10px;">
                         <button onclick="editProfile()" class="btn btn-sec" style="width:48%;"><i class="fas fa-pen"></i> Edit</button>
                         <button onclick="clearHistory()" class="btn btn-danger" style="width:48%;"><i class="fas fa-trash"></i> History</button>
                     </div>
                     
-                    <button onclick="handleLogout()" class="btn" style="margin-top:15px; background:var(--bg); color:var(--danger); border:1px solid var(--danger);"><i class="fas fa-sign-out-alt"></i> Logout Securely</button>
+                    <button onclick="handleLogout()" class="btn" style="background:var(--bg); color:var(--danger); border:1px solid var(--danger);"><i class="fas fa-sign-out-alt"></i> Logout Securely</button>
                 </div>
-                <h3 style="margin-left:5px;">Recent Results</h3>
+                
+                <h3 style="margin-left:5px; margin-top:20px;">Recent Results</h3>
                 <div id="hist-list">Loading...</div>
             `;
             
-            const q = query(collection(db, "results"), where("userId", "==", currentUser.uid));
+            const q = query(collection(db, "results"), where("userId", "==", currentUser.uid), orderBy("date", "desc"));
             const s = await getDocs(q);
             let h = s.empty ? "<p style='text-align:center; color:var(--text-sec); margin-top:20px;'>No exams taken yet.</p>" : "";
             s.forEach(d => {
@@ -1148,7 +1446,7 @@
                 } else if (percentage <= 40) {
                     cardClass = "result-card-red";
                 }
-                h += `<div class="card ${cardClass}" style="display:flex; justify-content:space-between; align-items:center;">
+                h += `<div class="card ${cardClass}" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="showExamReview('${d.id}')">
                     <div><b style="font-size:1rem;">${d.data().exam}</b><br><small style="color:var(--text-sec)">${d.data().date}</small></div>
                     <b style="font-size:1.2rem;">${d.data().score}/${d.data().total}</b>
                 </div>`
@@ -1157,18 +1455,69 @@
         }
 
         window.editProfile = () => {
+            const avatars = currentUser.gender === 'Female' ? femaleAvatars : maleAvatars;
+            let avatarGrid = '';
+            avatars.forEach((url, index) => {
+                const isSelected = currentUser.avatar === url;
+                avatarGrid += `
+                    <div class="avatar-option ${isSelected ? 'selected' : ''}" onclick="selectAvatar('${url}')">
+                        <img src="${url}" alt="Avatar ${index + 1}">
+                    </div>
+                `;
+            });
+            
             openModal("Edit Profile", `
                 <input id="e-name" value="${currentUser.name}" placeholder="Name">
-                <select id="e-gender"><option value="Male">Male</option><option value="Female">Female</option></select>
+                <select id="e-gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
                 <input id="e-edu" value="${currentUser.education}" placeholder="Education">
+                
+                <h4 style="margin:15px 0 10px 0;">Select Avatar:</h4>
+                <div class="avatar-grid">
+                    ${avatarGrid}
+                </div>
+                
                 <button onclick="saveProfile()" class="btn btn-primary">Save Changes</button>
             `);
             document.getElementById('e-gender').value = currentUser.gender || 'Male';
         }
+
+        window.selectAvatar = (url) => {
+            // Remove selected class from all avatars
+            document.querySelectorAll('.avatar-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked avatar
+            event.target.closest('.avatar-option').classList.add('selected');
+            
+            // Store selected avatar
+            window.selectedAvatar = url;
+        }
+
         window.saveProfile = async () => {
-            const n=document.getElementById('e-name').value, g=document.getElementById('e-gender').value, e=document.getElementById('e-edu').value;
-            await updateDoc(doc(db, "users", currentUser.uid), { name: n, gender: g, education: e });
-            currentUser.name = n; currentUser.gender = g; currentUser.education = e; closeModal(); renderProfile();
+            const n = document.getElementById('e-name').value;
+            const g = document.getElementById('e-gender').value;
+            const e = document.getElementById('e-edu').value;
+            const avatar = window.selectedAvatar || currentUser.avatar;
+            
+            await updateDoc(doc(db, "users", currentUser.uid), { 
+                name: n, 
+                gender: g, 
+                education: e, 
+                avatar: avatar 
+            });
+            
+            currentUser.name = n;
+            currentUser.gender = g;
+            currentUser.education = e;
+            currentUser.avatar = avatar;
+            
+            closeModal();
+            renderProfile();
+            showMsg("Profile updated successfully!");
         }
         
         window.clearHistory = async () => {
@@ -1182,6 +1531,49 @@
                 
                 renderProfile();
             }
+        }
+
+        // --- EXAM REVIEW ---
+        window.showExamReview = async (resultId) => {
+            const resultDoc = await getDoc(doc(db, "results", resultId));
+            if (!resultDoc.exists()) {
+                showMsg("Review not found!");
+                return;
+            }
+            
+            const data = resultDoc.data();
+            
+            // Fetch questions for this exam
+            const q = query(collection(db, "questions"), where("examId", "==", data.examId));
+            const questionsSnap = await getDocs(q);
+            const questions = [];
+            questionsSnap.forEach(doc => questions.push({id: doc.id, ...doc.data()}));
+            
+            // Create review HTML
+            let reviewHTML = `
+                <div style="text-align:center; margin-bottom:20px;">
+                    <h3 style="color:var(--primary);">${data.exam}</h3>
+                    <p>Score: <b>${data.score}/${data.total}</b></p>
+                    <p>Date: ${data.date}</p>
+                </div>
+            `;
+            
+            questions.forEach((q, i) => {
+                const qText = q.question || q.q || "Untitled Question";
+                const correctAnswer = q.options[parseInt(q.correct) - 1];
+                
+                reviewHTML += `
+                    <div class="review-question">
+                        <p><b>Q${i+1}:</b> ${qText}</p>
+                        <div class="review-answer correct">
+                            <small><b>Correct Answer:</b> ${correctAnswer}</small>
+                        </div>
+                        ${data.review ? data.review.split('---')[i] || '' : ''}
+                    </div>
+                `;
+            });
+            
+            openModal("Exam Review", reviewHTML);
         }
 
         // --- MCQ ENGINE - UPDATED SCORING ---
@@ -1266,20 +1658,20 @@
                     if(correct) {
                         score += 1; // Correct answer = +1 mark
                         pointsChange += 1; // Points for level
+                        review += `<div class="review-answer correct"><small><b>Your Answer:</b> ${q.options[ans-1]} ✓</small></div>`;
                     } else {
                         score -= 0.5; // Wrong answer = -0.5 mark
                         pointsChange -= 0.5; // Points for level
+                        review += `<div class="review-answer incorrect"><small><b>Your Answer:</b> ${q.options[ans-1]} ✗</small></div>
+                                  <div class="review-answer correct"><small><b>Correct Answer:</b> ${q.options[parseInt(q.correct)-1]}</small></div>`;
                     }
+                } else {
+                    // Skipped
+                    review += `<div class="review-answer user-answer"><small><b>Skipped</b></small></div>
+                              <div class="review-answer correct"><small><b>Correct Answer:</b> ${q.options[parseInt(q.correct)-1]}</small></div>`;
                 }
-                // Skipped questions get 0 marks, no points change
                 
-                review += `<div style="padding:15px; background:var(--bg); margin-bottom:10px; border-radius:12px; border-left:4px solid ${correct?'var(--success)':'var(--danger)'};">
-                    <p style="font-size:0.9rem;"><b>Q${i+1}:</b> ${qText}</p>
-                    <div style="margin-top:5px; font-size:0.9rem;">
-                        Your Ans: <b style="color:${correct?'var(--success)':'var(--danger)'}">${ans ? q.options[ans-1] : 'Skipped'}</b>
-                        ${!correct ? `<br>Correct: <b style="color:var(--success)">${q.options[parseInt(q.correct)-1]}</b>` : ''}
-                    </div>
-                </div>`;
+                review += '---'; // Separator for questions
             });
 
             // Ensure score is not negative
@@ -1310,7 +1702,7 @@
                 examsTaken: examsTaken
             });
             
-            // Save result with decimal score
+            // Save result with decimal score and review
             await addDoc(collection(db, "results"), { 
                 userId: currentUser.uid, 
                 exam: title, 
@@ -1318,7 +1710,8 @@
                 score: score.toFixed(1), 
                 total: totalQuestions, 
                 pointsChange: pointsChange,
-                date: new Date().toLocaleDateString() 
+                date: new Date().toLocaleDateString(),
+                review: review
             });
             
             // Update current user object
@@ -1351,9 +1744,163 @@
                         </div>
                     </div>
                 </div>
-                ${review}`);
+                <button onclick="showExamReviewModal('${title}', '${review}')" class="btn btn-info">
+                    <i class="fas fa-eye"></i> View Detailed Review
+                </button>`);
             toggleLoader(false);
         }
+
+        window.showExamReviewModal = (title, review) => {
+            let reviewHTML = `<h3 style="color:var(--primary); margin-bottom:15px;">${title} - Detailed Review</h3>`;
+            
+            const questions = review.split('---');
+            questions.forEach((qReview, i) => {
+                if (qReview.trim()) {
+                    reviewHTML += `
+                        <div class="review-question">
+                            <p><b>Q${i+1}:</b></p>
+                            ${qReview}
+                        </div>
+                    `;
+                }
+            });
+            
+            openModal("Exam Review", reviewHTML);
+        }
+
+        // --- SUPPORT CHAT SYSTEM ---
+        window.renderSupport = () => {
+            document.getElementById('app-screen').classList.remove('active-screen');
+            document.getElementById('chat-screen').classList.add('active-screen');
+            
+            const chatContent = document.getElementById('chat-content');
+            chatContent.innerHTML = `
+                <div class="chat-container">
+                    <div id="chat-messages" class="chat-messages">
+                        <p style="text-align:center; color:var(--text-sec);">Loading messages...</p>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input" class="chat-input" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendChatMessage()">
+                        <button onclick="sendChatMessage()" class="btn btn-primary" style="width:auto; padding:10px 20px;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            loadAdminForChat();
+        }
+
+        async function loadAdminForChat() {
+            // Find admin user
+            const q = query(collection(db, "users"), where("role", "==", "admin"));
+            const snap = await getDocs(q);
+            
+            if (snap.empty) {
+                document.getElementById('chat-messages').innerHTML = '<p style="text-align:center; color:var(--danger);">No admin found for support.</p>';
+                return;
+            }
+            
+            const admin = snap.docs[0];
+            currentChatWith = admin.id;
+            
+            setupChatListener(currentChatWith);
+        }
+
+        function setupChatListener(otherUserId) {
+            if (chatListenerUnsubscribe) {
+                chatListenerUnsubscribe();
+            }
+            
+            const chatRef = collection(db, "chats");
+            const q = query(
+                chatRef,
+                where("participants", "array-contains", currentUser.uid),
+                orderBy("timestamp", "asc")
+            );
+            
+            chatListenerUnsubscribe = onSnapshot(q, (snapshot) => {
+                const messages = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    // Only show messages between current user and the other user
+                    if (data.participants.includes(otherUserId)) {
+                        messages.push({ id: doc.id, ...data });
+                    }
+                });
+                
+                displayMessages(messages);
+                
+                // Mark messages as read
+                messages.forEach(async (msg) => {
+                    if (msg.senderId !== currentUser.uid && !msg.read) {
+                        await updateDoc(doc(db, "chats", msg.id), { read: true });
+                    }
+                });
+            });
+        }
+
+        function displayMessages(messages) {
+            const chatMessages = document.getElementById('chat-messages');
+            
+            if (messages.length === 0) {
+                chatMessages.innerHTML = '<p style="text-align:center; color:var(--text-sec);">No messages yet. Start the conversation!</p>';
+                return;
+            }
+            
+            let html = '';
+            messages.forEach(msg => {
+                const isSent = msg.senderId === currentUser.uid;
+                const time = new Date(msg.timestamp?.toMillis() || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                html += `
+                    <div class="chat-message ${isSent ? 'sent' : 'received'}">
+                        <div>${msg.message}</div>
+                        <small>${time}</small>
+                    </div>
+                `;
+            });
+            
+            chatMessages.innerHTML = html;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            if (!currentChatWith) {
+                showMsg("Cannot send message. Please try again.");
+                return;
+            }
+            
+            try {
+                await addDoc(collection(db, "chats"), {
+                    senderId: currentUser.uid,
+                    senderName: currentUser.name,
+                    receiverId: currentChatWith,
+                    message: message,
+                    participants: [currentUser.uid, currentChatWith],
+                    timestamp: Timestamp.now(),
+                    read: false
+                });
+                
+                input.value = '';
+                playChatSound();
+                
+                // Send notification to admin
+                await sendNotification(currentChatWith, "New Support Message", 
+                    `${currentUser.name} sent you a message: ${message.substring(0, 50)}...`, 'general');
+                    
+            } catch (error) {
+                console.error("Error sending message:", error);
+                showMsg("Failed to send message. Please try again.");
+            }
+        }
+
+        window.sendChatMessage = sendChatMessage;
 
         // --- ADMIN PANEL - UPDATED ---
         window.renderAdmin = () => {
@@ -1366,6 +1913,7 @@
                     <div class="admin-item" onclick="admView('notes')"><i class="fas fa-file-pdf"></i><h4>Notes/PDF</h4></div>
                     <div class="admin-item" onclick="admView('broadcast')"><i class="fas fa-bullhorn"></i><h4>Broadcast</h4></div>
                     <div class="admin-item" onclick="admView('notifications')"><i class="fas fa-bell"></i><h4>Notifications</h4></div>
+                    <div class="admin-item" onclick="admView('inbox')"><i class="fas fa-inbox"></i><h4>Inbox</h4></div>
                     <div class="admin-item" onclick="admView('settings')"><i class="fas fa-cogs"></i><h4>Settings</h4></div>
                 </div>
                 <div id="adm-area" style="margin-top:20px;"></div>
@@ -1437,6 +1985,55 @@
             }
             
             if(m === 'notifications') {
+                // Get all notifications with user names
+                const notifSnap = await getDocs(collection(db, "notifications"));
+                let notifHtml = '';
+                
+                // Group by user for better display
+                const notificationsByUser = {};
+                
+                notifSnap.forEach(doc => {
+                    const data = doc.data();
+                    const userId = data.userId;
+                    
+                    if (!notificationsByUser[userId]) {
+                        notificationsByUser[userId] = {
+                            userName: data.userName || "Unknown User",
+                            notifications: []
+                        };
+                    }
+                    
+                    notificationsByUser[userId].notifications.push({
+                        id: doc.id,
+                        ...data
+                    });
+                });
+                
+                for (const userId in notificationsByUser) {
+                    const userData = notificationsByUser[userId];
+                    notifHtml += `<div style="margin-bottom:20px; border:1px solid var(--border); border-radius:10px; overflow:hidden;">
+                        <div style="background:var(--primary); color:white; padding:10px;">
+                            <b>${userData.userName}</b>
+                            <small style="opacity:0.8; display:block;">${userId}</small>
+                        </div>`;
+                    
+                    userData.notifications.forEach(notif => {
+                        const time = new Date(notif.timestamp?.toMillis() || Date.now()).toLocaleString();
+                        notifHtml += `<div style="padding:10px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+                            <div style="flex:1;">
+                                <div><b>${notif.title}</b> <small style="color:var(--text-sec);">(${notif.type})</small></div>
+                                <div style="font-size:0.8rem;">${notif.message}</div>
+                                <div style="font-size:0.7rem; color:var(--text-sec);">${time}</div>
+                            </div>
+                            <button onclick="deleteNotificationAdmin('${notif.id}')" class="notification-delete">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>`;
+                    });
+                    
+                    notifHtml += `</div>`;
+                }
+                
                 area.innerHTML = `
                     <div class="card">
                         <h3>Send Notification</h3>
@@ -1460,32 +2057,43 @@
                         </button>
                     </div>
                     <div class="card">
-                        <h3>Recent Notifications</h3>
-                        <div id="notif-list"></div>
+                        <h3>Notification History</h3>
+                        <div id="notif-list" style="max-height:400px; overflow-y:auto;">
+                            ${notifHtml || '<p>No notifications sent yet.</p>'}
+                        </div>
                     </div>
                 `;
                 
                 document.getElementById('notif-target').addEventListener('change', function() {
                     document.getElementById('notif-user').style.display = this.value === 'specific' ? 'block' : 'none';
                 });
-                
-                // Load recent notifications
-                const notifSnap = await getDocs(collection(db, "notifications"));
-                let notifHtml = '';
-                notifSnap.forEach(doc => {
-                    const data = doc.data();
-                    notifHtml += `<div style="padding:10px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <div><b>${data.title}</b></div>
-                            <div style="font-size:0.8rem;">${data.message}</div>
-                            <div style="font-size:0.7rem; color:var(--text-sec);">To: ${data.userId}</div>
+            }
+            
+            if(m === 'inbox') {
+                area.innerHTML = `
+                    <div class="card">
+                        <h3><i class="fas fa-inbox"></i> Support Inbox</h3>
+                        <p style="color:var(--text-sec); margin-bottom:15px;">Chat with students who need support</p>
+                        <div id="inbox-user-list" class="chat-user-list"></div>
+                    </div>
+                    <div class="card" id="inbox-chat-area" style="display:none;">
+                        <div id="inbox-chat-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                            <h4 id="chat-with-name"></h4>
+                            <button onclick="deleteChatHistory()" class="btn btn-danger" style="width:auto; padding:5px 15px;">
+                                <i class="fas fa-trash"></i> Delete Chat
+                            </button>
                         </div>
-                        <button onclick="deleteNotificationAdmin('${doc.id}')" class="notification-delete">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>`;
-                });
-                document.getElementById('notif-list').innerHTML = notifHtml || '<p>No notifications sent yet.</p>';
+                        <div id="inbox-chat-messages" class="chat-messages" style="height:300px;"></div>
+                        <div class="chat-input-area">
+                            <input type="text" id="inbox-chat-input" class="chat-input" placeholder="Type your reply..." onkeypress="if(event.key === 'Enter') sendInboxMessage()">
+                            <button onclick="sendInboxMessage()" class="btn btn-primary" style="width:auto; padding:10px 20px;">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                loadInboxUsers();
             }
             
             if(m === 'settings') {
@@ -1523,11 +2131,230 @@
             }
         }
 
+        async function loadInboxUsers() {
+            // Get all users who are not admin
+            const q = query(collection(db, "users"), where("role", "!=", "admin"));
+            const usersSnap = await getDocs(q);
+            
+            // Get all chats
+            const chatsSnap = await getDocs(collection(db, "chats"));
+            
+            const usersWithUnread = [];
+            const userMap = {};
+            
+            usersSnap.forEach(doc => {
+                const userData = doc.data();
+                userMap[doc.id] = {
+                    id: doc.id,
+                    name: userData.name,
+                    avatar: userData.avatar || (userData.gender === 'Female' ? AVATAR_FEMALE : AVATAR_MALE),
+                    unread: 0,
+                    lastMessage: null
+                };
+            });
+            
+            // Count unread messages and get last message
+            chatsSnap.forEach(doc => {
+                const chatData = doc.data();
+                if (chatData.receiverId === currentUser.uid && !chatData.read) {
+                    const senderId = chatData.senderId;
+                    if (userMap[senderId]) {
+                        userMap[senderId].unread++;
+                    }
+                }
+                
+                // Track last message for each user
+                if (chatData.participants.includes(currentUser.uid)) {
+                    const otherUserId = chatData.participants.find(id => id !== currentUser.uid);
+                    if (userMap[otherUserId]) {
+                        if (!userMap[otherUserId].lastMessage || chatData.timestamp > userMap[otherUserId].lastMessage.timestamp) {
+                            userMap[otherUserId].lastMessage = chatData;
+                        }
+                    }
+                }
+            });
+            
+            // Convert to array and sort by last message time
+            for (const userId in userMap) {
+                usersWithUnread.push(userMap[userId]);
+            }
+            
+            usersWithUnread.sort((a, b) => {
+                const timeA = a.lastMessage?.timestamp?.toMillis() || 0;
+                const timeB = b.lastMessage?.timestamp?.toMillis() || 0;
+                return timeB - timeA;
+            });
+            
+            const userList = document.getElementById('inbox-user-list');
+            if (usersWithUnread.length === 0) {
+                userList.innerHTML = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No support requests yet.</p>';
+                return;
+            }
+            
+            let html = '';
+            usersWithUnread.forEach(user => {
+                html += `
+                    <div class="chat-user-item" onclick="openInboxChat('${user.id}', '${user.name}')">
+                        <img src="${user.avatar}" class="chat-user-avatar">
+                        <div>
+                            <div style="font-weight:600;">${user.name}</div>
+                            <div style="font-size:0.8rem; color:var(--text-sec);">
+                                ${user.lastMessage ? user.lastMessage.message.substring(0, 30) + '...' : 'No messages yet'}
+                            </div>
+                        </div>
+                        ${user.unread > 0 ? `<span class="chat-unread">${user.unread}</span>` : ''}
+                    </div>
+                `;
+            });
+            
+            userList.innerHTML = html;
+        }
+
+        window.openInboxChat = async (userId, userName) => {
+            currentChatWith = userId;
+            
+            document.getElementById('inbox-chat-area').style.display = 'block';
+            document.getElementById('chat-with-name').textContent = `Chat with ${userName}`;
+            
+            // Load messages
+            const q = query(
+                collection(db, "chats"),
+                where("participants", "array-contains", currentUser.uid),
+                orderBy("timestamp", "asc")
+            );
+            
+            const snap = await getDocs(q);
+            const messages = [];
+            
+            snap.forEach(doc => {
+                const data = doc.data();
+                if (data.participants.includes(userId)) {
+                    messages.push({ id: doc.id, ...data });
+                }
+            });
+            
+            displayInboxMessages(messages);
+            
+            // Mark as read
+            messages.forEach(async (msg) => {
+                if (msg.senderId !== currentUser.uid && !msg.read) {
+                    await updateDoc(doc(db, "chats", msg.id), { read: true });
+                }
+            });
+            
+            // Setup real-time listener
+            if (chatListenerUnsubscribe) {
+                chatListenerUnsubscribe();
+            }
+            
+            chatListenerUnsubscribe = onSnapshot(q, (snapshot) => {
+                const updatedMessages = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.participants.includes(userId)) {
+                        updatedMessages.push({ id: doc.id, ...data });
+                    }
+                });
+                
+                displayInboxMessages(updatedMessages);
+                
+                // Mark new messages as read
+                updatedMessages.forEach(async (msg) => {
+                    if (msg.senderId !== currentUser.uid && !msg.read) {
+                        await updateDoc(doc(db, "chats", msg.id), { read: true });
+                    }
+                });
+            });
+        }
+
+        function displayInboxMessages(messages) {
+            const chatMessages = document.getElementById('inbox-chat-messages');
+            
+            if (messages.length === 0) {
+                chatMessages.innerHTML = '<p style="text-align:center; color:var(--text-sec);">No messages yet. Start the conversation!</p>';
+                return;
+            }
+            
+            let html = '';
+            messages.forEach(msg => {
+                const isSent = msg.senderId === currentUser.uid;
+                const time = new Date(msg.timestamp?.toMillis() || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                html += `
+                    <div class="chat-message ${isSent ? 'sent' : 'received'}">
+                        <div>${msg.message}</div>
+                        <small>${time}</small>
+                    </div>
+                `;
+            });
+            
+            chatMessages.innerHTML = html;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function sendInboxMessage() {
+            const input = document.getElementById('inbox-chat-input');
+            const message = input.value.trim();
+            
+            if (!message || !currentChatWith) return;
+            
+            try {
+                await addDoc(collection(db, "chats"), {
+                    senderId: currentUser.uid,
+                    senderName: currentUser.name,
+                    receiverId: currentChatWith,
+                    message: message,
+                    participants: [currentUser.uid, currentChatWith],
+                    timestamp: Timestamp.now(),
+                    read: false
+                });
+                
+                input.value = '';
+                playChatSound();
+                
+            } catch (error) {
+                console.error("Error sending message:", error);
+                showMsg("Failed to send message. Please try again.");
+            }
+        }
+
+        window.sendInboxMessage = sendInboxMessage;
+
+        window.deleteChatHistory = async () => {
+            if (!currentChatWith) return;
+            
+            if (await customConfirm("Delete entire chat history with this user?")) {
+                const q = query(
+                    collection(db, "chats"),
+                    where("participants", "array-contains", currentUser.uid)
+                );
+                
+                const snap = await getDocs(q);
+                const batch = writeBatch(db);
+                
+                let count = 0;
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    if (data.participants.includes(currentChatWith)) {
+                        batch.delete(doc.ref);
+                        count++;
+                    }
+                });
+                
+                await batch.commit();
+                showMsg(`Deleted ${count} messages.`);
+                
+                // Clear chat display
+                document.getElementById('inbox-chat-messages').innerHTML = 
+                    '<p style="text-align:center; color:var(--text-sec);">Chat history deleted.</p>';
+            }
+        }
+
         window.renderStudentList = (list) => {
             let h = '';
             list.forEach(u => {
                 const isBan = u.isBanned ? '<span class="banned-badge">BANNED</span>' : '';
-                const av = u.gender === 'Female' ? AVATAR_FEMALE : AVATAR_MALE;
+                const av = u.avatar || (u.gender === 'Female' ? AVATAR_FEMALE : AVATAR_MALE);
                 
                 h += `<div class="mini-card" onclick="viewUser('${u.id}')">
                     ${isBan}
