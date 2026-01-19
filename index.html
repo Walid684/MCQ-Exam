@@ -167,9 +167,6 @@
             font-size: 0.85rem; cursor: pointer;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .notification-item-content {
-            flex: 1;
-        }
         .notification-item.unread { background: var(--primary-light); font-weight: 500; }
         .notification-delete {
             background: transparent; border: none; color: var(--danger);
@@ -1436,8 +1433,19 @@
         // --- CATEGORY FUNCTIONS ---
         async function loadAllCategories() {
             try {
-                const examsSnap = await getDocs(collection(db, "exams"));
+                // First try to load from categories collection
+                const categoriesSnap = await getDocs(collection(db, "categories"));
                 const categoriesSet = new Set();
+                
+                categoriesSnap.forEach(doc => {
+                    const data = doc.data();
+                    if(data.name) {
+                        categoriesSet.add(data.name);
+                    }
+                });
+                
+                // Also load from exams for backward compatibility
+                const examsSnap = await getDocs(collection(db, "exams"));
                 examsSnap.forEach(doc => {
                     const data = doc.data();
                     if(data.category) {
@@ -1467,27 +1475,87 @@
             const newCategory = document.getElementById('new-category-name').value.trim();
             if(!newCategory) return showMsg("Please enter a category name");
             
-            // Add to local categories array
-            if(!allCategories.includes(newCategory)) {
-                allCategories.push(newCategory);
-                allCategories.sort();
+            try {
+                // Check if category already exists
+                const q = query(collection(db, "categories"), where("name", "==", newCategory));
+                const existingCat = await getDocs(q);
+                
+                if(!existingCat.empty) {
+                    showMsg("Category already exists!");
+                    return;
+                }
+                
+                // Add to Firebase categories collection
+                await addDoc(collection(db, "categories"), {
+                    name: newCategory,
+                    createdAt: Timestamp.now(),
+                    createdBy: currentUser.uid
+                });
+                
+                // Reload categories
+                await loadAllCategories();
+                
+                // Update the category select in admin panel
+                updateAdminCategorySelect();
+                updateAdminExamCategorySelects();
+                
+                showMsg(`Category "${newCategory}" added successfully!`);
+                closeAddCategoryModal();
+            } catch(error) {
+                console.error("Error saving category:", error);
+                showMsg("Error saving category: " + error.message);
             }
-            
-            // Update the category select in admin panel
-            updateAdminCategorySelect();
-            
-            showMsg(`Category "${newCategory}" added successfully!`);
-            closeAddCategoryModal();
         }
 
         function updateAdminCategorySelect() {
             const adminSelect = document.getElementById('admin-category-select');
             if(adminSelect) {
-                let options = '<option value="">All Categories</option>';
+                let options = '<option value="">Select Category</option>';
                 allCategories.forEach(cat => {
                     options += `<option value="${cat}">${cat}</option>`;
                 });
                 adminSelect.innerHTML = options;
+            }
+            
+            // Also update other category selects
+            const homeCategorySelect = document.getElementById('category-select');
+            if(homeCategorySelect) {
+                let options = '<option value="">All Categories</option>';
+                allCategories.forEach(cat => {
+                    options += `<option value="${cat}" ${cat === selectedCategory ? 'selected' : ''}>${cat}</option>`;
+                });
+                homeCategorySelect.innerHTML = options;
+            }
+            
+            const lbCategorySelect = document.getElementById('lb-category-select');
+            if(lbCategorySelect) {
+                let options = '<option value="">All Categories</option>';
+                allCategories.forEach(cat => {
+                    options += `<option value="${cat}">${cat}</option>`;
+                });
+                lbCategorySelect.innerHTML = options;
+            }
+        }
+
+        function updateAdminExamCategorySelects() {
+            // Update create exam category select
+            const createSelect = document.getElementById('nc');
+            if(createSelect) {
+                let createOptions = '<option value="">Select Category</option>';
+                allCategories.forEach(cat => {
+                    createOptions += `<option value="${cat}">${cat}</option>`;
+                });
+                createSelect.innerHTML = createOptions;
+            }
+            
+            // Update filter category select
+            const filterSelect = document.getElementById('admin-exam-filter');
+            if(filterSelect) {
+                let filterOptions = '<option value="">All Categories</option>';
+                allCategories.forEach(cat => {
+                    filterOptions += `<option value="${cat}">${cat}</option>`;
+                });
+                filterSelect.innerHTML = filterOptions;
             }
         }
 
@@ -1668,7 +1736,7 @@
                     localStorage.setItem('selectedCategory', selectedCategory);
                 }
                 
-                let options = '';
+                let options = '<option value="">All Categories</option>';
                 allCategories.forEach(cat => {
                     options += `<option value="${cat}" ${cat === selectedCategory ? 'selected' : ''}>${cat}</option>`;
                 });
@@ -2652,7 +2720,6 @@
 
         async function loadExamAdminView() {
             await loadAllCategories();
-            updateAdminCategorySelect();
             
             const area = document.getElementById('adm-area');
             area.innerHTML = `
@@ -2697,6 +2764,7 @@
                 </div>`;
             
             // Update category selects
+            updateAdminCategorySelect();
             updateAdminExamCategorySelects();
             
             try {
@@ -2734,24 +2802,6 @@
                 console.error("Error loading exams:", error);
                 document.getElementById('el').innerHTML = '<p style="color:var(--danger);">Error loading exams</p>';
             }
-        }
-
-        function updateAdminExamCategorySelects() {
-            // Update create exam category select
-            const createSelect = document.getElementById('nc');
-            let createOptions = '<option value="">Select Category</option>';
-            allCategories.forEach(cat => {
-                createOptions += `<option value="${cat}">${cat}</option>`;
-            });
-            createSelect.innerHTML = createOptions;
-            
-            // Update filter category select
-            const filterSelect = document.getElementById('admin-exam-filter');
-            let filterOptions = '<option value="">All Categories</option>';
-            allCategories.forEach(cat => {
-                filterOptions += `<option value="${cat}">${cat}</option>`;
-            });
-            filterSelect.innerHTML = filterOptions;
         }
 
         window.filterAdminExams = () => {
@@ -2845,12 +2895,21 @@
                 createdAt: Date.now()
             }); 
             
-            // Update categories list
-            if(!allCategories.includes(category)) {
-                allCategories.push(category);
-                allCategories.sort();
-                updateAdminExamCategorySelects();
+            // Add to categories if not exists
+            const q = query(collection(db, "categories"), where("name", "==", category));
+            const existingCat = await getDocs(q);
+            
+            if(existingCat.empty) {
+                await addDoc(collection(db, "categories"), {
+                    name: category,
+                    createdAt: Timestamp.now(),
+                    createdBy: currentUser.uid
+                });
+                
+                // Reload categories
+                await loadAllCategories();
                 updateAdminCategorySelect();
+                updateAdminExamCategorySelects();
             }
             
             const usersSnap = await getDocs(collection(db, "users"));
