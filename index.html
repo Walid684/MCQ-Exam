@@ -628,6 +628,36 @@
             color: var(--danger);
             font-weight: 600;
         }
+
+        /* CATEGORY FILTER STYLES */
+        .category-filter {
+            margin-bottom: 20px;
+        }
+        .category-select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+        .category-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
+        }
+        .category-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-left: 8px;
+        }
     </style>
 </head>
 <body>
@@ -838,6 +868,7 @@
         let allStudentsCache = [];
         let allNotifications = [];
         let unreadNotifications = 0;
+        let selectedCategory = localStorage.getItem('selectedCategory') || '';
 
         // AVATAR IMAGES
         const AVATAR_MALE = [
@@ -1388,20 +1419,82 @@
                 <div id="news-area" class="news-slider"><div class="news-track" id="news-track"></div></div>
 
                 <h3 style="margin-bottom:15px; color:var(--text); display:flex; align-items:center; gap:10px;"><i class="fas fa-clock" style="color:var(--primary)"></i> Live Exams</h3>
+                
+                <div class="category-filter">
+                    <select id="category-select" class="category-select" onchange="changeCategory(this.value)">
+                        <option value="">Loading categories...</option>
+                    </select>
+                </div>
+                
                 <div id="exam-list">Loading...</div>
                 
                 ${renderSupportSection()}
             `;
             
             loadRecentUpdates();
+            loadCategories();
+        }
 
+        async function loadCategories() {
             try {
                 const s = await getDocs(collection(db, "exams"));
+                const categoriesSet = new Set();
+                s.forEach(d => {
+                    const data = d.data();
+                    if(data.category) {
+                        categoriesSet.add(data.category);
+                    }
+                });
+                
+                const categories = Array.from(categoriesSet);
+                const select = document.getElementById('category-select');
+                
+                if(categories.length === 0) {
+                    select.innerHTML = '<option value="">No categories available</option>';
+                    return;
+                }
+                
+                // If no category is selected yet, select the first one
+                if(!selectedCategory && categories.length > 0) {
+                    selectedCategory = categories[0];
+                    localStorage.setItem('selectedCategory', selectedCategory);
+                }
+                
+                let options = '';
+                categories.forEach(cat => {
+                    options += `<option value="${cat}" ${cat === selectedCategory ? 'selected' : ''}>${cat}</option>`;
+                });
+                
+                select.innerHTML = options;
+                
+                // Load exams for the selected category
+                loadExamsByCategory();
+            } catch(error) {
+                console.error("Error loading categories:", error);
+                document.getElementById('category-select').innerHTML = '<option value="">Error loading categories</option>';
+            }
+        }
+
+        window.changeCategory = (category) => {
+            selectedCategory = category;
+            localStorage.setItem('selectedCategory', category);
+            loadExamsByCategory();
+        }
+
+        async function loadExamsByCategory() {
+            try {
+                let q;
+                if(selectedCategory) {
+                    q = query(collection(db, "exams"), where("category", "==", selectedCategory));
+                } else {
+                    q = collection(db, "exams");
+                }
+                
+                const s = await getDocs(q);
                 const l = document.getElementById('exam-list');
-                l.innerHTML = '';
                 
                 if(s.empty) {
-                    l.innerHTML = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No exams available right now.</p>';
+                    l.innerHTML = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No exams available for this category right now.</p>';
                     return;
                 }
                 
@@ -1417,13 +1510,16 @@
                             ${isRecent ? '<div class="live-badge"><i class="fas fa-circle"></i> LIVE</div>' : ''}
                             <div style="flex:1;">
                                 <h4 style="font-size:1.1rem; margin-bottom:5px;">${data.title}</h4>
-                                <small style="color:var(--text-sec); background:var(--bg); padding:3px 8px; border-radius:5px;">⏱ ${data.time} Min</small>
+                                <div style="display:flex; gap:8px; align-items:center; margin-bottom:5px;">
+                                    <small style="color:var(--text-sec); background:var(--bg); padding:3px 8px; border-radius:5px;">⏱ ${data.time} Min</small>
+                                    <small style="color:var(--primary); background:var(--primary-light); padding:3px 8px; border-radius:5px;">${data.category || 'Uncategorized'}</small>
+                                </div>
                             </div>
                             <button onclick="${isTaken ? 'showMsg(\'You have already taken this exam!\')' : `startExam('${examId}', '${data.title}', ${data.time})`}" 
                                     class="btn ${isTaken ? 'btn-sec' : 'btn-primary'}" 
                                     style="width:auto; margin:0; padding:8px 20px; font-size:0.9rem;"
                                     ${isTaken ? 'disabled' : ''}>
-                                ${isTaken ? 'Already Taken' : 'Start'}
+                                ${isTaken ? 'Taken' : 'Start'}
                             </button>
                         </div>`;
                 });
@@ -2301,12 +2397,29 @@
         }
 
         async function loadExamAdminView() {
+            // Get existing categories for datalist
+            const examsSnap = await getDocs(collection(db, "exams"));
+            const categoriesSet = new Set();
+            examsSnap.forEach(doc => {
+                const cat = doc.data().category;
+                if(cat) categoriesSet.add(cat);
+            });
+            
+            let categoryOptions = '';
+            categoriesSet.forEach(cat => {
+                categoryOptions += `<option value="${cat}">`;
+            });
+            
             const area = document.getElementById('adm-area');
             area.innerHTML = `
                 <div class="card">
                     <h3>Create Exam</h3>
                     <input id="nt" placeholder="Title">
                     <input id="nm" type="number" placeholder="Time (Min)">
+                    <input id="nc" list="categories" placeholder="Category (e.g. Math, Physics, English)">
+                    <datalist id="categories">
+                        ${categoryOptions}
+                    </datalist>
                     <button onclick="addExam()" class="btn btn-primary">Create</button>
                 </div>
                 
@@ -2331,12 +2444,14 @@
                 const s = await getDocs(collection(db, "exams")); 
                 let h='', o=''; 
                 s.forEach(d=>{ 
+                    const data = d.data();
                     h+=`<div class="mini-card" onclick="delDoc('exams','${d.id}')">
                         <i class="fas fa-file-contract" style="color:var(--primary)"></i>
-                        <h4>${d.data().title}</h4>
-                        <small>${d.data().time} Min</small>
+                        <h4>${data.title}</h4>
+                        <small>${data.time} Min</small>
+                        <small style="color:var(--primary); display:block; margin-top:3px;">${data.category || 'No Category'}</small>
                     </div>`; 
-                    o+=`<option value="${d.id}">${d.data().title}</option>`; 
+                    o+=`<option value="${d.id}">${data.title} (${data.category || 'No Category'})</option>`; 
                 });
                 document.getElementById('el').innerHTML = h || "<p>No exams.</p>"; 
                 document.getElementById('es').innerHTML = o;
@@ -2411,9 +2526,18 @@
         }
 
         window.addExam = async () => { 
+            const title = document.getElementById('nt').value;
+            const time = parseInt(document.getElementById('nm').value);
+            const category = document.getElementById('nc').value;
+            
+            if(!title || !time || !category) {
+                return showMsg("Please fill all fields including category");
+            }
+            
             await addDoc(collection(db, "exams"), {
-                title:document.getElementById('nt').value, 
-                time:parseInt(document.getElementById('nm').value), 
+                title: title, 
+                time: time,
+                category: category,
                 createdAt: Date.now()
             }); 
             
@@ -2423,7 +2547,7 @@
                     await sendNotification(
                         userDoc.id, 
                         "New Exam Available!", 
-                        `A new exam "${document.getElementById('nt').value}" has been added. Check it out!`,
+                        `A new exam "${title}" has been added in ${category} category. Check it out!`,
                         'exam'
                     );
                 }
@@ -3056,4 +3180,4 @@
 
     </script>
 </body>
-                    </html>
+            </html>
