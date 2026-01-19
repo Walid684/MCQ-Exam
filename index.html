@@ -531,6 +531,103 @@
         .review-skipped {
             border-left: 4px solid var(--warning);
         }
+
+        /* FORGOT PASSWORD STYLES */
+        .forgot-password-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .forgot-password-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .forgot-password-link a:hover {
+            text-decoration: underline;
+        }
+        
+        /* REGISTRATION PAGE ENHANCEMENTS */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 450px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        .auth-title {
+            text-align: center;
+            color: var(--primary);
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+        .auth-subtitle {
+            text-align: center;
+            color: var(--text-sec);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+        
+        /* EXAM SELECT DROPDOWN FOR LEADERBOARD */
+        .exam-select-container {
+            margin-bottom: 20px;
+        }
+        .exam-select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+        }
+        .exam-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
+        }
+        
+        /* CONGRATULATIONS MESSAGE */
+        .congratulations-message {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: #333;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        /* MCQ UPLOAD REPORT */
+        .upload-report {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            background: var(--bg);
+        }
+        .upload-success {
+            color: var(--success);
+            font-weight: 600;
+        }
+        .upload-failed {
+            color: var(--danger);
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -581,31 +678,59 @@
         </div>
     </div>
 
+    <!-- Forgot Password Modal -->
+    <div id="forgot-password-modal" class="modal">
+        <div class="modal-content" style="max-width:400px;">
+            <h2 style="margin-bottom:20px; color:var(--primary);">Reset Password</h2>
+            <p style="color:var(--text-sec); margin-bottom:15px;">Enter your email address and we'll send you a link to reset your password.</p>
+            <input type="email" id="reset-email" placeholder="Email Address">
+            <button onclick="sendPasswordResetEmail()" class="btn btn-primary">Send Reset Link</button>
+            <button onclick="closeForgotPasswordModal()" class="btn btn-sec" style="margin-top:10px;">Cancel</button>
+        </div>
+    </div>
+
     <section id="auth-screen" class="screen">
-        <div style="min-height:100vh; display:flex; justify-content:center; align-items:center; background:linear-gradient(135deg, var(--primary), #8f94fb); padding:20px;">
-            <div class="card" style="width:100%; max-width:400px; text-align:center; border:none;">
-                <h1 style="color:var(--primary); font-size:2.5rem; margin-bottom:5px;">ExamPro</h1>
-                <p style="color:var(--text-sec); margin-bottom:30px;">Login to continue</p>
+        <div class="auth-container" style="background:linear-gradient(135deg, var(--primary), #8f94fb);">
+            <div class="auth-card">
+                <h1 class="auth-title">ExamPro</h1>
+                <p class="auth-subtitle">Login to continue your learning journey</p>
                 
                 <div id="login-form">
                     <input type="email" id="l-email" placeholder="Email Address">
                     <input type="password" id="l-pass" placeholder="Password">
                     <button onclick="handleLogin()" class="btn btn-primary">Log In</button>
-                    <p style="margin-top:20px; color:var(--text-sec);">New User? <b onclick="toggleAuth('signup')" style="color:var(--primary); cursor:pointer;">Register</b></p>
+                    
+                    <div class="forgot-password-link">
+                        <a onclick="showForgotPasswordModal()">Forgot Password?</a>
+                    </div>
+                    
+                    <p style="margin-top:20px; color:var(--text-sec); text-align:center;">
+                        New User? 
+                        <b onclick="toggleAuth('signup')" style="color:var(--primary); cursor:pointer; font-weight:600;">
+                            Create Account
+                        </b>
+                    </p>
                 </div>
 
                 <div id="signup-form" style="display:none;">
                     <input type="text" id="s-name" placeholder="Full Name">
-                    <select id="s-gender"><option value="">Select Gender</option><option value="Male">Male</option><option value="Female">Female</option></select>
+                    <select id="s-gender">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
                     <input type="text" id="s-edu" placeholder="Education (e.g. HSC)">
-                    <input type="email" id="s-email" placeholder="Email">
-                    <input type="password" id="s-pass" placeholder="Password">
-                    <button onclick="handleSignup()" class="btn btn-primary">Sign Up</button>
-                    <p style="margin-top:20px; color:var(--text-sec);">Have account? <b onclick="toggleAuth('login')" style="color:var(--primary); cursor:pointer;">Log In</b></p>
+                    <input type="email" id="s-email" placeholder="Email Address">
+                    <input type="password" id="s-pass" placeholder="Password (minimum 6 characters)">
+                    <button onclick="handleSignup()" class="btn btn-primary">Create Account</button>
+                    
+                    <p style="margin-top:20px; color:var(--text-sec); text-align:center;">
+                        Already have an account? 
+                        <b onclick="toggleAuth('login')" style="color:var(--primary); cursor:pointer; font-weight:600;">
+                            Log In
+                        </b>
+                    </p>
                 </div>
-                
-                <div style="margin:20px 0; border-top:1px solid var(--border);"></div>
-                <button onclick="handleGoogle()" class="btn" style="background:white; border:1px solid #ddd; color:#333;"><i class="fab fa-google" style="color:#EA4335"></i> Continue with Google</button>
             </div>
         </div>
     </section>
@@ -690,7 +815,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where, deleteDoc, updateDoc, onSnapshot, Timestamp, writeBatch, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // CONFIG
@@ -707,7 +832,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const googleProvider = new GoogleAuthProvider();
 
         let currentUser = null;
         let timerInterval;
@@ -850,6 +974,30 @@
         if(localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
             document.getElementById('theme-icon').className = 'fas fa-sun';
+        }
+
+        // --- FORGOT PASSWORD FUNCTIONS ---
+        window.showForgotPasswordModal = () => {
+            document.getElementById('forgot-password-modal').style.display = 'flex';
+        }
+
+        window.closeForgotPasswordModal = () => {
+            document.getElementById('forgot-password-modal').style.display = 'none';
+        }
+
+        window.sendPasswordResetEmail = async () => {
+            const email = document.getElementById('reset-email').value;
+            if(!email) return showMsg("Please enter your email");
+            try {
+                toggleLoader(true);
+                await sendPasswordResetEmail(auth, email);
+                showMsg("Password reset email sent! Check your inbox.");
+                closeForgotPasswordModal();
+            } catch(e) {
+                showMsg(e.message);
+            } finally {
+                toggleLoader(false);
+            }
         }
 
         // --- SHARE FUNCTIONS ---
@@ -1116,11 +1264,18 @@
         }
         
         window.handleSignup = async () => {
-            const n=document.getElementById('s-name').value, g=document.getElementById('s-gender').value, e=document.getElementById('s-edu').value;
-            if(!n || !g) return showMsg("Please fill all details");
+            const n=document.getElementById('s-name').value, 
+                  g=document.getElementById('s-gender').value, 
+                  e=document.getElementById('s-edu').value,
+                  em=document.getElementById('s-email').value,
+                  p=document.getElementById('s-pass').value;
+            
+            if(!n || !g || !em || !p) return showMsg("Please fill all required details");
+            if(p.length < 6) return showMsg("Password must be at least 6 characters");
+            
             try {
                 toggleLoader(true);
-                const res = await createUserWithEmailAndPassword(auth, document.getElementById('s-email').value, document.getElementById('s-pass').value);
+                const res = await createUserWithEmailAndPassword(auth, em, p);
                 
                 const defaultAvatar = g === 'Female' ? AVATAR_FEMALE[0] : AVATAR_MALE[0];
                 
@@ -1129,25 +1284,12 @@
                     points: 0, level: 1, joined: new Date().toLocaleDateString(), isBanned: false,
                     examsTaken: [], avatar: defaultAvatar
                 });
-                showMsg("Account Created!");
-            } catch(e) { showMsg(e.message); toggleLoader(false); }
-        }
-        
-        window.handleGoogle = async () => {
-            try {
-                const res = await signInWithPopup(auth, googleProvider);
-                const ref = doc(db, "users", res.user.uid);
-                const snap = await getDoc(ref);
-                if(!snap.exists()) {
-                    const defaultAvatar = Math.random() > 0.5 ? AVATAR_MALE[0] : AVATAR_FEMALE[0];
-                    await setDoc(ref, { 
-                        name: res.user.displayName, email: res.user.email, gender: 'Male', 
-                        education: 'Not Set', role: 'student', points: 0, level: 1, 
-                        joined: new Date().toLocaleDateString(), isBanned: false, examsTaken: [],
-                        avatar: defaultAvatar
-                    });
-                }
-            } catch(e) { showMsg(e.message); }
+                showMsg("Account Created Successfully!");
+                toggleAuth('login');
+            } catch(e) { 
+                showMsg(e.message); 
+                toggleLoader(false); 
+            }
         }
         
         window.handleLogout = () => signOut(auth).then(()=>location.reload());
@@ -1371,45 +1513,52 @@
             document.getElementById('main-content').innerHTML = `
                 <div class="card" style="background:var(--bg); text-align:center;">
                     <h3>🏆 Leaderboard</h3>
-                    <p style="color:var(--text-sec); margin-top:5px;">Tap on exam tabs to see specific rankings</p>
+                    <p style="color:var(--text-sec); margin-top:5px;">Select an exam to see specific rankings</p>
                 </div>
-                <div class="exam-leaderboard-tabs" id="leaderboard-tabs">
-                    <div class="exam-tab active" id="tab-overall" onclick="loadLeaderboardData('overall')">Overall</div>
+                
+                <div class="exam-select-container">
+                    <select id="exam-select" class="exam-select" onchange="onExamSelectChange()">
+                        <option value="overall">Overall Leaderboard</option>
+                    </select>
                 </div>
+                
                 <div id="lb-list" style="margin-top:10px;">Loading leaderboard...</div>
             `;
             
+            await loadExamOptions();
             await loadLeaderboardData('overall');
-            await loadExamTabs();
         }
 
-        async function loadExamTabs() {
+        async function loadExamOptions() {
             try {
                 const examsSnap = await getDocs(collection(db, "exams"));
-                const tabsContainer = document.getElementById('leaderboard-tabs');
+                const selectBox = document.getElementById('exam-select');
                 
                 examsSnap.forEach(doc => {
                     const exam = doc.data();
-                    const tab = document.createElement('div');
-                    tab.className = 'exam-tab';
-                    tab.id = `tab-${doc.id}`;
-                    tab.textContent = exam.title.length > 10 ? exam.title.substring(0, 10) + '...' : exam.title;
-                    tab.onclick = () => loadLeaderboardData(doc.id, exam.title);
-                    tabsContainer.appendChild(tab);
+                    const option = document.createElement('option');
+                    option.value = doc.id;
+                    option.textContent = exam.title;
+                    selectBox.appendChild(option);
                 });
             } catch(error) {
-                console.error("Error loading exam tabs:", error);
+                console.error("Error loading exam options:", error);
+            }
+        }
+
+        window.onExamSelectChange = () => {
+            const selectBox = document.getElementById('exam-select');
+            const examId = selectBox.value;
+            const examName = selectBox.options[selectBox.selectedIndex].text;
+            
+            if(examId === 'overall') {
+                loadLeaderboardData('overall');
+            } else {
+                loadLeaderboardData(examId, examName);
             }
         }
 
         async function loadLeaderboardData(type, examTitle = '') {
-            document.querySelectorAll('.exam-tab').forEach(tab => tab.classList.remove('active'));
-            if(type === 'overall') {
-                document.getElementById('tab-overall').classList.add('active');
-            } else {
-                document.getElementById(`tab-${type}`).classList.add('active');
-            }
-            
             const lbList = document.getElementById('lb-list');
             lbList.innerHTML = '<div style="text-align:center; padding:20px;"><div class="spinner" style="margin:0 auto;"></div><p style="margin-top:10px; color:var(--text-sec);">Loading...</p></div>';
             
@@ -2018,10 +2167,25 @@
                 playExamCompleteSound();
                 
                 renderHome();
+                
+                // Add congratulations message for 80% or above
+                let congratsMessage = '';
+                if(percentage >= 80) {
+                    congratsMessage = `
+                        <div class="congratulations-message">
+                            <h2 style="margin-bottom:10px; color:#333;"><i class="fas fa-trophy"></i> Congratulations!</h2>
+                            <p style="font-size:1.1rem; margin-bottom:5px;">You scored ${percentage.toFixed(1)}%!</p>
+                            <p style="opacity:0.8;">Excellent performance! Keep up the great work!</p>
+                        </div>
+                    `;
+                }
+                
                 openModal(`Result: ${score.toFixed(1)}/${totalQuestions}`, `
                     <div style="text-align:center; padding:20px 0;">
+                        ${congratsMessage}
                         <h1 style="font-size:4rem; color:var(--primary); line-height:1;">${score.toFixed(1)}</h1>
                         <p style="color:var(--text-sec)">Out of ${totalQuestions}</p>
+                        <p style="color:var(--text-sec); margin-bottom:15px;">(${percentage.toFixed(1)}%)</p>
                         <div style="margin:15px 0; padding:15px; background:var(--bg); border-radius:12px;">
                             <div style="display:flex; justify-content:space-around;">
                                 <div>
@@ -2039,12 +2203,59 @@
                             </div>
                         </div>
                     </div>
-                    <button onclick="renderReview()" class="btn btn-primary" style="width:100%; margin-top:10px;">View Detailed Review</button>`);
+                    <button onclick="showReviewDetailFromResult('${currentUser.uid}', '${window.currentExamId}')" class="btn btn-primary" style="width:100%; margin-top:10px;">
+                        <i class="fas fa-eye"></i> View Detailed Review
+                    </button>
+                    <button onclick="renderHome()" class="btn btn-sec" style="width:100%; margin-top:10px;">
+                        <i class="fas fa-home"></i> Back to Home
+                    </button>`);
             } catch(error) {
                 console.error("Error submitting exam:", error);
                 showMsg("Error submitting exam. Please try again.");
             } finally {
                 toggleLoader(false);
+            }
+        }
+
+        // Function to show review details from result
+        window.showReviewDetailFromResult = async (userId, examId) => {
+            try {
+                const q = query(collection(db, "results"), 
+                    where("userId", "==", userId), 
+                    where("examId", "==", examId));
+                const snap = await getDocs(q);
+                
+                if(!snap.empty) {
+                    const doc = snap.docs[0];
+                    const data = doc.data();
+                    let reviewHTML = '';
+                    
+                    if(data.review && Array.isArray(data.review)) {
+                        data.review.forEach((item, index) => {
+                            const reviewClass = item.correct ? 'review-correct' : (item.userAnswer === 'Skipped' ? 'review-skipped' : 'review-wrong');
+                            reviewHTML += `
+                                <div class="review-question ${reviewClass}">
+                                    <p style="font-size:0.9rem; font-weight:600;"><b>Q${index+1}:</b> ${item.question}</p>
+                                    <div style="margin-top:5px; font-size:0.9rem;">
+                                        <div>Your Answer: <b style="color:${item.correct ? 'var(--success)' : (item.userAnswer === 'Skipped' ? 'var(--warning)' : 'var(--danger)')}">${item.userAnswer}</b></div>
+                                        ${!item.correct && item.userAnswer !== 'Skipped' ? `<div>Correct Answer: <b style="color:var(--success)">${item.correctAnswer}</b></div>` : ''}
+                                        <div style="margin-top:3px; font-size:0.8rem; color:var(--text-sec);">${item.correct ? '✓ Correct' : (item.userAnswer === 'Skipped' ? '⏸ Skipped' : '✗ Wrong')}</div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        reviewHTML = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No review details available for this exam.</p>';
+                    }
+                    
+                    closeModal();
+                    openModal(`Review: ${data.exam} (${data.score}/${data.total})`, reviewHTML);
+                } else {
+                    showMsg("Review not found!");
+                }
+            } catch(error) {
+                console.error("Error loading review details:", error);
+                showMsg("Error loading review details!");
             }
         }
 
@@ -2092,13 +2303,29 @@
         async function loadExamAdminView() {
             const area = document.getElementById('adm-area');
             area.innerHTML = `
-                <div class="card"><h3>Create Exam</h3><input id="nt" placeholder="Title"><input id="nm" type="number" placeholder="Time (Min)"><button onclick="addExam()" class="btn btn-primary">Create</button></div>
+                <div class="card">
+                    <h3>Create Exam</h3>
+                    <input id="nt" placeholder="Title">
+                    <input id="nm" type="number" placeholder="Time (Min)">
+                    <button onclick="addExam()" class="btn btn-primary">Create</button>
+                </div>
+                
                 <div class="card">
                     <h3>Manage Exams</h3>
                     <p style="font-size:0.8rem; color:var(--text-sec); margin-bottom:10px;">Tap to Delete</p>
                     <div id="el" class="grid-container"></div>
                 </div>
-                <div class="card"><h3>Add MCQ (JSON)</h3><div style="display:flex; gap:10px;"><select id="es"></select><button onclick="copyFormat()" class="btn btn-sec" style="width:auto; margin:0 0 15px 0;">Copy Format</button></div><textarea id="jt" rows="4" placeholder="Paste JSON here..."></textarea><button onclick="upJson()" class="btn btn-primary">Upload</button></div>`;
+                
+                <div class="card">
+                    <h3>Add MCQ (JSON)</h3>
+                    <div style="display:flex; gap:10px; margin-bottom:15px;">
+                        <select id="es" style="flex:1;"></select>
+                        <button onclick="copyFormat()" class="btn btn-sec" style="width:auto; margin:0;">Copy Format</button>
+                    </div>
+                    <textarea id="jt" rows="4" placeholder="Paste JSON here..."></textarea>
+                    <button onclick="upJson()" class="btn btn-primary">Upload</button>
+                    <div id="upload-report" class="upload-report" style="display:none;"></div>
+                </div>`;
             
             try {
                 const s = await getDocs(collection(db, "exams")); 
@@ -2207,18 +2434,51 @@
         }
         
         window.upJson = async () => { 
+            const jsonText = document.getElementById('jt').value;
+            if(!jsonText) return showMsg("Please enter JSON");
+            
             try { 
-                const d=JSON.parse(document.getElementById('jt').value); 
+                const d = JSON.parse(jsonText); 
+                toggleLoader(true);
+                
+                let success = 0, failed = 0;
+                const examId = document.getElementById('es').value;
+                
                 for(const q of d) {
-                   await addDoc(collection(db,"questions"),{
-                       examId:document.getElementById('es').value, 
-                       question: q.question || q.q, 
-                       options: q.options,
-                       correct: q.correct
-                   }); 
+                    try {
+                        await addDoc(collection(db,"questions"),{
+                            examId: examId, 
+                            question: q.question || q.q, 
+                            options: q.options,
+                            correct: q.correct
+                        });
+                        success++;
+                    } catch(e) {
+                        console.error("Error uploading question:", e);
+                        failed++;
+                    }
                 }
-                showMsg("Uploaded Successfully"); 
-            } catch(e){showMsg("JSON Error: Check format");} 
+                
+                toggleLoader(false);
+                
+                const reportDiv = document.getElementById('upload-report');
+                reportDiv.style.display = 'block';
+                reportDiv.innerHTML = `
+                    <h4>Upload Report:</h4>
+                    <p><span class="upload-success">Successfully uploaded: ${success} questions</span></p>
+                    <p><span class="upload-failed">Failed to upload: ${failed} questions</span></p>
+                    <p>Total processed: ${success + failed} questions</p>
+                `;
+                
+                if(failed === 0) {
+                    showMsg(`Successfully uploaded ${success} questions!`);
+                } else {
+                    showMsg(`Uploaded ${success} questions, ${failed} failed.`);
+                }
+            } catch(e) {
+                toggleLoader(false);
+                showMsg("JSON Error: Check format - " + e.message);
+            } 
         }
         
         window.delDoc = async (c, id) => { 
@@ -2229,6 +2489,12 @@
                 else if(c==='routines') admView('routine');
                 else if(c==='notes') admView('notes');
             } 
+        }
+        
+        window.copyFormat = () => {
+            const fmt = `[{"question":"Sample Question?","options":["Option A","Option B","Option C","Option D"],"correct":1}]`;
+            navigator.clipboard.writeText(fmt);
+            showMsg("Format Copied! Paste and edit in JSON editor.");
         }
         
         async function loadRoutineAdminView() {
@@ -2753,12 +3019,6 @@
                 admView('student');
             }
         }
-        
-        window.copyFormat = () => {
-            const fmt = `[{"question":"Question Name?","options":["A","B","C","D"],"correct":4}]`;
-            navigator.clipboard.writeText(fmt);
-            showMsg("Format Copied!");
-        }
 
         // --- LOADERS ---
         async function loadServerTheme() { 
@@ -2796,4 +3056,4 @@
 
     </script>
 </body>
-    </html>
+                    </html>
