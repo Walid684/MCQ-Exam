@@ -214,6 +214,29 @@
             background: linear-gradient(90deg, rgba(243, 156, 18, 0.1), transparent) !important;
         }
 
+        /* CURRENT USER HIGHLIGHT IN LEADERBOARD */
+        .current-user-card {
+            border: 3px solid var(--primary) !important;
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.15), transparent) !important;
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.2) !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .current-user-card::before {
+            content: 'YOU';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
+            z-index: 1;
+        }
+
         /* GRID CARDS */
         .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 10px; }
         .mini-card {
@@ -577,13 +600,17 @@
             font-size: 0.95rem;
         }
         
-        /* EXAM SELECT DROPDOWN FOR LEADERBOARD */
+        /* EXAM SELECT DROPDOWN FOR LEADERBOARD - IMPROVED */
         .exam-select-container {
             margin-bottom: 20px;
         }
+        .exam-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
         .exam-select {
             width: 100%;
-            padding: 15px;
+            padding: 15px 50px 15px 15px;
             border: 2px solid var(--border);
             border-radius: 15px;
             background: var(--card-bg);
@@ -591,10 +618,21 @@
             font-size: 1rem;
             outline: none;
             cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236C63FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            transition: all 0.3s ease;
         }
         .exam-select:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
+        }
+        .exam-select option {
+            padding: 10px;
+            background: var(--card-bg);
+            color: var(--text);
         }
         
         /* CONGRATULATIONS MESSAGE */
@@ -629,13 +667,17 @@
             font-weight: 600;
         }
 
-        /* CATEGORY FILTER STYLES */
+        /* CATEGORY FILTER STYLES - IMPROVED */
         .category-filter {
             margin-bottom: 20px;
         }
+        .category-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
         .category-select {
             width: 100%;
-            padding: 15px;
+            padding: 15px 50px 15px 15px;
             border: 2px solid var(--border);
             border-radius: 15px;
             background: var(--card-bg);
@@ -643,7 +685,12 @@
             font-size: 1rem;
             outline: none;
             cursor: pointer;
-            margin-bottom: 0;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236C63FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            transition: all 0.3s ease;
         }
         .category-select:focus {
             border-color: var(--primary);
@@ -657,6 +704,100 @@
             border-radius: 10px;
             font-size: 0.7rem;
             margin-left: 8px;
+        }
+
+        /* ADMIN CATEGORY SELECT WITH PLUS BUTTON */
+        .admin-category-select-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+        .admin-category-select {
+            width: 100%;
+            padding: 15px 60px 15px 15px;
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236C63FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 45px center;
+            background-size: 20px;
+            transition: all 0.3s ease;
+        }
+        .admin-category-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
+        }
+        .add-category-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .add-category-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* ADMIN CATEGORY MODAL */
+        .add-category-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .add-category-content {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            border-radius: 20px;
+            animation: slideUp 0.3s;
+        }
+
+        /* ADMIN EXAM FILTER */
+        .admin-exam-filter {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .admin-filter-select {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+        }
+        .admin-filter-select:focus {
+            border-color: var(--primary);
         }
     </style>
 </head>
@@ -716,6 +857,20 @@
             <input type="email" id="reset-email" placeholder="Email Address">
             <button onclick="sendPasswordResetEmail()" class="btn btn-primary">Send Reset Link</button>
             <button onclick="closeForgotPasswordModal()" class="btn btn-sec" style="margin-top:10px;">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div id="add-category-modal" class="add-category-modal">
+        <div class="add-category-content">
+            <h2 style="margin-bottom:20px; color:var(--primary); text-align:center;">
+                <i class="fas fa-plus-circle"></i> Add New Category
+            </h2>
+            <input type="text" id="new-category-name" placeholder="Category Name (e.g. Math, Physics)" style="margin-bottom:15px;">
+            <div style="display:flex; gap:10px;">
+                <button onclick="saveNewCategory()" class="btn btn-primary">Save Category</button>
+                <button onclick="closeAddCategoryModal()" class="btn btn-sec">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -869,6 +1024,7 @@
         let allNotifications = [];
         let unreadNotifications = 0;
         let selectedCategory = localStorage.getItem('selectedCategory') || '';
+        let allCategories = [];
 
         // AVATAR IMAGES
         const AVATAR_MALE = [
@@ -1277,6 +1433,64 @@
             return html;
         }
 
+        // --- CATEGORY FUNCTIONS ---
+        async function loadAllCategories() {
+            try {
+                const examsSnap = await getDocs(collection(db, "exams"));
+                const categoriesSet = new Set();
+                examsSnap.forEach(doc => {
+                    const data = doc.data();
+                    if(data.category) {
+                        categoriesSet.add(data.category);
+                    }
+                });
+                
+                allCategories = Array.from(categoriesSet).sort();
+                return allCategories;
+            } catch(error) {
+                console.error("Error loading categories:", error);
+                return [];
+            }
+        }
+
+        window.showAddCategoryModal = () => {
+            document.getElementById('add-category-modal').style.display = 'flex';
+            document.getElementById('new-category-name').focus();
+        }
+
+        window.closeAddCategoryModal = () => {
+            document.getElementById('add-category-modal').style.display = 'none';
+            document.getElementById('new-category-name').value = '';
+        }
+
+        window.saveNewCategory = async () => {
+            const newCategory = document.getElementById('new-category-name').value.trim();
+            if(!newCategory) return showMsg("Please enter a category name");
+            
+            // Add to local categories array
+            if(!allCategories.includes(newCategory)) {
+                allCategories.push(newCategory);
+                allCategories.sort();
+            }
+            
+            // Update the category select in admin panel
+            updateAdminCategorySelect();
+            
+            showMsg(`Category "${newCategory}" added successfully!`);
+            closeAddCategoryModal();
+        }
+
+        function updateAdminCategorySelect() {
+            const adminSelect = document.getElementById('admin-category-select');
+            if(adminSelect) {
+                let options = '<option value="">All Categories</option>';
+                allCategories.forEach(cat => {
+                    options += `<option value="${cat}">${cat}</option>`;
+                });
+                adminSelect.innerHTML = options;
+            }
+        }
+
         // --- AUTH ---
         window.toggleAuth = (m) => {
             document.getElementById('login-form').style.display = m==='login'?'block':'none';
@@ -1335,6 +1549,7 @@
                 }
                 
                 await loadSupportLinks();
+                await loadAllCategories();
                 
                 const snap = await getDoc(doc(db, "users", user.uid));
                 if(snap.exists()) {
@@ -1421,9 +1636,11 @@
                 <h3 style="margin-bottom:15px; color:var(--text); display:flex; align-items:center; gap:10px;"><i class="fas fa-clock" style="color:var(--primary)"></i> Live Exams</h3>
                 
                 <div class="category-filter">
-                    <select id="category-select" class="category-select" onchange="changeCategory(this.value)">
-                        <option value="">Loading categories...</option>
-                    </select>
+                    <div class="category-select-wrapper">
+                        <select id="category-select" class="category-select" onchange="changeCategory(this.value)">
+                            <option value="">Loading categories...</option>
+                        </select>
+                    </div>
                 </div>
                 
                 <div id="exam-list">Loading...</div>
@@ -1437,31 +1654,22 @@
 
         async function loadCategories() {
             try {
-                const s = await getDocs(collection(db, "exams"));
-                const categoriesSet = new Set();
-                s.forEach(d => {
-                    const data = d.data();
-                    if(data.category) {
-                        categoriesSet.add(data.category);
-                    }
-                });
-                
-                const categories = Array.from(categoriesSet);
+                await loadAllCategories();
                 const select = document.getElementById('category-select');
                 
-                if(categories.length === 0) {
+                if(allCategories.length === 0) {
                     select.innerHTML = '<option value="">No categories available</option>';
                     return;
                 }
                 
                 // If no category is selected yet, select the first one
-                if(!selectedCategory && categories.length > 0) {
-                    selectedCategory = categories[0];
+                if(!selectedCategory && allCategories.length > 0) {
+                    selectedCategory = allCategories[0];
                     localStorage.setItem('selectedCategory', selectedCategory);
                 }
                 
                 let options = '';
-                categories.forEach(cat => {
+                allCategories.forEach(cat => {
                     options += `<option value="${cat}" ${cat === selectedCategory ? 'selected' : ''}>${cat}</option>`;
                 });
                 
@@ -1612,31 +1820,74 @@
                     <p style="color:var(--text-sec); margin-top:5px;">Select an exam to see specific rankings</p>
                 </div>
                 
+                <div class="category-filter">
+                    <div class="category-select-wrapper">
+                        <select id="lb-category-select" class="category-select" onchange="onLeaderboardCategoryChange()">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                </div>
+                
                 <div class="exam-select-container">
-                    <select id="exam-select" class="exam-select" onchange="onExamSelectChange()">
-                        <option value="overall">Overall Leaderboard</option>
-                    </select>
+                    <div class="exam-select-wrapper">
+                        <select id="exam-select" class="exam-select" onchange="onExamSelectChange()">
+                            <option value="overall">Overall Leaderboard</option>
+                        </select>
+                    </div>
                 </div>
                 
                 <div id="lb-list" style="margin-top:10px;">Loading leaderboard...</div>
             `;
             
-            await loadExamOptions();
+            await loadLeaderboardCategories();
+            await loadExamOptionsForLeaderboard();
             await loadLeaderboardData('overall');
         }
 
-        async function loadExamOptions() {
+        async function loadLeaderboardCategories() {
             try {
-                const examsSnap = await getDocs(collection(db, "exams"));
+                await loadAllCategories();
+                const select = document.getElementById('lb-category-select');
+                
+                let options = '<option value="">All Categories</option>';
+                allCategories.forEach(cat => {
+                    options += `<option value="${cat}">${cat}</option>`;
+                });
+                
+                select.innerHTML = options;
+            } catch(error) {
+                console.error("Error loading leaderboard categories:", error);
+            }
+        }
+
+        window.onLeaderboardCategoryChange = () => {
+            const categorySelect = document.getElementById('lb-category-select');
+            const selectedCategory = categorySelect.value;
+            
+            loadExamOptionsForLeaderboard(selectedCategory);
+        }
+
+        async function loadExamOptionsForLeaderboard(category = '') {
+            try {
+                let q;
+                if(category) {
+                    q = query(collection(db, "exams"), where("category", "==", category));
+                } else {
+                    q = collection(db, "exams");
+                }
+                
+                const examsSnap = await getDocs(q);
                 const selectBox = document.getElementById('exam-select');
+                
+                // Keep the "Overall Leaderboard" option
+                let options = '<option value="overall">Overall Leaderboard</option>';
                 
                 examsSnap.forEach(doc => {
                     const exam = doc.data();
-                    const option = document.createElement('option');
-                    option.value = doc.id;
-                    option.textContent = exam.title;
-                    selectBox.appendChild(option);
+                    options += `<option value="${doc.id}">${exam.title}</option>`;
                 });
+                
+                selectBox.innerHTML = options;
             } catch(error) {
                 console.error("Error loading exam options:", error);
             }
@@ -1684,7 +1935,8 @@
                             points: userData.points || 0,
                             level: userData.level || 1,
                             education: userData.education || 'Not specified',
-                            avatar: userData.avatar
+                            avatar: userData.avatar,
+                            isCurrentUser: currentUser && doc.id === currentUser.uid
                         });
                     }
                 });
@@ -1697,10 +1949,10 @@
                 } else {
                     users.forEach((user, index) => {
                         let badge = index < 3 ? ["🥇","🥈","🥉"][index] : `#${index+1}`;
-                        let bgStyle = index < 3 ? 'border: 2px solid var(--primary);' : '';
+                        let isCurrentUser = user.isCurrentUser;
                         
                         html += `
-                            <div class="card" style="display:flex; align-items:center; padding:15px; ${bgStyle} margin-bottom:10px;">
+                            <div class="card ${isCurrentUser ? 'current-user-card' : ''}" style="display:flex; align-items:center; padding:15px; margin-bottom:10px;">
                                 <b style="font-size:1.3rem; margin-right:15px; width:40px; text-align:center;">${badge}</b>
                                 <div style="flex:1;">
                                     <h4 style="margin-bottom:2px;">${user.name} <span class="level-badge">Level ${user.level}</span></h4>
@@ -1748,11 +2000,13 @@
                         if(userDoc.exists()) {
                             const userData = userDoc.data();
                             leaderboardData.push({
+                                id: result.userId,
                                 name: userData.name,
                                 education: userData.education || 'Not specified',
                                 score: result.score,
                                 total: result.total,
-                                rank: i + 1
+                                rank: i + 1,
+                                isCurrentUser: currentUser && result.userId === currentUser.uid
                             });
                         }
                     } catch(error) {
@@ -1766,10 +2020,10 @@
                 } else {
                     leaderboardData.forEach((item, index) => {
                         let badge = index < 3 ? ["🥇","🥈","🥉"][index] : `#${item.rank}`;
-                        let bgStyle = index < 3 ? 'border: 2px solid var(--primary);' : '';
+                        let isCurrentUser = item.isCurrentUser;
                         
                         html += `
-                            <div class="card" style="display:flex; align-items:center; padding:15px; ${bgStyle} margin-bottom:10px;">
+                            <div class="card ${isCurrentUser ? 'current-user-card' : ''}" style="display:flex; align-items:center; padding:15px; margin-bottom:10px;">
                                 <b style="font-size:1.3rem; margin-right:15px; width:40px; text-align:center;">${badge}</b>
                                 <div style="flex:1;">
                                     <h4 style="margin-bottom:2px;">${item.name}</h4>
@@ -2397,18 +2651,8 @@
         }
 
         async function loadExamAdminView() {
-            // Get existing categories for datalist
-            const examsSnap = await getDocs(collection(db, "exams"));
-            const categoriesSet = new Set();
-            examsSnap.forEach(doc => {
-                const cat = doc.data().category;
-                if(cat) categoriesSet.add(cat);
-            });
-            
-            let categoryOptions = '';
-            categoriesSet.forEach(cat => {
-                categoryOptions += `<option value="${cat}">`;
-            });
+            await loadAllCategories();
+            updateAdminCategorySelect();
             
             const area = document.getElementById('adm-area');
             area.innerHTML = `
@@ -2416,15 +2660,27 @@
                     <h3>Create Exam</h3>
                     <input id="nt" placeholder="Title">
                     <input id="nm" type="number" placeholder="Time (Min)">
-                    <input id="nc" list="categories" placeholder="Category (e.g. Math, Physics, English)">
-                    <datalist id="categories">
-                        ${categoryOptions}
-                    </datalist>
+                    <div class="admin-category-select-wrapper">
+                        <select id="nc" class="admin-category-select">
+                            <option value="">Select Category</option>
+                        </select>
+                        <button class="add-category-btn" onclick="showAddCategoryModal()">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
                     <button onclick="addExam()" class="btn btn-primary">Create</button>
                 </div>
                 
                 <div class="card">
                     <h3>Manage Exams</h3>
+                    <div class="admin-exam-filter">
+                        <select id="admin-exam-filter" class="admin-filter-select" onchange="filterAdminExams()">
+                            <option value="">All Categories</option>
+                        </select>
+                        <button class="btn btn-sec" onclick="refreshAdminExams()" style="width:auto; padding:12px;">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
                     <p style="font-size:0.8rem; color:var(--text-sec); margin-bottom:10px;">Tap to Delete</p>
                     <div id="el" class="grid-container"></div>
                 </div>
@@ -2440,8 +2696,27 @@
                     <div id="upload-report" class="upload-report" style="display:none;"></div>
                 </div>`;
             
+            // Update category selects
+            updateAdminExamCategorySelects();
+            
             try {
-                const s = await getDocs(collection(db, "exams")); 
+                await loadAdminExams();
+            } catch(error) {
+                console.error("Error loading exams:", error);
+                document.getElementById('el').innerHTML = '<p style="color:var(--danger);">Error loading exams</p>';
+            }
+        }
+
+        async function loadAdminExams(category = '') {
+            try {
+                let q;
+                if(category) {
+                    q = query(collection(db, "exams"), where("category", "==", category));
+                } else {
+                    q = collection(db, "exams");
+                }
+                
+                const s = await getDocs(q); 
                 let h='', o=''; 
                 s.forEach(d=>{ 
                     const data = d.data();
@@ -2459,6 +2734,35 @@
                 console.error("Error loading exams:", error);
                 document.getElementById('el').innerHTML = '<p style="color:var(--danger);">Error loading exams</p>';
             }
+        }
+
+        function updateAdminExamCategorySelects() {
+            // Update create exam category select
+            const createSelect = document.getElementById('nc');
+            let createOptions = '<option value="">Select Category</option>';
+            allCategories.forEach(cat => {
+                createOptions += `<option value="${cat}">${cat}</option>`;
+            });
+            createSelect.innerHTML = createOptions;
+            
+            // Update filter category select
+            const filterSelect = document.getElementById('admin-exam-filter');
+            let filterOptions = '<option value="">All Categories</option>';
+            allCategories.forEach(cat => {
+                filterOptions += `<option value="${cat}">${cat}</option>`;
+            });
+            filterSelect.innerHTML = filterOptions;
+        }
+
+        window.filterAdminExams = () => {
+            const filterSelect = document.getElementById('admin-exam-filter');
+            const selectedCategory = filterSelect.value;
+            loadAdminExams(selectedCategory);
+        }
+
+        window.refreshAdminExams = () => {
+            loadAdminExams();
+            document.getElementById('admin-exam-filter').value = '';
         }
 
         async function loadStudentAdminView() {
@@ -2540,6 +2844,14 @@
                 category: category,
                 createdAt: Date.now()
             }); 
+            
+            // Update categories list
+            if(!allCategories.includes(category)) {
+                allCategories.push(category);
+                allCategories.sort();
+                updateAdminExamCategorySelects();
+                updateAdminCategorySelect();
+            }
             
             const usersSnap = await getDocs(collection(db, "users"));
             usersSnap.forEach(async (userDoc) => {
@@ -3180,4 +3492,4 @@
 
     </script>
 </body>
-            </html>
+    </html>
