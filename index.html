@@ -796,6 +796,473 @@
         .admin-filter-select:focus {
             border-color: var(--primary);
         }
+
+        /* ==================== */
+        /* SMART STUDY PLAN CSS */
+        /* ==================== */
+        
+        /* Motivational Carousel */
+        .motivational-carousel {
+            width: 100%;
+            height: 120px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, var(--primary), #8f94fb);
+            box-shadow: var(--shadow);
+        }
+        
+        .carousel-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+        
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            animation: fadeIn 1s ease;
+        }
+        
+        .carousel-quote {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        
+        .carousel-author {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .carousel-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .carousel-indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        /* Floating Level Selector */
+        .floating-level-selector {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            z-index: 99;
+            background: var(--card-bg);
+            border-radius: 50px;
+            padding: 8px 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: slideInRight 0.5s ease;
+        }
+        
+        .level-select {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        /* Journey Panel */
+        .journey-panel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            animation: slideUp 0.5s ease;
+        }
+        
+        .journey-goal {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .countdown-timer {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .countdown-item {
+            text-align: center;
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 10px;
+            min-width: 60px;
+        }
+        
+        .countdown-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .countdown-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        /* Progress Cards */
+        .progress-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .progress-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            animation: slideUp 0.6s ease;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .progress-title {
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .progress-percentage {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .progress-bar-container {
+            height: 10px;
+            background: var(--bg);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #8f94fb);
+            border-radius: 5px;
+            transition: width 1s ease;
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-sec);
+        }
+        
+        /* Study Cards */
+        .study-cards-container {
+            margin-bottom: 20px;
+        }
+        
+        .study-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .study-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .study-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: 0.3s;
+            animation: slideUp 0.7s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .study-card.locked {
+            opacity: 0.6;
+            filter: grayscale(0.5);
+        }
+        
+        .study-card.completed {
+            border-color: var(--success);
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), var(--card-bg));
+        }
+        
+        .study-card.in-progress {
+            border-color: var(--warning);
+            background: linear-gradient(135deg, rgba(255, 165, 2, 0.1), var(--card-bg));
+        }
+        
+        .study-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .study-day {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .study-status {
+            font-size: 0.8rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .status-completed {
+            background: var(--success);
+            color: white;
+        }
+        
+        .status-in-progress {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .status-pending {
+            background: var(--text-sec);
+            color: white;
+        }
+        
+        .study-topic {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        .study-description {
+            font-size: 0.9rem;
+            color: var(--text-sec);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .study-metrics {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 0.8rem;
+        }
+        
+        .study-metric {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-sec);
+        }
+        
+        .study-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .read-again-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        
+        /* Study Leaderboard */
+        .study-leaderboard-tabs {
+            display: flex;
+            background: var(--bg);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .study-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        
+        .study-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .study-leaderboard-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            animation: slideUp 0.5s ease;
+        }
+        
+        .study-rank {
+            font-size: 1.2rem;
+            font-weight: 700;
+            width: 40px;
+            text-align: center;
+            color: var(--primary);
+        }
+        
+        .study-user-info {
+            flex: 1;
+        }
+        
+        .study-user-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .study-user-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .study-user-progress-bar {
+            flex: 1;
+            height: 6px;
+            background: var(--bg);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .study-user-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #8f94fb);
+            border-radius: 3px;
+        }
+        
+        .study-user-percentage {
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        /* Admin Study Manager */
+        .study-json-format {
+            background: var(--bg);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            border: 1px solid var(--border);
+        }
+        
+        /* Practice Quiz Modal */
+        .practice-quiz-modal .modal-content {
+            max-width: 500px;
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .quiz-timer {
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        /* Shimmer Effect */
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, var(--bg) 25%, var(--card-bg) 50%, var(--bg) 75%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        /* Animations */
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .fade-in-left { animation: fadeInLeft 0.5s ease; }
+        .bounce-in { animation: bounceIn 0.6s ease; }
     </style>
 </head>
 <body>
@@ -871,6 +1338,21 @@
         </div>
     </div>
 
+    <!-- Practice Quiz Modal -->
+    <div id="practice-quiz-modal" class="modal practice-quiz-modal">
+        <div class="modal-content">
+            <div class="quiz-header">
+                <h3 id="quiz-title" style="color:var(--primary); margin:0;">Practice Quiz</h3>
+                <div class="quiz-timer" id="practice-quiz-timer">2:00</div>
+            </div>
+            <div id="practice-quiz-questions"></div>
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button onclick="submitPracticeQuiz()" class="btn btn-primary">Submit Quiz</button>
+                <button onclick="closePracticeQuiz()" class="btn btn-sec">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <section id="auth-screen" class="screen">
         <div class="auth-container" style="background:linear-gradient(135deg, var(--primary), #8f94fb);">
             <div class="auth-card">
@@ -932,7 +1414,7 @@
 
         <nav class="bottom-nav">
             <div class="nav-item active" onclick="renderHome()"><i class="fas fa-home"></i> <span>Home</span></div>
-            <div class="nav-item" onclick="renderLeaderboard()"><i class="fas fa-trophy"></i> <span>Rank</span></div>
+            <div class="nav-item" onclick="renderStudy()"><i class="fas fa-book-open"></i> <span>Study</span></div>
             <div class="nav-item" onclick="renderReview()"><i class="fas fa-clipboard-check"></i> <span>Review</span></div>
             <div class="nav-item" onclick="renderProfile()"><i class="fas fa-user"></i> <span>Profile</span></div>
             <div class="nav-item" id="admin-nav" style="display:none;" onclick="renderAdmin()"><i class="fas fa-th-large"></i> <span>Admin</span></div>
@@ -1022,6 +1504,21 @@
         let unreadNotifications = 0;
         let selectedCategory = localStorage.getItem('selectedCategory') || '';
         let allCategories = [];
+        
+        // Smart Study Plan Variables
+        let studyProgress = null;
+        let studyLevels = [];
+        let currentStudyLevel = 1;
+        let motivationalQuotes = [];
+        let studySettings = null;
+        let carouselInterval = null;
+        let currentCarouselIndex = 0;
+        let practiceQuizQuestions = [];
+        let practiceQuizAnswers = {};
+        let practiceQuizTimer = null;
+        let practiceQuizTimeLeft = 120; // 2 minutes in seconds
+        let currentPracticeDay = null;
+        let currentPracticeLevel = null;
 
         // AVATAR IMAGES
         const AVATAR_MALE = [
@@ -1040,6 +1537,16 @@
             "https://cdn-icons-png.flaticon.com/512/4322/4322991.png",
             "https://cdn-icons-png.flaticon.com/512/3135/3135782.png",
             "https://cdn-icons-png.flaticon.com/512/921/921124.png"
+        ];
+
+        // Default Motivational Quotes
+        const DEFAULT_QUOTES = [
+            { quote: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+            { quote: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+            { quote: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+            { quote: "Education is the most powerful weapon which you can use to change the world.", author: "Nelson Mandela" },
+            { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+            { quote: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" }
         ];
 
         // SHARE LINKS DEFAULT
@@ -1526,15 +2033,6 @@
                 });
                 homeCategorySelect.innerHTML = options;
             }
-            
-            const lbCategorySelect = document.getElementById('lb-category-select');
-            if(lbCategorySelect) {
-                let options = '<option value="">All Categories</option>';
-                allCategories.forEach(cat => {
-                    options += `<option value="${cat}">${cat}</option>`;
-                });
-                lbCategorySelect.innerHTML = options;
-            }
         }
 
         function updateAdminExamCategorySelects() {
@@ -1618,6 +2116,7 @@
                 
                 await loadSupportLinks();
                 await loadAllCategories();
+                await loadStudyData(); // Load study data
                 
                 const snap = await getDoc(doc(db, "users", user.uid));
                 if(snap.exists()) {
@@ -1669,6 +2168,694 @@
             });
         }
 
+        // --- SMART STUDY PLAN FUNCTIONS ---
+        async function loadStudyData() {
+            if (!currentUser) return;
+            
+            try {
+                // Load study progress for current user
+                const progressSnap = await getDoc(doc(db, "Userstudy", currentUser.uid));
+                if (progressSnap.exists()) {
+                    studyProgress = progressSnap.data();
+                } else {
+                    // Create initial study progress
+                    studyProgress = {
+                        userId: currentUser.uid,
+                        level: 1,
+                        dailyProgress: 0,
+                        totalProgress: 0,
+                        completedTopics: [],
+                        lastStudyDate: new Date().toISOString().split('T')[0],
+                        dailyStudyTime: 0,
+                        totalStudyTime: 0
+                    };
+                    await setDoc(doc(db, "Userstudy", currentUser.uid), studyProgress);
+                }
+                
+                // Load study levels
+                const levelsSnap = await getDocs(collection(db, "StudyLevels"));
+                studyLevels = [];
+                levelsSnap.forEach(doc => {
+                    studyLevels.push({ id: doc.id, ...doc.data() });
+                });
+                
+                // Sort levels by level number
+                studyLevels.sort((a, b) => a.level - b.level);
+                
+                // Load motivational quotes
+                const quotesSnap = await getDocs(collection(db, "MotivationalQuotes"));
+                if (!quotesSnap.empty) {
+                    motivationalQuotes = [];
+                    quotesSnap.forEach(doc => {
+                        motivationalQuotes.push(doc.data());
+                    });
+                } else {
+                    motivationalQuotes = DEFAULT_QUOTES;
+                }
+                
+                // Load study settings
+                const settingsSnap = await getDoc(doc(db, "StudySettings", "global"));
+                if (settingsSnap.exists()) {
+                    studySettings = settingsSnap.data();
+                } else {
+                    studySettings = {
+                        goalName: "Complete Smart Study Plan",
+                        targetDeadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
+                        dailyGoal: 60, // 60 minutes daily
+                        totalGoal: 1800 // 30 hours total
+                    };
+                    await setDoc(doc(db, "StudySettings", "global"), studySettings);
+                }
+                
+            } catch(error) {
+                console.error("Error loading study data:", error);
+            }
+        }
+
+        async function updateStudyProgress(completedDay = null) {
+            if (!currentUser || !studyProgress) return;
+            
+            try {
+                // Calculate daily progress
+                const today = new Date().toISOString().split('T')[0];
+                if (studyProgress.lastStudyDate !== today) {
+                    studyProgress.dailyProgress = 0;
+                    studyProgress.lastStudyDate = today;
+                }
+                
+                // If a day is completed, add it to completed topics
+                if (completedDay) {
+                    const dayKey = `Level${currentStudyLevel}_Day${completedDay}`;
+                    if (!studyProgress.completedTopics.includes(dayKey)) {
+                        studyProgress.completedTopics.push(dayKey);
+                        
+                        // Calculate total progress based on completed topics
+                        const totalDays = studyLevels.reduce((total, level) => total + (level.days || 0), 0);
+                        studyProgress.totalProgress = Math.round((studyProgress.completedTopics.length / totalDays) * 100);
+                        
+                        // Add study time (assuming 30 minutes per day)
+                        studyProgress.dailyStudyTime += 30;
+                        studyProgress.totalStudyTime += 30;
+                        
+                        // Calculate daily progress percentage
+                        studyProgress.dailyProgress = Math.round((studyProgress.dailyStudyTime / studySettings.dailyGoal) * 100);
+                    }
+                }
+                
+                // Update in Firebase
+                await setDoc(doc(db, "Userstudy", currentUser.uid), studyProgress, { merge: true });
+                
+            } catch(error) {
+                console.error("Error updating study progress:", error);
+            }
+        }
+
+        function startMotivationalCarousel() {
+            if (carouselInterval) {
+                clearInterval(carouselInterval);
+            }
+            
+            const track = document.getElementById('carousel-track');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            
+            if (!track || motivationalQuotes.length === 0) return;
+            
+            // Initialize carousel
+            let html = '';
+            motivationalQuotes.forEach((quote, index) => {
+                html += `
+                    <div class="carousel-slide">
+                        <div class="carousel-quote">"${quote.quote}"</div>
+                        <div class="carousel-author">- ${quote.author}</div>
+                    </div>
+                `;
+            });
+            track.innerHTML = html;
+            
+            // Start auto-rotation
+            carouselInterval = setInterval(() => {
+                currentCarouselIndex = (currentCarouselIndex + 1) % motivationalQuotes.length;
+                updateCarousel();
+            }, 5000);
+        }
+
+        function updateCarousel() {
+            const track = document.getElementById('carousel-track');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            
+            if (track) {
+                track.style.transform = `translateX(-${currentCarouselIndex * 100}%)`;
+            }
+            
+            indicators.forEach((indicator, index) => {
+                if (index === currentCarouselIndex) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+
+        function calculateCountdown() {
+            if (!studySettings || !studySettings.targetDeadline) {
+                return { days: 0, hours: 0, minutes: 0 };
+            }
+            
+            const deadline = new Date(studySettings.targetDeadline);
+            const now = new Date();
+            const diff = deadline - now;
+            
+            if (diff <= 0) {
+                return { days: 0, hours: 0, minutes: 0 };
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            return { days, hours, minutes };
+        }
+
+        // --- STUDY PAGE ---
+        window.renderStudy = async () => {
+            updateNav(1);
+            
+            // Load study data if not loaded
+            if (!studyProgress) {
+                await loadStudyData();
+            }
+            
+            const countdown = calculateCountdown();
+            
+            document.getElementById('main-content').innerHTML = `
+                <div class="floating-level-selector" id="floating-level-selector">
+                    <i class="fas fa-graduation-cap" style="color:var(--primary);"></i>
+                    <select class="level-select" id="study-level-select" onchange="changeStudyLevel(this.value)">
+                        <option value="">Select Level</option>
+                        ${studyLevels.map(level => 
+                            `<option value="${level.level}" ${level.level === currentStudyLevel ? 'selected' : ''}>
+                                Level ${level.level}${level.title ? `: ${level.title}` : ''}
+                            </option>`
+                        ).join('')}
+                    </select>
+                </div>
+                
+                <div class="motivational-carousel">
+                    <div class="carousel-track" id="carousel-track"></div>
+                    <div class="carousel-indicators" id="carousel-indicators">
+                        ${motivationalQuotes.map((_, index) => 
+                            `<div class="carousel-indicator ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>`
+                        ).join('')}
+                    </div>
+                </div>
+                
+                <div class="journey-panel">
+                    <div class="journey-goal">
+                        <i class="fas fa-flag-checkered"></i>
+                        ${studySettings ? studySettings.goalName : 'Complete Smart Study Plan'}
+                    </div>
+                    <p style="opacity:0.9; margin-bottom:15px;">Target Deadline: ${studySettings ? new Date(studySettings.targetDeadline).toLocaleDateString() : 'Not set'}</p>
+                    
+                    <div class="countdown-timer">
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="countdown-days">${countdown.days}</span>
+                            <span class="countdown-label">Days</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="countdown-hours">${countdown.hours}</span>
+                            <span class="countdown-label">Hours</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="countdown-minutes">${countdown.minutes}</span>
+                            <span class="countdown-label">Minutes</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress-cards">
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <div class="progress-title">Total Study Progress</div>
+                            <div class="progress-percentage">${studyProgress ? studyProgress.totalProgress : 0}%</div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${studyProgress ? studyProgress.totalProgress : 0}%"></div>
+                        </div>
+                        <div class="progress-stats">
+                            <span>${studyProgress ? studyProgress.completedTopics.length : 0} Topics Completed</span>
+                            <span>${studyProgress ? studyProgress.totalStudyTime : 0} min</span>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <div class="progress-title">Daily Study Progress</div>
+                            <div class="progress-percentage">${studyProgress ? studyProgress.dailyProgress : 0}%</div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${studyProgress ? studyProgress.dailyProgress : 0}%"></div>
+                        </div>
+                        <div class="progress-stats">
+                            <span>Today's Goal</span>
+                            <span>${studyProgress ? studyProgress.dailyStudyTime : 0}/${studySettings ? studySettings.dailyGoal : 60} min</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="study-cards-container" id="study-cards-container">
+                    <h3 class="study-section-title">
+                        <i class="fas fa-calendar-day"></i>
+                        Study Plan - Level ${currentStudyLevel}
+                    </h3>
+                    <div id="study-cards-grid" class="study-cards-grid">
+                        Loading study content...
+                    </div>
+                </div>
+                
+                <div class="study-leaderboard-tabs">
+                    <div class="study-tab active" onclick="showStudyLeaderboard('daily')">Daily Leaderboard</div>
+                    <div class="study-tab" onclick="showStudyLeaderboard('total')">Total Leaderboard</div>
+                </div>
+                
+                <div id="study-leaderboard">
+                    Loading leaderboard...
+                </div>
+            `;
+            
+            // Start motivational carousel
+            startMotivationalCarousel();
+            
+            // Start countdown timer
+            startCountdownTimer();
+            
+            // Load study cards for current level
+            await loadStudyCards();
+            
+            // Load leaderboard
+            await loadStudyLeaderboard('daily');
+        }
+
+        window.goToSlide = (index) => {
+            currentCarouselIndex = index;
+            updateCarousel();
+            if (carouselInterval) {
+                clearInterval(carouselInterval);
+                carouselInterval = setInterval(() => {
+                    currentCarouselIndex = (currentCarouselIndex + 1) % motivationalQuotes.length;
+                    updateCarousel();
+                }, 5000);
+            }
+        }
+
+        function startCountdownTimer() {
+            setInterval(() => {
+                const countdown = calculateCountdown();
+                const daysElem = document.getElementById('countdown-days');
+                const hoursElem = document.getElementById('countdown-hours');
+                const minutesElem = document.getElementById('countdown-minutes');
+                
+                if (daysElem) daysElem.textContent = countdown.days;
+                if (hoursElem) hoursElem.textContent = countdown.hours;
+                if (minutesElem) minutesElem.textContent = countdown.minutes;
+            }, 60000); // Update every minute
+        }
+
+        window.changeStudyLevel = async (level) => {
+            currentStudyLevel = parseInt(level);
+            await loadStudyCards();
+        }
+
+        async function loadStudyCards() {
+            try {
+                const grid = document.getElementById('study-cards-grid');
+                if (!grid) return;
+                
+                grid.innerHTML = '<div class="shimmer" style="height:200px; border-radius:15px;"></div>';
+                
+                // Load study content for current level
+                const q = query(
+                    collection(db, "StudyContent"), 
+                    where("level", "==", currentStudyLevel)
+                );
+                const snap = await getDocs(q);
+                
+                let studyDays = [];
+                snap.forEach(doc => {
+                    studyDays.push({ id: doc.id, ...doc.data() });
+                });
+                
+                // Sort by day number
+                studyDays.sort((a, b) => a.day - b.day);
+                
+                if (studyDays.length === 0) {
+                    grid.innerHTML = `
+                        <div class="card" style="grid-column: 1 / -1; text-align:center; padding:40px;">
+                            <i class="fas fa-book" style="font-size:3rem; color:var(--text-sec); margin-bottom:15px;"></i>
+                            <h3>No Study Content Available</h3>
+                            <p style="color:var(--text-sec); margin-top:10px;">Study content for Level ${currentStudyLevel} will be added soon.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let html = '';
+                studyDays.forEach(day => {
+                    const dayKey = `Level${currentStudyLevel}_Day${day.day}`;
+                    const isCompleted = studyProgress.completedTopics.includes(dayKey);
+                    const isLocked = day.day > 1 && !studyProgress.completedTopics.includes(`Level${currentStudyLevel}_Day${day.day - 1}`);
+                    
+                    html += `
+                        <div class="study-card ${isCompleted ? 'completed' : ''} ${isLocked ? 'locked' : ''}" 
+                             style="animation-delay: ${day.day * 0.1}s">
+                            <div class="study-card-header">
+                                <div class="study-day">Day ${day.day}</div>
+                                <div class="study-status ${isCompleted ? 'status-completed' : (isLocked ? 'status-pending' : 'status-in-progress')}">
+                                    ${isCompleted ? 'Completed' : (isLocked ? 'Locked' : 'Available')}
+                                </div>
+                            </div>
+                            
+                            <div class="study-topic">${day.topic || 'Study Topic'}</div>
+                            <div class="study-description">${day.description || 'No description available.'}</div>
+                            
+                            <div class="study-metrics">
+                                <div class="study-metric">
+                                    <i class="fas fa-clock"></i>
+                                    <span>${day.duration || 30} min</span>
+                                </div>
+                                <div class="study-metric">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>${day.mcqCount || 10} MCQs</span>
+                                </div>
+                            </div>
+                            
+                            ${!isLocked ? `
+                                <div class="study-actions">
+                                    <button onclick="startPracticeQuiz(${currentStudyLevel}, ${day.day})" 
+                                            class="btn ${isCompleted ? 'btn-success' : 'btn-primary'}" 
+                                            style="flex:1;">
+                                        <i class="fas fa-play-circle"></i> ${isCompleted ? 'Practice Again' : 'Practice'}
+                                    </button>
+                                </div>
+                                
+                                ${!isCompleted ? `
+                                    <div class="read-again-checkbox" id="read-again-${day.day}">
+                                        <input type="checkbox" id="checkbox-${day.day}" onchange="toggleReadAgain(${day.day})">
+                                        <label for="checkbox-${day.day}">Need to read again</label>
+                                    </div>
+                                ` : ''}
+                            ` : `
+                                <div class="study-actions">
+                                    <button class="btn btn-sec" style="flex:1;" disabled>
+                                        <i class="fas fa-lock"></i> Complete Day ${day.day - 1} to unlock
+                                    </button>
+                                </div>
+                            `}
+                        </div>
+                    `;
+                });
+                
+                grid.innerHTML = html;
+                
+            } catch(error) {
+                console.error("Error loading study cards:", error);
+                document.getElementById('study-cards-grid').innerHTML = `
+                    <div class="card" style="grid-column: 1 / -1; text-align:center; padding:20px; color:var(--danger);">
+                        Error loading study content. Please try again.
+                    </div>
+                `;
+            }
+        }
+
+        window.toggleReadAgain = (day) => {
+            const checkbox = document.getElementById(`checkbox-${day}`);
+            const button = document.querySelector(`.study-card:nth-child(${day}) .study-actions button`);
+            
+            if (checkbox.checked) {
+                button.innerHTML = '<i class="fas fa-redo"></i> Reset Practice';
+                button.classList.remove('btn-primary');
+                button.classList.add('btn-warning');
+                button.onclick = () => resetPractice(day);
+            } else {
+                button.innerHTML = '<i class="fas fa-play-circle"></i> Practice';
+                button.classList.remove('btn-warning');
+                button.classList.add('btn-primary');
+                button.onclick = () => startPracticeQuiz(currentStudyLevel, day);
+            }
+        }
+
+        window.resetPractice = (day) => {
+            const dayKey = `Level${currentStudyLevel}_Day${day}`;
+            const index = studyProgress.completedTopics.indexOf(dayKey);
+            if (index > -1) {
+                studyProgress.completedTopics.splice(index, 1);
+                updateStudyProgress();
+                loadStudyCards();
+                showMsg("Practice reset successfully! You can now practice again.");
+            }
+        }
+
+        window.startPracticeQuiz = async (level, day) => {
+            currentPracticeLevel = level;
+            currentPracticeDay = day;
+            
+            try {
+                // Load practice questions for this level and day
+                const q = query(
+                    collection(db, "PracticeQuestions"),
+                    where("level", "==", level),
+                    where("day", "==", day)
+                );
+                const snap = await getDocs(q);
+                
+                if (snap.empty) {
+                    showMsg("No practice questions available for this day.");
+                    return;
+                }
+                
+                practiceQuizQuestions = [];
+                snap.forEach(doc => {
+                    practiceQuizQuestions.push({ id: doc.id, ...doc.data() });
+                });
+                
+                // Shuffle and take first 10 questions
+                practiceQuizQuestions = practiceQuizQuestions
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, 10);
+                
+                practiceQuizAnswers = {};
+                practiceQuizTimeLeft = 120; // 2 minutes
+                
+                // Show practice quiz modal
+                document.getElementById('quiz-title').textContent = `Practice Quiz - Level ${level} Day ${day}`;
+                document.getElementById('practice-quiz-modal').style.display = 'flex';
+                
+                // Render questions
+                renderPracticeQuestions();
+                
+                // Start timer
+                startPracticeTimer();
+                
+            } catch(error) {
+                console.error("Error loading practice questions:", error);
+                showMsg("Error loading practice questions.");
+            }
+        }
+
+        function renderPracticeQuestions() {
+            const container = document.getElementById('practice-quiz-questions');
+            let html = '';
+            
+            practiceQuizQuestions.forEach((question, index) => {
+                html += `
+                    <div class="card" style="margin-bottom:15px; animation:fadeInLeft 0.5s ease; animation-delay:${index * 0.1}s">
+                        <p style="font-weight:600; margin-bottom:10px;">Q${index + 1}: ${question.question}</p>
+                        <div id="practice-opts-${question.id}">
+                            ${question.options.map((option, optIndex) => `
+                                <div class="mcq-option" onclick="selectPracticeOpt('${question.id}', ${optIndex + 1}, this)">
+                                    <div class="mcq-circle"></div>
+                                    <span>${option}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        window.selectPracticeOpt = (qid, idx, el) => {
+            practiceQuizAnswers[qid] = idx;
+            const p = document.getElementById(`practice-opts-${qid}`);
+            Array.from(p.children).forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function startPracticeTimer() {
+            if (practiceQuizTimer) {
+                clearInterval(practiceQuizTimer);
+            }
+            
+            updatePracticeTimer();
+            
+            practiceQuizTimer = setInterval(() => {
+                practiceQuizTimeLeft--;
+                updatePracticeTimer();
+                
+                if (practiceQuizTimeLeft <= 0) {
+                    clearInterval(practiceQuizTimer);
+                    submitPracticeQuiz();
+                }
+            }, 1000);
+        }
+
+        function updatePracticeTimer() {
+            const timerElem = document.getElementById('practice-quiz-timer');
+            if (timerElem) {
+                const minutes = Math.floor(practiceQuizTimeLeft / 60);
+                const seconds = practiceQuizTimeLeft % 60;
+                timerElem.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                
+                if (practiceQuizTimeLeft <= 30) {
+                    timerElem.style.background = 'var(--danger)';
+                } else if (practiceQuizTimeLeft <= 60) {
+                    timerElem.style.background = 'var(--warning)';
+                }
+            }
+        }
+
+        window.submitPracticeQuiz = async () => {
+            if (practiceQuizTimer) {
+                clearInterval(practiceQuizTimer);
+            }
+            
+            let score = 0;
+            let total = practiceQuizQuestions.length;
+            
+            // Calculate score
+            practiceQuizQuestions.forEach(question => {
+                const userAnswer = practiceQuizAnswers[question.id];
+                if (userAnswer === question.correct) {
+                    score++;
+                }
+            });
+            
+            const percentage = (score / total) * 100;
+            
+            // Update study progress if score >= 80%
+            if (percentage >= 80) {
+                await updateStudyProgress(currentPracticeDay);
+                showMsg(`Congratulations! You scored ${score}/${total} (${percentage.toFixed(1)}%). Day ${currentPracticeDay} marked as completed!`);
+            } else {
+                showMsg(`You scored ${score}/${total} (${percentage.toFixed(1)}%). You need 80% or higher to complete this day.`);
+            }
+            
+            closePracticeQuiz();
+            
+            // Reload study cards to update status
+            if (percentage >= 80) {
+                await loadStudyCards();
+                await loadStudyLeaderboard('daily');
+            }
+        }
+
+        window.closePracticeQuiz = () => {
+            document.getElementById('practice-quiz-modal').style.display = 'none';
+            if (practiceQuizTimer) {
+                clearInterval(practiceQuizTimer);
+            }
+        }
+
+        window.showStudyLeaderboard = async (type) => {
+            // Update active tab
+            document.querySelectorAll('.study-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            await loadStudyLeaderboard(type);
+        }
+
+        async function loadStudyLeaderboard(type = 'daily') {
+            try {
+                const leaderboardElem = document.getElementById('study-leaderboard');
+                leaderboardElem.innerHTML = '<div class="shimmer" style="height:300px; border-radius:15px;"></div>';
+                
+                // Get all user study progress
+                const progressSnap = await getDocs(collection(db, "Userstudy"));
+                let leaderboardData = [];
+                
+                // Get user names
+                const usersSnap = await getDocs(collection(db, "users"));
+                const userMap = {};
+                usersSnap.forEach(doc => {
+                    userMap[doc.id] = doc.data().name;
+                });
+                
+                progressSnap.forEach(doc => {
+                    const progress = doc.data();
+                    if (userMap[progress.userId]) {
+                        leaderboardData.push({
+                            userId: progress.userId,
+                            name: userMap[progress.userId],
+                            dailyProgress: progress.dailyProgress || 0,
+                            totalProgress: progress.totalProgress || 0,
+                            completedTopics: progress.completedTopics?.length || 0,
+                            dailyStudyTime: progress.dailyStudyTime || 0,
+                            totalStudyTime: progress.totalStudyTime || 0,
+                            isCurrentUser: progress.userId === currentUser.uid
+                        });
+                    }
+                });
+                
+                // Sort based on type
+                if (type === 'daily') {
+                    leaderboardData.sort((a, b) => b.dailyProgress - a.dailyProgress);
+                } else {
+                    leaderboardData.sort((a, b) => b.totalProgress - a.totalProgress);
+                }
+                
+                // Render leaderboard
+                let html = '';
+                if (leaderboardData.length === 0) {
+                    html = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No study data available yet.</p>';
+                } else {
+                    leaderboardData.forEach((user, index) => {
+                        const progress = type === 'daily' ? user.dailyProgress : user.totalProgress;
+                        const progressText = type === 'daily' ? 
+                            `${user.dailyStudyTime} min today` : 
+                            `${user.completedTopics} topics completed`;
+                        
+                        html += `
+                            <div class="study-leaderboard-card ${user.isCurrentUser ? 'current-user-card' : ''}">
+                                <div class="study-rank">
+                                    ${index < 3 ? ['🥇', '🥈', '🥉'][index] : `#${index + 1}`}
+                                </div>
+                                <div class="study-user-info">
+                                    <div class="study-user-name">${user.name} ${user.isCurrentUser ? '<small style="color:var(--primary);">(You)</small>' : ''}</div>
+                                    <div class="study-user-progress">
+                                        <div class="study-user-progress-bar">
+                                            <div class="study-user-progress-fill" style="width: ${progress}%"></div>
+                                        </div>
+                                        <div class="study-user-percentage">${progress}%</div>
+                                    </div>
+                                    <div style="font-size:0.8rem; color:var(--text-sec); margin-top:5px;">${progressText}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                leaderboardElem.innerHTML = html;
+                
+            } catch(error) {
+                console.error("Error loading study leaderboard:", error);
+                document.getElementById('study-leaderboard').innerHTML = `
+                    <div class="card" style="text-align:center; padding:20px; color:var(--danger);">
+                        Error loading leaderboard.
+                    </div>
+                `;
+            }
+        }
+
         // --- HOME ---
         window.renderHome = async () => {
             updateNav(0);
@@ -1695,7 +2882,7 @@
                 
                 <div class="dash-grid">
                     <div class="dash-btn" onclick="showRoutineView()"><i class="fas fa-calendar-alt" style="color:#FF9F43; font-size:1.5rem; margin-bottom:5px;"></i><br>Routine</div>
-                    <div class="dash-btn" onclick="renderLeaderboard()"><i class="fas fa-trophy" style="color:#28C76F; font-size:1.5rem; margin-bottom:5px;"></i><br>Rank</div>
+                    <div class="dash-btn" onclick="renderStudy()"><i class="fas fa-book-open" style="color:#28C76F; font-size:1.5rem; margin-bottom:5px;"></i><br>Study</div>
                     <div class="dash-btn" onclick="showNotesView()"><i class="fas fa-book-open" style="color:#00CFE8; font-size:1.5rem; margin-bottom:5px;"></i><br>Notes</div>
                 </div>
 
@@ -1876,238 +3063,6 @@
                 document.getElementById('modal-body').innerHTML = h;
             } catch(error) {
                 document.getElementById('modal-body').innerHTML = '<p style="color:var(--danger);">Error loading notes</p>';
-            }
-        }
-
-        // --- LEADERBOARD ---
-        window.renderLeaderboard = async () => {
-            updateNav(1);
-            document.getElementById('main-content').innerHTML = `
-                <div class="card" style="background:var(--bg); text-align:center;">
-                    <h3>🏆 Leaderboard</h3>
-                    <p style="color:var(--text-sec); margin-top:5px;">Select an exam to see specific rankings</p>
-                </div>
-                
-                <div class="category-filter">
-                    <div class="category-select-wrapper">
-                        <select id="lb-category-select" class="category-select" onchange="onLeaderboardCategoryChange()">
-                            <option value="">All Categories</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="exam-select-container">
-                    <div class="exam-select-wrapper">
-                        <select id="exam-select" class="exam-select" onchange="onExamSelectChange()">
-                            <option value="overall">Overall Leaderboard</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div id="lb-list" style="margin-top:10px;">Loading leaderboard...</div>
-            `;
-            
-            await loadLeaderboardCategories();
-            await loadExamOptionsForLeaderboard();
-            await loadLeaderboardData('overall');
-        }
-
-        async function loadLeaderboardCategories() {
-            try {
-                await loadAllCategories();
-                const select = document.getElementById('lb-category-select');
-                
-                let options = '<option value="">All Categories</option>';
-                allCategories.forEach(cat => {
-                    options += `<option value="${cat}">${cat}</option>`;
-                });
-                
-                select.innerHTML = options;
-            } catch(error) {
-                console.error("Error loading leaderboard categories:", error);
-            }
-        }
-
-        window.onLeaderboardCategoryChange = () => {
-            const categorySelect = document.getElementById('lb-category-select');
-            const selectedCategory = categorySelect.value;
-            
-            loadExamOptionsForLeaderboard(selectedCategory);
-        }
-
-        async function loadExamOptionsForLeaderboard(category = '') {
-            try {
-                let q;
-                if(category) {
-                    q = query(collection(db, "exams"), where("category", "==", category));
-                } else {
-                    q = collection(db, "exams");
-                }
-                
-                const examsSnap = await getDocs(q);
-                const selectBox = document.getElementById('exam-select');
-                
-                // Keep the "Overall Leaderboard" option
-                let options = '<option value="overall">Overall Leaderboard</option>';
-                
-                examsSnap.forEach(doc => {
-                    const exam = doc.data();
-                    options += `<option value="${doc.id}">${exam.title}</option>`;
-                });
-                
-                selectBox.innerHTML = options;
-            } catch(error) {
-                console.error("Error loading exam options:", error);
-            }
-        }
-
-        window.onExamSelectChange = () => {
-            const selectBox = document.getElementById('exam-select');
-            const examId = selectBox.value;
-            const examName = selectBox.options[selectBox.selectedIndex].text;
-            
-            if(examId === 'overall') {
-                loadLeaderboardData('overall');
-            } else {
-                loadLeaderboardData(examId, examName);
-            }
-        }
-
-        async function loadLeaderboardData(type, examTitle = '') {
-            const lbList = document.getElementById('lb-list');
-            lbList.innerHTML = '<div style="text-align:center; padding:20px;"><div class="spinner" style="margin:0 auto;"></div><p style="margin-top:10px; color:var(--text-sec);">Loading...</p></div>';
-            
-            try {
-                if(type === 'overall') {
-                    await loadOverallLeaderboard();
-                } else {
-                    await loadExamSpecificLeaderboard(type, examTitle);
-                }
-            } catch(error) {
-                console.error("Error loading leaderboard:", error);
-                lbList.innerHTML = '<p style="text-align:center; color:var(--danger); padding:20px;">Error loading leaderboard data</p>';
-            }
-        }
-
-        async function loadOverallLeaderboard() {
-            try {
-                const usersSnap = await getDocs(collection(db, "users"));
-                let users = [];
-                
-                usersSnap.forEach(doc => {
-                    const userData = doc.data();
-                    if(userData.role !== 'admin') {
-                        users.push({
-                            id: doc.id,
-                            name: userData.name,
-                            points: userData.points || 0,
-                            level: userData.level || 1,
-                            education: userData.education || 'Not specified',
-                            avatar: userData.avatar,
-                            isCurrentUser: currentUser && doc.id === currentUser.uid
-                        });
-                    }
-                });
-                
-                users.sort((a, b) => b.points - a.points);
-                
-                let html = '';
-                if(users.length === 0) {
-                    html = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No students found.</p>';
-                } else {
-                    users.forEach((user, index) => {
-                        let badge = index < 3 ? ["🥇","🥈","🥉"][index] : `#${index+1}`;
-                        let isCurrentUser = user.isCurrentUser;
-                        
-                        html += `
-                            <div class="card ${isCurrentUser ? 'current-user-card' : ''}" style="display:flex; align-items:center; padding:15px; margin-bottom:10px;">
-                                <b style="font-size:1.3rem; margin-right:15px; width:40px; text-align:center;">${badge}</b>
-                                <div style="flex:1;">
-                                    <h4 style="margin-bottom:2px;">${user.name} <span class="level-badge">Level ${user.level}</span></h4>
-                                    <small style="color:var(--text-sec)">${user.education}</small>
-                                </div>
-                                <div style="background:var(--bg); padding:5px 10px; border-radius:8px;">
-                                    <b style="color:var(--primary)">${user.points}</b> <small>pts</small>
-                                </div>
-                            </div>`;
-                    });
-                }
-                
-                document.getElementById('lb-list').innerHTML = html;
-            } catch(error) {
-                console.error("Error in loadOverallLeaderboard:", error);
-                throw error;
-            }
-        }
-
-        async function loadExamSpecificLeaderboard(examId, examTitle) {
-            try {
-                const resultsQuery = query(collection(db, "results"), where("examId", "==", examId));
-                const resultsSnap = await getDocs(resultsQuery);
-                
-                let results = [];
-                const userIds = [];
-                
-                resultsSnap.forEach(doc => {
-                    const result = doc.data();
-                    results.push({
-                        userId: result.userId,
-                        score: parseFloat(result.score),
-                        total: result.total
-                    });
-                    userIds.push(result.userId);
-                });
-                
-                results.sort((a, b) => b.score - a.score);
-                
-                let leaderboardData = [];
-                for(let i = 0; i < Math.min(results.length, 50); i++) {
-                    const result = results[i];
-                    try {
-                        const userDoc = await getDoc(doc(db, "users", result.userId));
-                        if(userDoc.exists()) {
-                            const userData = userDoc.data();
-                            leaderboardData.push({
-                                id: result.userId,
-                                name: userData.name,
-                                education: userData.education || 'Not specified',
-                                score: result.score,
-                                total: result.total,
-                                rank: i + 1,
-                                isCurrentUser: currentUser && result.userId === currentUser.uid
-                            });
-                        }
-                    } catch(error) {
-                        console.error("Error fetching user:", result.userId, error);
-                    }
-                }
-                
-                let html = '';
-                if(leaderboardData.length === 0) {
-                    html = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No results for this exam yet.</p>';
-                } else {
-                    leaderboardData.forEach((item, index) => {
-                        let badge = index < 3 ? ["🥇","🥈","🥉"][index] : `#${item.rank}`;
-                        let isCurrentUser = item.isCurrentUser;
-                        
-                        html += `
-                            <div class="card ${isCurrentUser ? 'current-user-card' : ''}" style="display:flex; align-items:center; padding:15px; margin-bottom:10px;">
-                                <b style="font-size:1.3rem; margin-right:15px; width:40px; text-align:center;">${badge}</b>
-                                <div style="flex:1;">
-                                    <h4 style="margin-bottom:2px;">${item.name}</h4>
-                                    <small style="color:var(--text-sec)">${item.education}</small>
-                                </div>
-                                <div style="background:var(--bg); padding:5px 10px; border-radius:8px;">
-                                    <b style="color:var(--primary)">${item.score}/${item.total}</b> <small>score</small>
-                                </div>
-                            </div>`;
-                    });
-                }
-                
-                document.getElementById('lb-list').innerHTML = html;
-            } catch(error) {
-                console.error("Error in loadExamSpecificLeaderboard:", error);
-                throw error;
             }
         }
 
@@ -2690,6 +3645,7 @@
                     <div class="admin-item" onclick="admView('notifications')"><i class="fas fa-bell"></i><h4>Notifications</h4></div>
                     <div class="admin-item" onclick="admView('support')"><i class="fas fa-headset"></i><h4>Support</h4></div>
                     <div class="admin-item" onclick="admView('settings')"><i class="fas fa-cogs"></i><h4>Settings</h4></div>
+                    <div class="admin-item" onclick="admView('study')"><i class="fas fa-graduation-cap"></i><h4>Study Manage</h4></div>
                 </div>
                 <div id="adm-area" style="margin-top:20px;"></div>
             `;
@@ -2715,6 +3671,338 @@
                 await loadSupportAdminView();
             } else if(m === 'settings') {
                 await loadSettingsAdminView();
+            } else if(m === 'study') {
+                await loadStudyAdminView();
+            }
+        }
+
+        // --- STUDY ADMIN VIEW ---
+        async function loadStudyAdminView() {
+            // Load existing data
+            await loadStudyData();
+            
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `
+                <div class="card">
+                    <h3><i class="fas fa-cogs"></i> Study Settings</h3>
+                    <input id="study-goal-name" value="${studySettings?.goalName || 'Complete Smart Study Plan'}" placeholder="Goal Name">
+                    <input id="study-target-deadline" type="datetime-local" value="${studySettings?.targetDeadline ? new Date(studySettings.targetDeadline).toISOString().slice(0, 16) : ''}">
+                    <input id="study-daily-goal" type="number" value="${studySettings?.dailyGoal || 60}" placeholder="Daily Goal (minutes)">
+                    <input id="study-total-goal" type="number" value="${studySettings?.totalGoal || 1800}" placeholder="Total Goal (minutes)">
+                    <button onclick="saveStudySettings()" class="btn btn-primary">Save Settings</button>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-quote-right"></i> Motivational Quotes</h3>
+                    <textarea id="quotes-json" rows="4" placeholder="Enter quotes in JSON format"></textarea>
+                    <button onclick="loadQuotesPreview()" class="btn btn-sec">Preview</button>
+                    <button onclick="saveMotivationalQuotes()" class="btn btn-primary">Save Quotes</button>
+                    <div id="quotes-preview" style="margin-top:15px;"></div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-layer-group"></i> Study Levels</h3>
+                    <input id="new-level-number" type="number" placeholder="Level Number" min="1">
+                    <input id="new-level-title" placeholder="Level Title (optional)">
+                    <input id="new-level-days" type="number" placeholder="Total Days" min="1">
+                    <button onclick="addStudyLevel()" class="btn btn-primary">Add Level</button>
+                    
+                    <div id="study-levels-list" style="margin-top:15px;">
+                        ${studyLevels.map(level => `
+                            <div style="padding:10px; border:1px solid var(--border); border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between;">
+                                <div>
+                                    <b>Level ${level.level}</b> ${level.title ? `- ${level.title}` : ''}
+                                    <div style="font-size:0.8rem; color:var(--text-sec);">${level.days || 0} days</div>
+                                </div>
+                                <button class="btn btn-danger" style="width:auto; padding:5px 10px;" onclick="deleteStudyLevel('${level.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-upload"></i> Upload Study Content (JSON)</h3>
+                    <div class="study-json-format">
+[
+  {
+    "level": 1,
+    "day": 1,
+    "topic": "Introduction to Mathematics",
+    "description": "Basic concepts of algebra and arithmetic",
+    "duration": 30,
+    "mcqCount": 10
+  }
+]
+                    </div>
+                    <textarea id="study-content-json" rows="6" placeholder="Paste study content JSON here..."></textarea>
+                    <button onclick="uploadStudyContent()" class="btn btn-primary">Upload Study Content</button>
+                    <div id="study-upload-report" style="margin-top:15px;"></div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-question-circle"></i> Upload Practice Questions (JSON)</h3>
+                    <div class="study-json-format">
+[
+  {
+    "level": 1,
+    "day": 1,
+    "question": "What is 2 + 2?",
+    "options": ["3", "4", "5", "6"],
+    "correct": 2
+  }
+]
+                    </div>
+                    <textarea id="practice-questions-json" rows="6" placeholder="Paste practice questions JSON here..."></textarea>
+                    <button onclick="uploadPracticeQuestions()" class="btn btn-primary">Upload Practice Questions</button>
+                    <div id="practice-upload-report" style="margin-top:15px;"></div>
+                </div>
+            `;
+            
+            // Load current quotes into textarea
+            document.getElementById('quotes-json').value = JSON.stringify(motivationalQuotes, null, 2);
+        }
+
+        window.saveStudySettings = async () => {
+            const goalName = document.getElementById('study-goal-name').value;
+            const targetDeadline = document.getElementById('study-target-deadline').value;
+            const dailyGoal = parseInt(document.getElementById('study-daily-goal').value);
+            const totalGoal = parseInt(document.getElementById('study-total-goal').value);
+            
+            if (!goalName || !targetDeadline) {
+                showMsg("Please fill all required fields");
+                return;
+            }
+            
+            try {
+                studySettings = {
+                    goalName,
+                    targetDeadline: new Date(targetDeadline).toISOString(),
+                    dailyGoal,
+                    totalGoal
+                };
+                
+                await setDoc(doc(db, "StudySettings", "global"), studySettings);
+                showMsg("Study settings saved successfully!");
+            } catch(error) {
+                console.error("Error saving study settings:", error);
+                showMsg("Error saving settings: " + error.message);
+            }
+        }
+
+        window.loadQuotesPreview = () => {
+            try {
+                const quotesText = document.getElementById('quotes-json').value;
+                const quotes = JSON.parse(quotesText);
+                
+                let previewHtml = '<h4>Preview:</h4>';
+                quotes.forEach((quote, index) => {
+                    previewHtml += `
+                        <div style="padding:10px; border:1px solid var(--border); border-radius:10px; margin-bottom:10px;">
+                            <div><b>Quote ${index + 1}:</b> "${quote.quote}"</div>
+                            <div style="font-size:0.8rem; color:var(--text-sec);">- ${quote.author}</div>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('quotes-preview').innerHTML = previewHtml;
+            } catch(error) {
+                document.getElementById('quotes-preview').innerHTML = 
+                    `<div style="color:var(--danger);">Invalid JSON format: ${error.message}</div>`;
+            }
+        }
+
+        window.saveMotivationalQuotes = async () => {
+            try {
+                const quotesText = document.getElementById('quotes-json').value;
+                const quotes = JSON.parse(quotesText);
+                
+                // Delete existing quotes
+                const existingQuotes = await getDocs(collection(db, "MotivationalQuotes"));
+                const batch = writeBatch(db);
+                existingQuotes.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+                
+                // Add new quotes
+                for (const quote of quotes) {
+                    await addDoc(collection(db, "MotivationalQuotes"), quote);
+                }
+                
+                motivationalQuotes = quotes;
+                showMsg(`Saved ${quotes.length} motivational quotes!`);
+                
+            } catch(error) {
+                console.error("Error saving quotes:", error);
+                showMsg("Error saving quotes: " + error.message);
+            }
+        }
+
+        window.addStudyLevel = async () => {
+            const level = parseInt(document.getElementById('new-level-number').value);
+            const title = document.getElementById('new-level-title').value;
+            const days = parseInt(document.getElementById('new-level-days').value);
+            
+            if (!level || !days) {
+                showMsg("Please fill all required fields");
+                return;
+            }
+            
+            try {
+                // Check if level already exists
+                const q = query(collection(db, "StudyLevels"), where("level", "==", level));
+                const existing = await getDocs(q);
+                
+                if (!existing.empty) {
+                    showMsg("Level already exists!");
+                    return;
+                }
+                
+                await addDoc(collection(db, "StudyLevels"), {
+                    level,
+                    title,
+                    days,
+                    createdAt: Timestamp.now()
+                });
+                
+                showMsg(`Level ${level} added successfully!`);
+                admView('study');
+                
+            } catch(error) {
+                console.error("Error adding study level:", error);
+                showMsg("Error adding level: " + error.message);
+            }
+        }
+
+        window.deleteStudyLevel = async (levelId) => {
+            if (await customConfirm("Delete this study level? This will also delete related study content.")) {
+                try {
+                    // Delete level
+                    await deleteDoc(doc(db, "StudyLevels", levelId));
+                    
+                    // Delete related study content
+                    const q = query(collection(db, "StudyContent"), where("level", "==", parseInt(levelId)));
+                    const contentSnap = await getDocs(q);
+                    const batch = writeBatch(db);
+                    contentSnap.forEach(doc => {
+                        batch.delete(doc.ref);
+                    });
+                    await batch.commit();
+                    
+                    showMsg("Study level deleted successfully!");
+                    admView('study');
+                    
+                } catch(error) {
+                    console.error("Error deleting study level:", error);
+                    showMsg("Error deleting level: " + error.message);
+                }
+            }
+        }
+
+        window.uploadStudyContent = async () => {
+            const jsonText = document.getElementById('study-content-json').value;
+            if (!jsonText) {
+                showMsg("Please enter JSON content");
+                return;
+            }
+            
+            try {
+                const content = JSON.parse(jsonText);
+                let success = 0;
+                let failed = 0;
+                
+                toggleLoader(true);
+                
+                for (const item of content) {
+                    try {
+                        // Check if content already exists for this level and day
+                        const q = query(
+                            collection(db, "StudyContent"),
+                            where("level", "==", item.level),
+                            where("day", "==", item.day)
+                        );
+                        const existing = await getDocs(q);
+                        
+                        if (!existing.empty) {
+                            // Update existing
+                            const docId = existing.docs[0].id;
+                            await updateDoc(doc(db, "StudyContent", docId), item);
+                        } else {
+                            // Add new
+                            await addDoc(collection(db, "StudyContent"), {
+                                ...item,
+                                createdAt: Timestamp.now()
+                            });
+                        }
+                        success++;
+                    } catch(error) {
+                        console.error("Error uploading study content:", error);
+                        failed++;
+                    }
+                }
+                
+                toggleLoader(false);
+                
+                document.getElementById('study-upload-report').innerHTML = `
+                    <div class="upload-report">
+                        <h4>Upload Report:</h4>
+                        <p><span class="upload-success">Successfully processed: ${success} items</span></p>
+                        <p><span class="upload-failed">Failed: ${failed} items</span></p>
+                    </div>
+                `;
+                
+                showMsg(`Study content uploaded: ${success} successful, ${failed} failed`);
+                
+            } catch(error) {
+                toggleLoader(false);
+                showMsg("JSON Error: " + error.message);
+            }
+        }
+
+        window.uploadPracticeQuestions = async () => {
+            const jsonText = document.getElementById('practice-questions-json').value;
+            if (!jsonText) {
+                showMsg("Please enter JSON content");
+                return;
+            }
+            
+            try {
+                const questions = JSON.parse(jsonText);
+                let success = 0;
+                let failed = 0;
+                
+                toggleLoader(true);
+                
+                for (const question of questions) {
+                    try {
+                        await addDoc(collection(db, "PracticeQuestions"), {
+                            ...question,
+                            createdAt: Timestamp.now()
+                        });
+                        success++;
+                    } catch(error) {
+                        console.error("Error uploading practice question:", error);
+                        failed++;
+                    }
+                }
+                
+                toggleLoader(false);
+                
+                document.getElementById('practice-upload-report').innerHTML = `
+                    <div class="upload-report">
+                        <h4>Upload Report:</h4>
+                        <p><span class="upload-success">Successfully uploaded: ${success} questions</span></p>
+                        <p><span class="upload-failed">Failed: ${failed} questions</span></p>
+                    </div>
+                `;
+                
+                showMsg(`Practice questions uploaded: ${success} successful, ${failed} failed`);
+                
+            } catch(error) {
+                toggleLoader(false);
+                showMsg("JSON Error: " + error.message);
             }
         }
 
@@ -3551,4 +4839,4 @@
 
     </script>
 </body>
-    </html>
+        </html>
