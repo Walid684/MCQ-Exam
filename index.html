@@ -402,6 +402,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .profile-avatar-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         .profile-avatar {
             width: 100%;
@@ -871,49 +877,34 @@
             transform: scale(1.2);
         }
         
-        /* Floating Goal Selector - NEW */
-        .floating-goal-selector {
-            position: fixed;
-            top: 80px;
-            left: 20px;
-            z-index: 99;
+        /* STUDY SELECT DROPDOWN */
+        .study-select-container {
+            margin-bottom: 20px;
+        }
+        .study-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .study-select {
+            width: 100%;
+            padding: 15px 50px 15px 15px;
+            border: 2px solid var(--border);
+            border-radius: 15px;
             background: var(--card-bg);
-            border-radius: 50%;
-            padding: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 2px solid var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: slideInRight 0.5s ease;
-            width: 45px;
-            height: 45px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .floating-goal-selector.expanded {
-            width: 200px;
-            border-radius: 50px;
-            padding: 8px 15px;
-        }
-        
-        .goal-select {
-            background: transparent;
-            border: none;
             color: var(--text);
-            font-weight: 600;
+            font-size: 1rem;
             outline: none;
             cursor: pointer;
-            width: 0;
-            opacity: 0;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236C63FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
             transition: all 0.3s ease;
         }
-        
-        .floating-goal-selector.expanded .goal-select {
-            width: 100%;
-            opacity: 1;
-            margin-left: 8px;
+        .study-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
         }
         
         /* Journey Panel */
@@ -1019,7 +1010,7 @@
             color: var(--text-sec);
         }
         
-        /* Study Level Selector - MOVED */
+        /* Study Level Selector */
         .study-level-selector {
             margin-bottom: 20px;
             background: var(--card-bg);
@@ -1366,22 +1357,80 @@
             transform: translateY(-2px);
         }
         
-        /* PROFILE PHOTO UPLOAD MODAL */
+        /* PROFILE PHOTO UPLOAD MODAL - IMPROVED */
         .photo-upload-modal .modal-content {
-            max-width: 400px;
+            max-width: 450px;
+            padding: 30px;
+        }
+        
+        .photo-preview-container {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            border: 5px solid var(--border);
+            overflow: hidden;
+            position: relative;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
         
         .photo-preview {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            margin: 0 auto 20px;
-            display: block;
-            border: 4px solid var(--border);
         }
         
-        /* STUDY GOAL SELECTOR - NEW */
+        .photo-upload-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .photo-option-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .photo-option-btn:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: translateX(5px);
+        }
+        
+        .photo-option-btn i {
+            font-size: 1.8rem;
+            width: 50px;
+            text-align: center;
+            color: var(--primary);
+        }
+        
+        .photo-option-info {
+            flex: 1;
+        }
+        
+        .photo-option-title {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .photo-option-desc {
+            font-size: 0.85rem;
+            color: var(--text-sec);
+        }
+        
+        /* STUDY GOAL SELECTOR */
         .study-goal-selector {
             display: flex;
             align-items: center;
@@ -1398,12 +1447,12 @@
             font-size: 1.5rem;
         }
         
-        /* ADMIN STUDY QUESTIONS LIST */
+        /* ADMIN STUDY QUESTIONS LIST - DAY BASED */
         .study-questions-list {
             margin-top: 15px;
         }
         
-        .study-question-item {
+        .study-question-day-item {
             padding: 15px;
             border: 1px solid var(--border);
             border-radius: 10px;
@@ -1411,10 +1460,189 @@
             background: var(--card-bg);
         }
         
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .day-title {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .day-question-count {
+            font-size: 0.8rem;
+            color: var(--text-sec);
+            background: var(--bg);
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+        
         .question-actions {
             display: flex;
             gap: 10px;
             margin-top: 10px;
+        }
+        
+        /* RANK BADGE IN RESULT */
+        .rank-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #ff9a00, #ff5e00);
+            color: white;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin: 10px 0;
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* LEADERBOARD RANK STYLES */
+        .rank-1 {
+            background: linear-gradient(135deg, #FFD700, #FFA500) !important;
+        }
+        
+        .rank-2 {
+            background: linear-gradient(135deg, #C0C0C0, #A0A0A0) !important;
+        }
+        
+        .rank-3 {
+            background: linear-gradient(135deg, #CD7F32, #A0522D) !important;
+        }
+        
+        .rank-badge-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .rank-1 .rank-badge-icon {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+        }
+        
+        .rank-2 .rank-badge-icon {
+            background: rgba(192, 192, 192, 0.2);
+            color: #C0C0C0;
+        }
+        
+        .rank-3 .rank-badge-icon {
+            background: rgba(205, 127, 50, 0.2);
+            color: #CD7F32;
+        }
+        
+        /* RANK SELECTOR */
+        .rank-selector-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .rank-filter-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .rank-filter-select {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        .rank-filter-select:focus {
+            border-color: var(--primary);
+        }
+        
+        /* EXAM RANK INFO */
+        .exam-rank-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-light), transparent);
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .exam-rank-badge {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, var(--primary), #8f94fb);
+        }
+        
+        .exam-rank-details {
+            flex: 1;
+        }
+        
+        .exam-rank-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .exam-rank-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: var(--text-sec);
+        }
+        
+        /* ADMIN STUDY LIST */
+        .admin-study-list {
+            margin-top: 15px;
+        }
+        
+        .study-list-item {
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: var(--card-bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .study-list-info {
+            flex: 1;
+        }
+        
+        .study-list-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .study-list-meta {
+            font-size: 0.8rem;
+            color: var(--text-sec);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .study-list-actions {
+            display: flex;
+            gap: 10px;
         }
     </style>
 </head>
@@ -1506,19 +1734,87 @@
         </div>
     </div>
 
-    <!-- Photo Upload Modal -->
+    <!-- Photo Upload Modal - IMPROVED -->
     <div id="photo-upload-modal" class="modal photo-upload-modal">
         <div class="modal-content">
             <h2 style="margin-bottom:20px; color:var(--primary); text-align:center;">
                 <i class="fas fa-camera"></i> Upload Profile Picture
             </h2>
-            <img id="photo-preview" class="photo-preview" src="" alt="Preview">
-            <button onclick="openCloudinaryWidget()" class="btn btn-primary">
-                <i class="fas fa-cloud-upload-alt"></i> Select Photo
-            </button>
-            <div style="display:flex; gap:10px; margin-top:15px;">
-                <button onclick="saveProfilePhoto()" class="btn btn-success">Save Photo</button>
-                <button onclick="closePhotoUploadModal()" class="btn btn-sec">Cancel</button>
+            
+            <div class="photo-preview-container">
+                <img id="photo-preview" class="photo-preview" src="" alt="Preview">
+                <div id="photo-placeholder" style="display:none; text-align:center; color:var(--text-sec);">
+                    <i class="fas fa-user-circle" style="font-size:5rem;"></i>
+                    <div style="margin-top:10px;">No photo selected</div>
+                </div>
+            </div>
+            
+            <div class="photo-upload-options">
+                <div class="photo-option-btn" onclick="openCloudinaryWidget()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <div class="photo-option-info">
+                        <div class="photo-option-title">Upload from Device</div>
+                        <div class="photo-option-desc">Select photo from your phone or computer</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="photo-option-btn" onclick="openAvatarSelector()">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="photo-option-info">
+                        <div class="photo-option-title">Choose Avatar</div>
+                        <div class="photo-option-desc">Select from our collection of avatars</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="photo-option-btn" onclick="openCamera()">
+                    <i class="fas fa-camera"></i>
+                    <div class="photo-option-info">
+                        <div class="photo-option-title">Take Photo</div>
+                        <div class="photo-option-desc">Use your camera to take a new photo</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            
+            <div style="display:flex; gap:10px; margin-top:25px;">
+                <button onclick="saveProfilePhoto()" class="btn btn-success" style="flex:1;">
+                    <i class="fas fa-check"></i> Save Photo
+                </button>
+                <button onclick="closePhotoUploadModal()" class="btn btn-sec" style="flex:1;">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avatar Selector Modal -->
+    <div id="avatar-selector-modal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom:20px; color:var(--primary); text-align:center;">
+                <i class="fas fa-user-circle"></i> Choose Avatar
+            </h2>
+            
+            <div style="margin-bottom:20px;">
+                <div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <button onclick="filterAvatars('all')" class="btn btn-sec" style="width:auto; padding:8px 15px;">All</button>
+                    <button onclick="filterAvatars('male')" class="btn btn-sec" style="width:auto; padding:8px 15px;">Male</button>
+                    <button onclick="filterAvatars('female')" class="btn btn-sec" style="width:auto; padding:8px 15px;">Female</button>
+                </div>
+            </div>
+            
+            <div class="avatar-grid" id="avatar-grid">
+                <!-- Avatars will be loaded here -->
+            </div>
+            
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button onclick="selectAvatar()" class="btn btn-primary" style="flex:1;">
+                    <i class="fas fa-check"></i> Select Avatar
+                </button>
+                <button onclick="closeAvatarSelector()" class="btn btn-sec" style="flex:1;">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
             </div>
         </div>
     </div>
@@ -1678,7 +1974,8 @@
         
         // Smart Study Plan Variables
         let studyProgress = null;
-        let studyLevels = [];
+        let studyPlans = [];
+        let currentStudyPlan = null;
         let currentStudyLevel = 1;
         let motivationalQuotes = [];
         let studySettings = null;
@@ -1691,16 +1988,10 @@
         let currentPracticeDay = null;
         let currentPracticeLevel = null;
         
-        // New Goal Management Variables
-        let studyGoals = [];
-        let userSelectedGoal = null;
-        let goalTimer = null;
-
         // Cloudinary Configuration
         const cloudinaryConfig = {
             cloudName: 'dsmvmq076',
-            uploadPreset: 'my_app_upload',
-            apiKey: 'your_api_key_here' // You might need to get this from Cloudinary dashboard
+            uploadPreset: 'my_app_upload'
         };
 
         // AVATAR IMAGES
@@ -2277,7 +2568,7 @@
                     name: n, gender: g, education: e, email: res.user.email, role: 'student', 
                     points: 0, level: 1, joined: new Date().toLocaleDateString(), isBanned: false,
                     examsTaken: [], avatar: defaultAvatar,
-                    studyGoalId: null // Initialize study goal
+                    selectedStudyPlan: null // Initialize selected study plan
                 });
                 showMsg("Account Created Successfully!");
                 toggleAuth('login');
@@ -2301,7 +2592,7 @@
                 await loadSupportLinks();
                 await loadAllCategories();
                 await loadStudyData(); // Load study data
-                await loadStudyGoals(); // Load study goals
+                await loadStudyPlans(); // Load study plans
                 
                 const snap = await getDoc(doc(db, "users", user.uid));
                 if(snap.exists()) {
@@ -2366,27 +2657,17 @@
                     // Create initial study progress
                     studyProgress = {
                         userId: currentUser.uid,
+                        selectedStudyPlan: currentUser.selectedStudyPlan || null,
                         level: 1,
                         dailyProgress: 0,
                         totalProgress: 0,
                         completedTopics: [],
                         lastStudyDate: new Date().toISOString().split('T')[0],
                         dailyStudyTime: 0,
-                        totalStudyTime: 0,
-                        selectedGoalId: currentUser.studyGoalId || null
+                        totalStudyTime: 0
                     };
                     await setDoc(doc(db, "Userstudy", currentUser.uid), studyProgress);
                 }
-                
-                // Load study levels
-                const levelsSnap = await getDocs(collection(db, "StudyLevels"));
-                studyLevels = [];
-                levelsSnap.forEach(doc => {
-                    studyLevels.push({ id: doc.id, ...doc.data() });
-                });
-                
-                // Sort levels by level number
-                studyLevels.sort((a, b) => a.level - b.level);
                 
                 // Load motivational quotes
                 const quotesSnap = await getDocs(collection(db, "MotivationalQuotes"));
@@ -2405,8 +2686,6 @@
                     studySettings = settingsSnap.data();
                 } else {
                     studySettings = {
-                        goalName: "Complete Smart Study Plan",
-                        targetDeadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
                         dailyGoal: 60, // 60 minutes daily
                         totalGoal: 1800 // 30 hours total
                     };
@@ -2418,72 +2697,79 @@
             }
         }
 
-        // --- STUDY GOALS FUNCTIONS ---
-        async function loadStudyGoals() {
+        // --- STUDY PLANS FUNCTIONS ---
+        async function loadStudyPlans() {
             try {
-                const goalsSnap = await getDocs(collection(db, "StudyGoals"));
-                studyGoals = [];
-                goalsSnap.forEach(doc => {
-                    studyGoals.push({ id: doc.id, ...doc.data() });
+                const plansSnap = await getDocs(collection(db, "StudyPlans"));
+                studyPlans = [];
+                plansSnap.forEach(doc => {
+                    studyPlans.push({ id: doc.id, ...doc.data() });
                 });
                 
-                // Sort goals by order or creation date
-                studyGoals.sort((a, b) => (a.order || 0) - (b.order || 0));
+                // Sort plans by order or creation date
+                studyPlans.sort((a, b) => (a.order || 0) - (b.order || 0));
                 
-                // Load user's selected goal
-                if (currentUser && currentUser.studyGoalId) {
-                    userSelectedGoal = studyGoals.find(goal => goal.id === currentUser.studyGoalId);
+                // Load user's selected plan
+                if (currentUser && currentUser.selectedStudyPlan) {
+                    currentStudyPlan = studyPlans.find(plan => plan.id === currentUser.selectedStudyPlan);
+                } else if (studyPlans.length > 0) {
+                    // Select first plan by default
+                    currentStudyPlan = studyPlans[0];
+                    if (currentUser) {
+                        await updateDoc(doc(db, "users", currentUser.uid), {
+                            selectedStudyPlan: studyPlans[0].id
+                        });
+                        currentUser.selectedStudyPlan = studyPlans[0].id;
+                    }
                 }
             } catch(error) {
-                console.error("Error loading study goals:", error);
+                console.error("Error loading study plans:", error);
             }
         }
 
-        window.toggleGoalSelector = () => {
-            const selector = document.getElementById('floating-goal-selector');
-            if (selector) {
-                selector.classList.toggle('expanded');
+        async function loadStudyLevels(planId) {
+            if (!planId) return [];
+            
+            try {
+                const q = query(collection(db, "StudyLevels"), where("planId", "==", planId));
+                const snap = await getDocs(q);
                 
-                // If expanded, start timer to collapse after 3 seconds
-                if (selector.classList.contains('expanded')) {
-                    if (goalTimer) clearTimeout(goalTimer);
-                    goalTimer = setTimeout(() => {
-                        selector.classList.remove('expanded');
-                    }, 3000);
-                }
+                const levels = [];
+                snap.forEach(doc => {
+                    levels.push({ id: doc.id, ...doc.data() });
+                });
+                
+                // Sort levels by level number
+                levels.sort((a, b) => a.level - b.level);
+                return levels;
+            } catch(error) {
+                console.error("Error loading study levels:", error);
+                return [];
             }
         }
 
-        window.selectStudyGoal = async (goalId) => {
+        async function loadStudyContent(planId, level) {
+            if (!planId) return [];
+            
             try {
-                await updateDoc(doc(db, "users", currentUser.uid), {
-                    studyGoalId: goalId
+                const q = query(
+                    collection(db, "StudyContent"), 
+                    where("planId", "==", planId),
+                    where("level", "==", level)
+                );
+                const snap = await getDocs(q);
+                
+                const content = [];
+                snap.forEach(doc => {
+                    content.push({ id: doc.id, ...doc.data() });
                 });
                 
-                // Update local user data
-                currentUser.studyGoalId = goalId;
-                userSelectedGoal = studyGoals.find(goal => goal.id === goalId);
-                
-                // Update study progress
-                await updateDoc(doc(db, "Userstudy", currentUser.uid), {
-                    selectedGoalId: goalId
-                });
-                
-                studyProgress.selectedGoalId = goalId;
-                
-                // Collapse selector after selection
-                const selector = document.getElementById('floating-goal-selector');
-                if (selector) {
-                    selector.classList.remove('expanded');
-                }
-                
-                showMsg("Study goal updated successfully!");
-                
-                // Refresh study page
-                renderStudy();
+                // Sort by day number
+                content.sort((a, b) => a.day - b.day);
+                return content;
             } catch(error) {
-                console.error("Error selecting study goal:", error);
-                showMsg("Error selecting goal: " + error.message);
+                console.error("Error loading study content:", error);
+                return [];
             }
         }
 
@@ -2499,14 +2785,14 @@
                 }
                 
                 // If a day is completed, add it to completed topics
-                if (completedDay) {
-                    const dayKey = `Level${currentStudyLevel}_Day${completedDay}`;
+                if (completedDay && currentStudyPlan) {
+                    const dayKey = `${currentStudyPlan.id}_Level${currentStudyLevel}_Day${completedDay}`;
                     if (!studyProgress.completedTopics.includes(dayKey)) {
                         studyProgress.completedTopics.push(dayKey);
                         
                         // Calculate total progress based on completed topics
-                        const totalDays = studyLevels.reduce((total, level) => total + (level.days || 0), 0);
-                        studyProgress.totalProgress = Math.round((studyProgress.completedTopics.length / totalDays) * 100);
+                        const totalDays = await getTotalDaysInPlan(currentStudyPlan.id);
+                        studyProgress.totalProgress = totalDays > 0 ? Math.round((studyProgress.completedTopics.length / totalDays) * 100) : 0;
                         
                         // Add study time (assuming 30 minutes per day)
                         studyProgress.dailyStudyTime += 30;
@@ -2525,70 +2811,15 @@
             }
         }
 
-        function startMotivationalCarousel() {
-            if (carouselInterval) {
-                clearInterval(carouselInterval);
+        async function getTotalDaysInPlan(planId) {
+            try {
+                const q = query(collection(db, "StudyContent"), where("planId", "==", planId));
+                const snap = await getDocs(q);
+                return snap.size;
+            } catch(error) {
+                console.error("Error getting total days:", error);
+                return 0;
             }
-            
-            const track = document.getElementById('carousel-track');
-            const indicators = document.querySelectorAll('.carousel-indicator');
-            
-            if (!track || motivationalQuotes.length === 0) return;
-            
-            // Initialize carousel
-            let html = '';
-            motivationalQuotes.forEach((quote, index) => {
-                html += `
-                    <div class="carousel-slide">
-                        <div class="carousel-quote">"${quote.quote}"</div>
-                        <div class="carousel-author">- ${quote.author}</div>
-                    </div>
-                `;
-            });
-            track.innerHTML = html;
-            
-            // Start auto-rotation
-            carouselInterval = setInterval(() => {
-                currentCarouselIndex = (currentCarouselIndex + 1) % motivationalQuotes.length;
-                updateCarousel();
-            }, 5000);
-        }
-
-        function updateCarousel() {
-            const track = document.getElementById('carousel-track');
-            const indicators = document.querySelectorAll('.carousel-indicator');
-            
-            if (track) {
-                track.style.transform = `translateX(-${currentCarouselIndex * 100}%)`;
-            }
-            
-            indicators.forEach((indicator, index) => {
-                if (index === currentCarouselIndex) {
-                    indicator.classList.add('active');
-                } else {
-                    indicator.classList.remove('active');
-                }
-            });
-        }
-
-        function calculateCountdown() {
-            if (!studySettings || !studySettings.targetDeadline) {
-                return { days: 0, hours: 0, minutes: 0 };
-            }
-            
-            const deadline = new Date(studySettings.targetDeadline);
-            const now = new Date();
-            const diff = deadline - now;
-            
-            if (diff <= 0) {
-                return { days: 0, hours: 0, minutes: 0 };
-            }
-            
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            
-            return { days, hours, minutes };
         }
 
         // --- STUDY PAGE ---
@@ -2600,22 +2831,33 @@
                 await loadStudyData();
             }
             
-            // Load study goals
-            await loadStudyGoals();
+            // Load study plans
+            await loadStudyPlans();
             
-            const countdown = calculateCountdown();
+            if (studyPlans.length === 0) {
+                document.getElementById('main-content').innerHTML = `
+                    <div class="card" style="text-align:center; padding:40px;">
+                        <i class="fas fa-book" style="font-size:3rem; color:var(--primary); margin-bottom:15px;"></i>
+                        <h3>No Study Plans Available</h3>
+                        <p style="color:var(--text-sec); margin-top:10px;">Study plans will be added by admin soon.</p>
+                        <button onclick="renderHome()" class="btn btn-primary" style="margin-top:20px;">Back to Home</button>
+                    </div>
+                `;
+                return;
+            }
             
             document.getElementById('main-content').innerHTML = `
-                <div class="floating-goal-selector" id="floating-goal-selector" onclick="toggleGoalSelector()">
-                    <i class="fas fa-bullseye" style="color:var(--primary);"></i>
-                    <select class="goal-select" id="goal-select" onchange="selectStudyGoal(this.value)">
-                        <option value="">Select Goal</option>
-                        ${studyGoals.map(goal => 
-                            `<option value="${goal.id}" ${goal.id === currentUser.studyGoalId ? 'selected' : ''}>
-                                ${goal.name}
-                            </option>`
-                        ).join('')}
-                    </select>
+                <div class="study-select-container">
+                    <div class="study-select-wrapper">
+                        <select class="study-select" id="study-plan-select" onchange="changeStudyPlan(this.value)">
+                            <option value="">Select Study Plan</option>
+                            ${studyPlans.map(plan => 
+                                `<option value="${plan.id}" ${plan.id === currentUser.selectedStudyPlan ? 'selected' : ''}>
+                                    ${plan.name}
+                                </option>`
+                            ).join('')}
+                        </select>
+                    </div>
                 </div>
                 
                 <div class="motivational-carousel">
@@ -2630,26 +2872,11 @@
                 <div class="journey-panel">
                     <div class="journey-goal">
                         <i class="fas fa-flag-checkered"></i>
-                        ${userSelectedGoal ? userSelectedGoal.name : (studySettings ? studySettings.goalName : 'Complete Smart Study Plan')}
+                        ${currentStudyPlan ? currentStudyPlan.name : 'Select a Study Plan'}
                     </div>
                     <p style="opacity:0.9; margin-bottom:15px;">
-                        ${userSelectedGoal ? userSelectedGoal.description : 'No goal selected. Click the target icon to select a goal.'}
+                        ${currentStudyPlan ? currentStudyPlan.description : 'No study plan selected'}
                     </p>
-                    
-                    <div class="countdown-timer">
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="countdown-days">${countdown.days}</span>
-                            <span class="countdown-label">Days</span>
-                        </div>
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="countdown-hours">${countdown.hours}</span>
-                            <span class="countdown-label">Hours</span>
-                        </div>
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="countdown-minutes">${countdown.minutes}</span>
-                            <span class="countdown-label">Minutes</span>
-                        </div>
-                    </div>
                 </div>
                 
                 <div class="progress-cards">
@@ -2682,35 +2909,30 @@
                     </div>
                 </div>
                 
-                <div class="study-level-selector">
+                <div class="study-level-selector" id="study-level-selector" style="display:none;">
                     <div class="study-level-select-wrapper">
                         <select class="study-level-select" id="study-level-select" onchange="changeStudyLevel(this.value)">
                             <option value="">Select Study Level</option>
-                            ${studyLevels.map(level => 
-                                `<option value="${level.level}" ${level.level === currentStudyLevel ? 'selected' : ''}>
-                                    Level ${level.level}${level.title ? `: ${level.title}` : ''}
-                                </option>`
-                            ).join('')}
                         </select>
                     </div>
                 </div>
                 
-                <div class="study-cards-container" id="study-cards-container">
+                <div class="study-cards-container" id="study-cards-container" style="display:none;">
                     <h3 class="study-section-title">
                         <i class="fas fa-calendar-day"></i>
-                        Study Plan - Level ${currentStudyLevel}
+                        Study Plan - <span id="current-plan-name"></span>
                     </h3>
                     <div id="study-cards-grid" class="study-cards-grid">
                         Loading study content...
                     </div>
                 </div>
                 
-                <div class="study-leaderboard-tabs">
+                <div class="study-leaderboard-tabs" id="study-leaderboard-tabs" style="display:none;">
                     <div class="study-tab active" onclick="showStudyLeaderboard('daily')">Daily Leaderboard</div>
                     <div class="study-tab" onclick="showStudyLeaderboard('total')">Total Leaderboard</div>
                 </div>
                 
-                <div id="study-leaderboard">
+                <div id="study-leaderboard" style="display:none;">
                     Loading leaderboard...
                 </div>
             `;
@@ -2718,39 +2940,76 @@
             // Start motivational carousel
             startMotivationalCarousel();
             
-            // Start countdown timer
-            startCountdownTimer();
+            // If a study plan is selected, load its content
+            if (currentStudyPlan) {
+                await loadStudyPlanContent();
+            }
+        }
+
+        window.changeStudyPlan = async (planId) => {
+            if (!planId) return;
+            
+            try {
+                currentStudyPlan = studyPlans.find(plan => plan.id === planId);
+                
+                // Update user's selected plan
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    selectedStudyPlan: planId
+                });
+                
+                currentUser.selectedStudyPlan = planId;
+                
+                // Update study progress
+                await updateDoc(doc(db, "Userstudy", currentUser.uid), {
+                    selectedStudyPlan: planId
+                });
+                
+                studyProgress.selectedStudyPlan = planId;
+                
+                // Load study content for selected plan
+                await loadStudyPlanContent();
+                
+            } catch(error) {
+                console.error("Error changing study plan:", error);
+                showMsg("Error selecting study plan: " + error.message);
+            }
+        }
+
+        async function loadStudyPlanContent() {
+            if (!currentStudyPlan) return;
+            
+            // Show study level selector
+            document.getElementById('study-level-selector').style.display = 'block';
+            document.getElementById('study-cards-container').style.display = 'block';
+            document.getElementById('study-leaderboard-tabs').style.display = 'block';
+            document.getElementById('study-leaderboard').style.display = 'block';
+            
+            document.getElementById('current-plan-name').textContent = currentStudyPlan.name;
+            
+            // Load levels for this plan
+            const levels = await loadStudyLevels(currentStudyPlan.id);
+            
+            // Update level select
+            const levelSelect = document.getElementById('study-level-select');
+            let options = '<option value="">Select Study Level</option>';
+            levels.forEach(level => {
+                options += `<option value="${level.level}" ${level.level === currentStudyLevel ? 'selected' : ''}>
+                    Level ${level.level}${level.title ? `: ${level.title}` : ''}
+                </option>`;
+            });
+            levelSelect.innerHTML = options;
+            
+            // If no level selected, select first level
+            if (!currentStudyLevel && levels.length > 0) {
+                currentStudyLevel = levels[0].level;
+                levelSelect.value = currentStudyLevel;
+            }
             
             // Load study cards for current level
             await loadStudyCards();
             
             // Load leaderboard
             await loadStudyLeaderboard('daily');
-        }
-
-        window.goToSlide = (index) => {
-            currentCarouselIndex = index;
-            updateCarousel();
-            if (carouselInterval) {
-                clearInterval(carouselInterval);
-                carouselInterval = setInterval(() => {
-                    currentCarouselIndex = (currentCarouselIndex + 1) % motivationalQuotes.length;
-                    updateCarousel();
-                }, 5000);
-            }
-        }
-
-        function startCountdownTimer() {
-            setInterval(() => {
-                const countdown = calculateCountdown();
-                const daysElem = document.getElementById('countdown-days');
-                const hoursElem = document.getElementById('countdown-hours');
-                const minutesElem = document.getElementById('countdown-minutes');
-                
-                if (daysElem) daysElem.textContent = countdown.days;
-                if (hoursElem) hoursElem.textContent = countdown.hours;
-                if (minutesElem) minutesElem.textContent = countdown.minutes;
-            }, 60000); // Update every minute
         }
 
         window.changeStudyLevel = async (level) => {
@@ -2761,24 +3020,12 @@
         async function loadStudyCards() {
             try {
                 const grid = document.getElementById('study-cards-grid');
-                if (!grid) return;
+                if (!grid || !currentStudyPlan) return;
                 
                 grid.innerHTML = '<div class="shimmer" style="height:200px; border-radius:15px;"></div>';
                 
-                // Load study content for current level
-                const q = query(
-                    collection(db, "StudyContent"), 
-                    where("level", "==", currentStudyLevel)
-                );
-                const snap = await getDocs(q);
-                
-                let studyDays = [];
-                snap.forEach(doc => {
-                    studyDays.push({ id: doc.id, ...doc.data() });
-                });
-                
-                // Sort by day number
-                studyDays.sort((a, b) => a.day - b.day);
+                // Load study content for current plan and level
+                const studyDays = await loadStudyContent(currentStudyPlan.id, currentStudyLevel);
                 
                 if (studyDays.length === 0) {
                     grid.innerHTML = `
@@ -2793,9 +3040,9 @@
                 
                 let html = '';
                 studyDays.forEach(day => {
-                    const dayKey = `Level${currentStudyLevel}_Day${day.day}`;
+                    const dayKey = `${currentStudyPlan.id}_Level${currentStudyLevel}_Day${day.day}`;
                     const isCompleted = studyProgress.completedTopics.includes(dayKey);
-                    const isLocked = day.day > 1 && !studyProgress.completedTopics.includes(`Level${currentStudyLevel}_Day${day.day - 1}`);
+                    const isLocked = day.day > 1 && !studyProgress.completedTopics.includes(`${currentStudyPlan.id}_Level${currentStudyLevel}_Day${day.day - 1}`);
                     
                     html += `
                         <div class="study-card ${isCompleted ? 'completed' : ''} ${isLocked ? 'locked' : ''}" 
@@ -2829,13 +3076,6 @@
                                         <i class="fas fa-play-circle"></i> ${isCompleted ? 'Practice Again' : 'Practice'}
                                     </button>
                                 </div>
-                                
-                                ${!isCompleted ? `
-                                    <div class="read-again-checkbox" id="read-again-${day.day}">
-                                        <input type="checkbox" id="checkbox-${day.day}" onchange="toggleReadAgain(${day.day})">
-                                        <label for="checkbox-${day.day}">Need to read again</label>
-                                    </div>
-                                ` : ''}
                             ` : `
                                 <div class="study-actions">
                                     <button class="btn btn-sec" style="flex:1;" disabled>
@@ -2859,42 +3099,15 @@
             }
         }
 
-        window.toggleReadAgain = (day) => {
-            const checkbox = document.getElementById(`checkbox-${day}`);
-            const button = document.querySelector(`.study-card:nth-child(${day}) .study-actions button`);
-            
-            if (checkbox.checked) {
-                button.innerHTML = '<i class="fas fa-redo"></i> Reset Practice';
-                button.classList.remove('btn-primary');
-                button.classList.add('btn-warning');
-                button.onclick = () => resetPractice(day);
-            } else {
-                button.innerHTML = '<i class="fas fa-play-circle"></i> Practice';
-                button.classList.remove('btn-warning');
-                button.classList.add('btn-primary');
-                button.onclick = () => startPracticeQuiz(currentStudyLevel, day);
-            }
-        }
-
-        window.resetPractice = (day) => {
-            const dayKey = `Level${currentStudyLevel}_Day${day}`;
-            const index = studyProgress.completedTopics.indexOf(dayKey);
-            if (index > -1) {
-                studyProgress.completedTopics.splice(index, 1);
-                updateStudyProgress();
-                loadStudyCards();
-                showMsg("Practice reset successfully! You can now practice again.");
-            }
-        }
-
         window.startPracticeQuiz = async (level, day) => {
             currentPracticeLevel = level;
             currentPracticeDay = day;
             
             try {
-                // Load practice questions for this level and day
+                // Load practice questions for this plan, level and day
                 const q = query(
                     collection(db, "PracticeQuestions"),
+                    where("planId", "==", currentStudyPlan.id),
                     where("level", "==", level),
                     where("day", "==", day)
                 );
@@ -2919,7 +3132,7 @@
                 practiceQuizTimeLeft = 120; // 2 minutes
                 
                 // Show practice quiz modal
-                document.getElementById('quiz-title').textContent = `Practice Quiz - Level ${level} Day ${day}`;
+                document.getElementById('quiz-title').textContent = `Practice Quiz - ${currentStudyPlan.name} Level ${level} Day ${day}`;
                 document.getElementById('practice-quiz-modal').style.display = 'flex';
                 
                 // Render questions
@@ -3052,8 +3265,9 @@
                 const leaderboardElem = document.getElementById('study-leaderboard');
                 leaderboardElem.innerHTML = '<div class="shimmer" style="height:300px; border-radius:15px;"></div>';
                 
-                // Get all user study progress
-                const progressSnap = await getDocs(collection(db, "Userstudy"));
+                // Get all user study progress for the current study plan
+                const q = query(collection(db, "Userstudy"), where("selectedStudyPlan", "==", currentStudyPlan.id));
+                const progressSnap = await getDocs(q);
                 let leaderboardData = [];
                 
                 // Get user names
@@ -3129,9 +3343,284 @@
             }
         }
 
-        // --- LEADERBOARD PAGE ---
+        // --- PROFILE PHOTO UPLOAD FUNCTIONS - IMPROVED ---
+        let uploadedPhotoUrl = null;
+        let selectedAvatarUrl = null;
+        
+        window.uploadProfilePhoto = () => {
+            document.getElementById('photo-upload-modal').style.display = 'flex';
+            const currentPhoto = currentUser.avatar || '';
+            
+            if (currentPhoto) {
+                document.getElementById('photo-preview').src = currentPhoto;
+                document.getElementById('photo-preview').style.display = 'block';
+                document.getElementById('photo-placeholder').style.display = 'none';
+            } else {
+                document.getElementById('photo-preview').style.display = 'none';
+                document.getElementById('photo-placeholder').style.display = 'block';
+            }
+            
+            uploadedPhotoUrl = null;
+            selectedAvatarUrl = null;
+        }
+        
+        window.closePhotoUploadModal = () => {
+            document.getElementById('photo-upload-modal').style.display = 'none';
+            uploadedPhotoUrl = null;
+            selectedAvatarUrl = null;
+        }
+        
+        window.openCloudinaryWidget = () => {
+            const myWidget = cloudinary.createUploadWidget(
+                {
+                    cloudName: cloudinaryConfig.cloudName,
+                    uploadPreset: cloudinaryConfig.uploadPreset,
+                    sources: ['local', 'camera', 'url'],
+                    multiple: false,
+                    maxFileSize: 5000000, // 5MB
+                    clientAllowedFormats: ['jpg', 'jpeg', 'png', 'gif'],
+                    maxImageWidth: 1000,
+                    maxImageHeight: 1000,
+                    cropping: true,
+                    croppingAspectRatio: 1,
+                    croppingShowDimensions: true,
+                    showAdvancedOptions: true,
+                    styles: {
+                        palette: {
+                            window: "#FFFFFF",
+                            sourceBg: "#F4F4F5",
+                            windowBorder: "#90a0b3",
+                            tabIcon: "#6C63FF",
+                            inactiveTabIcon: "#69778A",
+                            menuIcons: "#6C63FF",
+                            link: "#6C63FF",
+                            action: "#6C63FF",
+                            inProgress: "#6C63FF",
+                            complete: "#2ecc71",
+                            error: "#ff4757",
+                            textDark: "#000000",
+                            textLight: "#FFFFFF"
+                        }
+                    }
+                },
+                (error, result) => {
+                    if (!error && result && result.event === "success") {
+                        uploadedPhotoUrl = result.info.secure_url;
+                        selectedAvatarUrl = null;
+                        
+                        document.getElementById('photo-preview').src = uploadedPhotoUrl;
+                        document.getElementById('photo-preview').style.display = 'block';
+                        document.getElementById('photo-placeholder').style.display = 'none';
+                        
+                        // Show success animation
+                        const previewContainer = document.querySelector('.photo-preview-container');
+                        previewContainer.style.transform = 'scale(1.1)';
+                        setTimeout(() => {
+                            previewContainer.style.transform = 'scale(1)';
+                        }, 300);
+                    }
+                    if (error) {
+                        console.error('Upload error: ', error);
+                        showMsg("Error uploading photo: " + error.message);
+                    }
+                }
+            );
+            
+            myWidget.open();
+        }
+        
+        window.openAvatarSelector = () => {
+            document.getElementById('photo-upload-modal').style.display = 'none';
+            document.getElementById('avatar-selector-modal').style.display = 'flex';
+            loadAvatarGrid('all');
+        }
+        
+        window.closeAvatarSelector = () => {
+            document.getElementById('avatar-selector-modal').style.display = 'none';
+            document.getElementById('photo-upload-modal').style.display = 'flex';
+        }
+        
+        function loadAvatarGrid(filter = 'all') {
+            const avatarGrid = document.getElementById('avatar-grid');
+            let avatars = [];
+            
+            if (filter === 'all' || filter === 'male') {
+                avatars = avatars.concat(AVATAR_MALE.map((url, index) => ({ url, gender: 'male', index })));
+            }
+            if (filter === 'all' || filter === 'female') {
+                avatars = avatars.concat(AVATAR_FEMALE.map((url, index) => ({ url, gender: 'female', index })));
+            }
+            
+            let html = '';
+            avatars.forEach(avatar => {
+                html += `
+                    <img src="${avatar.url}" class="avatar-option" 
+                         data-url="${avatar.url}"
+                         onclick="selectAvatarPreview('${avatar.url}')">
+                `;
+            });
+            
+            avatarGrid.innerHTML = html;
+        }
+        
+        window.filterAvatars = (filter) => {
+            loadAvatarGrid(filter);
+        }
+        
+        window.selectAvatarPreview = (url) => {
+            // Remove selected class from all avatars
+            document.querySelectorAll('.avatar-option').forEach(img => {
+                img.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked avatar
+            event.target.classList.add('selected');
+            selectedAvatarUrl = url;
+            uploadedPhotoUrl = null;
+        }
+        
+        window.selectAvatar = () => {
+            if (!selectedAvatarUrl) {
+                showMsg("Please select an avatar first");
+                return;
+            }
+            
+            document.getElementById('avatar-selector-modal').style.display = 'none';
+            document.getElementById('photo-upload-modal').style.display = 'flex';
+            
+            document.getElementById('photo-preview').src = selectedAvatarUrl;
+            document.getElementById('photo-preview').style.display = 'block';
+            document.getElementById('photo-placeholder').style.display = 'none';
+            
+            // Show animation
+            const previewContainer = document.querySelector('.photo-preview-container');
+            previewContainer.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                previewContainer.style.transform = 'scale(1)';
+            }, 300);
+        }
+        
+        window.openCamera = () => {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function(stream) {
+                        showMsg("Camera access granted. Please use the upload option to take a photo.");
+                        // In a real app, you would implement camera capture here
+                        // For now, we'll just open the cloudinary widget which has camera support
+                        openCloudinaryWidget();
+                    })
+                    .catch(function(error) {
+                        showMsg("Unable to access camera. Please check permissions.");
+                        console.error("Camera error:", error);
+                    });
+            } else {
+                showMsg("Camera not available on this device.");
+            }
+        }
+        
+        window.saveProfilePhoto = async () => {
+            const photoUrl = uploadedPhotoUrl || selectedAvatarUrl;
+            if (!photoUrl) {
+                showMsg("Please select or upload a photo first");
+                return;
+            }
+            
+            try {
+                toggleLoader(true);
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    avatar: photoUrl
+                });
+                
+                currentUser.avatar = photoUrl;
+                closePhotoUploadModal();
+                renderProfile();
+                showMsg("Profile photo updated successfully!");
+            } catch(error) {
+                console.error("Error saving profile photo:", error);
+                showMsg("Error saving photo: " + error.message);
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        // --- MOTIVATIONAL CAROUSEL FUNCTIONS ---
+        function startMotivationalCarousel() {
+            if (carouselInterval) {
+                clearInterval(carouselInterval);
+            }
+            
+            const track = document.getElementById('carousel-track');
+            
+            if (!track || motivationalQuotes.length === 0) return;
+            
+            // Initialize carousel
+            let html = '';
+            motivationalQuotes.forEach((quote, index) => {
+                html += `
+                    <div class="carousel-slide">
+                        <div class="carousel-quote">"${quote.quote}"</div>
+                        <div class="carousel-author">- ${quote.author}</div>
+                    </div>
+                `;
+            });
+            track.innerHTML = html;
+            
+            // Start auto-rotation
+            carouselInterval = setInterval(() => {
+                currentCarouselIndex = (currentCarouselIndex + 1) % motivationalQuotes.length;
+                updateCarousel();
+            }, 5000);
+        }
+
+        function updateCarousel() {
+            const track = document.getElementById('carousel-track');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            
+            if (track) {
+                track.style.transform = `translateX(-${currentCarouselIndex * 100}%)`;
+            }
+            
+            indicators.forEach((indicator, index) => {
+                if (index === currentCarouselIndex) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+
+        window.goToSlide = (index) => {
+            currentCarouselIndex = index;
+            updateCarousel();
+            if (carouselInterval) {
+                clearInterval(carouselInterval);
+                carouselInterval = setInterval(() => {
+                    currentCarouselIndex = (currentCarouselIndex + 1) % motivationalQuotes.length;
+                    updateCarousel();
+                }, 5000);
+            }
+        }
+
+        // --- LEADERBOARD PAGE - UPDATED ---
         window.renderLeaderboard = async () => {
             updateNav(3);
+            
+            // Load exams for dropdown
+            const examsSnap = await getDocs(collection(db, "exams"));
+            const exams = [];
+            examsSnap.forEach(doc => {
+                exams.push({ id: doc.id, ...doc.data() });
+            });
+            
+            // Group exams by category
+            const examsByCategory = {};
+            exams.forEach(exam => {
+                const category = exam.category || 'Uncategorized';
+                if (!examsByCategory[category]) {
+                    examsByCategory[category] = [];
+                }
+                examsByCategory[category].push(exam);
+            });
             
             document.getElementById('main-content').innerHTML = `
                 <div class="card" style="background:var(--bg); text-align:center;">
@@ -3139,21 +3628,80 @@
                     <p style="color:var(--text-sec); margin-top:5px;">See how you rank among other students</p>
                 </div>
                 
-                <div class="exam-leaderboard-tabs">
-                    <div class="exam-tab active" onclick="showExamLeaderboard('points')">Points</div>
-                    <div class="exam-tab" onclick="showExamLeaderboard('exams')">Exams Taken</div>
-                    <div class="exam-tab" onclick="showExamLeaderboard('level')">Level</div>
+                <div class="rank-selector-container">
+                    <div class="rank-filter-row">
+                        <select id="rank-category-select" class="rank-filter-select" onchange="changeRankCategory(this.value)">
+                            <option value="">All Categories</option>
+                            ${Object.keys(examsByCategory).map(cat => 
+                                `<option value="${cat}">${cat}</option>`
+                            ).join('')}
+                        </select>
+                        
+                        <select id="rank-exam-select" class="rank-filter-select" onchange="loadExamLeaderboard()">
+                            <option value="">Select Exam</option>
+                        </select>
+                    </div>
+                    
+                    <div class="exam-leaderboard-tabs">
+                        <div class="exam-tab active" onclick="showExamLeaderboardTab('points')">Points</div>
+                        <div class="exam-tab" onclick="showExamLeaderboardTab('exams')">Exams Taken</div>
+                        <div class="exam-tab" onclick="showExamLeaderboardTab('level')">Level</div>
+                    </div>
                 </div>
                 
                 <div id="exam-leaderboard-list" style="margin-top:10px;">
-                    Loading leaderboard...
+                    <div class="card" style="text-align:center; padding:30px;">
+                        <i class="fas fa-chart-bar" style="font-size:3rem; color:var(--primary); margin-bottom:15px;"></i>
+                        <h4>Select a category and exam to view leaderboard</h4>
+                        <p style="color:var(--text-sec); margin-top:10px;">Or view overall rankings using the tabs above</p>
+                    </div>
                 </div>
             `;
             
-            await loadExamLeaderboard('points');
+            // Initialize category change handler
+            window.changeRankCategory = function(category) {
+                const examSelect = document.getElementById('rank-exam-select');
+                let options = '<option value="">Select Exam</option>';
+                
+                if (category && examsByCategory[category]) {
+                    examsByCategory[category].forEach(exam => {
+                        options += `<option value="${exam.id}">${exam.title}</option>`;
+                    });
+                } else if (!category) {
+                    // Show all exams
+                    exams.forEach(exam => {
+                        options += `<option value="${exam.id}">${exam.title} (${exam.category || 'Uncategorized'})</option>`;
+                    });
+                }
+                
+                examSelect.innerHTML = options;
+            };
+            
+            // Initialize exam leaderboard tab handler
+            window.showExamLeaderboardTab = function(type) {
+                // Update active tab
+                document.querySelectorAll('.exam-tab').forEach(tab => tab.classList.remove('active'));
+                event.target.classList.add('active');
+                
+                loadExamLeaderboard(type);
+            };
+            
+            // Initialize exam leaderboard loader
+            window.loadExamLeaderboard = async function(type = 'points') {
+                const examId = document.getElementById('rank-exam-select').value;
+                
+                if (examId) {
+                    await loadSpecificExamLeaderboard(examId);
+                } else {
+                    await loadGeneralLeaderboard(type);
+                }
+            };
+            
+            // Load general leaderboard by default
+            await loadGeneralLeaderboard('points');
         }
 
-        async function loadExamLeaderboard(type = 'points') {
+        async function loadGeneralLeaderboard(type = 'points') {
             try {
                 const leaderboardElem = document.getElementById('exam-leaderboard-list');
                 leaderboardElem.innerHTML = '<div class="shimmer" style="height:300px; border-radius:15px;"></div>';
@@ -3190,10 +3738,15 @@
                                      type === 'exams' ? (user.examsTaken?.length || 0) + ' exams' : 
                                      'Level ' + (user.level || 1);
                         
+                        let rankClass = '';
+                        if (index === 0) rankClass = 'rank-1';
+                        else if (index === 1) rankClass = 'rank-2';
+                        else if (index === 2) rankClass = 'rank-3';
+                        
                         html += `
-                            <div class="card ${user.id === currentUser.uid ? 'current-user-card' : ''}" style="margin-bottom:10px;">
+                            <div class="card ${user.id === currentUser.uid ? 'current-user-card' : ''} ${rankClass}" style="margin-bottom:10px;">
                                 <div style="display:flex; align-items:center; gap:15px;">
-                                    <div style="font-size:1.5rem; font-weight:700; color:var(--primary); width:40px; text-align:center;">
+                                    <div style="font-size:1.5rem; font-weight:700; width:40px; text-align:center;">
                                         ${index < 3 ? ['🥇', '🥈', '🥉'][index] : `#${index + 1}`}
                                     </div>
                                     <img src="${avatarUrl}" style="width:50px; height:50px; border-radius:50%; border:2px solid var(--border);">
@@ -3213,7 +3766,7 @@
                 
                 leaderboardElem.innerHTML = html;
             } catch(error) {
-                console.error("Error loading exam leaderboard:", error);
+                console.error("Error loading general leaderboard:", error);
                 document.getElementById('exam-leaderboard-list').innerHTML = `
                     <div class="card" style="text-align:center; padding:20px; color:var(--danger);">
                         Error loading leaderboard.
@@ -3222,12 +3775,122 @@
             }
         }
 
-        window.showExamLeaderboard = (type) => {
-            // Update active tab
-            document.querySelectorAll('.exam-tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            loadExamLeaderboard(type);
+        async function loadSpecificExamLeaderboard(examId) {
+            try {
+                const leaderboardElem = document.getElementById('exam-leaderboard-list');
+                leaderboardElem.innerHTML = '<div class="shimmer" style="height:300px; border-radius:15px;"></div>';
+                
+                // Get exam details
+                const examDoc = await getDoc(doc(db, "exams", examId));
+                if (!examDoc.exists()) {
+                    leaderboardElem.innerHTML = '<p style="text-align:center; color:var(--danger); padding:20px;">Exam not found.</p>';
+                    return;
+                }
+                
+                const examData = examDoc.data();
+                
+                // Get all results for this exam
+                const q = query(collection(db, "results"), where("examId", "==", examId));
+                const resultsSnap = await getDocs(q);
+                
+                let results = [];
+                resultsSnap.forEach(doc => {
+                    results.push({ id: doc.id, ...doc.data() });
+                });
+                
+                // Sort by score (descending)
+                results.sort((a, b) => {
+                    const scoreA = parseFloat(a.score) || 0;
+                    const scoreB = parseFloat(b.score) || 0;
+                    return scoreB - scoreA;
+                });
+                
+                // Get user details for each result
+                let leaderboardData = [];
+                for (const result of results) {
+                    const userDoc = await getDoc(doc(db, "users", result.userId));
+                    if (userDoc.exists() && !userDoc.data().isBanned) {
+                        const user = userDoc.data();
+                        leaderboardData.push({
+                            userId: result.userId,
+                            name: user.name,
+                            avatar: user.avatar || (user.gender === 'Female' ? AVATAR_FEMALE[0] : AVATAR_MALE[0]),
+                            education: user.education || 'Student',
+                            score: result.score,
+                            total: result.total,
+                            percentage: (result.score / result.total) * 100,
+                            date: result.date,
+                            isCurrentUser: result.userId === currentUser.uid
+                        });
+                    }
+                }
+                
+                // Find current user's rank
+                let currentUserRank = null;
+                leaderboardData.forEach((user, index) => {
+                    if (user.userId === currentUser.uid) {
+                        currentUserRank = index + 1;
+                    }
+                });
+                
+                // Render leaderboard
+                let html = '';
+                
+                // Show exam info and user's rank
+                if (currentUserRank) {
+                    html += `
+                        <div class="exam-rank-info">
+                            <div class="exam-rank-badge">#${currentUserRank}</div>
+                            <div class="exam-rank-details">
+                                <div class="exam-rank-title">Your Rank in ${examData.title}</div>
+                                <div class="exam-rank-stats">
+                                    <span><i class="fas fa-star"></i> ${leaderboardData[currentUserRank - 1]?.score || 0}/${leaderboardData[currentUserRank - 1]?.total || 0}</span>
+                                    <span><i class="fas fa-chart-line"></i> ${leaderboardData.length} Participants</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                if (leaderboardData.length === 0) {
+                    html += '<p style="text-align:center; color:var(--text-sec); padding:20px;">No results found for this exam.</p>';
+                } else {
+                    leaderboardData.forEach((user, index) => {
+                        let rankClass = '';
+                        if (index === 0) rankClass = 'rank-1';
+                        else if (index === 1) rankClass = 'rank-2';
+                        else if (index === 2) rankClass = 'rank-3';
+                        
+                        html += `
+                            <div class="card ${user.isCurrentUser ? 'current-user-card' : ''} ${rankClass}" style="margin-bottom:10px;">
+                                <div style="display:flex; align-items:center; gap:15px;">
+                                    <div style="font-size:1.5rem; font-weight:700; width:40px; text-align:center;">
+                                        ${index < 3 ? ['🥇', '🥈', '🥉'][index] : `#${index + 1}`}
+                                    </div>
+                                    <img src="${user.avatar}" style="width:50px; height:50px; border-radius:50%; border:2px solid var(--border);">
+                                    <div style="flex:1;">
+                                        <div style="font-weight:600;">${user.name} ${user.isCurrentUser ? '<small style="color:var(--primary);">(You)</small>' : ''}</div>
+                                        <div style="font-size:0.8rem; color:var(--text-sec);">${user.education}</div>
+                                    </div>
+                                    <div style="text-align:right;">
+                                        <div style="font-weight:700; color:var(--primary);">${user.score}/${user.total}</div>
+                                        <div style="font-size:0.7rem; color:var(--text-sec);">${user.percentage.toFixed(1)}%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                leaderboardElem.innerHTML = html;
+            } catch(error) {
+                console.error("Error loading specific exam leaderboard:", error);
+                document.getElementById('exam-leaderboard-list').innerHTML = `
+                    <div class="card" style="text-align:center; padding:20px; color:var(--danger);">
+                        Error loading exam leaderboard.
+                    </div>
+                `;
+            }
         }
 
         // --- HOME ---
@@ -3562,8 +4225,11 @@
             
             document.getElementById('main-content').innerHTML = `
                 <div class="profile-header-card">
-                    <div class="profile-avatar-container">
+                    <div class="profile-avatar-container" onclick="uploadProfilePhoto()">
                         <img src="${avatarUrl}" class="profile-avatar" id="profile-avatar-img">
+                        <div style="position:absolute; bottom:5px; right:5px; background:var(--primary); color:white; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                            <i class="fas fa-camera"></i>
+                        </div>
                     </div>
                     <h2 style="text-align:center; margin-bottom:5px;">${currentUser.name}</h2>
                     <p style="text-align:center; opacity:0.9; font-size:0.9rem;">${currentUser.email}</p>
@@ -3651,93 +4317,6 @@
             } catch(error) {
                 console.error("Error loading history:", error);
                 document.getElementById('hist-list').innerHTML = '<p style="text-align:center; color:var(--danger);">Error loading history</p>';
-            }
-        }
-
-        // --- CLOUDINARY PHOTO UPLOAD ---
-        let uploadedPhotoUrl = null;
-        
-        window.uploadProfilePhoto = () => {
-            document.getElementById('photo-upload-modal').style.display = 'flex';
-            document.getElementById('photo-preview').src = currentUser.avatar || '';
-            uploadedPhotoUrl = null;
-        }
-        
-        window.closePhotoUploadModal = () => {
-            document.getElementById('photo-upload-modal').style.display = 'none';
-            uploadedPhotoUrl = null;
-        }
-        
-        window.openCloudinaryWidget = () => {
-            const myWidget = cloudinary.createUploadWidget(
-                {
-                    cloudName: cloudinaryConfig.cloudName,
-                    uploadPreset: cloudinaryConfig.uploadPreset,
-                    sources: ['local', 'camera', 'url'],
-                    multiple: false,
-                    maxFileSize: 5000000, // 5MB
-                    clientAllowedFormats: ['jpg', 'jpeg', 'png', 'gif'],
-                    maxImageWidth: 1000,
-                    maxImageHeight: 1000,
-                    cropping: true,
-                    croppingAspectRatio: 1,
-                    croppingShowDimensions: true,
-                    showAdvancedOptions: true,
-                    styles: {
-                        palette: {
-                            window: "#FFFFFF",
-                            sourceBg: "#F4F4F5",
-                            windowBorder: "#90a0b3",
-                            tabIcon: "#6C63FF",
-                            inactiveTabIcon: "#69778A",
-                            menuIcons: "#6C63FF",
-                            link: "#6C63FF",
-                            action: "#6C63FF",
-                            inProgress: "#6C63FF",
-                            complete: "#2ecc71",
-                            error: "#ff4757",
-                            textDark: "#000000",
-                            textLight: "#FFFFFF"
-                        }
-                    }
-                },
-                (error, result) => {
-                    if (!error && result && result.event === "success") {
-                        console.log('Upload successful: ', result.info);
-                        uploadedPhotoUrl = result.info.secure_url;
-                        document.getElementById('photo-preview').src = uploadedPhotoUrl;
-                    }
-                    if (error) {
-                        console.error('Upload error: ', error);
-                        showMsg("Error uploading photo: " + error.message);
-                    }
-                }
-            );
-            
-            myWidget.open();
-        }
-        
-        window.saveProfilePhoto = async () => {
-            if (!uploadedPhotoUrl) {
-                showMsg("Please select a photo first");
-                return;
-            }
-            
-            try {
-                toggleLoader(true);
-                await updateDoc(doc(db, "users", currentUser.uid), {
-                    avatar: uploadedPhotoUrl
-                });
-                
-                currentUser.avatar = uploadedPhotoUrl;
-                closePhotoUploadModal();
-                renderProfile();
-                showMsg("Profile photo updated successfully!");
-            } catch(error) {
-                console.error("Error saving profile photo:", error);
-                showMsg("Error saving photo: " + error.message);
-            } finally {
-                toggleLoader(false);
             }
         }
 
@@ -3931,7 +4510,7 @@
                     examsTaken: examsTaken
                 });
                 
-                await addDoc(collection(db, "results"), { 
+                const resultRef = await addDoc(collection(db, "results"), { 
                     userId: currentUser.uid, 
                     exam: title, 
                     examId: window.currentExamId,
@@ -3946,6 +4525,9 @@
                 currentUser.points = newPoints;
                 currentUser.level = newLevel;
                 currentUser.examsTaken = examsTaken;
+                
+                // Get user's rank in this exam
+                const rank = await getUserExamRank(window.currentExamId, resultRef.id);
                 
                 await sendNotification(currentUser.uid, "Exam Completed!", `You scored ${score.toFixed(1)}/${totalQuestions} in ${title}. Points: ${pointsChange > 0 ? '+' : ''}${pointsChange}`, 'exam');
                 
@@ -3965,9 +4547,31 @@
                     `;
                 }
                 
+                // Show rank badge
+                let rankBadge = '';
+                if (rank) {
+                    let rankClass = '';
+                    if (rank === 1) rankClass = 'rank-1';
+                    else if (rank === 2) rankClass = 'rank-2';
+                    else if (rank === 3) rankClass = 'rank-3';
+                    
+                    rankBadge = `
+                        <div class="rank-badge ${rankClass}" style="display:flex; align-items:center; justify-content:center;">
+                            <div class="rank-badge-icon">
+                                ${rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '#'}
+                            </div>
+                            <div>
+                                <div style="font-size:1rem; font-weight:600;">Your Rank</div>
+                                <div style="font-size:1.8rem; font-weight:800;">${rank}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
                 openModal(`Result: ${score.toFixed(1)}/${totalQuestions}`, `
                     <div style="text-align:center; padding:20px 0;">
                         ${congratsMessage}
+                        ${rankBadge}
                         <h1 style="font-size:4rem; color:var(--primary); line-height:1;">${score.toFixed(1)}</h1>
                         <p style="color:var(--text-sec)">Out of ${totalQuestions}</p>
                         <p style="color:var(--text-sec); margin-bottom:15px;">(${percentage.toFixed(1)}%)</p>
@@ -3999,6 +4603,38 @@
                 showMsg("Error submitting exam. Please try again.");
             } finally {
                 toggleLoader(false);
+            }
+        }
+
+        async function getUserExamRank(examId, resultId) {
+            try {
+                // Get all results for this exam
+                const q = query(collection(db, "results"), where("examId", "==", examId));
+                const resultsSnap = await getDocs(q);
+                
+                let results = [];
+                resultsSnap.forEach(doc => {
+                    results.push({ id: doc.id, ...doc.data() });
+                });
+                
+                // Sort by score (descending)
+                results.sort((a, b) => {
+                    const scoreA = parseFloat(a.score) || 0;
+                    const scoreB = parseFloat(b.score) || 0;
+                    return scoreB - scoreA;
+                });
+                
+                // Find user's rank
+                for (let i = 0; i < results.length; i++) {
+                    if (results[i].id === resultId) {
+                        return i + 1;
+                    }
+                }
+                
+                return null;
+            } catch(error) {
+                console.error("Error getting user rank:", error);
+                return null;
             }
         }
 
@@ -4044,7 +4680,7 @@
             }
         }
 
-        // --- ADMIN PANEL ---
+        // --- ADMIN PANEL - UPDATED ---
         window.renderAdmin = () => {
             updateNav(5);
             document.getElementById('main-content').innerHTML = `
@@ -4058,7 +4694,6 @@
                     <div class="admin-item" onclick="admView('support')"><i class="fas fa-headset"></i><h4>Support</h4></div>
                     <div class="admin-item" onclick="admView('settings')"><i class="fas fa-cogs"></i><h4>Settings</h4></div>
                     <div class="admin-item" onclick="admView('study')"><i class="fas fa-graduation-cap"></i><h4>Study Manage</h4></div>
-                    <div class="admin-item" onclick="admView('goals')"><i class="fas fa-bullseye"></i><h4>Goals</h4></div>
                 </div>
                 <div id="adm-area" style="margin-top:20px;"></div>
             `;
@@ -4086,32 +4721,78 @@
                 await loadSettingsAdminView();
             } else if(m === 'study') {
                 await loadStudyAdminView();
-            } else if(m === 'goals') {
-                await loadGoalsAdminView();
             }
         }
 
-        // --- STUDY ADMIN VIEW ---
+        // --- STUDY ADMIN VIEW - UPDATED ---
         async function loadStudyAdminView() {
             // Load existing data
-            await loadStudyData();
+            await loadStudyPlans();
             
-            // Load practice questions for deletion
+            // Load practice questions grouped by day
             const practiceQuestions = [];
             const practiceSnap = await getDocs(collection(db, "PracticeQuestions"));
             practiceSnap.forEach(doc => {
                 practiceQuestions.push({ id: doc.id, ...doc.data() });
             });
             
+            // Group questions by plan, level and day
+            const questionsByDay = {};
+            practiceQuestions.forEach(question => {
+                const key = `${question.planId || 'default'}_${question.level}_${question.day}`;
+                if (!questionsByDay[key]) {
+                    questionsByDay[key] = {
+                        planId: question.planId,
+                        level: question.level,
+                        day: question.day,
+                        count: 0,
+                        questionIds: []
+                    };
+                }
+                questionsByDay[key].count++;
+                questionsByDay[key].questionIds.push(question.id);
+            });
+            
             const area = document.getElementById('adm-area');
             area.innerHTML = `
                 <div class="card">
                     <h3><i class="fas fa-cogs"></i> Study Settings</h3>
-                    <input id="study-goal-name" value="${studySettings?.goalName || 'Complete Smart Study Plan'}" placeholder="Goal Name">
-                    <input id="study-target-deadline" type="datetime-local" value="${studySettings?.targetDeadline ? new Date(studySettings.targetDeadline).toISOString().slice(0, 16) : ''}">
                     <input id="study-daily-goal" type="number" value="${studySettings?.dailyGoal || 60}" placeholder="Daily Goal (minutes)">
                     <input id="study-total-goal" type="number" value="${studySettings?.totalGoal || 1800}" placeholder="Total Goal (minutes)">
                     <button onclick="saveStudySettings()" class="btn btn-primary">Save Settings</button>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-plus-circle"></i> Add New Study Plan</h3>
+                    <input id="new-plan-name" placeholder="Study Plan Name">
+                    <textarea id="new-plan-desc" placeholder="Study Plan Description" rows="3"></textarea>
+                    <input id="new-plan-order" type="number" placeholder="Display Order (optional)" value="0">
+                    <button onclick="addStudyPlan()" class="btn btn-primary">Add Study Plan</button>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-layer-group"></i> Manage Study Plans</h3>
+                    <div class="admin-study-list">
+                        ${studyPlans.length > 0 ? studyPlans.map(plan => `
+                            <div class="study-list-item">
+                                <div class="study-list-info">
+                                    <div class="study-list-title">${plan.name}</div>
+                                    <div class="study-list-meta">
+                                        <span>${plan.description || 'No description'}</span>
+                                        <span>Order: ${plan.order || 0}</span>
+                                    </div>
+                                </div>
+                                <div class="study-list-actions">
+                                    <button class="btn btn-primary" style="width:auto; padding:5px 10px;" onclick="addLevelToPlan('${plan.id}')">
+                                        <i class="fas fa-plus"></i> Add Level
+                                    </button>
+                                    <button class="btn btn-danger" style="width:auto; padding:5px 10px;" onclick="deleteStudyPlan('${plan.id}')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('') : '<p style="text-align:center; color:var(--text-sec);">No study plans created yet.</p>'}
+                    </div>
                 </div>
                 
                 <div class="card">
@@ -4132,32 +4813,11 @@
                 </div>
                 
                 <div class="card">
-                    <h3><i class="fas fa-layer-group"></i> Study Levels</h3>
-                    <input id="new-level-number" type="number" placeholder="Level Number" min="1">
-                    <input id="new-level-title" placeholder="Level Title (optional)">
-                    <input id="new-level-days" type="number" placeholder="Total Days" min="1">
-                    <button onclick="addStudyLevel()" class="btn btn-primary">Add Level</button>
-                    
-                    <div id="study-levels-list" style="margin-top:15px;">
-                        ${studyLevels.map(level => `
-                            <div style="padding:10px; border:1px solid var(--border); border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between;">
-                                <div>
-                                    <b>Level ${level.level}</b> ${level.title ? `- ${level.title}` : ''}
-                                    <div style="font-size:0.8rem; color:var(--text-sec);">${level.days || 0} days</div>
-                                </div>
-                                <button class="btn btn-danger" style="width:auto; padding:5px 10px;" onclick="deleteStudyLevel('${level.id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                
-                <div class="card">
                     <h3><i class="fas fa-upload"></i> Upload Study Content (JSON)</h3>
                     <div class="study-json-format">
 [
   {
+    "planId": "your_plan_id",
     "level": 1,
     "day": 1,
     "topic": "Introduction to Mathematics",
@@ -4178,6 +4838,7 @@
                     <div class="study-json-format">
 [
   {
+    "planId": "your_plan_id",
     "level": 1,
     "day": 1,
     "question": "What is 2 + 2?",
@@ -4193,15 +4854,17 @@
                 </div>
                 
                 <div class="card">
-                    <h3><i class="fas fa-trash"></i> Delete Practice Questions</h3>
+                    <h3><i class="fas fa-trash"></i> Delete Practice Questions (Day-wise)</h3>
                     <div class="study-questions-list">
-                        ${practiceQuestions.length > 0 ? practiceQuestions.map(q => `
-                            <div class="study-question-item">
-                                <div><strong>Level ${q.level} - Day ${q.day}</strong></div>
-                                <div style="font-size:0.9rem; margin-top:5px;">${q.question.substring(0, 100)}${q.question.length > 100 ? '...' : ''}</div>
+                        ${Object.keys(questionsByDay).length > 0 ? Object.values(questionsByDay).map(dayGroup => `
+                            <div class="study-question-day-item">
+                                <div class="day-header">
+                                    <div class="day-title">Plan: ${dayGroup.planId || 'Default'} - Level ${dayGroup.level} - Day ${dayGroup.day}</div>
+                                    <div class="day-question-count">${dayGroup.count} questions</div>
+                                </div>
                                 <div class="question-actions">
-                                    <button class="btn btn-danger" style="width:auto; padding:5px 10px;" onclick="deletePracticeQuestion('${q.id}')">
-                                        <i class="fas fa-trash"></i> Delete
+                                    <button class="btn btn-danger" style="width:auto; padding:5px 10px;" onclick="deletePracticeQuestionsByDay('${dayGroup.planId || 'default'}', ${dayGroup.level}, ${dayGroup.day})">
+                                        <i class="fas fa-trash"></i> Delete All Questions for this Day
                                     </button>
                                 </div>
                             </div>
@@ -4228,6 +4891,7 @@
                 case 'study':
                     jsonText = `[
   {
+    "planId": "your_plan_id",
     "level": 1,
     "day": 1,
     "topic": "Introduction to Mathematics",
@@ -4240,6 +4904,7 @@
                 case 'practice':
                     jsonText = `[
   {
+    "planId": "your_plan_id",
     "level": 1,
     "day": 1,
     "question": "What is 2 + 2?",
@@ -4255,34 +4920,43 @@
             });
         }
 
-        window.deletePracticeQuestion = async (questionId) => {
-            if (await customConfirm("Delete this practice question?")) {
+        window.deletePracticeQuestionsByDay = async (planId, level, day) => {
+            if (await customConfirm(`Delete all practice questions for Level ${level} Day ${day}?`)) {
                 try {
-                    await deleteDoc(doc(db, "PracticeQuestions", questionId));
-                    showMsg("Practice question deleted successfully!");
+                    const q = query(
+                        collection(db, "PracticeQuestions"),
+                        where("planId", "==", planId),
+                        where("level", "==", level),
+                        where("day", "==", day)
+                    );
+                    const snap = await getDocs(q);
+                    
+                    const batch = writeBatch(db);
+                    snap.forEach(doc => {
+                        batch.delete(doc.ref);
+                    });
+                    await batch.commit();
+                    
+                    showMsg(`Deleted all practice questions for Level ${level} Day ${day}`);
                     admView('study');
                 } catch(error) {
-                    console.error("Error deleting practice question:", error);
-                    showMsg("Error deleting question: " + error.message);
+                    console.error("Error deleting practice questions:", error);
+                    showMsg("Error deleting questions: " + error.message);
                 }
             }
         }
 
         window.saveStudySettings = async () => {
-            const goalName = document.getElementById('study-goal-name').value;
-            const targetDeadline = document.getElementById('study-target-deadline').value;
             const dailyGoal = parseInt(document.getElementById('study-daily-goal').value);
             const totalGoal = parseInt(document.getElementById('study-total-goal').value);
             
-            if (!goalName || !targetDeadline) {
+            if (!dailyGoal || !totalGoal) {
                 showMsg("Please fill all required fields");
                 return;
             }
             
             try {
                 studySettings = {
-                    goalName,
-                    targetDeadline: new Date(targetDeadline).toISOString(),
                     dailyGoal,
                     totalGoal
                 };
@@ -4344,34 +5018,69 @@
             }
         }
 
-        window.addStudyLevel = async () => {
-            const level = parseInt(document.getElementById('new-level-number').value);
-            const title = document.getElementById('new-level-title').value;
-            const days = parseInt(document.getElementById('new-level-days').value);
+        window.addStudyPlan = async () => {
+            const name = document.getElementById('new-plan-name').value;
+            const description = document.getElementById('new-plan-desc').value;
+            const order = parseInt(document.getElementById('new-plan-order').value) || 0;
             
-            if (!level || !days) {
-                showMsg("Please fill all required fields");
+            if (!name) {
+                showMsg("Please enter a study plan name");
                 return;
             }
             
             try {
-                // Check if level already exists
-                const q = query(collection(db, "StudyLevels"), where("level", "==", level));
+                await addDoc(collection(db, "StudyPlans"), {
+                    name,
+                    description,
+                    order,
+                    createdAt: Timestamp.now(),
+                    createdBy: currentUser.uid
+                });
+                
+                showMsg("Study plan added successfully!");
+                admView('study');
+                
+            } catch(error) {
+                console.error("Error adding study plan:", error);
+                showMsg("Error adding study plan: " + error.message);
+            }
+        }
+
+        window.addLevelToPlan = async (planId) => {
+            const level = prompt("Enter level number:");
+            if (!level) return;
+            
+            const title = prompt("Enter level title (optional):");
+            const days = prompt("Enter total days for this level:");
+            
+            if (!level || !days) {
+                showMsg("Level number and days are required");
+                return;
+            }
+            
+            try {
+                // Check if level already exists in this plan
+                const q = query(
+                    collection(db, "StudyLevels"),
+                    where("planId", "==", planId),
+                    where("level", "==", parseInt(level))
+                );
                 const existing = await getDocs(q);
                 
                 if (!existing.empty) {
-                    showMsg("Level already exists!");
+                    showMsg("Level already exists in this plan!");
                     return;
                 }
                 
                 await addDoc(collection(db, "StudyLevels"), {
-                    level,
-                    title,
-                    days,
+                    planId,
+                    level: parseInt(level),
+                    title: title || '',
+                    days: parseInt(days),
                     createdAt: Timestamp.now()
                 });
                 
-                showMsg(`Level ${level} added successfully!`);
+                showMsg(`Level ${level} added to study plan successfully!`);
                 admView('study');
                 
             } catch(error) {
@@ -4380,27 +5089,45 @@
             }
         }
 
-        window.deleteStudyLevel = async (levelId) => {
-            if (await customConfirm("Delete this study level? This will also delete related study content.")) {
+        window.deleteStudyPlan = async (planId) => {
+            if (await customConfirm("Delete this study plan? This will also delete related levels, content and questions.")) {
                 try {
-                    // Delete level
-                    await deleteDoc(doc(db, "StudyLevels", levelId));
+                    // Delete plan
+                    await deleteDoc(doc(db, "StudyPlans", planId));
                     
-                    // Delete related study content
-                    const q = query(collection(db, "StudyContent"), where("level", "==", parseInt(levelId)));
-                    const contentSnap = await getDocs(q);
-                    const batch = writeBatch(db);
-                    contentSnap.forEach(doc => {
-                        batch.delete(doc.ref);
+                    // Delete related levels
+                    const levelsQ = query(collection(db, "StudyLevels"), where("planId", "==", planId));
+                    const levelsSnap = await getDocs(levelsQ);
+                    const batch1 = writeBatch(db);
+                    levelsSnap.forEach(doc => {
+                        batch1.delete(doc.ref);
                     });
-                    await batch.commit();
+                    await batch1.commit();
                     
-                    showMsg("Study level deleted successfully!");
+                    // Delete related content
+                    const contentQ = query(collection(db, "StudyContent"), where("planId", "==", planId));
+                    const contentSnap = await getDocs(contentQ);
+                    const batch2 = writeBatch(db);
+                    contentSnap.forEach(doc => {
+                        batch2.delete(doc.ref);
+                    });
+                    await batch2.commit();
+                    
+                    // Delete related practice questions
+                    const questionsQ = query(collection(db, "PracticeQuestions"), where("planId", "==", planId));
+                    const questionsSnap = await getDocs(questionsQ);
+                    const batch3 = writeBatch(db);
+                    questionsSnap.forEach(doc => {
+                        batch3.delete(doc.ref);
+                    });
+                    await batch3.commit();
+                    
+                    showMsg("Study plan deleted successfully!");
                     admView('study');
                     
                 } catch(error) {
-                    console.error("Error deleting study level:", error);
-                    showMsg("Error deleting level: " + error.message);
+                    console.error("Error deleting study plan:", error);
+                    showMsg("Error deleting plan: " + error.message);
                 }
             }
         }
@@ -4421,9 +5148,10 @@
                 
                 for (const item of content) {
                     try {
-                        // Check if content already exists for this level and day
+                        // Check if content already exists for this plan, level and day
                         const q = query(
                             collection(db, "StudyContent"),
+                            where("planId", "==", item.planId),
                             where("level", "==", item.level),
                             where("day", "==", item.day)
                         );
@@ -4510,99 +5238,6 @@
             }
         }
 
-        // --- GOALS ADMIN VIEW ---
-        async function loadGoalsAdminView() {
-            await loadStudyGoals();
-            
-            const area = document.getElementById('adm-area');
-            area.innerHTML = `
-                <div class="card">
-                    <h3><i class="fas fa-plus-circle"></i> Add New Goal</h3>
-                    <input id="new-goal-name" placeholder="Goal Name (e.g. Complete Math Course)">
-                    <textarea id="new-goal-desc" placeholder="Goal Description (optional)" rows="3"></textarea>
-                    <input id="new-goal-days" type="number" placeholder="Target Days (e.g. 30)" min="1">
-                    <input id="new-goal-order" type="number" placeholder="Display Order (optional)" value="0">
-                    <button onclick="addStudyGoal()" class="btn btn-primary">Add Goal</button>
-                </div>
-                
-                <div class="card">
-                    <h3><i class="fas fa-bullseye"></i> Manage Goals</h3>
-                    <div id="goals-list" style="margin-top:15px;">
-                        ${studyGoals.length > 0 ? studyGoals.map(goal => `
-                            <div style="padding:15px; border:1px solid var(--border); border-radius:10px; margin-bottom:10px;">
-                                <div style="display:flex; justify-content:space-between; align-items:center;">
-                                    <div>
-                                        <h4 style="margin:0; color:var(--primary);">${goal.name}</h4>
-                                        <p style="color:var(--text-sec); margin-top:5px; font-size:0.9rem;">${goal.description || 'No description'}</p>
-                                        <div style="font-size:0.8rem; color:var(--text-sec); margin-top:5px;">
-                                            <i class="fas fa-calendar-day"></i> ${goal.days || 0} days | 
-                                            <i class="fas fa-sort"></i> Order: ${goal.order || 0}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-danger" style="width:auto; padding:5px 10px;" onclick="deleteStudyGoal('${goal.id}')">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('') : '<p style="text-align:center; color:var(--text-sec);">No goals created yet.</p>'}
-                    </div>
-                </div>
-            `;
-        }
-
-        window.addStudyGoal = async () => {
-            const name = document.getElementById('new-goal-name').value;
-            const description = document.getElementById('new-goal-desc').value;
-            const days = parseInt(document.getElementById('new-goal-days').value);
-            const order = parseInt(document.getElementById('new-goal-order').value) || 0;
-            
-            if (!name || !days) {
-                showMsg("Please fill all required fields");
-                return;
-            }
-            
-            try {
-                await addDoc(collection(db, "StudyGoals"), {
-                    name,
-                    description,
-                    days,
-                    order,
-                    createdAt: Timestamp.now(),
-                    createdBy: currentUser.uid
-                });
-                
-                showMsg("Study goal added successfully!");
-                admView('goals');
-            } catch(error) {
-                console.error("Error adding study goal:", error);
-                showMsg("Error adding goal: " + error.message);
-            }
-        }
-
-        window.deleteStudyGoal = async (goalId) => {
-            if (await customConfirm("Delete this study goal? Users who selected this goal will lose their selection.")) {
-                try {
-                    await deleteDoc(doc(db, "StudyGoals", goalId));
-                    showMsg("Study goal deleted successfully!");
-                    admView('goals');
-                } catch(error) {
-                    console.error("Error deleting study goal:", error);
-                    showMsg("Error deleting goal: " + error.message);
-                }
-            }
-        }
-
-        // The rest of the admin functions remain the same as before...
-        // (Exam, Student, Routine, Notes, Broadcast, Notifications, Support, Settings admin views)
-
-        // Note: Due to character limit, I'm showing the most important changes.
-        // The remaining admin functions (exam, student, routine, etc.) are the same as in your original code.
-        // They should be included as-is from your original code.
-
-        // ... [Rest of the admin functions remain unchanged from your original code]
-
         // --- LOADERS ---
         async function loadServerTheme() { 
             try {
@@ -4636,6 +5271,10 @@
             updateNetworkStatus();
             setTimeout(hideSplash, 2000);
         });
+
+        // Note: The remaining admin functions (exam, student, routine, notes, broadcast, notifications, support, settings)
+        // are the same as in the original code and should be included as-is.
+        // Due to character limit, I'm focusing on the changes requested.
 
     </script>
 </body>
