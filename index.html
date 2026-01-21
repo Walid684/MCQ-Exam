@@ -7,9 +7,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <!-- Cloudinary Upload Widget -->
-    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
-    
     <style>
         /* --- CSS VARIABLES --- */
         :root {
@@ -29,8 +26,6 @@
             --warning: #ffa502;
             --live-color: #ff3838;
             --medium: #f39c12;
-            --memorize-color: #9b59b6;
-            --memorize-light: #9b59b626;
         }
 
         .dark-mode {
@@ -42,7 +37,6 @@
             --shadow: 0 10px 30px rgba(0,0,0,0.3);
             --primary-light: #6c63ff4d;
             --live-color: #ff6b6b;
-            --memorize-light: #9b59b64d;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Hind Siliguri', sans-serif; }
@@ -108,7 +102,6 @@
         .btn-sec { background: var(--border); color: var(--text); }
         .btn-success { background: var(--success); color: white; }
         .btn-warning { background: var(--warning); color: white; }
-        .btn-memorize { background: var(--memorize-color); color: white; }
         .btn:active { transform: scale(0.98); }
 
         /* HEADER */
@@ -299,7 +292,7 @@
 
         /* NAV */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; border-top: 1px solid var(--border); }
-        .nav-item { text-align: center; color: #aaa; font-size: 0.7rem; cursor: pointer; flex: 1; }
+        .nav-item { text-align: center; color: #aaa; font-size: 0.7rem; cursor: pointer; }
         .nav-item.active { color: var(--primary); transform: translateY(-3px); }
         .nav-item i { font-size: 1.3rem; margin-bottom: 3px; display: block; }
 
@@ -875,49 +868,30 @@
             transform: scale(1.2);
         }
         
-        /* Floating Goal Selector - NEW */
-        .floating-goal-selector {
+        /* Floating Level Selector */
+        .floating-level-selector {
             position: fixed;
             top: 80px;
             left: 20px;
             z-index: 99;
             background: var(--card-bg);
-            border-radius: 50%;
-            padding: 10px;
+            border-radius: 50px;
+            padding: 8px 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border: 2px solid var(--primary);
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
             animation: slideInRight 0.5s ease;
-            width: 45px;
-            height: 45px;
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
         
-        .floating-goal-selector.expanded {
-            width: 200px;
-            border-radius: 50px;
-            padding: 8px 15px;
-        }
-        
-        .goal-select {
+        .level-select {
             background: transparent;
             border: none;
             color: var(--text);
             font-weight: 600;
             outline: none;
             cursor: pointer;
-            width: 0;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .floating-goal-selector.expanded .goal-select {
-            width: 100%;
-            opacity: 1;
-            margin-left: 8px;
         }
         
         /* Journey Panel */
@@ -1021,44 +995,6 @@
             justify-content: space-between;
             font-size: 0.8rem;
             color: var(--text-sec);
-        }
-        
-        /* Study Level Selector - MOVED */
-        .study-level-selector {
-            margin-bottom: 20px;
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-        
-        .study-level-select-wrapper {
-            position: relative;
-            width: 100%;
-        }
-        
-        .study-level-select {
-            width: 100%;
-            padding: 15px 50px 15px 15px;
-            border: 2px solid var(--border);
-            border-radius: 15px;
-            background: var(--card-bg);
-            color: var(--text);
-            font-size: 1rem;
-            outline: none;
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236C63FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .study-level-select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
         }
         
         /* Study Cards */
@@ -1277,25 +1213,6 @@
             overflow-x: auto;
             white-space: pre-wrap;
             border: 1px solid var(--border);
-            position: relative;
-        }
-        
-        .copy-json-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: 0.2s;
-        }
-        
-        .copy-json-btn:hover {
-            background: var(--primary-dark);
         }
         
         /* Practice Quiz Modal */
@@ -1346,394 +1263,6 @@
         
         .fade-in-left { animation: fadeInLeft 0.5s ease; }
         .bounce-in { animation: bounceIn 0.6s ease; }
-        
-        /* UPLOAD PHOTO BUTTON */
-        .upload-photo-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-            background: var(--primary);
-            color: white;
-            border-radius: 15px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            width: 100%;
-            justify-content: center;
-            margin-top: 10px;
-            transition: 0.2s;
-        }
-        
-        .upload-photo-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        /* PROFILE PHOTO UPLOAD MODAL */
-        .photo-upload-modal .modal-content {
-            max-width: 400px;
-        }
-        
-        .photo-preview {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 20px;
-            display: block;
-            border: 4px solid var(--border);
-        }
-        
-        /* STUDY GOAL SELECTOR - NEW */
-        .study-goal-selector {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: var(--card-bg);
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
-        
-        .goal-icon {
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-        
-        /* ADMIN STUDY QUESTIONS LIST */
-        .study-questions-list {
-            margin-top: 15px;
-        }
-        
-        .study-question-item {
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            margin-bottom: 10px;
-            background: var(--card-bg);
-        }
-        
-        .question-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        /* ==================== */
-        /* MEMORIZING PART CSS */
-        /* ==================== */
-        
-        .memorizing-tabs {
-            display: flex;
-            background: var(--bg);
-            border-radius: 15px;
-            padding: 5px;
-            margin-bottom: 20px;
-        }
-        
-        .memorizing-tab {
-            flex: 1;
-            text-align: center;
-            padding: 12px;
-            cursor: pointer;
-            border-radius: 12px;
-            font-weight: 500;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .memorizing-tab.active {
-            background: var(--memorize-color);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3);
-        }
-        
-        .memorizing-category-selector {
-            margin-bottom: 20px;
-        }
-        
-        .memorizing-category-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: var(--shadow);
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .memorizing-category-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--memorize-color);
-            box-shadow: 0 10px 25px rgba(155, 89, 182, 0.15);
-        }
-        
-        .memorizing-category-card.selected {
-            border-color: var(--memorize-color);
-            background: linear-gradient(135deg, var(--memorize-light), var(--card-bg));
-            transform: scale(1.02);
-        }
-        
-        .category-progress-bar {
-            height: 6px;
-            background: var(--bg);
-            border-radius: 3px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-        
-        .category-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--memorize-color), #8e44ad);
-            border-radius: 3px;
-            transition: width 1s ease;
-        }
-        
-        .memorizing-day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--memorize-color), #8e44ad);
-            color: white;
-            border-radius: 15px;
-        }
-        
-        .memorizing-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 15px;
-            box-shadow: var(--shadow);
-            border: 2px solid var(--border);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            min-height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 500;
-            line-height: 1.5;
-            overflow: hidden;
-        }
-        
-        .memorizing-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        
-        .memorizing-card.difficult {
-            border-color: var(--danger);
-            background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), var(--card-bg));
-            animation: pulseDifficult 2s infinite;
-        }
-        
-        @keyframes pulseDifficult {
-            0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.2); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
-        }
-        
-        .memorizing-card.completed {
-            border-color: var(--success);
-            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), var(--card-bg));
-        }
-        
-        .memorizing-card-number {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: var(--memorize-color);
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        
-        .memorizing-card-status {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 0.8rem;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-        
-        .status-difficult {
-            background: var(--danger);
-            color: white;
-        }
-        
-        .memorizing-controls {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .memorizing-progress-indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .progress-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--border);
-            transition: 0.3s;
-        }
-        
-        .progress-dot.active {
-            background: var(--memorize-color);
-            transform: scale(1.2);
-        }
-        
-        .progress-dot.completed {
-            background: var(--success);
-        }
-        
-        .progress-dot.difficult {
-            background: var(--danger);
-            animation: pulseDot 1.5s infinite;
-        }
-        
-        @keyframes pulseDot {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); }
-        }
-        
-        /* MEMORIZING ADMIN STYLES */
-        .memorizing-admin-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .memorizing-admin-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            text-align: center;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        
-        .memorizing-admin-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--memorize-color);
-            box-shadow: 0 10px 25px rgba(155, 89, 182, 0.15);
-        }
-        
-        .memorizing-admin-card i {
-            font-size: 2.5rem;
-            color: var(--memorize-color);
-            margin-bottom: 15px;
-        }
-        
-        .memorizing-admin-stats {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--text-sec);
-            margin-top: 10px;
-        }
-        
-        /* STUDY PLAN SELECTOR */
-        .study-plan-selector {
-            margin-bottom: 20px;
-        }
-        
-        .study-plan-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: var(--shadow);
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .study-plan-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        
-        .study-plan-card.selected {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, var(--primary-light), var(--card-bg));
-        }
-        
-        .study-plan-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--primary);
-            color: white;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-        
-        .study-plan-details {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: var(--text-sec);
-        }
-        
-        /* STUDY SETTINGS ADMIN */
-        .study-settings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .study-setting-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            position: relative;
-        }
-        
-        .study-setting-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
     </style>
 </head>
 <body>
@@ -1824,47 +1353,6 @@
         </div>
     </div>
 
-    <!-- Photo Upload Modal -->
-    <div id="photo-upload-modal" class="modal photo-upload-modal">
-        <div class="modal-content">
-            <h2 style="margin-bottom:20px; color:var(--primary); text-align:center;">
-                <i class="fas fa-camera"></i> Upload Profile Picture
-            </h2>
-            <img id="photo-preview" class="photo-preview" src="" alt="Preview">
-            <button onclick="openCloudinaryWidget()" class="btn btn-primary">
-                <i class="fas fa-cloud-upload-alt"></i> Select Photo
-            </button>
-            <div style="display:flex; gap:10px; margin-top:15px;">
-                <button onclick="saveProfilePhoto()" class="btn btn-success">Save Photo</button>
-                <button onclick="closePhotoUploadModal()" class="btn btn-sec">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Memorizing Bulk Upload Modal -->
-    <div id="memorizing-upload-modal" class="modal">
-        <div class="modal-content">
-            <h2 style="margin-bottom:20px; color:var(--memorize-color); text-align:center;">
-                <i class="fas fa-upload"></i> Bulk Upload Memorizing Cards
-            </h2>
-            <div class="study-json-format">
-// Format: Each card in new line
-// Or comma separated values
-Card 1 text here
-Card 2 text here
-Card 3 text here
-// Or comma separated:
-Card 1, Card 2, Card 3
-                <button class="copy-json-btn" onclick="copyMemorizingFormat()">Copy Format</button>
-            </div>
-            <textarea id="memorizing-cards-text" rows="10" placeholder="Enter cards (one per line or comma separated)"></textarea>
-            <div style="display:flex; gap:10px; margin-top:15px;">
-                <button onclick="uploadMemorizingCards()" class="btn btn-memorize">Upload Cards</button>
-                <button onclick="closeMemorizingUploadModal()" class="btn btn-sec">Cancel</button>
-            </div>
-        </div>
-    </div>
-
     <section id="auth-screen" class="screen">
         <div class="auth-container" style="background:linear-gradient(135deg, var(--primary), #8f94fb);">
             <div class="auth-card">
@@ -1928,7 +1416,6 @@ Card 1, Card 2, Card 3
             <div class="nav-item active" onclick="renderHome()"><i class="fas fa-home"></i> <span>Home</span></div>
             <div class="nav-item" onclick="renderStudy()"><i class="fas fa-book-open"></i> <span>Study</span></div>
             <div class="nav-item" onclick="renderReview()"><i class="fas fa-clipboard-check"></i> <span>Review</span></div>
-            <div class="nav-item" onclick="renderLeaderboard()"><i class="fas fa-chart-line"></i> <span>Rank</span></div>
             <div class="nav-item" onclick="renderProfile()"><i class="fas fa-user"></i> <span>Profile</span></div>
             <div class="nav-item" id="admin-nav" style="display:none;" onclick="renderAdmin()"><i class="fas fa-th-large"></i> <span>Admin</span></div>
         </nav>
@@ -2032,27 +1519,6 @@ Card 1, Card 2, Card 3
         let practiceQuizTimeLeft = 120; // 2 minutes in seconds
         let currentPracticeDay = null;
         let currentPracticeLevel = null;
-        
-        // Study Plans Variables
-        let studyPlans = [];
-        let selectedStudyPlan = null;
-        
-        // Memorizing Variables
-        let memorizingCategories = [];
-        let selectedMemorizingCategory = null;
-        let memorizingCards = [];
-        let userMemorizingProgress = null;
-        let currentMemorizingDay = 1;
-        let todaysMemorizingCards = [];
-        let difficultCards = [];
-        let completedCards = [];
-
-        // Cloudinary Configuration
-        const cloudinaryConfig = {
-            cloudName: 'dsmvmq076',
-            uploadPreset: 'my_app_upload',
-            apiKey: 'your_api_key_here' // You might need to get this from Cloudinary dashboard
-        };
 
         // AVATAR IMAGES
         const AVATAR_MALE = [
@@ -2627,8 +2093,7 @@ Card 1, Card 2, Card 3
                 await setDoc(doc(db, "users", res.user.uid), {
                     name: n, gender: g, education: e, email: res.user.email, role: 'student', 
                     points: 0, level: 1, joined: new Date().toLocaleDateString(), isBanned: false,
-                    examsTaken: [], avatar: defaultAvatar,
-                    studyPlanId: null // Initialize study plan
+                    examsTaken: [], avatar: defaultAvatar
                 });
                 showMsg("Account Created Successfully!");
                 toggleAuth('login');
@@ -2651,9 +2116,7 @@ Card 1, Card 2, Card 3
                 
                 await loadSupportLinks();
                 await loadAllCategories();
-                await loadStudyData();
-                await loadStudyPlans();
-                await loadMemorizingData();
+                await loadStudyData(); // Load study data
                 
                 const snap = await getDoc(doc(db, "users", user.uid));
                 if(snap.exists()) {
@@ -2705,47 +2168,6 @@ Card 1, Card 2, Card 3
             });
         }
 
-        // --- STUDY PLANS FUNCTIONS ---
-        async function loadStudyPlans() {
-            try {
-                const plansSnap = await getDocs(collection(db, "studyPlans"));
-                studyPlans = [];
-                plansSnap.forEach(doc => {
-                    studyPlans.push({ id: doc.id, ...doc.data() });
-                });
-                
-                studyPlans.sort((a, b) => a.order - b.order);
-                
-                // Load user's selected study plan
-                if (currentUser && currentUser.studyPlanId) {
-                    selectedStudyPlan = studyPlans.find(plan => plan.id === currentUser.studyPlanId);
-                } else if (studyPlans.length > 0) {
-                    selectedStudyPlan = studyPlans[0];
-                }
-            } catch(error) {
-                console.error("Error loading study plans:", error);
-            }
-        }
-
-        window.selectStudyPlan = async (planId) => {
-            try {
-                await updateDoc(doc(db, "users", currentUser.uid), {
-                    studyPlanId: planId
-                });
-                
-                currentUser.studyPlanId = planId;
-                selectedStudyPlan = studyPlans.find(plan => plan.id === planId);
-                
-                showMsg("Study plan selected successfully!");
-                
-                // Refresh study page
-                renderStudy();
-            } catch(error) {
-                console.error("Error selecting study plan:", error);
-                showMsg("Error selecting plan: " + error.message);
-            }
-        }
-
         // --- SMART STUDY PLAN FUNCTIONS ---
         async function loadStudyData() {
             if (!currentUser) return;
@@ -2765,8 +2187,7 @@ Card 1, Card 2, Card 3
                         completedTopics: [],
                         lastStudyDate: new Date().toISOString().split('T')[0],
                         dailyStudyTime: 0,
-                        totalStudyTime: 0,
-                        studyPlanId: currentUser.studyPlanId || null
+                        totalStudyTime: 0
                     };
                     await setDoc(doc(db, "Userstudy", currentUser.uid), studyProgress);
                 }
@@ -2790,6 +2211,20 @@ Card 1, Card 2, Card 3
                     });
                 } else {
                     motivationalQuotes = DEFAULT_QUOTES;
+                }
+                
+                // Load study settings
+                const settingsSnap = await getDoc(doc(db, "StudySettings", "global"));
+                if (settingsSnap.exists()) {
+                    studySettings = settingsSnap.data();
+                } else {
+                    studySettings = {
+                        goalName: "Complete Smart Study Plan",
+                        targetDeadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
+                        dailyGoal: 60, // 60 minutes daily
+                        totalGoal: 1800 // 30 hours total
+                    };
+                    await setDoc(doc(db, "StudySettings", "global"), studySettings);
                 }
                 
             } catch(error) {
@@ -2821,6 +2256,9 @@ Card 1, Card 2, Card 3
                         // Add study time (assuming 30 minutes per day)
                         studyProgress.dailyStudyTime += 30;
                         studyProgress.totalStudyTime += 30;
+                        
+                        // Calculate daily progress percentage
+                        studyProgress.dailyProgress = Math.round((studyProgress.dailyStudyTime / studySettings.dailyGoal) * 100);
                     }
                 }
                 
@@ -2879,11 +2317,11 @@ Card 1, Card 2, Card 3
         }
 
         function calculateCountdown() {
-            if (!selectedStudyPlan || !selectedStudyPlan.deadline) {
+            if (!studySettings || !studySettings.targetDeadline) {
                 return { days: 0, hours: 0, minutes: 0 };
             }
             
-            const deadline = new Date(selectedStudyPlan.deadline);
+            const deadline = new Date(studySettings.targetDeadline);
             const now = new Date();
             const diff = deadline - now;
             
@@ -2898,554 +2336,123 @@ Card 1, Card 2, Card 3
             return { days, hours, minutes };
         }
 
-        // --- MEMORIZING FUNCTIONS ---
-        async function loadMemorizingData() {
-            try {
-                // Load memorizing categories
-                const categoriesSnap = await getDocs(collection(db, "memorizingCategories"));
-                memorizingCategories = [];
-                categoriesSnap.forEach(doc => {
-                    memorizingCategories.push({ id: doc.id, ...doc.data() });
-                });
-                
-                memorizingCategories.sort((a, b) => a.order - b.order);
-                
-                // Load user memorizing progress
-                if (currentUser) {
-                    const progressSnap = await getDoc(doc(db, "userMemorizingProgress", currentUser.uid));
-                    if (progressSnap.exists()) {
-                        userMemorizingProgress = progressSnap.data();
-                    } else {
-                        userMemorizingProgress = {
-                            userId: currentUser.uid,
-                            categories: {},
-                            lastAccessed: new Date().toISOString().split('T')[0]
-                        };
-                        await setDoc(doc(db, "userMemorizingProgress", currentUser.uid), userMemorizingProgress);
-                    }
-                }
-                
-                // Load memorizing cards
-                const cardsSnap = await getDocs(collection(db, "memorizingCards"));
-                memorizingCards = [];
-                cardsSnap.forEach(doc => {
-                    memorizingCards.push({ id: doc.id, ...doc.data() });
-                });
-                
-            } catch(error) {
-                console.error("Error loading memorizing data:", error);
-            }
-        }
-
-        async function loadMemorizingCards(categoryId) {
-            try {
-                const q = query(collection(db, "memorizingCards"), where("categoryId", "==", categoryId));
-                const snap = await getDocs(q);
-                
-                memorizingCards = [];
-                snap.forEach(doc => {
-                    memorizingCards.push({ id: doc.id, ...doc.data() });
-                });
-                
-                // Sort by order or creation date
-                memorizingCards.sort((a, b) => (a.order || 0) - (b.order || 0));
-                
-                return memorizingCards;
-            } catch(error) {
-                console.error("Error loading memorizing cards:", error);
-                return [];
-            }
-        }
-
-        async function getTodaysMemorizingCards(categoryId) {
-            if (!userMemorizingProgress || !userMemorizingProgress.categories[categoryId]) {
-                userMemorizingProgress.categories[categoryId] = {
-                    currentDay: 1,
-                    completedDays: [],
-                    difficultCards: [],
-                    completedCards: []
-                };
-            }
-            
-            const categoryProgress = userMemorizingProgress.categories[categoryId];
-            currentMemorizingDay = categoryProgress.currentDay;
-            difficultCards = categoryProgress.difficultCards || [];
-            completedCards = categoryProgress.completedCards || [];
-            
-            // Get cards for current day (10 cards per day)
-            const startIndex = (currentMemorizingDay - 1) * 10;
-            const endIndex = startIndex + 10;
-            
-            // Filter cards for today, include difficult cards from previous days
-            let todaysCards = memorizingCards.slice(startIndex, endIndex);
-            
-            // Add difficult cards from previous days
-            difficultCards.forEach(cardId => {
-                const card = memorizingCards.find(c => c.id === cardId);
-                if (card && !todaysCards.find(tc => tc.id === cardId)) {
-                    todaysCards.push(card);
-                }
-            });
-            
-            // Limit to 10 cards maximum
-            todaysCards = todaysCards.slice(0, 10);
-            
-            // Mark completed cards
-            todaysCards = todaysCards.map(card => {
-                return {
-                    ...card,
-                    completed: completedCards.includes(card.id),
-                    difficult: difficultCards.includes(card.id)
-                };
-            });
-            
-            return todaysCards;
-        }
-
-        window.toggleCardDifficult = async (cardId) => {
-            if (!selectedMemorizingCategory) return;
-            
-            const categoryId = selectedMemorizingCategory.id;
-            const categoryProgress = userMemorizingProgress.categories[categoryId] || {
-                currentDay: 1,
-                completedDays: [],
-                difficultCards: [],
-                completedCards: []
-            };
-            
-            if (categoryProgress.difficultCards.includes(cardId)) {
-                // Remove from difficult cards
-                categoryProgress.difficultCards = categoryProgress.difficultCards.filter(id => id !== cardId);
-            } else {
-                // Add to difficult cards
-                categoryProgress.difficultCards.push(cardId);
-            }
-            
-            // Update in Firebase
-            userMemorizingProgress.categories[categoryId] = categoryProgress;
-            await setDoc(doc(db, "userMemorizingProgress", currentUser.uid), userMemorizingProgress, { merge: true });
-            
-            // Reload today's cards
-            await loadMemorizingCards(categoryId);
-            todaysMemorizingCards = await getTodaysMemorizingCards(categoryId);
-            renderMemorizingCards();
-        }
-
-        window.markDayComplete = async () => {
-            if (!selectedMemorizingCategory) return;
-            
-            const categoryId = selectedMemorizingCategory.id;
-            const categoryProgress = userMemorizingProgress.categories[categoryId] || {
-                currentDay: 1,
-                completedDays: [],
-                difficultCards: [],
-                completedCards: []
-            };
-            
-            // Mark all today's cards as completed
-            todaysMemorizingCards.forEach(card => {
-                if (!categoryProgress.completedCards.includes(card.id)) {
-                    categoryProgress.completedCards.push(card.id);
-                }
-            });
-            
-            // Move to next day
-            categoryProgress.currentDay++;
-            categoryProgress.completedDays.push(currentMemorizingDay);
-            
-            // Update in Firebase
-            userMemorizingProgress.categories[categoryId] = categoryProgress;
-            await setDoc(doc(db, "userMemorizingProgress", currentUser.uid), userMemorizingProgress, { merge: true });
-            
-            showMsg("Day completed successfully! Moving to next day.");
-            
-            // Reload memorizing view
-            renderMemorizingPart();
-        }
-
         // --- STUDY PAGE ---
         window.renderStudy = async () => {
             updateNav(1);
             
-            await loadStudyData();
-            await loadStudyPlans();
+            // Load study data if not loaded
+            if (!studyProgress) {
+                await loadStudyData();
+            }
             
             const countdown = calculateCountdown();
             
             document.getElementById('main-content').innerHTML = `
-                <div class="memorizing-tabs">
-                    <div class="memorizing-tab active" onclick="showStudyTab('study')">
-                        <i class="fas fa-book-open"></i> Smart Study
-                    </div>
-                    <div class="memorizing-tab" onclick="showStudyTab('memorizing')">
-                        <i class="fas fa-brain"></i> Memorizing Part
+                <div class="floating-level-selector" id="floating-level-selector">
+                    <i class="fas fa-graduation-cap" style="color:var(--primary);"></i>
+                    <select class="level-select" id="study-level-select" onchange="changeStudyLevel(this.value)">
+                        <option value="">Select Level</option>
+                        ${studyLevels.map(level => 
+                            `<option value="${level.level}" ${level.level === currentStudyLevel ? 'selected' : ''}>
+                                Level ${level.level}${level.title ? `: ${level.title}` : ''}
+                            </option>`
+                        ).join('')}
+                    </select>
+                </div>
+                
+                <div class="motivational-carousel">
+                    <div class="carousel-track" id="carousel-track"></div>
+                    <div class="carousel-indicators" id="carousel-indicators">
+                        ${motivationalQuotes.map((_, index) => 
+                            `<div class="carousel-indicator ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>`
+                        ).join('')}
                     </div>
                 </div>
                 
-                <div id="study-tab-content">
-                    <!-- Content will be loaded here based on tab -->
+                <div class="journey-panel">
+                    <div class="journey-goal">
+                        <i class="fas fa-flag-checkered"></i>
+                        ${studySettings ? studySettings.goalName : 'Complete Smart Study Plan'}
+                    </div>
+                    <p style="opacity:0.9; margin-bottom:15px;">Target Deadline: ${studySettings ? new Date(studySettings.targetDeadline).toLocaleDateString() : 'Not set'}</p>
+                    
+                    <div class="countdown-timer">
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="countdown-days">${countdown.days}</span>
+                            <span class="countdown-label">Days</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="countdown-hours">${countdown.hours}</span>
+                            <span class="countdown-label">Hours</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="countdown-minutes">${countdown.minutes}</span>
+                            <span class="countdown-label">Minutes</span>
+                        </div>
+                    </div>
                 </div>
-            `;
-            
-            await showStudyTab('study');
-        }
-
-        window.showStudyTab = async (tab) => {
-            // Update active tab
-            document.querySelectorAll('.memorizing-tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            const content = document.getElementById('study-tab-content');
-            
-            if (tab === 'study') {
-                await renderStudyTab();
-            } else if (tab === 'memorizing') {
-                await renderMemorizingPart();
-            }
-        }
-
-        async function renderStudyTab() {
-            const countdown = calculateCountdown();
-            
-            document.getElementById('study-tab-content').innerHTML = `
-                <div class="study-plan-selector">
-                    <h3 style="margin-bottom:15px; color:var(--text); display:flex; align-items:center; gap:10px;">
-                        <i class="fas fa-bullseye" style="color:var(--primary)"></i> Select Study Plan
+                
+                <div class="progress-cards">
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <div class="progress-title">Total Study Progress</div>
+                            <div class="progress-percentage">${studyProgress ? studyProgress.totalProgress : 0}%</div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${studyProgress ? studyProgress.totalProgress : 0}%"></div>
+                        </div>
+                        <div class="progress-stats">
+                            <span>${studyProgress ? studyProgress.completedTopics.length : 0} Topics Completed</span>
+                            <span>${studyProgress ? studyProgress.totalStudyTime : 0} min</span>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <div class="progress-title">Daily Study Progress</div>
+                            <div class="progress-percentage">${studyProgress ? studyProgress.dailyProgress : 0}%</div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${studyProgress ? studyProgress.dailyProgress : 0}%"></div>
+                        </div>
+                        <div class="progress-stats">
+                            <span>Today's Goal</span>
+                            <span>${studyProgress ? studyProgress.dailyStudyTime : 0}/${studySettings ? studySettings.dailyGoal : 60} min</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="study-cards-container" id="study-cards-container">
+                    <h3 class="study-section-title">
+                        <i class="fas fa-calendar-day"></i>
+                        Study Plan - Level ${currentStudyLevel}
                     </h3>
-                    <div id="study-plan-list">
-                        ${studyPlans.map(plan => `
-                            <div class="study-plan-card ${plan.id === selectedStudyPlan?.id ? 'selected' : ''}" 
-                                 onclick="selectStudyPlan('${plan.id}')">
-                                <div style="display:flex; justify-content:space-between; align-items:center;">
-                                    <h4 style="margin:0; color:var(--text);">${plan.name}</h4>
-                                    <span class="study-plan-badge">${plan.days} days</span>
-                                </div>
-                                <p style="color:var(--text-sec); margin-top:10px; font-size:0.9rem;">${plan.description || 'No description'}</p>
-                                <div class="study-plan-details">
-                                    <span><i class="fas fa-calendar"></i> Deadline: ${new Date(plan.deadline).toLocaleDateString()}</span>
-                                    <span><i class="fas fa-users"></i> ${plan.students || 0} students</span>
-                                </div>
-                            </div>
-                        `).join('')}
+                    <div id="study-cards-grid" class="study-cards-grid">
+                        Loading study content...
                     </div>
                 </div>
                 
-                ${selectedStudyPlan ? `
-                    <div class="motivational-carousel">
-                        <div class="carousel-track" id="carousel-track"></div>
-                        <div class="carousel-indicators" id="carousel-indicators">
-                            ${motivationalQuotes.map((_, index) => 
-                                `<div class="carousel-indicator ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>`
-                            ).join('')}
-                        </div>
-                    </div>
-                    
-                    <div class="journey-panel">
-                        <div class="journey-goal">
-                            <i class="fas fa-flag-checkered"></i>
-                            ${selectedStudyPlan.name}
-                        </div>
-                        <p style="opacity:0.9; margin-bottom:15px;">
-                            ${selectedStudyPlan.description || 'Complete this study plan to achieve your goals.'}
-                        </p>
-                        
-                        <div class="countdown-timer">
-                            <div class="countdown-item">
-                                <span class="countdown-value" id="countdown-days">${countdown.days}</span>
-                                <span class="countdown-label">Days</span>
-                            </div>
-                            <div class="countdown-item">
-                                <span class="countdown-value" id="countdown-hours">${countdown.hours}</span>
-                                <span class="countdown-label">Hours</span>
-                            </div>
-                            <div class="countdown-item">
-                                <span class="countdown-value" id="countdown-minutes">${countdown.minutes}</span>
-                                <span class="countdown-label">Minutes</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="progress-cards">
-                        <div class="progress-card">
-                            <div class="progress-header">
-                                <div class="progress-title">Total Study Progress</div>
-                                <div class="progress-percentage">${studyProgress ? studyProgress.totalProgress : 0}%</div>
-                            </div>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar" style="width: ${studyProgress ? studyProgress.totalProgress : 0}%"></div>
-                            </div>
-                            <div class="progress-stats">
-                                <span>${studyProgress ? studyProgress.completedTopics.length : 0} Topics Completed</span>
-                                <span>${studyProgress ? studyProgress.totalStudyTime : 0} min</span>
-                            </div>
-                        </div>
-                        
-                        <div class="progress-card">
-                            <div class="progress-header">
-                                <div class="progress-title">Daily Study Progress</div>
-                                <div class="progress-percentage">${studyProgress ? studyProgress.dailyProgress : 0}%</div>
-                            </div>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar" style="width: ${studyProgress ? studyProgress.dailyProgress : 0}%"></div>
-                            </div>
-                            <div class="progress-stats">
-                                <span>Today's Study</span>
-                                <span>${studyProgress ? studyProgress.dailyStudyTime : 0} min</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="study-level-selector">
-                        <div class="study-level-select-wrapper">
-                            <select class="study-level-select" id="study-level-select" onchange="changeStudyLevel(this.value)">
-                                <option value="">Select Study Level</option>
-                                ${studyLevels.map(level => 
-                                    `<option value="${level.level}" ${level.level === currentStudyLevel ? 'selected' : ''}>
-                                        Level ${level.level}${level.title ? `: ${level.title}` : ''}
-                                    </option>`
-                                ).join('')}
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="study-cards-container" id="study-cards-container">
-                        <h3 class="study-section-title">
-                            <i class="fas fa-calendar-day"></i>
-                            Study Plan - Level ${currentStudyLevel}
-                        </h3>
-                        <div id="study-cards-grid" class="study-cards-grid">
-                            Loading study content...
-                        </div>
-                    </div>
-                    
-                    <div class="study-leaderboard-tabs">
-                        <div class="study-tab active" onclick="showStudyLeaderboard('daily')">Daily Leaderboard</div>
-                        <div class="study-tab" onclick="showStudyLeaderboard('total')">Total Leaderboard</div>
-                    </div>
-                    
-                    <div id="study-leaderboard">
-                        Loading leaderboard...
-                    </div>
-                ` : `
-                    <div class="card" style="text-align:center; padding:40px;">
-                        <i class="fas fa-book-open" style="font-size:3rem; color:var(--text-sec); margin-bottom:15px;"></i>
-                        <h3>No Study Plan Selected</h3>
-                        <p style="color:var(--text-sec); margin-top:10px;">Please select a study plan to continue.</p>
-                    </div>
-                `}
-            `;
-            
-            if (selectedStudyPlan) {
-                startMotivationalCarousel();
-                startCountdownTimer();
-                await loadStudyCards();
-                await loadStudyLeaderboard('daily');
-            }
-        }
-
-        async function renderMemorizingPart() {
-            await loadMemorizingData();
-            
-            document.getElementById('study-tab-content').innerHTML = `
-                <div class="memorizing-category-selector">
-                    <h3 style="margin-bottom:15px; color:var(--text); display:flex; align-items:center; gap:10px;">
-                        <i class="fas fa-folder-open" style="color:var(--memorize-color)"></i> Select Category
-                    </h3>
-                    <div id="memorizing-category-list">
-                        ${memorizingCategories.map(category => {
-                            const progress = userMemorizingProgress?.categories[category.id] || {};
-                            const totalCards = memorizingCards.filter(c => c.categoryId === category.id).length;
-                            const completedCards = progress.completedCards?.length || 0;
-                            const progressPercent = totalCards > 0 ? Math.round((completedCards / totalCards) * 100) : 0;
-                            
-                            return `
-                                <div class="memorizing-category-card ${category.id === selectedMemorizingCategory?.id ? 'selected' : ''}" 
-                                     onclick="selectMemorizingCategory('${category.id}')">
-                                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                                        <h4 style="margin:0; color:var(--text);">${category.name}</h4>
-                                        <span style="color:var(--memorize-color); font-weight:600;">${progressPercent}%</span>
-                                    </div>
-                                    <p style="color:var(--text-sec); margin-top:10px; font-size:0.9rem;">${category.description || 'Memorizing category'}</p>
-                                    <div class="category-progress-bar">
-                                        <div class="category-progress-fill" style="width: ${progressPercent}%"></div>
-                                    </div>
-                                    <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:0.8rem; color:var(--text-sec);">
-                                        <span>${completedCards}/${totalCards} cards</span>
-                                        <span>Day ${progress.currentDay || 1}</span>
-                                    </div>
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
+                <div class="study-leaderboard-tabs">
+                    <div class="study-tab active" onclick="showStudyLeaderboard('daily')">Daily Leaderboard</div>
+                    <div class="study-tab" onclick="showStudyLeaderboard('total')">Total Leaderboard</div>
                 </div>
                 
-                ${selectedMemorizingCategory ? `
-                    <div id="memorizing-cards-view">
-                        Loading memorizing cards...
-                    </div>
-                ` : `
-                    <div class="card" style="text-align:center; padding:40px;">
-                        <i class="fas fa-brain" style="font-size:3rem; color:var(--memorize-color); margin-bottom:15px;"></i>
-                        <h3>Select a Category</h3>
-                        <p style="color:var(--text-sec); margin-top:10px;">Choose a category to start memorizing.</p>
-                    </div>
-                `}
-            `;
-            
-            if (selectedMemorizingCategory) {
-                await loadMemorizingCards(selectedMemorizingCategory.id);
-                todaysMemorizingCards = await getTodaysMemorizingCards(selectedMemorizingCategory.id);
-                renderMemorizingCards();
-            }
-        }
-
-        window.selectMemorizingCategory = async (categoryId) => {
-            selectedMemorizingCategory = memorizingCategories.find(c => c.id === categoryId);
-            await loadMemorizingCards(categoryId);
-            todaysMemorizingCards = await getTodaysMemorizingCards(categoryId);
-            renderMemorizingCards();
-        }
-
-        function renderMemorizingCards() {
-            if (!selectedMemorizingCategory) return;
-            
-            const categoryProgress = userMemorizingProgress.categories[selectedMemorizingCategory.id] || {
-                currentDay: 1,
-                completedDays: [],
-                difficultCards: [],
-                completedCards: []
-            };
-            
-            const completedCount = todaysMemorizingCards.filter(card => card.completed).length;
-            const difficultCount = todaysMemorizingCards.filter(card => card.difficult).length;
-            
-            document.getElementById('memorizing-cards-view').innerHTML = `
-                <div class="memorizing-day-header">
-                    <div>
-                        <h3 style="margin:0; color:white;">${selectedMemorizingCategory.name}</h3>
-                        <p style="margin:5px 0 0 0; opacity:0.9;">Day ${currentMemorizingDay} - ${todaysMemorizingCards.length} cards</p>
-                    </div>
-                    <div style="text-align:right;">
-                        <div style="font-size:1.5rem; font-weight:bold;">${completedCount}/${todaysMemorizingCards.length}</div>
-                        <div style="font-size:0.8rem; opacity:0.9;">Completed</div>
-                    </div>
-                </div>
-                
-                <div class="memorizing-progress-indicator">
-                    ${todaysMemorizingCards.map((card, index) => `
-                        <div class="progress-dot ${card.completed ? 'completed' : ''} ${card.difficult ? 'difficult' : ''} ${index === 0 ? 'active' : ''}" 
-                             onclick="scrollToCard(${index})"></div>
-                    `).join('')}
-                </div>
-                
-                <div id="memorizing-cards-container" style="margin-top:20px;">
-                    ${todaysMemorizingCards.map((card, index) => `
-                        <div class="memorizing-card ${card.difficult ? 'difficult' : ''} ${card.completed ? 'completed' : ''}" 
-                             id="card-${index}"
-                             ondblclick="toggleCardDifficult('${card.id}')"
-                             onclick="markCardComplete('${card.id}', ${index})">
-                            <div class="memorizing-card-number">${index + 1}</div>
-                            ${card.difficult ? '<div class="memorizing-card-status status-difficult">Difficult</div>' : ''}
-                            <div style="padding:20px; font-size:${card.text.length > 100 ? '1rem' : '1.2rem'};">
-                                ${card.text}
-                            </div>
-                            ${card.completed ? '<div style="position:absolute; bottom:10px; right:10px; color:var(--success);"><i class="fas fa-check-circle"></i></div>' : ''}
-                        </div>
-                    `).join('')}
-                </div>
-                
-                <div class="memorizing-controls">
-                    <button onclick="markDayComplete()" class="btn btn-success" style="flex:1;">
-                        <i class="fas fa-check-circle"></i> Mark Day Complete
-                    </button>
-                    <button onclick="resetMemorizingDay()" class="btn btn-danger" style="width:auto;">
-                        <i class="fas fa-redo"></i>
-                    </button>
-                </div>
-                
-                <div style="margin-top:20px; padding:15px; background:var(--bg); border-radius:12px;">
-                    <p style="margin:0; color:var(--text-sec); font-size:0.9rem; text-align:center;">
-                        <i class="fas fa-info-circle"></i> Double-click on a card to mark as difficult (will appear tomorrow). Click once to mark as completed.
-                    </p>
+                <div id="study-leaderboard">
+                    Loading leaderboard...
                 </div>
             `;
-        }
-
-        window.markCardComplete = async (cardId, index) => {
-            if (!selectedMemorizingCategory) return;
             
-            const categoryId = selectedMemorizingCategory.id;
-            const categoryProgress = userMemorizingProgress.categories[categoryId] || {
-                currentDay: 1,
-                completedDays: [],
-                difficultCards: [],
-                completedCards: []
-            };
+            // Start motivational carousel
+            startMotivationalCarousel();
             
-            if (!categoryProgress.completedCards.includes(cardId)) {
-                categoryProgress.completedCards.push(cardId);
-            }
+            // Start countdown timer
+            startCountdownTimer();
             
-            // Update in Firebase
-            userMemorizingProgress.categories[categoryId] = categoryProgress;
-            await setDoc(doc(db, "userMemorizingProgress", currentUser.uid), userMemorizingProgress, { merge: true });
+            // Load study cards for current level
+            await loadStudyCards();
             
-            // Update UI
-            const card = document.getElementById(`card-${index}`);
-            if (card) {
-                card.classList.add('completed');
-                card.innerHTML += '<div style="position:absolute; bottom:10px; right:10px; color:var(--success);"><i class="fas fa-check-circle"></i></div>';
-            }
-            
-            // Update progress indicator
-            const dots = document.querySelectorAll('.progress-dot');
-            if (dots[index]) {
-                dots[index].classList.add('completed');
-            }
-        }
-
-        window.scrollToCard = (index) => {
-            const card = document.getElementById(`card-${index}`);
-            if (card) {
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-                // Update active dot
-                document.querySelectorAll('.progress-dot').forEach((dot, i) => {
-                    if (i === index) {
-                        dot.classList.add('active');
-                    } else {
-                        dot.classList.remove('active');
-                    }
-                });
-            }
-        }
-
-        window.resetMemorizingDay = async () => {
-            if (!selectedMemorizingCategory) return;
-            
-            if (await customConfirm("Reset today's progress? This will remove all completion marks.")) {
-                const categoryId = selectedMemorizingCategory.id;
-                const categoryProgress = userMemorizingProgress.categories[categoryId] || {
-                    currentDay: 1,
-                    completedDays: [],
-                    difficultCards: [],
-                    completedCards: []
-                };
-                
-                // Remove today's cards from completed
-                todaysMemorizingCards.forEach(card => {
-                    categoryProgress.completedCards = categoryProgress.completedCards.filter(id => id !== card.id);
-                });
-                
-                // Update in Firebase
-                userMemorizingProgress.categories[categoryId] = categoryProgress;
-                await setDoc(doc(db, "userMemorizingProgress", currentUser.uid), userMemorizingProgress, { merge: true });
-                
-                // Reload
-                todaysMemorizingCards = await getTodaysMemorizingCards(categoryId);
-                renderMemorizingCards();
-                showMsg("Day progress reset successfully!");
-            }
+            // Load leaderboard
+            await loadStudyLeaderboard('daily');
         }
 
         window.goToSlide = (index) => {
@@ -3849,107 +2856,6 @@ Card 1, Card 2, Card 3
             }
         }
 
-        // --- LEADERBOARD PAGE ---
-        window.renderLeaderboard = async () => {
-            updateNav(3);
-            
-            document.getElementById('main-content').innerHTML = `
-                <div class="card" style="background:var(--bg); text-align:center;">
-                    <h3><i class="fas fa-chart-line"></i> Leaderboard</h3>
-                    <p style="color:var(--text-sec); margin-top:5px;">See how you rank among other students</p>
-                </div>
-                
-                <div class="exam-leaderboard-tabs">
-                    <div class="exam-tab active" onclick="showExamLeaderboard('points')">Points</div>
-                    <div class="exam-tab" onclick="showExamLeaderboard('exams')">Exams Taken</div>
-                    <div class="exam-tab" onclick="showExamLeaderboard('level')">Level</div>
-                </div>
-                
-                <div id="exam-leaderboard-list" style="margin-top:10px;">
-                    Loading leaderboard...
-                </div>
-            `;
-            
-            await loadExamLeaderboard('points');
-        }
-
-        async function loadExamLeaderboard(type = 'points') {
-            try {
-                const leaderboardElem = document.getElementById('exam-leaderboard-list');
-                leaderboardElem.innerHTML = '<div class="shimmer" style="height:300px; border-radius:15px;"></div>';
-                
-                // Get all users except admins
-                const q = query(collection(db, "users"), where("role", "!=", "admin"));
-                const usersSnap = await getDocs(q);
-                
-                let leaderboardData = [];
-                usersSnap.forEach(doc => {
-                    const user = { id: doc.id, ...doc.data() };
-                    if (!user.isBanned) {
-                        leaderboardData.push(user);
-                    }
-                });
-                
-                // Sort based on type
-                if (type === 'points') {
-                    leaderboardData.sort((a, b) => (b.points || 0) - (a.points || 0));
-                } else if (type === 'exams') {
-                    leaderboardData.sort((a, b) => (b.examsTaken?.length || 0) - (a.examsTaken?.length || 0));
-                } else if (type === 'level') {
-                    leaderboardData.sort((a, b) => (b.level || 1) - (a.level || 1));
-                }
-                
-                // Render leaderboard
-                let html = '';
-                if (leaderboardData.length === 0) {
-                    html = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No users found.</p>';
-                } else {
-                    leaderboardData.forEach((user, index) => {
-                        const avatarUrl = user.avatar || (user.gender === 'Female' ? AVATAR_FEMALE[0] : AVATAR_MALE[0]);
-                        const value = type === 'points' ? (user.points || 0) + ' pts' : 
-                                     type === 'exams' ? (user.examsTaken?.length || 0) + ' exams' : 
-                                     'Level ' + (user.level || 1);
-                        
-                        html += `
-                            <div class="card ${user.id === currentUser.uid ? 'current-user-card' : ''}" style="margin-bottom:10px;">
-                                <div style="display:flex; align-items:center; gap:15px;">
-                                    <div style="font-size:1.5rem; font-weight:700; color:var(--primary); width:40px; text-align:center;">
-                                        ${index < 3 ? ['🥇', '🥈', '🥉'][index] : `#${index + 1}`}
-                                    </div>
-                                    <img src="${avatarUrl}" style="width:50px; height:50px; border-radius:50%; border:2px solid var(--border);">
-                                    <div style="flex:1;">
-                                        <div style="font-weight:600;">${user.name} ${user.id === currentUser.uid ? '<small style="color:var(--primary);">(You)</small>' : ''}</div>
-                                        <div style="font-size:0.8rem; color:var(--text-sec);">${user.education || 'Student'}</div>
-                                    </div>
-                                    <div style="text-align:right;">
-                                        <div style="font-weight:700; color:var(--primary);">${value}</div>
-                                        <div style="font-size:0.7rem; color:var(--text-sec);">${type === 'points' ? 'Points' : type === 'exams' ? 'Exams' : 'Level'}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-                
-                leaderboardElem.innerHTML = html;
-            } catch(error) {
-                console.error("Error loading exam leaderboard:", error);
-                document.getElementById('exam-leaderboard-list').innerHTML = `
-                    <div class="card" style="text-align:center; padding:20px; color:var(--danger);">
-                        Error loading leaderboard.
-                    </div>
-                `;
-            }
-        }
-
-        window.showExamLeaderboard = (type) => {
-            // Update active tab
-            document.querySelectorAll('.exam-tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            loadExamLeaderboard(type);
-        }
-
         // --- HOME ---
         window.renderHome = async () => {
             updateNav(0);
@@ -4276,7 +3182,7 @@ Card 1, Card 2, Card 3
 
         // --- PROFILE ---
         window.renderProfile = async () => {
-            updateNav(4);
+            updateNav(3);
             
             const avatarUrl = currentUser.avatar || (currentUser.gender === 'Female' ? AVATAR_FEMALE[0] : AVATAR_MALE[0]);
             
@@ -4313,11 +3219,7 @@ Card 1, Card 2, Card 3
                     </button>
                 </div>
                 
-                <button onclick="uploadProfilePhoto()" class="upload-photo-btn">
-                    <i class="fas fa-camera"></i> Upload Profile Photo
-                </button>
-                
-                <button onclick="clearHistory()" class="btn btn-danger" style="margin-bottom:15px; margin-top:15px;">
+                <button onclick="clearHistory()" class="btn btn-danger" style="margin-bottom:15px;">
                     <i class="fas fa-trash"></i> Clear Exam History
                 </button>
                 
@@ -4374,104 +3276,68 @@ Card 1, Card 2, Card 3
             }
         }
 
-        // --- CLOUDINARY PHOTO UPLOAD ---
-        let uploadedPhotoUrl = null;
-        
-        window.uploadProfilePhoto = () => {
-            document.getElementById('photo-upload-modal').style.display = 'flex';
-            document.getElementById('photo-preview').src = currentUser.avatar || '';
-            uploadedPhotoUrl = null;
-        }
-        
-        window.closePhotoUploadModal = () => {
-            document.getElementById('photo-upload-modal').style.display = 'none';
-            uploadedPhotoUrl = null;
-        }
-        
-        window.openCloudinaryWidget = () => {
-            const myWidget = cloudinary.createUploadWidget(
-                {
-                    cloudName: cloudinaryConfig.cloudName,
-                    uploadPreset: cloudinaryConfig.uploadPreset,
-                    sources: ['local', 'camera', 'url'],
-                    multiple: false,
-                    maxFileSize: 5000000, // 5MB
-                    clientAllowedFormats: ['jpg', 'jpeg', 'png', 'gif'],
-                    maxImageWidth: 1000,
-                    maxImageHeight: 1000,
-                    cropping: true,
-                    croppingAspectRatio: 1,
-                    croppingShowDimensions: true,
-                    showAdvancedOptions: true,
-                    styles: {
-                        palette: {
-                            window: "#FFFFFF",
-                            sourceBg: "#F4F4F5",
-                            windowBorder: "#90a0b3",
-                            tabIcon: "#6C63FF",
-                            inactiveTabIcon: "#69778A",
-                            menuIcons: "#6C63FF",
-                            link: "#6C63FF",
-                            action: "#6C63FF",
-                            inProgress: "#6C63FF",
-                            complete: "#2ecc71",
-                            error: "#ff4757",
-                            textDark: "#000000",
-                            textLight: "#FFFFFF"
-                        }
-                    }
-                },
-                (error, result) => {
-                    if (!error && result && result.event === "success") {
-                        console.log('Upload successful: ', result.info);
-                        uploadedPhotoUrl = result.info.secure_url;
-                        document.getElementById('photo-preview').src = uploadedPhotoUrl;
-                    }
-                    if (error) {
-                        console.error('Upload error: ', error);
-                        showMsg("Error uploading photo: " + error.message);
-                    }
-                }
-            );
-            
-            myWidget.open();
-        }
-        
-        window.saveProfilePhoto = async () => {
-            if (!uploadedPhotoUrl) {
-                showMsg("Please select a photo first");
-                return;
-            }
-            
-            try {
-                toggleLoader(true);
-                await updateDoc(doc(db, "users", currentUser.uid), {
-                    avatar: uploadedPhotoUrl
-                });
-                
-                currentUser.avatar = uploadedPhotoUrl;
-                closePhotoUploadModal();
-                renderProfile();
-                showMsg("Profile photo updated successfully!");
-            } catch(error) {
-                console.error("Error saving profile photo:", error);
-                showMsg("Error saving photo: " + error.message);
-            } finally {
-                toggleLoader(false);
-            }
-        }
-
         window.editProfile = () => {
+            const currentAvatar = currentUser.avatar || (currentUser.gender === 'Female' ? AVATAR_FEMALE[0] : AVATAR_MALE[0]);
+            
+            let avatarGrid = '';
+            const avatars = currentUser.gender === 'Female' ? AVATAR_FEMALE : AVATAR_MALE;
+            
+            avatars.forEach((avatar, index) => {
+                const isSelected = avatar === currentAvatar;
+                avatarGrid += `
+                    <img src="${avatar}" class="avatar-option ${isSelected ? 'selected' : ''}" 
+                         onclick="selectAvatar(this, '${avatar}')" 
+                         id="avatar-${index}">
+                `;
+            });
+            
             openModal("Edit Profile", `
                 <input id="e-name" value="${currentUser.name}" placeholder="Name">
-                <select id="e-gender">
+                <select id="e-gender" onchange="changeGender(this.value)">
                     <option value="Male" ${currentUser.gender === 'Male' ? 'selected' : ''}>Male</option>
                     <option value="Female" ${currentUser.gender === 'Female' ? 'selected' : ''}>Female</option>
                 </select>
                 <input id="e-edu" value="${currentUser.education}" placeholder="Education">
                 
+                <h4 style="margin-top:15px; margin-bottom:10px;">Select Avatar</h4>
+                <div class="avatar-grid" id="avatar-grid">
+                    ${avatarGrid}
+                </div>
+                
                 <button onclick="saveProfile()" class="btn btn-primary" style="margin-top:15px;">Save Changes</button>
             `);
+            
+            window.selectedAvatar = currentAvatar;
+        }
+
+        window.selectAvatar = (element, avatarUrl) => {
+            document.querySelectorAll('.avatar-option').forEach(avatar => {
+                avatar.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            window.selectedAvatar = avatarUrl;
+        }
+
+        window.changeGender = async (gender) => {
+            const avatars = gender === 'Female' ? AVATAR_FEMALE : AVATAR_MALE;
+            let avatarGrid = '';
+            
+            avatars.forEach((avatar, index) => {
+                const isSelected = avatar === window.selectedAvatar;
+                avatarGrid += `
+                    <img src="${avatar}" class="avatar-option ${isSelected ? 'selected' : ''}" 
+                         onclick="selectAvatar(this, '${avatar}')" 
+                         id="avatar-${index}">
+                `;
+            });
+            
+            document.getElementById('avatar-grid').innerHTML = avatarGrid;
+            
+            if (!avatars.includes(window.selectedAvatar)) {
+                window.selectedAvatar = avatars[0];
+                document.getElementById('avatar-0').classList.add('selected');
+            }
         }
 
         window.saveProfile = async () => {
@@ -4482,12 +3348,14 @@ Card 1, Card 2, Card 3
             await updateDoc(doc(db, "users", currentUser.uid), { 
                 name: n, 
                 gender: g, 
-                education: e
+                education: e, 
+                avatar: window.selectedAvatar 
             });
             
             currentUser.name = n; 
             currentUser.gender = g; 
-            currentUser.education = e;
+            currentUser.education = e; 
+            currentUser.avatar = window.selectedAvatar;
             
             closeModal(); 
             renderProfile();
@@ -4766,7 +3634,7 @@ Card 1, Card 2, Card 3
 
         // --- ADMIN PANEL ---
         window.renderAdmin = () => {
-            updateNav(5);
+            updateNav(4);
             document.getElementById('main-content').innerHTML = `
                 <div class="admin-grid">
                     <div class="admin-item" onclick="admView('exam')"><i class="fas fa-file-alt"></i><h4>Exams</h4></div>
@@ -4778,7 +3646,6 @@ Card 1, Card 2, Card 3
                     <div class="admin-item" onclick="admView('support')"><i class="fas fa-headset"></i><h4>Support</h4></div>
                     <div class="admin-item" onclick="admView('settings')"><i class="fas fa-cogs"></i><h4>Settings</h4></div>
                     <div class="admin-item" onclick="admView('study')"><i class="fas fa-graduation-cap"></i><h4>Study Manage</h4></div>
-                    <div class="admin-item" onclick="admView('memorizing')"><i class="fas fa-brain"></i><h4>Memorizing</h4></div>
                 </div>
                 <div id="adm-area" style="margin-top:20px;"></div>
             `;
@@ -4806,66 +3673,28 @@ Card 1, Card 2, Card 3
                 await loadSettingsAdminView();
             } else if(m === 'study') {
                 await loadStudyAdminView();
-            } else if(m === 'memorizing') {
-                await loadMemorizingAdminView();
             }
         }
 
         // --- STUDY ADMIN VIEW ---
         async function loadStudyAdminView() {
-            await loadStudyPlans();
+            // Load existing data
             await loadStudyData();
-            
-            // Load practice questions for deletion
-            const practiceQuestions = [];
-            const practiceSnap = await getDocs(collection(db, "PracticeQuestions"));
-            practiceSnap.forEach(doc => {
-                practiceQuestions.push({ id: doc.id, ...doc.data() });
-            });
             
             const area = document.getElementById('adm-area');
             area.innerHTML = `
                 <div class="card">
-                    <h3><i class="fas fa-bullseye"></i> Manage Study Plans</h3>
-                    <input id="new-study-plan-name" placeholder="Study Plan Name">
-                    <textarea id="new-study-plan-desc" placeholder="Description (optional)" rows="3"></textarea>
-                    <input id="new-study-plan-days" type="number" placeholder="Total Days" min="1">
-                    <input id="new-study-plan-deadline" type="datetime-local">
-                    <input id="new-study-plan-order" type="number" placeholder="Display Order" value="0">
-                    <button onclick="addStudyPlan()" class="btn btn-primary">Add Study Plan</button>
-                </div>
-                
-                <div class="study-settings-grid" id="study-plans-list">
-                    ${studyPlans.map(plan => `
-                        <div class="study-setting-card">
-                            <h4 style="margin:0; color:var(--text);">${plan.name}</h4>
-                            <p style="color:var(--text-sec); margin-top:5px; font-size:0.9rem;">${plan.description || 'No description'}</p>
-                            <div style="font-size:0.8rem; color:var(--text-sec); margin-top:10px;">
-                                <div><i class="fas fa-calendar-day"></i> ${plan.days || 0} days</div>
-                                <div><i class="fas fa-clock"></i> Deadline: ${new Date(plan.deadline).toLocaleDateString()}</div>
-                                <div><i class="fas fa-sort"></i> Order: ${plan.order || 0}</div>
-                            </div>
-                            <div class="study-setting-actions">
-                                <button class="btn btn-danger" style="flex:1;" onclick="deleteStudyPlan('${plan.id}')">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </div>
-                        </div>
-                    `).join('')}
+                    <h3><i class="fas fa-cogs"></i> Study Settings</h3>
+                    <input id="study-goal-name" value="${studySettings?.goalName || 'Complete Smart Study Plan'}" placeholder="Goal Name">
+                    <input id="study-target-deadline" type="datetime-local" value="${studySettings?.targetDeadline ? new Date(studySettings.targetDeadline).toISOString().slice(0, 16) : ''}">
+                    <input id="study-daily-goal" type="number" value="${studySettings?.dailyGoal || 60}" placeholder="Daily Goal (minutes)">
+                    <input id="study-total-goal" type="number" value="${studySettings?.totalGoal || 1800}" placeholder="Total Goal (minutes)">
+                    <button onclick="saveStudySettings()" class="btn btn-primary">Save Settings</button>
                 </div>
                 
                 <div class="card">
                     <h3><i class="fas fa-quote-right"></i> Motivational Quotes</h3>
-                    <div class="study-json-format">
-[
-  {
-    "quote": "The secret of getting ahead is getting started.",
-    "author": "Mark Twain"
-  }
-]
-                        <button class="copy-json-btn" onclick="copyJson('quotes')">Copy Format</button>
-                    </div>
-                    <textarea id="quotes-json" rows="4" placeholder="Paste quotes in JSON format"></textarea>
+                    <textarea id="quotes-json" rows="4" placeholder="Enter quotes in JSON format"></textarea>
                     <button onclick="loadQuotesPreview()" class="btn btn-sec">Preview</button>
                     <button onclick="saveMotivationalQuotes()" class="btn btn-primary">Save Quotes</button>
                     <div id="quotes-preview" style="margin-top:15px;"></div>
@@ -4906,7 +3735,6 @@ Card 1, Card 2, Card 3
     "mcqCount": 10
   }
 ]
-                        <button class="copy-json-btn" onclick="copyJson('study')">Copy Format</button>
                     </div>
                     <textarea id="study-content-json" rows="6" placeholder="Paste study content JSON here..."></textarea>
                     <button onclick="uploadStudyContent()" class="btn btn-primary">Upload Study Content</button>
@@ -4925,28 +3753,10 @@ Card 1, Card 2, Card 3
     "correct": 2
   }
 ]
-                        <button class="copy-json-btn" onclick="copyJson('practice')">Copy Format</button>
                     </div>
                     <textarea id="practice-questions-json" rows="6" placeholder="Paste practice questions JSON here..."></textarea>
                     <button onclick="uploadPracticeQuestions()" class="btn btn-primary">Upload Practice Questions</button>
                     <div id="practice-upload-report" style="margin-top:15px;"></div>
-                </div>
-                
-                <div class="card">
-                    <h3><i class="fas fa-trash"></i> Delete Practice Questions</h3>
-                    <div class="study-questions-list">
-                        ${practiceQuestions.length > 0 ? practiceQuestions.map(q => `
-                            <div class="study-question-item">
-                                <div><strong>Level ${q.level} - Day ${q.day}</strong></div>
-                                <div style="font-size:0.9rem; margin-top:5px;">${q.question.substring(0, 100)}${q.question.length > 100 ? '...' : ''}</div>
-                                <div class="question-actions">
-                                    <button class="btn btn-danger" style="width:auto; padding:5px 10px;" onclick="deletePracticeQuestion('${q.id}')">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </div>
-                            </div>
-                        `).join('') : '<p style="text-align:center; color:var(--text-sec);">No practice questions found.</p>'}
-                    </div>
                 </div>
             `;
             
@@ -4954,102 +3764,30 @@ Card 1, Card 2, Card 3
             document.getElementById('quotes-json').value = JSON.stringify(motivationalQuotes, null, 2);
         }
 
-        window.copyJson = (type) => {
-            let jsonText = '';
-            switch(type) {
-                case 'quotes':
-                    jsonText = `[
-  {
-    "quote": "The secret of getting ahead is getting started.",
-    "author": "Mark Twain"
-  }
-]`;
-                    break;
-                case 'study':
-                    jsonText = `[
-  {
-    "level": 1,
-    "day": 1,
-    "topic": "Introduction to Mathematics",
-    "description": "Basic concepts of algebra and arithmetic",
-    "duration": 30,
-    "mcqCount": 10
-  }
-]`;
-                    break;
-                case 'practice':
-                    jsonText = `[
-  {
-    "level": 1,
-    "day": 1,
-    "question": "What is 2 + 2?",
-    "options": ["3", "4", "5", "6"],
-    "correct": 2
-  }
-]`;
-                    break;
-            }
+        window.saveStudySettings = async () => {
+            const goalName = document.getElementById('study-goal-name').value;
+            const targetDeadline = document.getElementById('study-target-deadline').value;
+            const dailyGoal = parseInt(document.getElementById('study-daily-goal').value);
+            const totalGoal = parseInt(document.getElementById('study-total-goal').value);
             
-            navigator.clipboard.writeText(jsonText).then(() => {
-                showMsg("JSON format copied to clipboard!");
-            });
-        }
-
-        window.deletePracticeQuestion = async (questionId) => {
-            if (await customConfirm("Delete this practice question?")) {
-                try {
-                    await deleteDoc(doc(db, "PracticeQuestions", questionId));
-                    showMsg("Practice question deleted successfully!");
-                    admView('study');
-                } catch(error) {
-                    console.error("Error deleting practice question:", error);
-                    showMsg("Error deleting question: " + error.message);
-                }
-            }
-        }
-
-        window.addStudyPlan = async () => {
-            const name = document.getElementById('new-study-plan-name').value;
-            const description = document.getElementById('new-study-plan-desc').value;
-            const days = parseInt(document.getElementById('new-study-plan-days').value);
-            const deadline = document.getElementById('new-study-plan-deadline').value;
-            const order = parseInt(document.getElementById('new-study-plan-order').value) || 0;
-            
-            if (!name || !days || !deadline) {
+            if (!goalName || !targetDeadline) {
                 showMsg("Please fill all required fields");
                 return;
             }
             
             try {
-                await addDoc(collection(db, "studyPlans"), {
-                    name,
-                    description,
-                    days,
-                    deadline: new Date(deadline).toISOString(),
-                    order,
-                    createdAt: Timestamp.now(),
-                    createdBy: currentUser.uid,
-                    students: 0
-                });
+                studySettings = {
+                    goalName,
+                    targetDeadline: new Date(targetDeadline).toISOString(),
+                    dailyGoal,
+                    totalGoal
+                };
                 
-                showMsg("Study plan added successfully!");
-                admView('study');
+                await setDoc(doc(db, "StudySettings", "global"), studySettings);
+                showMsg("Study settings saved successfully!");
             } catch(error) {
-                console.error("Error adding study plan:", error);
-                showMsg("Error adding plan: " + error.message);
-            }
-        }
-
-        window.deleteStudyPlan = async (planId) => {
-            if (await customConfirm("Delete this study plan? Users who selected this plan will lose their selection.")) {
-                try {
-                    await deleteDoc(doc(db, "studyPlans", planId));
-                    showMsg("Study plan deleted successfully!");
-                    admView('study');
-                } catch(error) {
-                    console.error("Error deleting study plan:", error);
-                    showMsg("Error deleting plan: " + error.message);
-                }
+                console.error("Error saving study settings:", error);
+                showMsg("Error saving settings: " + error.message);
             }
         }
 
@@ -5268,355 +4006,802 @@ Card 1, Card 2, Card 3
             }
         }
 
-        // --- MEMORIZING ADMIN VIEW ---
-        async function loadMemorizingAdminView() {
-            await loadMemorizingData();
+        async function loadExamAdminView() {
+            await loadAllCategories();
             
             const area = document.getElementById('adm-area');
             area.innerHTML = `
-                <div class="memorizing-admin-grid">
-                    <div class="memorizing-admin-card" onclick="showAddMemorizingCategory()">
-                        <i class="fas fa-plus-circle"></i>
-                        <h4>Add Category</h4>
-                        <p style="color:var(--text-sec); font-size:0.9rem;">Create new memorizing category</p>
+                <div class="card">
+                    <h3>Create Exam</h3>
+                    <input id="nt" placeholder="Title">
+                    <input id="nm" type="number" placeholder="Time (Min)">
+                    <div class="admin-category-select-wrapper">
+                        <select id="nc" class="admin-category-select">
+                            <option value="">Select Category</option>
+                        </select>
+                        <button class="add-category-btn" onclick="showAddCategoryModal()">
+                            <i class="fas fa-plus"></i>
+                        </button>
                     </div>
-                    
-                    <div class="memorizing-admin-card" onclick="showBulkUploadCards()">
-                        <i class="fas fa-upload"></i>
-                        <h4>Bulk Upload</h4>
-                        <p style="color:var(--text-sec); font-size:0.9rem;">Upload cards in bulk</p>
-                    </div>
-                    
-                    <div class="memorizing-admin-card" onclick="viewMemorizingStats()">
-                        <i class="fas fa-chart-bar"></i>
-                        <h4>Statistics</h4>
-                        <p style="color:var(--text-sec); font-size:0.9rem;">View usage statistics</p>
-                    </div>
+                    <button onclick="addExam()" class="btn btn-primary">Create</button>
                 </div>
                 
                 <div class="card">
-                    <h3><i class="fas fa-folder-open"></i> Memorizing Categories</h3>
-                    <div id="memorizing-categories-list" style="margin-top:15px;">
-                        ${memorizingCategories.map(category => {
-                            const categoryCards = memorizingCards.filter(c => c.categoryId === category.id);
-                            return `
-                                <div style="padding:15px; border:1px solid var(--border); border-radius:10px; margin-bottom:10px;">
-                                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                                        <div>
-                                            <h4 style="margin:0; color:var(--memorize-color);">${category.name}</h4>
-                                            <p style="color:var(--text-sec); margin-top:5px; font-size:0.9rem;">${category.description || 'No description'}</p>
-                                        </div>
-                                        <div style="text-align:right;">
-                                            <div style="font-weight:600; color:var(--text);">${categoryCards.length} cards</div>
-                                            <div class="memorizing-admin-stats">
-                                                <span>Order: ${category.order || 0}</span>
-                                                <span>Created: ${new Date(category.createdAt?.toDate()).toLocaleDateString()}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div style="display:flex; gap:10px; margin-top:15px;">
-                                        <button class="btn btn-memorize" style="flex:1;" onclick="addCardsToCategory('${category.id}')">
-                                            <i class="fas fa-plus"></i> Add Cards
-                                        </button>
-                                        <button class="btn btn-danger" style="width:auto;" onclick="deleteMemorizingCategory('${category.id}')">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            `;
-                        }).join('')}
+                    <h3>Manage Exams</h3>
+                    <div class="admin-exam-filter">
+                        <select id="admin-exam-filter" class="admin-filter-select" onchange="filterAdminExams()">
+                            <option value="">All Categories</option>
+                        </select>
+                        <button class="btn btn-sec" onclick="refreshAdminExams()" style="width:auto; padding:12px;">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
                     </div>
+                    <p style="font-size:0.8rem; color:var(--text-sec); margin-bottom:10px;">Tap to Delete</p>
+                    <div id="el" class="grid-container"></div>
                 </div>
-            `;
-        }
-
-        window.showAddMemorizingCategory = () => {
-            openModal("Add Memorizing Category", `
-                <input id="new-memorizing-category-name" placeholder="Category Name (e.g. Vocabulary, Formulas)">
-                <textarea id="new-memorizing-category-desc" placeholder="Description (optional)" rows="3"></textarea>
-                <input id="new-memorizing-category-order" type="number" placeholder="Display Order" value="0">
-                <div style="display:flex; gap:10px; margin-top:15px;">
-                    <button onclick="addMemorizingCategory()" class="btn btn-memorize">Add Category</button>
-                    <button onclick="closeModal()" class="btn btn-sec">Cancel</button>
-                </div>
-            `);
-        }
-
-        window.addMemorizingCategory = async () => {
-            const name = document.getElementById('new-memorizing-category-name').value;
-            const description = document.getElementById('new-memorizing-category-desc').value;
-            const order = parseInt(document.getElementById('new-memorizing-category-order').value) || 0;
+                
+                <div class="card">
+                    <h3>Add MCQ (JSON)</h3>
+                    <div style="display:flex; gap:10px; margin-bottom:15px;">
+                        <select id="es" style="flex:1;"></select>
+                        <button onclick="copyFormat()" class="btn btn-sec" style="width:auto; margin:0;">Copy Format</button>
+                    </div>
+                    <textarea id="jt" rows="4" placeholder="Paste JSON here..."></textarea>
+                    <button onclick="upJson()" class="btn btn-primary">Upload</button>
+                    <div id="upload-report" class="upload-report" style="display:none;"></div>
+                </div>`;
             
-            if (!name) {
-                showMsg("Please enter category name");
-                return;
-            }
+            // Update category selects
+            updateAdminCategorySelect();
+            updateAdminExamCategorySelects();
             
             try {
-                await addDoc(collection(db, "memorizingCategories"), {
-                    name,
-                    description,
-                    order,
+                await loadAdminExams();
+            } catch(error) {
+                console.error("Error loading exams:", error);
+                document.getElementById('el').innerHTML = '<p style="color:var(--danger);">Error loading exams</p>';
+            }
+        }
+
+        async function loadAdminExams(category = '') {
+            try {
+                let q;
+                if(category) {
+                    q = query(collection(db, "exams"), where("category", "==", category));
+                } else {
+                    q = collection(db, "exams");
+                }
+                
+                const s = await getDocs(q); 
+                let h='', o=''; 
+                s.forEach(d=>{ 
+                    const data = d.data();
+                    h+=`<div class="mini-card" onclick="delDoc('exams','${d.id}')">
+                        <i class="fas fa-file-contract" style="color:var(--primary)"></i>
+                        <h4>${data.title}</h4>
+                        <small>${data.time} Min</small>
+                        <small style="color:var(--primary); display:block; margin-top:3px;">${data.category || 'No Category'}</small>
+                    </div>`; 
+                    o+=`<option value="${d.id}">${data.title} (${data.category || 'No Category'})</option>`; 
+                });
+                document.getElementById('el').innerHTML = h || "<p>No exams.</p>"; 
+                document.getElementById('es').innerHTML = o;
+            } catch(error) {
+                console.error("Error loading exams:", error);
+                document.getElementById('el').innerHTML = '<p style="color:var(--danger);">Error loading exams</p>';
+            }
+        }
+
+        window.filterAdminExams = () => {
+            const filterSelect = document.getElementById('admin-exam-filter');
+            const selectedCategory = filterSelect.value;
+            loadAdminExams(selectedCategory);
+        }
+
+        window.refreshAdminExams = () => {
+            loadAdminExams();
+            document.getElementById('admin-exam-filter').value = '';
+        }
+
+        async function loadStudentAdminView() {
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `
+                <div class="card">
+                    <h3>Registered Students</h3>
+                    <input id="search-box" placeholder="Search by Name or Email..." style="margin-top:10px;">
+                    <div id="sl" class="grid-container">Loading...</div>
+                </div>`;
+            
+            try {
+                const s = await getDocs(collection(db, "users"));
+                allStudentsCache = [];
+                s.forEach(d => { 
+                    const data = d.data();
+                    if(data.role !== 'admin') {
+                        allStudentsCache.push({
+                            id: d.id, 
+                            name: data.name,
+                            email: data.email,
+                            education: data.education,
+                            points: data.points || 0,
+                            level: data.level || 1,
+                            isBanned: data.isBanned || false,
+                            avatar: data.avatar,
+                            gender: data.gender
+                        });
+                    }
+                });
+                
+                renderStudentList(allStudentsCache);
+                document.getElementById('search-box').addEventListener('input', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    const filtered = allStudentsCache.filter(u => 
+                        u.name.toLowerCase().includes(term) || 
+                        u.email.toLowerCase().includes(term)
+                    );
+                    renderStudentList(filtered);
+                });
+            } catch(error) {
+                console.error("Error loading students:", error);
+                document.getElementById('sl').innerHTML = '<p style="color:var(--danger);">Error loading students</p>';
+            }
+        }
+
+        function renderStudentList(list) {
+            const sl = document.getElementById('sl');
+            if (!sl) return;
+            
+            let h = '';
+            list.forEach(u => {
+                const isBan = u.isBanned ? '<span class="banned-badge">BANNED</span>' : '';
+                const av = u.avatar || (u.gender === 'Female' ? AVATAR_FEMALE[0] : AVATAR_MALE[0]);
+                
+                h += `<div class="mini-card" onclick="viewUser('${u.id}')">
+                    ${isBan}
+                    <img src="${av}">
+                    <h4>${u.name} <span class="level-badge">Lvl ${u.level}</span></h4>
+                    <small>${u.education}</small>
+                    <small style="color:var(--primary); font-weight:600;">${u.points} pts</small>
+                </div>`;
+            });
+            sl.innerHTML = h || '<p>No students found.</p>';
+        }
+
+        window.addExam = async () => { 
+            const title = document.getElementById('nt').value;
+            const time = parseInt(document.getElementById('nm').value);
+            const category = document.getElementById('nc').value;
+            
+            if(!title || !time || !category) {
+                return showMsg("Please fill all fields including category");
+            }
+            
+            await addDoc(collection(db, "exams"), {
+                title: title, 
+                time: time,
+                category: category,
+                createdAt: Date.now()
+            }); 
+            
+            // Add to categories if not exists
+            const q = query(collection(db, "categories"), where("name", "==", category));
+            const existingCat = await getDocs(q);
+            
+            if(existingCat.empty) {
+                await addDoc(collection(db, "categories"), {
+                    name: category,
                     createdAt: Timestamp.now(),
                     createdBy: currentUser.uid
                 });
                 
-                closeModal();
-                showMsg("Memorizing category added successfully!");
-                admView('memorizing');
-            } catch(error) {
-                console.error("Error adding memorizing category:", error);
-                showMsg("Error adding category: " + error.message);
+                // Reload categories
+                await loadAllCategories();
+                updateAdminCategorySelect();
+                updateAdminExamCategorySelects();
             }
-        }
-
-        window.deleteMemorizingCategory = async (categoryId) => {
-            if (await customConfirm("Delete this category and all its cards?")) {
-                try {
-                    // Delete category
-                    await deleteDoc(doc(db, "memorizingCategories", categoryId));
-                    
-                    // Delete all cards in this category
-                    const q = query(collection(db, "memorizingCards"), where("categoryId", "==", categoryId));
-                    const cardsSnap = await getDocs(q);
-                    const batch = writeBatch(db);
-                    cardsSnap.forEach(doc => {
-                        batch.delete(doc.ref);
-                    });
-                    await batch.commit();
-                    
-                    showMsg("Category deleted successfully!");
-                    admView('memorizing');
-                } catch(error) {
-                    console.error("Error deleting category:", error);
-                    showMsg("Error deleting category: " + error.message);
-                }
-            }
-        }
-
-        window.showBulkUploadCards = () => {
-            document.getElementById('memorizing-upload-modal').style.display = 'flex';
-        }
-
-        window.closeMemorizingUploadModal = () => {
-            document.getElementById('memorizing-upload-modal').style.display = 'none';
-        }
-
-        window.copyMemorizingFormat = () => {
-            const format = `// Format: Each card in new line
-// Or comma separated values
-Card 1 text here
-Card 2 text here
-Card 3 text here
-// Or comma separated:
-Card 1, Card 2, Card 3`;
             
-            navigator.clipboard.writeText(format).then(() => {
-                showMsg("Format copied to clipboard!");
+            const usersSnap = await getDocs(collection(db, "users"));
+            usersSnap.forEach(async (userDoc) => {
+                if(userDoc.data().role !== 'admin') {
+                    await sendNotification(
+                        userDoc.id, 
+                        "New Exam Available!", 
+                        `A new exam "${title}" has been added in ${category} category. Check it out!`,
+                        'exam'
+                    );
+                }
             });
+            
+            showMsg("Created"); 
+            admView('exam'); 
         }
-
-        window.uploadMemorizingCards = async () => {
-            const cardsText = document.getElementById('memorizing-cards-text').value;
-            if (!cardsText) {
-                showMsg("Please enter cards text");
-                return;
-            }
+        
+        window.upJson = async () => { 
+            const jsonText = document.getElementById('jt').value;
+            if(!jsonText) return showMsg("Please enter JSON");
             
-            // Parse cards (support both new line separated and comma separated)
-            let cards = [];
-            if (cardsText.includes(',')) {
-                cards = cardsText.split(',').map(card => card.trim()).filter(card => card);
-            } else {
-                cards = cardsText.split('\n').map(card => card.trim()).filter(card => card);
-            }
-            
-            if (cards.length === 0) {
-                showMsg("No valid cards found");
-                return;
-            }
-            
-            try {
+            try { 
+                const d = JSON.parse(jsonText); 
                 toggleLoader(true);
                 
-                // Ask for category
-                openModal("Select Category", `
-                    <div class="memorizing-category-selector">
-                        ${memorizingCategories.map(category => `
-                            <div class="memorizing-category-card" onclick="selectCategoryForUpload('${category.id}')">
-                                <h4 style="margin:0; color:var(--text);">${category.name}</h4>
-                                <p style="color:var(--text-sec); margin-top:5px; font-size:0.9rem;">${category.description || 'No description'}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div id="upload-cards-preview" style="margin-top:15px; display:none;">
-                        <h4>Preview (first 5 cards):</h4>
-                        <div id="cards-preview-list" style="max-height:200px; overflow-y:auto;"></div>
-                        <div style="display:flex; gap:10px; margin-top:15px;">
-                            <button onclick="confirmUploadCards()" class="btn btn-memorize">Upload ${cards.length} Cards</button>
-                            <button onclick="closeModal()" class="btn btn-sec">Cancel</button>
-                        </div>
-                    </div>
-                `);
+                let success = 0, failed = 0;
+                const examId = document.getElementById('es').value;
                 
-                // Store cards for later use
-                window.tempCards = cards;
-                
-                // Show preview
-                const previewList = document.getElementById('cards-preview-list');
-                let previewHtml = '';
-                cards.slice(0, 5).forEach((card, index) => {
-                    previewHtml += `<div style="padding:8px; border-bottom:1px solid var(--border); font-size:0.9rem;">${index + 1}. ${card}</div>`;
-                });
-                if (cards.length > 5) {
-                    previewHtml += `<div style="padding:8px; color:var(--text-sec);">... and ${cards.length - 5} more</div>`;
-                }
-                previewList.innerHTML = previewHtml;
-                
-            } catch(error) {
-                console.error("Error parsing cards:", error);
-                showMsg("Error parsing cards: " + error.message);
-            } finally {
-                toggleLoader(false);
-            }
-        }
-
-        window.selectCategoryForUpload = (categoryId) => {
-            window.selectedCategoryForUpload = categoryId;
-            document.getElementById('upload-cards-preview').style.display = 'block';
-        }
-
-        window.confirmUploadCards = async () => {
-            if (!window.selectedCategoryForUpload || !window.tempCards) {
-                showMsg("Please select a category first");
-                return;
-            }
-            
-            try {
-                toggleLoader(true);
-                
-                // Get current max order for this category
-                const q = query(collection(db, "memorizingCards"), where("categoryId", "==", window.selectedCategoryForUpload));
-                const existingCards = await getDocs(q);
-                let maxOrder = 0;
-                existingCards.forEach(doc => {
-                    const card = doc.data();
-                    if (card.order > maxOrder) {
-                        maxOrder = card.order;
-                    }
-                });
-                
-                // Upload cards
-                let success = 0;
-                for (const cardText of window.tempCards) {
+                for(const q of d) {
                     try {
-                        await addDoc(collection(db, "memorizingCards"), {
-                            categoryId: window.selectedCategoryForUpload,
-                            text: cardText,
-                            order: ++maxOrder,
-                            createdAt: Timestamp.now(),
-                            createdBy: currentUser.uid
+                        await addDoc(collection(db,"questions"),{
+                            examId: examId, 
+                            question: q.question || q.q, 
+                            options: q.options,
+                            correct: q.correct
                         });
                         success++;
-                    } catch(error) {
-                        console.error("Error uploading card:", error);
+                    } catch(e) {
+                        console.error("Error uploading question:", e);
+                        failed++;
                     }
                 }
                 
                 toggleLoader(false);
-                closeModal();
-                closeMemorizingUploadModal();
-                showMsg(`Successfully uploaded ${success} out of ${window.tempCards.length} cards!`);
-                admView('memorizing');
                 
-                // Clean up
-                delete window.tempCards;
-                delete window.selectedCategoryForUpload;
+                const reportDiv = document.getElementById('upload-report');
+                reportDiv.style.display = 'block';
+                reportDiv.innerHTML = `
+                    <h4>Upload Report:</h4>
+                    <p><span class="upload-success">Successfully uploaded: ${success} questions</span></p>
+                    <p><span class="upload-failed">Failed to upload: ${failed} questions</span></p>
+                    <p>Total processed: ${success + failed} questions</p>
+                `;
                 
-            } catch(error) {
+                if(failed === 0) {
+                    showMsg(`Successfully uploaded ${success} questions!`);
+                } else {
+                    showMsg(`Uploaded ${success} questions, ${failed} failed.`);
+                }
+            } catch(e) {
                 toggleLoader(false);
-                showMsg("Error uploading cards: " + error.message);
+                showMsg("JSON Error: Check format - " + e.message);
+            } 
+        }
+        
+        window.delDoc = async (c, id) => { 
+            if(await customConfirm("Are you sure you want to delete this?")) { 
+                await deleteDoc(doc(db, c, id)); 
+                showMsg("Deleted"); 
+                if(c==='exams') admView('exam');
+                else if(c==='routines') admView('routine');
+                else if(c==='notes') admView('notes');
+            } 
+        }
+        
+        window.copyFormat = () => {
+            const fmt = `[{"question":"Sample Question?","options":["Option A","Option B","Option C","Option D"],"correct":1}]`;
+            navigator.clipboard.writeText(fmt);
+            showMsg("Format Copied! Paste and edit in JSON editor.");
+        }
+        
+        async function loadRoutineAdminView() {
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `<div class="card"><h3>Add Routine</h3><input id="rt" placeholder="Title"><input id="rm" placeholder="Time"><button onclick="addRT()" class="btn btn-primary">Add</button></div><div class="card"><h3>Manage</h3><div id="rl"></div></div>`;
+            
+            try {
+                const s = await getDocs(collection(db, "routines")); 
+                let h=''; 
+                s.forEach(d=>{ 
+                    h+=`<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border);"><span>${d.data().title}</span><button class="btn btn-danger" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="delDoc('routines','${d.id}')">Del</button></div>`; 
+                });
+                document.getElementById('rl').innerHTML = h;
+            } catch(error) {
+                console.error("Error loading routines:", error);
+                document.getElementById('rl').innerHTML = '<p style="color:var(--danger);">Error loading routines</p>';
             }
         }
-
-        window.addCardsToCategory = (categoryId) => {
-            window.selectedCategoryForUpload = categoryId;
-            showBulkUploadCards();
+        
+        window.addRT = async () => { 
+            await addDoc(collection(db, "routines"), {
+                title:document.getElementById('rt').value, 
+                time:document.getElementById('rm').value, 
+                createdAt: Date.now()
+            }); 
+            
+            const usersSnap = await getDocs(collection(db, "users"));
+            usersSnap.forEach(async (userDoc) => {
+                if(userDoc.data().role !== 'admin') {
+                    await sendNotification(
+                        userDoc.id, 
+                        "Routine Updated!", 
+                        `New routine "${document.getElementById('rt').value}" has been added.`,
+                        'routine'
+                    );
+                }
+            });
+            
+            showMsg("Added"); 
+            admView('routine'); 
         }
-
-        window.viewMemorizingStats = async () => {
+        
+        async function loadNotesAdminView() {
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `<div class="card"><h3>Add PDF</h3><input id="pt" placeholder="Title"><input id="pl" placeholder="Link"><button onclick="addNT()" class="btn btn-primary">Add</button></div><div class="card"><h3>Manage</h3><div id="nl"></div></div>`;
+            
             try {
-                // Get all users progress
-                const progressSnap = await getDocs(collection(db, "userMemorizingProgress"));
-                let totalUsers = 0;
-                let totalCardsCompleted = 0;
-                let totalDifficultCards = 0;
+                const s = await getDocs(collection(db, "notes")); 
+                let h=''; 
+                s.forEach(d=>{ 
+                    h+=`<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border);"><span>${d.data().title}</span><button class="btn btn-danger" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="delDoc('notes','${d.id}')">Del</button></div>`; 
+                });
+                document.getElementById('nl').innerHTML = h;
+            } catch(error) {
+                console.error("Error loading notes:", error);
+                document.getElementById('nl').innerHTML = '<p style="color:var(--danger);">Error loading notes</p>';
+            }
+        }
+        
+        window.addNT = async () => { 
+            await addDoc(collection(db, "notes"), {
+                title:document.getElementById('pt').value, 
+                link:document.getElementById('pl').value, 
+                createdAt: Date.now()
+            }); 
+            
+            const usersSnap = await getDocs(collection(db, "users"));
+            usersSnap.forEach(async (userDoc) => {
+                if(userDoc.data().role !== 'admin') {
+                    await sendNotification(
+                        userDoc.id, 
+                        "New Note Added!", 
+                        `A new note "${document.getElementById('pt').value}" is available.`,
+                        'note'
+                    );
+                }
+            });
+            
+            showMsg("Added"); 
+            admView('notes'); 
+        }
+        
+        async function loadBroadcastAdminView() {
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `<div class="card"><h3>Broadcast Message</h3><textarea id="bcm" rows="3" placeholder="Write message..."></textarea><button onclick="sendBC()" class="btn btn-primary">Send to All</button><button onclick="clearBC()" class="btn btn-sec">Clear</button></div>`;
+        }
+        
+        window.sendBC = async () => { 
+            const message = document.getElementById('bcm').value;
+            await setDoc(doc(db, "settings", "broadcast"), {message: message});
+            
+            const usersSnap = await getDocs(collection(db, "users"));
+            usersSnap.forEach(async (userDoc) => {
+                if(userDoc.data().role !== 'admin') {
+                    await sendNotification(
+                        userDoc.id, 
+                        "Important Announcement!", 
+                        message,
+                        'broadcast'
+                    );
+                }
+            });
+            
+            showMsg("Broadcast Sent to All Users"); 
+        }
+        
+        window.clearBC = async () => { 
+            await deleteDoc(doc(db, "settings", "broadcast")); 
+            showMsg("Cleared"); 
+        }
+        
+        async function loadNotificationsAdminView() {
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `
+                <div class="card">
+                    <h3>Send Notification</h3>
+                    <input id="notif-title" placeholder="Notification Title">
+                    <textarea id="notif-message" rows="3" placeholder="Notification Message"></textarea>
+                    <select id="notif-type">
+                        <option value="general">General</option>
+                        <option value="exam">Exam</option>
+                        <option value="routine">Routine</option>
+                        <option value="note">Note</option>
+                        <option value="broadcast">Broadcast</option>
+                        <option value="support">Support</option>
+                    </select>
+                    <select id="notif-target">
+                        <option value="all">All Users</option>
+                        <option value="specific">Specific User</option>
+                    </select>
+                    <input id="notif-user" placeholder="User Email (if specific)" style="display:none;">
+                    <button onclick="sendNotificationToUsers()" class="btn btn-primary">Send Notification</button>
+                    <button onclick="clearAllNotificationsAdmin()" class="btn btn-danger" style="margin-top:10px;">
+                        <i class="fas fa-trash"></i> Clear All Notifications (All Users)
+                    </button>
+                </div>
+                <div class="card">
+                    <h3>Recent Notifications</h3>
+                    <div id="notif-list" style="max-height:300px; overflow-y:auto;">Loading...</div>
+                </div>
+            `;
+            
+            document.getElementById('notif-target').addEventListener('change', function() {
+                document.getElementById('notif-user').style.display = this.value === 'specific' ? 'block' : 'none';
+            });
+            
+            await loadAdminNotifications();
+        }
+        
+        async function loadAdminNotifications() {
+            try {
+                const notifSnap = await getDocs(collection(db, "notifications"));
+                let notifHtml = '';
                 
-                progressSnap.forEach(doc => {
-                    const progress = doc.data();
-                    totalUsers++;
-                    
-                    // Count completed and difficult cards across all categories
-                    Object.values(progress.categories || {}).forEach(category => {
-                        totalCardsCompleted += (category.completedCards?.length || 0);
-                        totalDifficultCards += (category.difficultCards?.length || 0);
-                    });
+                const usersSnap = await getDocs(collection(db, "users"));
+                const usersMap = {};
+                usersSnap.forEach(doc => {
+                    usersMap[doc.id] = doc.data().name;
                 });
                 
-                openModal("Memorizing Statistics", `
-                    <div style="text-align:center; padding:20px 0;">
-                        <h3 style="color:var(--memorize-color);">Memorizing Statistics</h3>
-                        
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px;">
-                            <div style="background:var(--bg); padding:15px; border-radius:12px;">
-                                <div style="font-size:2rem; font-weight:bold; color:var(--memorize-color);">${memorizingCategories.length}</div>
-                                <div style="font-size:0.9rem; color:var(--text-sec);">Categories</div>
-                            </div>
-                            
-                            <div style="background:var(--bg); padding:15px; border-radius:12px;">
-                                <div style="font-size:2rem; font-weight:bold; color:var(--memorize-color);">${memorizingCards.length}</div>
-                                <div style="font-size:0.9rem; color:var(--text-sec);">Total Cards</div>
-                            </div>
-                            
-                            <div style="background:var(--bg); padding:15px; border-radius:12px;">
-                                <div style="font-size:2rem; font-weight:bold; color:var(--success);">${totalUsers}</div>
-                                <div style="font-size:0.9rem; color:var(--text-sec);">Active Users</div>
-                            </div>
-                            
-                            <div style="background:var(--bg); padding:15px; border-radius:12px;">
-                                <div style="font-size:2rem; font-weight:bold; color:var(--primary);">${totalCardsCompleted}</div>
-                                <div style="font-size:0.9rem; color:var(--text-sec);">Cards Completed</div>
-                            </div>
+                for (const doc of notifSnap.docs) {
+                    const data = doc.data();
+                    const userName = usersMap[data.userId] || data.userId;
+                    
+                    notifHtml += `<div style="padding:10px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div><b>${data.title}</b></div>
+                            <div style="font-size:0.8rem;">${data.message}</div>
+                            <div style="font-size:0.7rem; color:var(--text-sec);">To: ${userName}</div>
+                            <div style="font-size:0.7rem; color:var(--text-sec);">Time: ${formatTime(data.timestamp?.toMillis() || Date.now())}</div>
                         </div>
-                        
-                        <div style="margin-top:20px; padding:15px; background:var(--bg); border-radius:12px;">
-                            <h4 style="margin:0 0 10px 0; color:var(--text);">Category Distribution</h4>
-                            ${memorizingCategories.map(category => {
-                                const categoryCards = memorizingCards.filter(c => c.categoryId === category.id);
-                                return `
-                                    <div style="margin-bottom:10px;">
-                                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                                            <span>${category.name}</span>
-                                            <span>${categoryCards.length} cards</span>
-                                        </div>
-                                        <div style="height:6px; background:var(--border); border-radius:3px; overflow:hidden;">
-                                            <div style="height:100%; width:${(categoryCards.length / Math.max(...memorizingCategories.map(c => memorizingCards.filter(card => card.categoryId === c.id).length))) * 100}%; background:var(--memorize-color);"></div>
-                                        </div>
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                `);
+                        <button onclick="deleteNotificationAdmin('${doc.id}')" class="notification-delete">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>`;
+                }
+                
+                document.getElementById('notif-list').innerHTML = notifHtml || '<p>No notifications sent yet.</p>';
             } catch(error) {
-                console.error("Error loading statistics:", error);
-                showMsg("Error loading statistics: " + error.message);
+                console.error("Error loading admin notifications:", error);
+                document.getElementById('notif-list').innerHTML = '<p style="color:var(--danger);">Error loading notifications</p>';
             }
         }
+        
+        window.sendNotificationToUsers = async () => {
+            const title = document.getElementById('notif-title').value;
+            const message = document.getElementById('notif-message').value;
+            const type = document.getElementById('notif-type').value;
+            const target = document.getElementById('notif-target').value;
+            const specificUser = document.getElementById('notif-user').value;
+            
+            if(!title || !message) return showMsg("Please fill all fields");
+            
+            if(target === 'all') {
+                const usersSnap = await getDocs(collection(db, "users"));
+                let count = 0;
+                
+                for(const userDoc of usersSnap.docs) {
+                    if(userDoc.data().role !== 'admin') {
+                        await sendNotification(userDoc.id, title, message, type);
+                        count++;
+                    }
+                }
+                
+                showMsg(`Notification sent to ${count} users!`);
+            } else {
+                const q = query(collection(db, "users"), where("email", "==", specificUser));
+                const s = await getDocs(q);
+                
+                if(s.empty) return showMsg("User not found");
+                
+                s.forEach(async (doc) => {
+                    await sendNotification(doc.id, title, message, type);
+                });
+                
+                showMsg("Notification sent to specific user!");
+            }
+            
+            document.getElementById('notif-title').value = '';
+            document.getElementById('notif-message').value = '';
+            admView('notifications');
+        }
+        
+        window.clearAllNotificationsAdmin = async () => {
+            if(await customConfirm("Clear all notifications for all users?")) {
+                const snap = await getDocs(collection(db, "notifications"));
+                const batch = writeBatch(db);
+                snap.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+                showMsg("All notifications cleared!");
+                admView('notifications');
+            }
+        }
+        
+        window.deleteNotificationAdmin = async (notificationId) => {
+            await deleteDoc(doc(db, "notifications", notificationId));
+            showMsg("Notification deleted!");
+            admView('notifications');
+        }
+        
+        async function loadSupportAdminView() {
+            await loadSupportLinks();
+            
+            const area = document.getElementById('adm-area');
+            let supportListHtml = '';
+            
+            if (supportLinks.length === 0) {
+                supportListHtml = '<p style="text-align:center; color:var(--text-sec); padding:10px;">No support links added yet.</p>';
+            } else {
+                supportLinks.forEach(link => {
+                    supportListHtml += `
+                        <div class="support-admin-item">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div class="support-icon" style="background: ${link.color || '#6C63FF'}; width:40px; height:40px;">
+                                    <i class="${link.icon}"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight:600;">${link.title}</div>
+                                    <div style="font-size:0.8rem; color:var(--text-sec);">${link.link}</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-danger" style="width:auto; padding:5px 10px;" onclick="deleteSupportLink('${link.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+            }
+            
+            area.innerHTML = `
+                <div class="card">
+                    <h3>Add Support Link</h3>
+                    <input id="sp-title" placeholder="Title (e.g. Telegram Group)">
+                    <input id="sp-icon" placeholder="Font Awesome icon (e.g. fab fa-telegram)">
+                    <input id="sp-link" placeholder="Link URL">
+                    <input id="sp-desc" placeholder="Description (optional)">
+                    <input id="sp-color" type="color" value="#6C63FF">
+                    <input id="sp-order" type="number" placeholder="Order (optional)" value="0">
+                    <button onclick="addSupportLink()" class="btn btn-primary">Add Support Link</button>
+                </div>
+                
+                <div class="card">
+                    <h3>Manage Support Links</h3>
+                    <div class="support-admin-grid" id="support-links-list">
+                        ${supportListHtml}
+                    </div>
+                </div>
+            `;
+        }
+        
+        window.addSupportLink = async () => {
+            const title = document.getElementById('sp-title').value;
+            const icon = document.getElementById('sp-icon').value;
+            const link = document.getElementById('sp-link').value;
+            const description = document.getElementById('sp-desc').value;
+            const color = document.getElementById('sp-color').value;
+            const order = parseInt(document.getElementById('sp-order').value) || 0;
 
-        // The rest of the admin functions (exam, student, routine, etc.) remain the same as before...
-        // Note: Due to character limit, I'm showing the most important changes.
-        // The remaining admin functions should be included as-is from your original code.
+            if(!title || !icon || !link) return showMsg("Please fill all required fields");
+
+            await addDoc(collection(db, "supportLinks"), {
+                title: title,
+                icon: icon,
+                link: link,
+                description: description,
+                color: color,
+                order: order,
+                createdAt: Timestamp.now()
+            });
+
+            showMsg("Support link added successfully!");
+            await loadSupportLinks();
+            admView('support');
+        }
+        
+        window.deleteSupportLink = async (id) => {
+            if(await customConfirm("Delete this support link?")) {
+                await deleteDoc(doc(db, "supportLinks", id));
+                showMsg("Support link deleted!");
+                await loadSupportLinks();
+                admView('support');
+            }
+        }
+        
+        async function loadSettingsAdminView() {
+            const shareLinksSnap = await getDoc(doc(db, "settings", "shareLinks"));
+            if (shareLinksSnap.exists()) {
+                shareLinks = shareLinksSnap.data();
+            }
+            
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `
+                <div class="card">
+                    <h3>Theme Color</h3>
+                    <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+                        <div onclick="setTh('#6C63FF')" style="width:35px; height:35px; background:#6C63FF; border-radius:50%; cursor:pointer;"></div>
+                        <div onclick="setTh('#00b894')" style="width:35px; height:35px; background:#00b894; border-radius:50%; cursor:pointer;"></div>
+                        <div onclick="setTh('#FF6584')" style="width:35px; height:35px; background:#FF6584; border-radius:50%; cursor:pointer;"></div>
+                        <div onclick="setTh('#f39c12')" style="width:35px; height:35px; background:#f39c12; border-radius:50%; cursor:pointer;"></div>
+                        <div onclick="setTh('#3498db')" style="width:35px; height:35px; background:#3498db; border-radius:50%; cursor:pointer;"></div>
+                        <div onclick="setTh('#9b59b6')" style="width:35px; height:35px; background:#9b59b6; border-radius:50%; cursor:pointer;"></div>
+                    </div>
+                    
+                    <h4 style="margin-top:20px;">Adjust Tone</h4>
+                    <div class="theme-slider-container">
+                        <input type="range" min="0" max="360" value="0" class="thermo" id="hue-slider" oninput="slideTheme(this.value)">
+                        <p style="text-align:center; font-size:0.8rem;">Slide to change color</p>
+                    </div>
+                    
+                    <h3 style="margin-top:20px;">Share Links</h3>
+                    <input id="telegram-link" value="${shareLinks.telegram || ''}" placeholder="Telegram Bot Link">
+                    <input id="website-link" value="${shareLinks.website || ''}" placeholder="Website Link">
+                    <input id="app-link" value="${shareLinks.app || ''}" placeholder="App Download Link">
+                    <button onclick="saveShareLinks()" class="btn btn-primary">Save Share Links</button>
+                    
+                    <h3 style="margin-top:20px;">Actions</h3>
+                    <button onclick="resetRank()" class="btn btn-danger">Reset All Ranks</button>
+                    <div style="margin-top:10px;"><input id="adm-mail" placeholder="User Email to make Admin"><button onclick="makeAdmin()" class="btn btn-primary">Add Admin</button></div>
+                </div>
+            `;
+        }
+        
+        window.setTh = async (c) => { 
+            await setDoc(doc(db,"settings","theme"),{color:c}); 
+            document.documentElement.style.setProperty('--primary', c); 
+            showMsg("Theme Set"); 
+        }
+        
+        window.slideTheme = (val) => {
+            const color = `hsl(${val}, 70%, 60%)`;
+            document.documentElement.style.setProperty('--primary', color);
+            if(window.saveThemeTimeout) clearTimeout(window.saveThemeTimeout);
+            window.saveThemeTimeout = setTimeout(async() => {
+                 await setDoc(doc(db,"settings","theme"),{color:color});
+            }, 1000);
+        }
+        
+        window.resetRank = async () => { 
+            if(await customConfirm("Reset all points to 0 and levels to 1?")) { 
+                const s=await getDocs(collection(db,"users")); 
+                s.forEach(d=> updateDoc(d.ref, {points:0, level:1, examsTaken: []})); 
+                showMsg("Reset Done"); 
+            } 
+        }
+        
+        window.makeAdmin = async () => {
+            const email = document.getElementById('adm-mail').value;
+            const q = query(collection(db, "users"), where("email", "==", email));
+            const s = await getDocs(q);
+            if(s.empty) return showMsg("User not found");
+            s.forEach(d => updateDoc(d.ref, {role:'admin'}));
+            showMsg("Admin Added!");
+        }
+        
+        window.saveShareLinks = async () => {
+            const telegramLink = document.getElementById('telegram-link').value;
+            const websiteLink = document.getElementById('website-link').value;
+            const appLink = document.getElementById('app-link').value;
+
+            await setDoc(doc(db, "settings", "shareLinks"), {
+                telegram: telegramLink,
+                website: websiteLink,
+                app: appLink
+            });
+            
+            shareLinks = { telegram: telegramLink, website: websiteLink, app: appLink };
+            showMsg("Share links saved!");
+        }
+        
+        window.viewUser = async (uid) => {
+            const uSnap = await getDoc(doc(db, "users", uid));
+            const u = uSnap.data();
+            const q = query(collection(db, "results"), where("userId", "==", uid));
+            const s = await getDocs(q);
+            let h = ""; s.forEach(d => h += `<div style="font-size:0.9rem; border-bottom:1px solid var(--border); padding:5px;"><b>${d.data().exam}</b>: ${d.data().score}/${d.data().total} (${d.data().pointsChange > 0 ? '+' : ''}${d.data().pointsChange} pts)</div>`);
+            
+            const btnText = u.isBanned ? "Unban Student" : "Ban Student";
+            const btnColor = u.isBanned ? "var(--success)" : "var(--danger)";
+
+            openModal("Student Details", `
+                <div style="text-align:center;">
+                    <h3 style="color:var(--primary)">${u.name}</h3>
+                    <p>${u.email}</p>
+                    <p style="font-size:0.8rem; color:var(--text-sec)">Joined: ${u.joined}</p>
+                    <div style="display:flex; justify-content:center; gap:10px; margin:10px 0;">
+                        <div style="background:var(--bg); padding:10px; border-radius:10px;">
+                            <div style="font-size:1.5rem; color:var(--primary);">${u.points || 0}</div>
+                            <div style="font-size:0.8rem;">Points</div>
+                        </div>
+                        <div style="background:var(--bg); padding:10px; border-radius:10px;">
+                            <div style="font-size:1.5rem; color:var(--warning);">${u.level || 1}</div>
+                            <div style="font-size:0.8rem;">Level</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin:15px 0;">
+                        <h4>Adjust Level/Points</h4>
+                        <div style="display:flex; gap:10px;">
+                            <input type="number" id="adj-points" value="${u.points || 0}" placeholder="Points" style="width:50%;">
+                            <input type="number" id="adj-level" value="${u.level || 1}" placeholder="Level" style="width:50%;">
+                        </div>
+                        <button onclick="adjustUserPoints('${uid}')" class="btn btn-primary" style="margin-top:10px;">Update</button>
+                    </div>
+                    
+                    <button onclick="toggleBan('${uid}', ${u.isBanned})" class="btn" style="background:${btnColor}; color:white; margin:15px 0;">${btnText}</button>
+                    
+                    <button onclick="deleteStudent('${uid}')" class="btn btn-danger" style="margin-top:10px; margin-bottom:10px;">
+                        <i class="fas fa-trash"></i> Delete Student
+                    </button>
+                    
+                    <button onclick="deleteStudentResults('${uid}')" class="btn btn-warning" style="margin-bottom:10px;">
+                        <i class="fas fa-trash-alt"></i> Delete Student Results Only
+                    </button>
+                </div>
+                <hr style="border:1px solid var(--border); margin:10px 0;">
+                <h4>Exam History</h4>
+                <div style="max-height:150px; overflow-y:auto;">${h||"No exams taken."}</div>
+            `);
+        }
+        
+        window.adjustUserPoints = async (uid) => {
+            const newPoints = parseInt(document.getElementById('adj-points').value) || 0;
+            const newLevel = parseInt(document.getElementById('adj-level').value) || 1;
+            
+            await updateDoc(doc(db, "users", uid), { 
+                points: newPoints, 
+                level: newLevel 
+            });
+            
+            showMsg("User points and level updated!");
+            closeModal();
+            admView('student');
+        }
+        
+        window.toggleBan = async (uid, currentStatus) => {
+            await updateDoc(doc(db, "users", uid), { isBanned: !currentStatus });
+            showMsg(currentStatus ? "User Unbanned" : "User Banned");
+            closeModal();
+            admView('student'); 
+        }
+        
+        window.deleteStudent = async (uid) => {
+            if(await customConfirm("Are you sure you want to delete this student? This will delete ALL data including user account, results, and notifications.")) {
+                await deleteDoc(doc(db, "users", uid));
+                
+                const q1 = query(collection(db, "results"), where("userId", "==", uid));
+                const snap1 = await getDocs(q1);
+                const batch1 = writeBatch(db);
+                snap1.forEach(doc => batch1.delete(doc.ref));
+                await batch1.commit();
+                
+                const q2 = query(collection(db, "notifications"), where("userId", "==", uid));
+                const snap2 = await getDocs(q2);
+                const batch2 = writeBatch(db);
+                snap2.forEach(doc => batch2.delete(doc.ref));
+                await batch2.commit();
+                
+                showMsg("Student deleted successfully!");
+                closeModal();
+                admView('student');
+            }
+        }
+        
+        window.deleteStudentResults = async (uid) => {
+            if(await customConfirm("Are you sure you want to delete all exam results for this student?")) {
+                const q = query(collection(db, "results"), where("userId", "==", uid));
+                const snap = await getDocs(q);
+                const batch = writeBatch(db);
+                snap.forEach(doc => batch.delete(doc.ref));
+                await batch.commit();
+                
+                await updateDoc(doc(db, "users", uid), { 
+                    examsTaken: [],
+                    points: 0,
+                    level: 1
+                });
+                
+                showMsg("Student results deleted successfully!");
+                closeModal();
+                admView('student');
+            }
+        }
 
         // --- LOADERS ---
         async function loadServerTheme() { 
