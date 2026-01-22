@@ -868,7 +868,7 @@
             transform: scale(1.2);
         }
         
-        /* Floating Level Selector */
+        /* Floating Level Selector - UPDATED */
         .floating-level-selector {
             position: fixed;
             top: 80px;
@@ -883,6 +883,13 @@
             align-items: center;
             gap: 8px;
             animation: slideInRight 0.5s ease;
+            width: 50px;
+            overflow: hidden;
+            transition: width 0.3s ease;
+        }
+        
+        .floating-level-selector.expanded {
+            width: 200px;
         }
         
         .level-select {
@@ -892,6 +899,7 @@
             font-weight: 600;
             outline: none;
             cursor: pointer;
+            width: 140px;
         }
         
         /* Journey Panel */
@@ -1238,7 +1246,7 @@
         }
         
         /* ==================== */
-        /* MEMORIZING PART CSS */
+        /* MEMORIZING PART CSS - UPDATED */
         /* ==================== */
         
         /* Memorizing Mode Selector */
@@ -1281,25 +1289,42 @@
             box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.2);
         }
         
-        /* Memorizing Category Selector */
+        /* Memorizing Category Selector - UPDATED */
         .memorizing-category-selector {
             margin-bottom: 20px;
             animation: fadeIn 0.5s ease;
         }
         
-        .memorizing-category-card {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
+        .memorizing-category-selector-card {
+            background: var(--card-bg);
             border-radius: 20px;
             padding: 20px;
-            text-align: center;
             box-shadow: var(--shadow);
             margin-bottom: 15px;
         }
         
-        .memorizing-category-card h3 {
+        .category-select-dropdown {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236C63FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            transition: all 0.3s ease;
             margin-bottom: 15px;
-            font-size: 1.3rem;
+        }
+        
+        .category-select-dropdown:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
         }
         
         /* Memorizing Card Container */
@@ -1328,16 +1353,16 @@
             opacity: 0.9;
         }
         
-        /* Memorizing Card */
+        /* Memorizing Card - UPDATED */
         .memorizing-card {
             background: var(--card-bg);
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             margin-bottom: 15px;
             box-shadow: var(--shadow);
             border: 2px solid var(--border);
             transition: all 0.3s ease;
-            min-height: 200px;
+            min-height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1365,25 +1390,13 @@
         }
         
         .memorizing-card-content {
-            font-size: 1.5rem;
+            font-size: 1.2rem; /* Updated: Smaller font size */
             font-weight: 600;
             color: var(--text);
-            padding: 20px;
+            padding: 15px;
             line-height: 1.5;
             word-wrap: break-word;
             max-width: 100%;
-        }
-        
-        .memorizing-card-content.small {
-            font-size: 1.2rem;
-        }
-        
-        .memorizing-card-content.medium {
-            font-size: 1.8rem;
-        }
-        
-        .memorizing-card-content.large {
-            font-size: 2.2rem;
         }
         
         .memorizing-card-badge {
@@ -1784,7 +1797,7 @@
         let currentPracticeDay = null;
         let currentPracticeLevel = null;
 
-        // Memorizing Variables
+        // Memorizing Variables - UPDATED
         let memorizingCategories = [];
         let memorizingCards = [];
         let currentMemorizingCategory = null;
@@ -1792,6 +1805,9 @@
         let userMemorizingProgress = {};
         let redCards = [];
         let currentMemorizingMode = 'study-plan';
+        let currentCardsSet = []; // Current 10 cards to display
+        let allCategoryCards = []; // All cards for the selected category
+        let cardsPerSet = 10; // Cards per set
 
         // AVATAR IMAGES
         const AVATAR_MALE = [
@@ -2411,7 +2427,7 @@
             });
         }
 
-        // --- MEMORIZING FUNCTIONS ---
+        // --- MEMORIZING FUNCTIONS - UPDATED ---
         async function loadMemorizingData() {
             if (!currentUser) return;
             
@@ -2449,15 +2465,15 @@
 
         async function loadMemorizingCardsForCategory(categoryId) {
             try {
-                const q = query(collection(db, "memorizingCards"), where("categoryId", "==", categoryId));
+                const q = query(collection(db, "memorizingCards"), where("categoryId", "==", categoryId), orderBy("day"));
                 const snap = await getDocs(q);
                 
-                memorizingCards = [];
+                allCategoryCards = [];
                 snap.forEach(doc => {
-                    memorizingCards.push({ id: doc.id, ...doc.data() });
+                    allCategoryCards.push({ id: doc.id, ...doc.data() });
                 });
                 
-                return memorizingCards;
+                return allCategoryCards;
             } catch(error) {
                 console.error("Error loading memorizing cards:", error);
                 return [];
@@ -2473,24 +2489,25 @@
             currentMemorizingDay = categoryProgress.currentDay || 1;
             redCards = categoryProgress.redCards || [];
             
-            // Get cards for current day
-            const dayCards = memorizingCards.filter(card => 
-                card.categoryId === currentMemorizingCategory && 
-                card.day === currentMemorizingDay
-            );
+            // Get cards for current day (10 cards per day)
+            const startIndex = (currentMemorizingDay - 1) * cardsPerSet;
+            const endIndex = startIndex + cardsPerSet;
+            
+            let dayCards = allCategoryCards.slice(startIndex, endIndex);
             
             // Add red cards from previous days
-            const redCardObjects = memorizingCards.filter(card => 
+            const redCardObjects = allCategoryCards.filter(card => 
                 redCards.includes(card.id)
             );
             
             // Combine and limit to 10 cards
             let allCards = [...redCardObjects, ...dayCards];
-            if (allCards.length > 10) {
-                allCards = allCards.slice(0, 10);
+            if (allCards.length > cardsPerSet) {
+                allCards = allCards.slice(0, cardsPerSet);
             }
             
-            return allCards;
+            currentCardsSet = allCards;
+            return currentCardsSet;
         }
 
         async function updateMemorizingProgress(completed = false) {
@@ -2512,7 +2529,7 @@
                     // Move to next day
                     categoryProgress.currentDay += 1;
                     
-                    // Reset red cards for the new day (they were already added to the next day)
+                    // Reset red cards for the new day (they will be added to the next set)
                     categoryProgress.redCards = [];
                 } else {
                     // Update red cards
@@ -2539,7 +2556,7 @@
             await updateMemorizingProgress(false);
         }
 
-        // --- STUDY PAGE ---
+        // --- STUDY PAGE - UPDATED ---
         window.renderStudy = async () => {
             updateNav(1);
             
@@ -2565,7 +2582,7 @@
                 <div id="study-plan-section" style="display: ${currentMemorizingMode === 'study-plan' ? 'block' : 'none'};">
                     <div class="floating-level-selector" id="floating-level-selector">
                         <i class="fas fa-graduation-cap" style="color:var(--primary);"></i>
-                        <select class="level-select" id="study-level-select" onchange="changeStudyLevel(this.value)">
+                        <select class="level-select" id="study-level-select" onchange="changeStudyLevel(this.value)" onclick="expandLevelSelector()">
                             <option value="">Select Level</option>
                             ${studyLevels.map(level => 
                                 `<option value="${level.level}" ${level.level === currentStudyLevel ? 'selected' : ''}>
@@ -2672,6 +2689,16 @@
             }
         }
 
+        // Study Page Level Selector Expand Function
+        window.expandLevelSelector = () => {
+            const selector = document.getElementById('floating-level-selector');
+            selector.classList.add('expanded');
+            
+            setTimeout(() => {
+                selector.classList.remove('expanded');
+            }, 3000);
+        }
+
         window.changeStudyMode = async (mode) => {
             currentMemorizingMode = mode;
             await renderStudy();
@@ -2680,21 +2707,27 @@
         function renderMemorizingPart() {
             return `
                 <div class="memorizing-category-selector" id="memorizing-category-selector">
-                    <div class="memorizing-category-card">
+                    <div class="memorizing-category-selector-card">
                         <h3><i class="fas fa-brain"></i> Memorizing Part</h3>
                         <p style="opacity:0.9; margin-bottom:15px;">Select a category to start memorizing words or sentences</p>
-                        <div id="category-list">
-                            Loading categories...
+                        
+                        <select class="category-select-dropdown" id="memorizing-category-dropdown" onchange="selectMemorizingCategory(this.value)">
+                            <option value="">Select a Category</option>
+                            ${memorizingCategories.map(category => 
+                                `<option value="${category.id}">${category.name}</option>`
+                            ).join('')}
+                        </select>
+                        
+                        <div id="category-info" style="display:none;">
+                            <div class="memorizing-day-info">
+                                <div class="memorizing-day-title" id="memorizing-day-title">Day 1</div>
+                                <div class="memorizing-day-progress" id="memorizing-day-progress">10 cards to study</div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div id="memorizing-content" style="display: none;">
-                    <div class="memorizing-day-info">
-                        <div class="memorizing-day-title" id="memorizing-day-title">Day 1</div>
-                        <div class="memorizing-day-progress" id="memorizing-day-progress">10 cards to study</div>
-                    </div>
-                    
                     <div class="memorizing-progress-container">
                         <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
                             <span>Progress</span>
@@ -2735,45 +2768,30 @@
         }
 
         async function renderMemorizingCategorySelector() {
-            const categoryList = document.getElementById('category-list');
-            if (!categoryList) return;
+            const dropdown = document.getElementById('memorizing-category-dropdown');
+            if (!dropdown) return;
             
             if (memorizingCategories.length === 0) {
-                categoryList.innerHTML = `
-                    <div class="card" style="text-align:center; padding:20px;">
-                        <i class="fas fa-book" style="font-size:3rem; color:var(--text-sec); margin-bottom:15px;"></i>
-                        <h3>No Memorizing Categories</h3>
-                        <p style="color:var(--text-sec); margin-top:10px;">Categories will be added by admin.</p>
+                document.getElementById('memorizing-category-selector').innerHTML = `
+                    <div class="memorizing-category-selector-card">
+                        <div style="text-align:center; padding:20px;">
+                            <i class="fas fa-book" style="font-size:3rem; color:var(--text-sec); margin-bottom:15px;"></i>
+                            <h3>No Memorizing Categories</h3>
+                            <p style="color:var(--text-sec); margin-top:10px;">Categories will be added by admin.</p>
+                        </div>
                     </div>
                 `;
                 return;
             }
-            
-            let html = '';
-            memorizingCategories.forEach(category => {
-                const progress = userMemorizingProgress.categories[category.id] || {};
-                const currentDay = progress.currentDay || 1;
-                
-                html += `
-                    <div class="mini-card" onclick="selectMemorizingCategory('${category.id}')" style="animation:fadeInLeft 0.5s ease;">
-                        <i class="fas fa-book-reader" style="font-size:2rem; color:var(--primary); margin-bottom:10px;"></i>
-                        <h4>${category.name}</h4>
-                        <small style="color:var(--text-sec);">${category.description || 'Memorizing category'}</small>
-                        <div style="margin-top:8px;">
-                            <span class="level-badge">Day ${currentDay}</span>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            categoryList.innerHTML = `<div class="grid-container">${html}</div>`;
         }
 
         window.selectMemorizingCategory = async (categoryId) => {
+            if (!categoryId) return;
+            
             currentMemorizingCategory = categoryId;
             await loadMemorizingCardsForCategory(categoryId);
             
-            document.getElementById('memorizing-category-selector').style.display = 'none';
+            document.getElementById('category-info').style.display = 'block';
             document.getElementById('memorizing-content').style.display = 'block';
             
             await loadCurrentMemorizingCards();
@@ -2812,7 +2830,6 @@
             let html = '';
             cards.forEach((card, index) => {
                 const isRed = redCards.includes(card.id);
-                const textSize = card.content.length > 50 ? 'small' : (card.content.length > 20 ? 'medium' : 'large');
                 
                 html += `
                     <div class="memorizing-card ${isRed ? 'red' : ''}" 
@@ -2820,7 +2837,7 @@
                          style="animation-delay: ${index * 0.1}s">
                         ${isRed ? '<div class="memorizing-card-red-badge"><i class="fas fa-redo"></i> Review</div>' : ''}
                         <div class="memorizing-card-badge">${index + 1}/${cards.length}</div>
-                        <div class="memorizing-card-content ${textSize}">${card.content}</div>
+                        <div class="memorizing-card-content">${card.content}</div>
                     </div>
                 `;
             });
@@ -2841,19 +2858,19 @@
         window.toggleMemorizingCardRed = async (cardId) => {
             await toggleCardRed(cardId);
             await loadCurrentMemorizingCards();
-            showMsg("Card marked for review!");
+            showMsg("Card marked for review! It will appear in the next set.");
         }
 
         window.completeMemorizingDay = async () => {
-            if (await customConfirm("Complete this day and move to next day?")) {
+            if (await customConfirm("Complete this day and move to next set of cards?")) {
                 await updateMemorizingProgress(true);
                 await loadCurrentMemorizingCards();
-                showMsg("Day completed! Moving to next day.");
+                showMsg("Day completed! Moving to next set of cards.");
             }
         }
 
         window.showAllMemorizingCards = async () => {
-            const cards = await getCurrentMemorizingCards();
+            const cards = currentCardsSet;
             const grid = document.getElementById('all-cards-grid');
             
             let html = '';
@@ -4252,7 +4269,7 @@
             }
         }
 
-        // --- MEMORIZING ADMIN VIEW ---
+        // --- MEMORIZING ADMIN VIEW - UPDATED ---
         async function loadMemorizingAdminView() {
             await loadMemorizingData();
             
@@ -4290,31 +4307,33 @@
                 <div class="card" id="add-cards-section" style="display:none;">
                     <h3><i class="fas fa-upload"></i> Add Cards to Category</h3>
                     <p id="selected-category-name" style="color:var(--primary); margin-bottom:15px;"></p>
-                    <div style="display:flex; gap:10px; margin-bottom:15px;">
-                        <input type="number" id="memorizing-day" placeholder="Day Number" min="1" style="flex:1;">
-                        <button onclick="copyMemorizingFormat()" class="btn btn-sec">Copy Format</button>
+                    
+                    <div class="card" style="margin-bottom:15px;">
+                        <h4><i class="fas fa-info-circle"></i> Instructions</h4>
+                        <p style="font-size:0.9rem; color:var(--text-sec);">
+                            Enter unlimited words or sentences separated by commas or new lines. 
+                            They will be automatically split into sets of 10 cards per day.
+                        </p>
                     </div>
-                    <textarea id="memorizing-cards-json" rows="6" placeholder="Paste cards JSON here..."></textarea>
+                    
+                    <textarea id="memorizing-cards-text" rows="10" placeholder="Enter words or sentences here (comma or new line separated)...
+Example:
+Apple, Banana, Orange, Car, House, Tree, Book, Pen, School, Teacher
+Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
+                    
                     <button onclick="uploadMemorizingCards()" class="btn btn-primary">Upload Cards</button>
                     <div id="memorizing-upload-report" style="margin-top:15px;"></div>
                 </div>
                 
                 <div class="card">
-                    <h3><i class="fas fa-question-circle"></i> JSON Format</h3>
-                    <div class="study-json-format">
-[
-  {
-    "content": "Word or sentence 1"
-  },
-  {
-    "content": "Word or sentence 2"
-  },
-  {
-    "content": "Word or sentence 3"
-  }
-]
-                    </div>
-                    <p style="color:var(--text-sec); font-size:0.9rem; margin-top:10px;">Separate words or sentences with commas. Each will become a card.</p>
+                    <h3><i class="fas fa-question-circle"></i> How it works</h3>
+                    <p style="color:var(--text-sec); font-size:0.9rem; margin-top:10px;">
+                        1. Enter words/sentences separated by commas or new lines<br>
+                        2. System automatically groups them into sets of 10 per day<br>
+                        3. Students will see 10 cards per day<br>
+                        4. Double-click marks cards as red (needs review)<br>
+                        5. Red cards appear in next set until mastered
+                    </p>
                 </div>
             `;
         }
@@ -4356,41 +4375,57 @@
             });
         }
 
-        window.copyMemorizingFormat = () => {
-            const format = `[\n  {\n    "content": "Word or sentence 1"\n  },\n  {\n    "content": "Word or sentence 2"\n  }\n]`;
-            navigator.clipboard.writeText(format);
-            showMsg("JSON format copied to clipboard!");
-        }
-
         window.uploadMemorizingCards = async () => {
             const categoryId = document.getElementById('add-cards-section').dataset.categoryId;
-            const day = parseInt(document.getElementById('memorizing-day').value);
-            const jsonText = document.getElementById('memorizing-cards-json').value;
+            const cardsText = document.getElementById('memorizing-cards-text').value;
             
             if(!categoryId) return showMsg("Please select a category first");
-            if(!day) return showMsg("Please enter day number");
-            if(!jsonText) return showMsg("Please enter JSON content");
+            if(!cardsText) return showMsg("Please enter words or sentences");
             
             try {
-                const cards = JSON.parse(jsonText);
-                let success = 0;
-                let failed = 0;
+                // Split by comma or new line
+                let items = cardsText.split(/[,;\n]/)
+                    .map(item => item.trim())
+                    .filter(item => item.length > 0);
+                
+                if (items.length === 0) {
+                    showMsg("No valid words/sentences found");
+                    return;
+                }
                 
                 toggleLoader(true);
                 
-                for (const card of cards) {
-                    try {
-                        await addDoc(collection(db, "memorizingCards"), {
-                            categoryId: categoryId,
-                            day: day,
-                            content: card.content,
-                            createdAt: Timestamp.now()
-                        });
-                        success++;
-                    } catch(error) {
-                        console.error("Error uploading card:", error);
-                        failed++;
+                // Delete existing cards for this category first
+                const q = query(collection(db, "memorizingCards"), where("categoryId", "==", categoryId));
+                const existingCards = await getDocs(q);
+                const deleteBatch = writeBatch(db);
+                existingCards.forEach(doc => {
+                    deleteBatch.delete(doc.ref);
+                });
+                await deleteBatch.commit();
+                
+                // Group items into sets of 10 (days)
+                const cardsPerSet = 10;
+                let day = 1;
+                let success = 0;
+                
+                for (let i = 0; i < items.length; i += cardsPerSet) {
+                    const chunk = items.slice(i, i + cardsPerSet);
+                    
+                    for (const content of chunk) {
+                        try {
+                            await addDoc(collection(db, "memorizingCards"), {
+                                categoryId: categoryId,
+                                day: day,
+                                content: content,
+                                createdAt: Timestamp.now()
+                            });
+                            success++;
+                        } catch(error) {
+                            console.error("Error uploading card:", error);
+                        }
                     }
+                    day++;
                 }
                 
                 toggleLoader(false);
@@ -4399,18 +4434,17 @@
                     <div class="upload-report">
                         <h4>Upload Report:</h4>
                         <p><span class="upload-success">Successfully uploaded: ${success} cards</span></p>
-                        <p><span class="upload-failed">Failed: ${failed} cards</span></p>
+                        <p>Organized into ${day-1} days (10 cards per day)</p>
                     </div>
                 `;
                 
-                showMsg(`Cards uploaded: ${success} successful, ${failed} failed`);
+                showMsg(`Cards uploaded: ${success} cards organized into ${day-1} days!`);
                 
-                document.getElementById('memorizing-cards-json').value = '';
-                document.getElementById('memorizing-day').value = '';
+                document.getElementById('memorizing-cards-text').value = '';
                 
             } catch(error) {
                 toggleLoader(false);
-                showMsg("JSON Error: " + error.message);
+                showMsg("Error: " + error.message);
             }
         }
 
