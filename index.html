@@ -1237,6 +1237,275 @@
             font-weight: 600;
         }
         
+        /* ==================== */
+        /* MEMORIZING PART CSS */
+        /* ==================== */
+        
+        /* Memorizing Mode Selector */
+        .memorizing-mode-selector {
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--primary-light);
+        }
+        
+        .mode-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        
+        .mode-select {
+            width: 100%;
+            padding: 15px 50px 15px 15px;
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 1rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236C63FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            transition: all 0.3s ease;
+            background-color: var(--primary-light);
+        }
+        
+        .mode-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.2);
+        }
+        
+        /* Memorizing Category Selector */
+        .memorizing-category-selector {
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .memorizing-category-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+        }
+        
+        .memorizing-category-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        /* Memorizing Card Container */
+        .memorizing-card-container {
+            margin-bottom: 20px;
+        }
+        
+        .memorizing-day-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .memorizing-day-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .memorizing-day-progress {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Memorizing Card */
+        .memorizing-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--border);
+            transition: all 0.3s ease;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .memorizing-card.red {
+            border-color: var(--danger);
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), var(--card-bg));
+            animation: pulseRed 2s infinite;
+        }
+        
+        .memorizing-card.completed {
+            border-color: var(--success);
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), var(--card-bg));
+        }
+        
+        @keyframes pulseRed {
+            0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+        }
+        
+        .memorizing-card-content {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+            padding: 20px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+        
+        .memorizing-card-content.small {
+            font-size: 1.2rem;
+        }
+        
+        .memorizing-card-content.medium {
+            font-size: 1.8rem;
+        }
+        
+        .memorizing-card-content.large {
+            font-size: 2.2rem;
+        }
+        
+        .memorizing-card-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .memorizing-card-red-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Memorizing Controls */
+        .memorizing-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .memorizing-complete-btn {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--success), #2ecc71);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .memorizing-complete-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+        }
+        
+        .memorizing-complete-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Memorizing Progress */
+        .memorizing-progress-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .memorizing-progress-bar {
+            height: 10px;
+            background: var(--bg);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .memorizing-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Memorizing Grid */
+        .memorizing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .memorizing-grid-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 2px solid var(--border);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-wrap: break-word;
+        }
+        
+        .memorizing-grid-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+        
+        .memorizing-grid-card.red {
+            border-color: var(--danger);
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), var(--card-bg));
+        }
+        
+        .memorizing-grid-card.completed {
+            border-color: var(--success);
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), var(--card-bg));
+        }
+        
         /* Shimmer Effect */
         @keyframes shimmer {
             0% { background-position: -1000px 0; }
@@ -1462,20 +1731,15 @@
         </div>
     </div>
 
-    <!-- Audio for notification sound -->
-    <audio id="notification-sound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
-    </audio>
-    
-    <!-- Audio for alert sound -->
-    <audio id="alert-sound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-message-pop-alert-2354.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- Audio for exam completion sound -->
-    <audio id="exam-complete-sound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
-    </audio>
+    <div id="forgot-password-modal" class="modal">
+        <div class="modal-content" style="max-width:400px;">
+            <h2 style="margin-bottom:20px; color:var(--primary);">Reset Password</h2>
+            <p style="color:var(--text-sec); margin-bottom:15px;">Enter your email address and we'll send you a link to reset your password.</p>
+            <input type="email" id="reset-email" placeholder="Email Address">
+            <button onclick="sendPasswordResetEmail()" class="btn btn-primary">Send Reset Link</button>
+            <button onclick="closeForgotPasswordModal()" class="btn btn-sec" style="margin-top:10px;">Cancel</button>
+        </div>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -1516,9 +1780,18 @@
         let practiceQuizQuestions = [];
         let practiceQuizAnswers = {};
         let practiceQuizTimer = null;
-        let practiceQuizTimeLeft = 120; // 2 minutes in seconds
+        let practiceQuizTimeLeft = 120;
         let currentPracticeDay = null;
         let currentPracticeLevel = null;
+
+        // Memorizing Variables
+        let memorizingCategories = [];
+        let memorizingCards = [];
+        let currentMemorizingCategory = null;
+        let currentMemorizingDay = 1;
+        let userMemorizingProgress = {};
+        let redCards = [];
+        let currentMemorizingMode = 'study-plan';
 
         // AVATAR IMAGES
         const AVATAR_MALE = [
@@ -1558,25 +1831,6 @@
 
         // SUPPORT LINKS
         let supportLinks = [];
-
-        // --- SOUND FUNCTIONS ---
-        function playNotificationSound() {
-            const audio = document.getElementById('notification-sound');
-            audio.currentTime = 0;
-            audio.play().catch(e => console.log("Notification sound play failed:", e));
-        }
-
-        function playAlertSound() {
-            const audio = document.getElementById('alert-sound');
-            audio.currentTime = 0;
-            audio.play().catch(e => console.log("Alert sound play failed:", e));
-        }
-
-        function playExamCompleteSound() {
-            const audio = document.getElementById('exam-complete-sound');
-            audio.currentTime = 0;
-            audio.play().catch(e => console.log("Exam complete sound play failed:", e));
-        }
 
         // --- NETWORK CONNECTIVITY ---
         function updateNetworkStatus() {
@@ -1653,7 +1907,6 @@
         window.showMsg = (msg) => {
             document.getElementById('alert-msg').innerText = msg;
             document.getElementById('custom-alert').classList.add('show');
-            playAlertSound();
         }
         window.closeAlert = () => document.getElementById('custom-alert').classList.remove('show');
         window.toggleTheme = () => {
@@ -1751,7 +2004,6 @@
 
         // --- NOTIFICATION FUNCTIONS ---
         function showNotificationPopup(title, message) {
-            playNotificationSound();
             const popup = document.getElementById('notification-popup');
             popup.style.display = 'block';
             
@@ -1940,7 +2192,6 @@
         // --- CATEGORY FUNCTIONS ---
         async function loadAllCategories() {
             try {
-                // First try to load from categories collection
                 const categoriesSnap = await getDocs(collection(db, "categories"));
                 const categoriesSet = new Set();
                 
@@ -1951,7 +2202,6 @@
                     }
                 });
                 
-                // Also load from exams for backward compatibility
                 const examsSnap = await getDocs(collection(db, "exams"));
                 examsSnap.forEach(doc => {
                     const data = doc.data();
@@ -1983,7 +2233,6 @@
             if(!newCategory) return showMsg("Please enter a category name");
             
             try {
-                // Check if category already exists
                 const q = query(collection(db, "categories"), where("name", "==", newCategory));
                 const existingCat = await getDocs(q);
                 
@@ -1992,17 +2241,14 @@
                     return;
                 }
                 
-                // Add to Firebase categories collection
                 await addDoc(collection(db, "categories"), {
                     name: newCategory,
                     createdAt: Timestamp.now(),
                     createdBy: currentUser.uid
                 });
                 
-                // Reload categories
                 await loadAllCategories();
                 
-                // Update the category select in admin panel
                 updateAdminCategorySelect();
                 updateAdminExamCategorySelects();
                 
@@ -2024,7 +2270,6 @@
                 adminSelect.innerHTML = options;
             }
             
-            // Also update other category selects
             const homeCategorySelect = document.getElementById('category-select');
             if(homeCategorySelect) {
                 let options = '<option value="">All Categories</option>';
@@ -2036,7 +2281,6 @@
         }
 
         function updateAdminExamCategorySelects() {
-            // Update create exam category select
             const createSelect = document.getElementById('nc');
             if(createSelect) {
                 let createOptions = '<option value="">Select Category</option>';
@@ -2046,7 +2290,6 @@
                 createSelect.innerHTML = createOptions;
             }
             
-            // Update filter category select
             const filterSelect = document.getElementById('admin-exam-filter');
             if(filterSelect) {
                 let filterOptions = '<option value="">All Categories</option>';
@@ -2116,7 +2359,8 @@
                 
                 await loadSupportLinks();
                 await loadAllCategories();
-                await loadStudyData(); // Load study data
+                await loadStudyData();
+                await loadMemorizingData();
                 
                 const snap = await getDoc(doc(db, "users", user.uid));
                 if(snap.exists()) {
@@ -2159,7 +2403,6 @@
                     if(change.type === "added") {
                         const newNotif = change.doc.data();
                         if(!newNotif.read) {
-                            playNotificationSound();
                             showNotificationPopup(newNotif.title, newNotif.message);
                             loadNotifications();
                         }
@@ -2168,17 +2411,500 @@
             });
         }
 
+        // --- MEMORIZING FUNCTIONS ---
+        async function loadMemorizingData() {
+            if (!currentUser) return;
+            
+            try {
+                // Load memorizing categories
+                const categoriesSnap = await getDocs(collection(db, "memorizingCategories"));
+                memorizingCategories = [];
+                categoriesSnap.forEach(doc => {
+                    memorizingCategories.push({ id: doc.id, ...doc.data() });
+                });
+                
+                // Load user progress
+                const progressSnap = await getDoc(doc(db, "userMemorizingProgress", currentUser.uid));
+                if (progressSnap.exists()) {
+                    userMemorizingProgress = progressSnap.data();
+                } else {
+                    userMemorizingProgress = {
+                        userId: currentUser.uid,
+                        categories: {}
+                    };
+                    await setDoc(doc(db, "userMemorizingProgress", currentUser.uid), userMemorizingProgress);
+                }
+                
+                // Load memorizing cards
+                const cardsSnap = await getDocs(collection(db, "memorizingCards"));
+                memorizingCards = [];
+                cardsSnap.forEach(doc => {
+                    memorizingCards.push({ id: doc.id, ...doc.data() });
+                });
+                
+            } catch(error) {
+                console.error("Error loading memorizing data:", error);
+            }
+        }
+
+        async function loadMemorizingCardsForCategory(categoryId) {
+            try {
+                const q = query(collection(db, "memorizingCards"), where("categoryId", "==", categoryId));
+                const snap = await getDocs(q);
+                
+                memorizingCards = [];
+                snap.forEach(doc => {
+                    memorizingCards.push({ id: doc.id, ...doc.data() });
+                });
+                
+                return memorizingCards;
+            } catch(error) {
+                console.error("Error loading memorizing cards:", error);
+                return [];
+            }
+        }
+
+        async function getCurrentMemorizingCards() {
+            if (!currentMemorizingCategory || !userMemorizingProgress.categories[currentMemorizingCategory]) {
+                return [];
+            }
+            
+            const categoryProgress = userMemorizingProgress.categories[currentMemorizingCategory];
+            currentMemorizingDay = categoryProgress.currentDay || 1;
+            redCards = categoryProgress.redCards || [];
+            
+            // Get cards for current day
+            const dayCards = memorizingCards.filter(card => 
+                card.categoryId === currentMemorizingCategory && 
+                card.day === currentMemorizingDay
+            );
+            
+            // Add red cards from previous days
+            const redCardObjects = memorizingCards.filter(card => 
+                redCards.includes(card.id)
+            );
+            
+            // Combine and limit to 10 cards
+            let allCards = [...redCardObjects, ...dayCards];
+            if (allCards.length > 10) {
+                allCards = allCards.slice(0, 10);
+            }
+            
+            return allCards;
+        }
+
+        async function updateMemorizingProgress(completed = false) {
+            if (!currentUser || !currentMemorizingCategory) return;
+            
+            try {
+                if (!userMemorizingProgress.categories[currentMemorizingCategory]) {
+                    userMemorizingProgress.categories[currentMemorizingCategory] = {
+                        currentDay: 1,
+                        redCards: [],
+                        completedCards: [],
+                        lastStudied: new Date().toISOString()
+                    };
+                }
+                
+                const categoryProgress = userMemorizingProgress.categories[currentMemorizingCategory];
+                
+                if (completed) {
+                    // Move to next day
+                    categoryProgress.currentDay += 1;
+                    
+                    // Reset red cards for the new day (they were already added to the next day)
+                    categoryProgress.redCards = [];
+                } else {
+                    // Update red cards
+                    categoryProgress.redCards = redCards;
+                }
+                
+                categoryProgress.lastStudied = new Date().toISOString();
+                
+                await setDoc(doc(db, "userMemorizingProgress", currentUser.uid), userMemorizingProgress, { merge: true });
+                
+            } catch(error) {
+                console.error("Error updating memorizing progress:", error);
+            }
+        }
+
+        async function toggleCardRed(cardId) {
+            const index = redCards.indexOf(cardId);
+            if (index > -1) {
+                redCards.splice(index, 1);
+            } else {
+                redCards.push(cardId);
+            }
+            
+            await updateMemorizingProgress(false);
+        }
+
+        // --- STUDY PAGE ---
+        window.renderStudy = async () => {
+            updateNav(1);
+            
+            await loadStudyData();
+            await loadMemorizingData();
+            
+            const countdown = calculateCountdown();
+            
+            document.getElementById('main-content').innerHTML = `
+                <div class="memorizing-mode-selector">
+                    <div class="mode-select-wrapper">
+                        <select id="study-mode" class="mode-select" onchange="changeStudyMode(this.value)">
+                            <option value="study-plan" ${currentMemorizingMode === 'study-plan' ? 'selected' : ''}>
+                                📚 Study Plan
+                            </option>
+                            <option value="memorizing-part" ${currentMemorizingMode === 'memorizing-part' ? 'selected' : ''}>
+                                🧠 Memorizing Part
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="study-plan-section" style="display: ${currentMemorizingMode === 'study-plan' ? 'block' : 'none'};">
+                    <div class="floating-level-selector" id="floating-level-selector">
+                        <i class="fas fa-graduation-cap" style="color:var(--primary);"></i>
+                        <select class="level-select" id="study-level-select" onchange="changeStudyLevel(this.value)">
+                            <option value="">Select Level</option>
+                            ${studyLevels.map(level => 
+                                `<option value="${level.level}" ${level.level === currentStudyLevel ? 'selected' : ''}>
+                                    Level ${level.level}${level.title ? `: ${level.title}` : ''}
+                                </option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                    
+                    <div class="motivational-carousel">
+                        <div class="carousel-track" id="carousel-track"></div>
+                        <div class="carousel-indicators" id="carousel-indicators">
+                            ${motivationalQuotes.map((_, index) => 
+                                `<div class="carousel-indicator ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="journey-panel">
+                        <div class="journey-goal">
+                            <i class="fas fa-flag-checkered"></i>
+                            ${studySettings ? studySettings.goalName : 'Complete Smart Study Plan'}
+                        </div>
+                        <p style="opacity:0.9; margin-bottom:15px;">Target Deadline: ${studySettings ? new Date(studySettings.targetDeadline).toLocaleDateString() : 'Not set'}</p>
+                        
+                        <div class="countdown-timer">
+                            <div class="countdown-item">
+                                <span class="countdown-value" id="countdown-days">${countdown.days}</span>
+                                <span class="countdown-label">Days</span>
+                            </div>
+                            <div class="countdown-item">
+                                <span class="countdown-value" id="countdown-hours">${countdown.hours}</span>
+                                <span class="countdown-label">Hours</span>
+                            </div>
+                            <div class="countdown-item">
+                                <span class="countdown-value" id="countdown-minutes">${countdown.minutes}</span>
+                                <span class="countdown-label">Minutes</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-cards">
+                        <div class="progress-card">
+                            <div class="progress-header">
+                                <div class="progress-title">Total Study Progress</div>
+                                <div class="progress-percentage">${studyProgress ? studyProgress.totalProgress : 0}%</div>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: ${studyProgress ? studyProgress.totalProgress : 0}%"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <span>${studyProgress ? studyProgress.completedTopics.length : 0} Topics Completed</span>
+                                <span>${studyProgress ? studyProgress.totalStudyTime : 0} min</span>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-card">
+                            <div class="progress-header">
+                                <div class="progress-title">Daily Study Progress</div>
+                                <div class="progress-percentage">${studyProgress ? studyProgress.dailyProgress : 0}%</div>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: ${studyProgress ? studyProgress.dailyProgress : 0}%"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <span>Today's Goal</span>
+                                <span>${studyProgress ? studyProgress.dailyStudyTime : 0}/${studySettings ? studySettings.dailyGoal : 60} min</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="study-cards-container" id="study-cards-container">
+                        <h3 class="study-section-title">
+                            <i class="fas fa-calendar-day"></i>
+                            Study Plan - Level ${currentStudyLevel}
+                        </h3>
+                        <div id="study-cards-grid" class="study-cards-grid">
+                            Loading study content...
+                        </div>
+                    </div>
+                    
+                    <div class="study-leaderboard-tabs">
+                        <div class="study-tab active" onclick="showStudyLeaderboard('daily')">Daily Leaderboard</div>
+                        <div class="study-tab" onclick="showStudyLeaderboard('total')">Total Leaderboard</div>
+                    </div>
+                    
+                    <div id="study-leaderboard">
+                        Loading leaderboard...
+                    </div>
+                </div>
+                
+                <div id="memorizing-part-section" style="display: ${currentMemorizingMode === 'memorizing-part' ? 'block' : 'none'};">
+                    ${renderMemorizingPart()}
+                </div>
+            `;
+            
+            if (currentMemorizingMode === 'study-plan') {
+                startMotivationalCarousel();
+                startCountdownTimer();
+                await loadStudyCards();
+                await loadStudyLeaderboard('daily');
+            } else {
+                await renderMemorizingCategorySelector();
+            }
+        }
+
+        window.changeStudyMode = async (mode) => {
+            currentMemorizingMode = mode;
+            await renderStudy();
+        }
+
+        function renderMemorizingPart() {
+            return `
+                <div class="memorizing-category-selector" id="memorizing-category-selector">
+                    <div class="memorizing-category-card">
+                        <h3><i class="fas fa-brain"></i> Memorizing Part</h3>
+                        <p style="opacity:0.9; margin-bottom:15px;">Select a category to start memorizing words or sentences</p>
+                        <div id="category-list">
+                            Loading categories...
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="memorizing-content" style="display: none;">
+                    <div class="memorizing-day-info">
+                        <div class="memorizing-day-title" id="memorizing-day-title">Day 1</div>
+                        <div class="memorizing-day-progress" id="memorizing-day-progress">10 cards to study</div>
+                    </div>
+                    
+                    <div class="memorizing-progress-container">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                            <span>Progress</span>
+                            <span id="memorizing-progress-text">0/10</span>
+                        </div>
+                        <div class="memorizing-progress-bar">
+                            <div class="memorizing-progress-fill" id="memorizing-progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="memorizing-cards-container">
+                        <div class="shimmer" style="height:200px; border-radius:20px; margin-bottom:15px;"></div>
+                    </div>
+                    
+                    <div class="memorizing-controls">
+                        <button onclick="showAllMemorizingCards()" class="btn btn-primary">
+                            <i class="fas fa-th"></i> View All Cards
+                        </button>
+                        <button onclick="resetMemorizingCategory()" class="btn btn-warning">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                        <button onclick="completeMemorizingDay()" class="memorizing-complete-btn" id="complete-btn">
+                            <i class="fas fa-check-circle"></i> Complete Day
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="all-cards-modal" style="display:none;">
+                    <div class="card">
+                        <h3 style="margin-bottom:15px;">All Cards - Day ${currentMemorizingDay}</h3>
+                        <div id="all-cards-grid" class="memorizing-grid"></div>
+                        <button onclick="hideAllCards()" class="btn btn-sec" style="margin-top:15px;">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function renderMemorizingCategorySelector() {
+            const categoryList = document.getElementById('category-list');
+            if (!categoryList) return;
+            
+            if (memorizingCategories.length === 0) {
+                categoryList.innerHTML = `
+                    <div class="card" style="text-align:center; padding:20px;">
+                        <i class="fas fa-book" style="font-size:3rem; color:var(--text-sec); margin-bottom:15px;"></i>
+                        <h3>No Memorizing Categories</h3>
+                        <p style="color:var(--text-sec); margin-top:10px;">Categories will be added by admin.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            memorizingCategories.forEach(category => {
+                const progress = userMemorizingProgress.categories[category.id] || {};
+                const currentDay = progress.currentDay || 1;
+                
+                html += `
+                    <div class="mini-card" onclick="selectMemorizingCategory('${category.id}')" style="animation:fadeInLeft 0.5s ease;">
+                        <i class="fas fa-book-reader" style="font-size:2rem; color:var(--primary); margin-bottom:10px;"></i>
+                        <h4>${category.name}</h4>
+                        <small style="color:var(--text-sec);">${category.description || 'Memorizing category'}</small>
+                        <div style="margin-top:8px;">
+                            <span class="level-badge">Day ${currentDay}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            categoryList.innerHTML = `<div class="grid-container">${html}</div>`;
+        }
+
+        window.selectMemorizingCategory = async (categoryId) => {
+            currentMemorizingCategory = categoryId;
+            await loadMemorizingCardsForCategory(categoryId);
+            
+            document.getElementById('memorizing-category-selector').style.display = 'none';
+            document.getElementById('memorizing-content').style.display = 'block';
+            
+            await loadCurrentMemorizingCards();
+        }
+
+        async function loadCurrentMemorizingCards() {
+            const cards = await getCurrentMemorizingCards();
+            const container = document.getElementById('memorizing-cards-container');
+            
+            if (cards.length === 0) {
+                container.innerHTML = `
+                    <div class="card" style="text-align:center; padding:40px;">
+                        <i class="fas fa-book" style="font-size:3rem; color:var(--text-sec); margin-bottom:15px;"></i>
+                        <h3>No Cards Available</h3>
+                        <p style="color:var(--text-sec); margin-top:10px;">No cards found for this category and day.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Update day info
+            const categoryProgress = userMemorizingProgress.categories[currentMemorizingCategory] || {};
+            const currentDay = categoryProgress.currentDay || 1;
+            
+            document.getElementById('memorizing-day-title').textContent = `Day ${currentDay}`;
+            document.getElementById('memorizing-day-progress').textContent = `${cards.length} cards to study`;
+            
+            // Update progress
+            const completedCards = categoryProgress.completedCards || [];
+            const progress = (completedCards.length / cards.length) * 100;
+            
+            document.getElementById('memorizing-progress-text').textContent = `${completedCards.length}/${cards.length}`;
+            document.getElementById('memorizing-progress-fill').style.width = `${progress}%`;
+            
+            // Render cards
+            let html = '';
+            cards.forEach((card, index) => {
+                const isRed = redCards.includes(card.id);
+                const textSize = card.content.length > 50 ? 'small' : (card.content.length > 20 ? 'medium' : 'large');
+                
+                html += `
+                    <div class="memorizing-card ${isRed ? 'red' : ''}" 
+                         ondblclick="toggleMemorizingCardRed('${card.id}')"
+                         style="animation-delay: ${index * 0.1}s">
+                        ${isRed ? '<div class="memorizing-card-red-badge"><i class="fas fa-redo"></i> Review</div>' : ''}
+                        <div class="memorizing-card-badge">${index + 1}/${cards.length}</div>
+                        <div class="memorizing-card-content ${textSize}">${card.content}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+            // Update complete button
+            const completeBtn = document.getElementById('complete-btn');
+            if (cards.length === 0) {
+                completeBtn.disabled = true;
+                completeBtn.innerHTML = '<i class="fas fa-check-circle"></i> No Cards Available';
+            } else {
+                completeBtn.disabled = false;
+                completeBtn.innerHTML = `<i class="fas fa-check-circle"></i> Complete Day ${currentDay}`;
+            }
+        }
+
+        window.toggleMemorizingCardRed = async (cardId) => {
+            await toggleCardRed(cardId);
+            await loadCurrentMemorizingCards();
+            showMsg("Card marked for review!");
+        }
+
+        window.completeMemorizingDay = async () => {
+            if (await customConfirm("Complete this day and move to next day?")) {
+                await updateMemorizingProgress(true);
+                await loadCurrentMemorizingCards();
+                showMsg("Day completed! Moving to next day.");
+            }
+        }
+
+        window.showAllMemorizingCards = async () => {
+            const cards = await getCurrentMemorizingCards();
+            const grid = document.getElementById('all-cards-grid');
+            
+            let html = '';
+            cards.forEach((card, index) => {
+                const isRed = redCards.includes(card.id);
+                const shortContent = card.content.length > 30 ? card.content.substring(0, 30) + '...' : card.content;
+                
+                html += `
+                    <div class="memorizing-grid-card ${isRed ? 'red' : ''}" 
+                         ondblclick="toggleMemorizingCardRed('${card.id}')">
+                        <div style="font-weight:600; margin-bottom:5px;">Card ${index + 1}</div>
+                        <div style="font-size:0.9rem;">${shortContent}</div>
+                        ${isRed ? '<div style="font-size:0.7rem; color:var(--danger); margin-top:5px;"><i class="fas fa-redo"></i> Review</div>' : ''}
+                    </div>
+                `;
+            });
+            
+            grid.innerHTML = html;
+            document.getElementById('all-cards-modal').style.display = 'block';
+        }
+
+        window.hideAllCards = () => {
+            document.getElementById('all-cards-modal').style.display = 'none';
+        }
+
+        window.resetMemorizingCategory = async () => {
+            if (await customConfirm("Reset progress for this category? This will reset to Day 1.")) {
+                if (userMemorizingProgress.categories[currentMemorizingCategory]) {
+                    userMemorizingProgress.categories[currentMemorizingCategory] = {
+                        currentDay: 1,
+                        redCards: [],
+                        completedCards: [],
+                        lastStudied: new Date().toISOString()
+                    };
+                    
+                    await setDoc(doc(db, "userMemorizingProgress", currentUser.uid), userMemorizingProgress, { merge: true });
+                    await loadCurrentMemorizingCards();
+                    showMsg("Category progress reset!");
+                }
+            }
+        }
+
         // --- SMART STUDY PLAN FUNCTIONS ---
         async function loadStudyData() {
             if (!currentUser) return;
             
             try {
-                // Load study progress for current user
                 const progressSnap = await getDoc(doc(db, "Userstudy", currentUser.uid));
                 if (progressSnap.exists()) {
                     studyProgress = progressSnap.data();
                 } else {
-                    // Create initial study progress
                     studyProgress = {
                         userId: currentUser.uid,
                         level: 1,
@@ -2192,17 +2918,14 @@
                     await setDoc(doc(db, "Userstudy", currentUser.uid), studyProgress);
                 }
                 
-                // Load study levels
                 const levelsSnap = await getDocs(collection(db, "StudyLevels"));
                 studyLevels = [];
                 levelsSnap.forEach(doc => {
                     studyLevels.push({ id: doc.id, ...doc.data() });
                 });
                 
-                // Sort levels by level number
                 studyLevels.sort((a, b) => a.level - b.level);
                 
-                // Load motivational quotes
                 const quotesSnap = await getDocs(collection(db, "MotivationalQuotes"));
                 if (!quotesSnap.empty) {
                     motivationalQuotes = [];
@@ -2213,16 +2936,15 @@
                     motivationalQuotes = DEFAULT_QUOTES;
                 }
                 
-                // Load study settings
                 const settingsSnap = await getDoc(doc(db, "StudySettings", "global"));
                 if (settingsSnap.exists()) {
                     studySettings = settingsSnap.data();
                 } else {
                     studySettings = {
                         goalName: "Complete Smart Study Plan",
-                        targetDeadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
-                        dailyGoal: 60, // 60 minutes daily
-                        totalGoal: 1800 // 30 hours total
+                        targetDeadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+                        dailyGoal: 60,
+                        totalGoal: 1800
                     };
                     await setDoc(doc(db, "StudySettings", "global"), studySettings);
                 }
@@ -2236,33 +2958,27 @@
             if (!currentUser || !studyProgress) return;
             
             try {
-                // Calculate daily progress
                 const today = new Date().toISOString().split('T')[0];
                 if (studyProgress.lastStudyDate !== today) {
                     studyProgress.dailyProgress = 0;
                     studyProgress.lastStudyDate = today;
                 }
                 
-                // If a day is completed, add it to completed topics
                 if (completedDay) {
                     const dayKey = `Level${currentStudyLevel}_Day${completedDay}`;
                     if (!studyProgress.completedTopics.includes(dayKey)) {
                         studyProgress.completedTopics.push(dayKey);
                         
-                        // Calculate total progress based on completed topics
                         const totalDays = studyLevels.reduce((total, level) => total + (level.days || 0), 0);
                         studyProgress.totalProgress = Math.round((studyProgress.completedTopics.length / totalDays) * 100);
                         
-                        // Add study time (assuming 30 minutes per day)
                         studyProgress.dailyStudyTime += 30;
                         studyProgress.totalStudyTime += 30;
                         
-                        // Calculate daily progress percentage
                         studyProgress.dailyProgress = Math.round((studyProgress.dailyStudyTime / studySettings.dailyGoal) * 100);
                     }
                 }
                 
-                // Update in Firebase
                 await setDoc(doc(db, "Userstudy", currentUser.uid), studyProgress, { merge: true });
                 
             } catch(error) {
@@ -2280,7 +2996,6 @@
             
             if (!track || motivationalQuotes.length === 0) return;
             
-            // Initialize carousel
             let html = '';
             motivationalQuotes.forEach((quote, index) => {
                 html += `
@@ -2292,7 +3007,6 @@
             });
             track.innerHTML = html;
             
-            // Start auto-rotation
             carouselInterval = setInterval(() => {
                 currentCarouselIndex = (currentCarouselIndex + 1) % motivationalQuotes.length;
                 updateCarousel();
@@ -2336,125 +3050,6 @@
             return { days, hours, minutes };
         }
 
-        // --- STUDY PAGE ---
-        window.renderStudy = async () => {
-            updateNav(1);
-            
-            // Load study data if not loaded
-            if (!studyProgress) {
-                await loadStudyData();
-            }
-            
-            const countdown = calculateCountdown();
-            
-            document.getElementById('main-content').innerHTML = `
-                <div class="floating-level-selector" id="floating-level-selector">
-                    <i class="fas fa-graduation-cap" style="color:var(--primary);"></i>
-                    <select class="level-select" id="study-level-select" onchange="changeStudyLevel(this.value)">
-                        <option value="">Select Level</option>
-                        ${studyLevels.map(level => 
-                            `<option value="${level.level}" ${level.level === currentStudyLevel ? 'selected' : ''}>
-                                Level ${level.level}${level.title ? `: ${level.title}` : ''}
-                            </option>`
-                        ).join('')}
-                    </select>
-                </div>
-                
-                <div class="motivational-carousel">
-                    <div class="carousel-track" id="carousel-track"></div>
-                    <div class="carousel-indicators" id="carousel-indicators">
-                        ${motivationalQuotes.map((_, index) => 
-                            `<div class="carousel-indicator ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>`
-                        ).join('')}
-                    </div>
-                </div>
-                
-                <div class="journey-panel">
-                    <div class="journey-goal">
-                        <i class="fas fa-flag-checkered"></i>
-                        ${studySettings ? studySettings.goalName : 'Complete Smart Study Plan'}
-                    </div>
-                    <p style="opacity:0.9; margin-bottom:15px;">Target Deadline: ${studySettings ? new Date(studySettings.targetDeadline).toLocaleDateString() : 'Not set'}</p>
-                    
-                    <div class="countdown-timer">
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="countdown-days">${countdown.days}</span>
-                            <span class="countdown-label">Days</span>
-                        </div>
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="countdown-hours">${countdown.hours}</span>
-                            <span class="countdown-label">Hours</span>
-                        </div>
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="countdown-minutes">${countdown.minutes}</span>
-                            <span class="countdown-label">Minutes</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="progress-cards">
-                    <div class="progress-card">
-                        <div class="progress-header">
-                            <div class="progress-title">Total Study Progress</div>
-                            <div class="progress-percentage">${studyProgress ? studyProgress.totalProgress : 0}%</div>
-                        </div>
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" style="width: ${studyProgress ? studyProgress.totalProgress : 0}%"></div>
-                        </div>
-                        <div class="progress-stats">
-                            <span>${studyProgress ? studyProgress.completedTopics.length : 0} Topics Completed</span>
-                            <span>${studyProgress ? studyProgress.totalStudyTime : 0} min</span>
-                        </div>
-                    </div>
-                    
-                    <div class="progress-card">
-                        <div class="progress-header">
-                            <div class="progress-title">Daily Study Progress</div>
-                            <div class="progress-percentage">${studyProgress ? studyProgress.dailyProgress : 0}%</div>
-                        </div>
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" style="width: ${studyProgress ? studyProgress.dailyProgress : 0}%"></div>
-                        </div>
-                        <div class="progress-stats">
-                            <span>Today's Goal</span>
-                            <span>${studyProgress ? studyProgress.dailyStudyTime : 0}/${studySettings ? studySettings.dailyGoal : 60} min</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="study-cards-container" id="study-cards-container">
-                    <h3 class="study-section-title">
-                        <i class="fas fa-calendar-day"></i>
-                        Study Plan - Level ${currentStudyLevel}
-                    </h3>
-                    <div id="study-cards-grid" class="study-cards-grid">
-                        Loading study content...
-                    </div>
-                </div>
-                
-                <div class="study-leaderboard-tabs">
-                    <div class="study-tab active" onclick="showStudyLeaderboard('daily')">Daily Leaderboard</div>
-                    <div class="study-tab" onclick="showStudyLeaderboard('total')">Total Leaderboard</div>
-                </div>
-                
-                <div id="study-leaderboard">
-                    Loading leaderboard...
-                </div>
-            `;
-            
-            // Start motivational carousel
-            startMotivationalCarousel();
-            
-            // Start countdown timer
-            startCountdownTimer();
-            
-            // Load study cards for current level
-            await loadStudyCards();
-            
-            // Load leaderboard
-            await loadStudyLeaderboard('daily');
-        }
-
         window.goToSlide = (index) => {
             currentCarouselIndex = index;
             updateCarousel();
@@ -2477,7 +3072,7 @@
                 if (daysElem) daysElem.textContent = countdown.days;
                 if (hoursElem) hoursElem.textContent = countdown.hours;
                 if (minutesElem) minutesElem.textContent = countdown.minutes;
-            }, 60000); // Update every minute
+            }, 60000);
         }
 
         window.changeStudyLevel = async (level) => {
@@ -2492,7 +3087,6 @@
                 
                 grid.innerHTML = '<div class="shimmer" style="height:200px; border-radius:15px;"></div>';
                 
-                // Load study content for current level
                 const q = query(
                     collection(db, "StudyContent"), 
                     where("level", "==", currentStudyLevel)
@@ -2504,7 +3098,6 @@
                     studyDays.push({ id: doc.id, ...doc.data() });
                 });
                 
-                // Sort by day number
                 studyDays.sort((a, b) => a.day - b.day);
                 
                 if (studyDays.length === 0) {
@@ -2619,7 +3212,6 @@
             currentPracticeDay = day;
             
             try {
-                // Load practice questions for this level and day
                 const q = query(
                     collection(db, "PracticeQuestions"),
                     where("level", "==", level),
@@ -2637,22 +3229,17 @@
                     practiceQuizQuestions.push({ id: doc.id, ...doc.data() });
                 });
                 
-                // Shuffle and take first 10 questions
                 practiceQuizQuestions = practiceQuizQuestions
                     .sort(() => Math.random() - 0.5)
                     .slice(0, 10);
                 
                 practiceQuizAnswers = {};
-                practiceQuizTimeLeft = 120; // 2 minutes
+                practiceQuizTimeLeft = 120;
                 
-                // Show practice quiz modal
                 document.getElementById('quiz-title').textContent = `Practice Quiz - Level ${level} Day ${day}`;
                 document.getElementById('practice-quiz-modal').style.display = 'flex';
                 
-                // Render questions
                 renderPracticeQuestions();
-                
-                // Start timer
                 startPracticeTimer();
                 
             } catch(error) {
@@ -2732,7 +3319,6 @@
             let score = 0;
             let total = practiceQuizQuestions.length;
             
-            // Calculate score
             practiceQuizQuestions.forEach(question => {
                 const userAnswer = practiceQuizAnswers[question.id];
                 if (userAnswer === question.correct) {
@@ -2742,7 +3328,6 @@
             
             const percentage = (score / total) * 100;
             
-            // Update study progress if score >= 80%
             if (percentage >= 80) {
                 await updateStudyProgress(currentPracticeDay);
                 showMsg(`Congratulations! You scored ${score}/${total} (${percentage.toFixed(1)}%). Day ${currentPracticeDay} marked as completed!`);
@@ -2752,7 +3337,6 @@
             
             closePracticeQuiz();
             
-            // Reload study cards to update status
             if (percentage >= 80) {
                 await loadStudyCards();
                 await loadStudyLeaderboard('daily');
@@ -2767,7 +3351,6 @@
         }
 
         window.showStudyLeaderboard = async (type) => {
-            // Update active tab
             document.querySelectorAll('.study-tab').forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
             
@@ -2779,11 +3362,9 @@
                 const leaderboardElem = document.getElementById('study-leaderboard');
                 leaderboardElem.innerHTML = '<div class="shimmer" style="height:300px; border-radius:15px;"></div>';
                 
-                // Get all user study progress
                 const progressSnap = await getDocs(collection(db, "Userstudy"));
                 let leaderboardData = [];
                 
-                // Get user names
                 const usersSnap = await getDocs(collection(db, "users"));
                 const userMap = {};
                 usersSnap.forEach(doc => {
@@ -2806,14 +3387,12 @@
                     }
                 });
                 
-                // Sort based on type
                 if (type === 'daily') {
                     leaderboardData.sort((a, b) => b.dailyProgress - a.dailyProgress);
                 } else {
                     leaderboardData.sort((a, b) => b.totalProgress - a.totalProgress);
                 }
                 
-                // Render leaderboard
                 let html = '';
                 if (leaderboardData.length === 0) {
                     html = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No study data available yet.</p>';
@@ -2917,7 +3496,6 @@
                     return;
                 }
                 
-                // If no category is selected yet, select the first one
                 if(!selectedCategory && allCategories.length > 0) {
                     selectedCategory = allCategories[0];
                     localStorage.setItem('selectedCategory', selectedCategory);
@@ -2930,7 +3508,6 @@
                 
                 select.innerHTML = options;
                 
-                // Load exams for the selected category
                 loadExamsByCategory();
             } catch(error) {
                 console.error("Error loading categories:", error);
@@ -3537,11 +4114,8 @@
                 
                 await sendNotification(currentUser.uid, "Exam Completed!", `You scored ${score.toFixed(1)}/${totalQuestions} in ${title}. Points: ${pointsChange > 0 ? '+' : ''}${pointsChange}`, 'exam');
                 
-                playExamCompleteSound();
-                
                 renderHome();
                 
-                // Add congratulations message for 80% or above
                 let congratsMessage = '';
                 if(percentage >= 80) {
                     congratsMessage = `
@@ -3590,7 +4164,6 @@
             }
         }
 
-        // Function to show review details from result
         window.showReviewDetailFromResult = async (userId, examId) => {
             try {
                 const q = query(collection(db, "results"), 
@@ -3646,6 +4219,7 @@
                     <div class="admin-item" onclick="admView('support')"><i class="fas fa-headset"></i><h4>Support</h4></div>
                     <div class="admin-item" onclick="admView('settings')"><i class="fas fa-cogs"></i><h4>Settings</h4></div>
                     <div class="admin-item" onclick="admView('study')"><i class="fas fa-graduation-cap"></i><h4>Study Manage</h4></div>
+                    <div class="admin-item" onclick="admView('memorizing')"><i class="fas fa-brain"></i><h4>Memorizing</h4></div>
                 </div>
                 <div id="adm-area" style="margin-top:20px;"></div>
             `;
@@ -3673,12 +4247,198 @@
                 await loadSettingsAdminView();
             } else if(m === 'study') {
                 await loadStudyAdminView();
+            } else if(m === 'memorizing') {
+                await loadMemorizingAdminView();
+            }
+        }
+
+        // --- MEMORIZING ADMIN VIEW ---
+        async function loadMemorizingAdminView() {
+            await loadMemorizingData();
+            
+            const area = document.getElementById('adm-area');
+            area.innerHTML = `
+                <div class="card">
+                    <h3><i class="fas fa-plus-circle"></i> Add Memorizing Category</h3>
+                    <input id="memorizing-category-name" placeholder="Category Name (e.g. Vocabulary, Quotes)">
+                    <textarea id="memorizing-category-desc" placeholder="Description (optional)" rows="2"></textarea>
+                    <button onclick="addMemorizingCategory()" class="btn btn-primary">Add Category</button>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-list"></i> Memorizing Categories</h3>
+                    <div id="memorizing-categories-list" style="margin-top:15px;">
+                        ${memorizingCategories.map(category => `
+                            <div style="padding:10px; border:1px solid var(--border); border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <b>${category.name}</b>
+                                    <div style="font-size:0.8rem; color:var(--text-sec);">${category.description || 'No description'}</div>
+                                </div>
+                                <div style="display:flex; gap:5px;">
+                                    <button class="btn btn-primary" style="width:auto; padding:5px 10px;" onclick="addCardsToCategory('${category.id}')">
+                                        <i class="fas fa-plus"></i> Add Cards
+                                    </button>
+                                    <button class="btn btn-danger" style="width:auto; padding:5px 10px;" onclick="deleteMemorizingCategory('${category.id}')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="card" id="add-cards-section" style="display:none;">
+                    <h3><i class="fas fa-upload"></i> Add Cards to Category</h3>
+                    <p id="selected-category-name" style="color:var(--primary); margin-bottom:15px;"></p>
+                    <div style="display:flex; gap:10px; margin-bottom:15px;">
+                        <input type="number" id="memorizing-day" placeholder="Day Number" min="1" style="flex:1;">
+                        <button onclick="copyMemorizingFormat()" class="btn btn-sec">Copy Format</button>
+                    </div>
+                    <textarea id="memorizing-cards-json" rows="6" placeholder="Paste cards JSON here..."></textarea>
+                    <button onclick="uploadMemorizingCards()" class="btn btn-primary">Upload Cards</button>
+                    <div id="memorizing-upload-report" style="margin-top:15px;"></div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-question-circle"></i> JSON Format</h3>
+                    <div class="study-json-format">
+[
+  {
+    "content": "Word or sentence 1"
+  },
+  {
+    "content": "Word or sentence 2"
+  },
+  {
+    "content": "Word or sentence 3"
+  }
+]
+                    </div>
+                    <p style="color:var(--text-sec); font-size:0.9rem; margin-top:10px;">Separate words or sentences with commas. Each will become a card.</p>
+                </div>
+            `;
+        }
+
+        window.addMemorizingCategory = async () => {
+            const name = document.getElementById('memorizing-category-name').value;
+            const description = document.getElementById('memorizing-category-desc').value;
+            
+            if(!name) return showMsg("Please enter category name");
+            
+            try {
+                await addDoc(collection(db, "memorizingCategories"), {
+                    name: name,
+                    description: description,
+                    createdAt: Timestamp.now(),
+                    createdBy: currentUser.uid
+                });
+                
+                showMsg("Memorizing category added successfully!");
+                admView('memorizing');
+                
+            } catch(error) {
+                console.error("Error adding memorizing category:", error);
+                showMsg("Error adding category: " + error.message);
+            }
+        }
+
+        window.addCardsToCategory = (categoryId) => {
+            const category = memorizingCategories.find(c => c.id === categoryId);
+            if (!category) return;
+            
+            document.getElementById('selected-category-name').textContent = `Adding cards to: ${category.name}`;
+            document.getElementById('add-cards-section').style.display = 'block';
+            document.getElementById('add-cards-section').dataset.categoryId = categoryId;
+            
+            window.scrollTo({
+                top: document.getElementById('add-cards-section').offsetTop - 100,
+                behavior: 'smooth'
+            });
+        }
+
+        window.copyMemorizingFormat = () => {
+            const format = `[\n  {\n    "content": "Word or sentence 1"\n  },\n  {\n    "content": "Word or sentence 2"\n  }\n]`;
+            navigator.clipboard.writeText(format);
+            showMsg("JSON format copied to clipboard!");
+        }
+
+        window.uploadMemorizingCards = async () => {
+            const categoryId = document.getElementById('add-cards-section').dataset.categoryId;
+            const day = parseInt(document.getElementById('memorizing-day').value);
+            const jsonText = document.getElementById('memorizing-cards-json').value;
+            
+            if(!categoryId) return showMsg("Please select a category first");
+            if(!day) return showMsg("Please enter day number");
+            if(!jsonText) return showMsg("Please enter JSON content");
+            
+            try {
+                const cards = JSON.parse(jsonText);
+                let success = 0;
+                let failed = 0;
+                
+                toggleLoader(true);
+                
+                for (const card of cards) {
+                    try {
+                        await addDoc(collection(db, "memorizingCards"), {
+                            categoryId: categoryId,
+                            day: day,
+                            content: card.content,
+                            createdAt: Timestamp.now()
+                        });
+                        success++;
+                    } catch(error) {
+                        console.error("Error uploading card:", error);
+                        failed++;
+                    }
+                }
+                
+                toggleLoader(false);
+                
+                document.getElementById('memorizing-upload-report').innerHTML = `
+                    <div class="upload-report">
+                        <h4>Upload Report:</h4>
+                        <p><span class="upload-success">Successfully uploaded: ${success} cards</span></p>
+                        <p><span class="upload-failed">Failed: ${failed} cards</span></p>
+                    </div>
+                `;
+                
+                showMsg(`Cards uploaded: ${success} successful, ${failed} failed`);
+                
+                document.getElementById('memorizing-cards-json').value = '';
+                document.getElementById('memorizing-day').value = '';
+                
+            } catch(error) {
+                toggleLoader(false);
+                showMsg("JSON Error: " + error.message);
+            }
+        }
+
+        window.deleteMemorizingCategory = async (categoryId) => {
+            if (await customConfirm("Delete this memorizing category and all its cards?")) {
+                try {
+                    await deleteDoc(doc(db, "memorizingCategories", categoryId));
+                    
+                    const q = query(collection(db, "memorizingCards"), where("categoryId", "==", categoryId));
+                    const cardsSnap = await getDocs(q);
+                    const batch = writeBatch(db);
+                    cardsSnap.forEach(doc => {
+                        batch.delete(doc.ref);
+                    });
+                    await batch.commit();
+                    
+                    showMsg("Memorizing category deleted successfully!");
+                    admView('memorizing');
+                    
+                } catch(error) {
+                    console.error("Error deleting memorizing category:", error);
+                    showMsg("Error deleting category: " + error.message);
+                }
             }
         }
 
         // --- STUDY ADMIN VIEW ---
         async function loadStudyAdminView() {
-            // Load existing data
             await loadStudyData();
             
             const area = document.getElementById('adm-area');
@@ -3760,7 +4520,6 @@
                 </div>
             `;
             
-            // Load current quotes into textarea
             document.getElementById('quotes-json').value = JSON.stringify(motivationalQuotes, null, 2);
         }
 
@@ -3818,7 +4577,6 @@
                 const quotesText = document.getElementById('quotes-json').value;
                 const quotes = JSON.parse(quotesText);
                 
-                // Delete existing quotes
                 const existingQuotes = await getDocs(collection(db, "MotivationalQuotes"));
                 const batch = writeBatch(db);
                 existingQuotes.forEach(doc => {
@@ -3826,7 +4584,6 @@
                 });
                 await batch.commit();
                 
-                // Add new quotes
                 for (const quote of quotes) {
                     await addDoc(collection(db, "MotivationalQuotes"), quote);
                 }
@@ -3851,7 +4608,6 @@
             }
             
             try {
-                // Check if level already exists
                 const q = query(collection(db, "StudyLevels"), where("level", "==", level));
                 const existing = await getDocs(q);
                 
@@ -3879,10 +4635,8 @@
         window.deleteStudyLevel = async (levelId) => {
             if (await customConfirm("Delete this study level? This will also delete related study content.")) {
                 try {
-                    // Delete level
                     await deleteDoc(doc(db, "StudyLevels", levelId));
                     
-                    // Delete related study content
                     const q = query(collection(db, "StudyContent"), where("level", "==", parseInt(levelId)));
                     const contentSnap = await getDocs(q);
                     const batch = writeBatch(db);
@@ -3917,7 +4671,6 @@
                 
                 for (const item of content) {
                     try {
-                        // Check if content already exists for this level and day
                         const q = query(
                             collection(db, "StudyContent"),
                             where("level", "==", item.level),
@@ -3926,11 +4679,9 @@
                         const existing = await getDocs(q);
                         
                         if (!existing.empty) {
-                            // Update existing
                             const docId = existing.docs[0].id;
                             await updateDoc(doc(db, "StudyContent", docId), item);
                         } else {
-                            // Add new
                             await addDoc(collection(db, "StudyContent"), {
                                 ...item,
                                 createdAt: Timestamp.now()
@@ -4051,7 +4802,6 @@
                     <div id="upload-report" class="upload-report" style="display:none;"></div>
                 </div>`;
             
-            // Update category selects
             updateAdminCategorySelect();
             updateAdminExamCategorySelects();
             
@@ -4183,7 +4933,6 @@
                 createdAt: Date.now()
             }); 
             
-            // Add to categories if not exists
             const q = query(collection(db, "categories"), where("name", "==", category));
             const existingCat = await getDocs(q);
             
@@ -4194,7 +4943,6 @@
                     createdBy: currentUser.uid
                 });
                 
-                // Reload categories
                 await loadAllCategories();
                 updateAdminCategorySelect();
                 updateAdminExamCategorySelects();
