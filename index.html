@@ -631,7 +631,7 @@
             background: var(--card-bg);
             color: var(--text);
         }
-        
+
         /* CONGRATULATIONS MESSAGE */
         .congratulations-message {
             background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
@@ -2458,8 +2458,10 @@
                     memorizingCards.push({ id: doc.id, ...doc.data() });
                 });
                 
+                return true;
             } catch(error) {
                 console.error("Error loading memorizing data:", error);
+                return false;
             }
         }
 
@@ -2481,13 +2483,27 @@
         }
 
         async function getCurrentMemorizingCards() {
-            if (!currentMemorizingCategory || !userMemorizingProgress.categories[currentMemorizingCategory]) {
+            if (!currentMemorizingCategory) {
                 return [];
+            }
+            
+            // Check if user has progress for this category, if not initialize it
+            if (!userMemorizingProgress.categories[currentMemorizingCategory]) {
+                userMemorizingProgress.categories[currentMemorizingCategory] = {
+                    currentDay: 1,
+                    redCards: [],
+                    completedCards: [],
+                    lastStudied: new Date().toISOString()
+                };
             }
             
             const categoryProgress = userMemorizingProgress.categories[currentMemorizingCategory];
             currentMemorizingDay = categoryProgress.currentDay || 1;
             redCards = categoryProgress.redCards || [];
+            
+            if (allCategoryCards.length === 0) {
+                return [];
+            }
             
             // Get cards for current day (10 cards per day)
             const startIndex = (currentMemorizingDay - 1) * cardsPerSet;
@@ -2502,6 +2518,12 @@
             
             // Combine and limit to 10 cards
             let allCards = [...redCardObjects, ...dayCards];
+            
+            // Remove duplicates
+            allCards = allCards.filter((card, index, self) => 
+                index === self.findIndex(c => c.id === card.id)
+            );
+            
             if (allCards.length > cardsPerSet) {
                 allCards = allCards.slice(0, cardsPerSet);
             }
@@ -2540,8 +2562,10 @@
                 
                 await setDoc(doc(db, "userMemorizingProgress", currentUser.uid), userMemorizingProgress, { merge: true });
                 
+                return true;
             } catch(error) {
                 console.error("Error updating memorizing progress:", error);
+                return false;
             }
         }
 
@@ -2783,6 +2807,15 @@
                 `;
                 return;
             }
+            
+            // Check if we have a previously selected category
+            if (currentMemorizingCategory) {
+                const category = memorizingCategories.find(c => c.id === currentMemorizingCategory);
+                if (category) {
+                    dropdown.value = currentMemorizingCategory;
+                    await selectMemorizingCategory(currentMemorizingCategory);
+                }
+            }
         }
 
         window.selectMemorizingCategory = async (categoryId) => {
@@ -2801,7 +2834,7 @@
             const cards = await getCurrentMemorizingCards();
             const container = document.getElementById('memorizing-cards-container');
             
-            if (cards.length === 0) {
+            if (!cards || cards.length === 0) {
                 container.innerHTML = `
                     <div class="card" style="text-align:center; padding:40px;">
                         <i class="fas fa-book" style="font-size:3rem; color:var(--text-sec); margin-bottom:15px;"></i>
@@ -2871,6 +2904,11 @@
 
         window.showAllMemorizingCards = async () => {
             const cards = currentCardsSet;
+            if (!cards || cards.length === 0) {
+                showMsg("No cards available to show.");
+                return;
+            }
+            
             const grid = document.getElementById('all-cards-grid');
             
             let html = '';
@@ -2966,8 +3004,10 @@
                     await setDoc(doc(db, "StudySettings", "global"), studySettings);
                 }
                 
+                return true;
             } catch(error) {
                 console.error("Error loading study data:", error);
+                return false;
             }
         }
 
@@ -2998,8 +3038,10 @@
                 
                 await setDoc(doc(db, "Userstudy", currentUser.uid), studyProgress, { merge: true });
                 
+                return true;
             } catch(error) {
                 console.error("Error updating study progress:", error);
+                return false;
             }
         }
 
@@ -3186,6 +3228,7 @@
                 
                 grid.innerHTML = html;
                 
+                return true;
             } catch(error) {
                 console.error("Error loading study cards:", error);
                 document.getElementById('study-cards-grid').innerHTML = `
@@ -3193,6 +3236,7 @@
                         Error loading study content. Please try again.
                     </div>
                 `;
+                return false;
             }
         }
 
@@ -3224,7 +3268,7 @@
             }
         }
 
-        window.startPracticeQuiz = async (level, day) => {
+        window.startPracticeQuiz = async (level, day) {
             currentPracticeLevel = level;
             currentPracticeDay = day;
             
@@ -3259,9 +3303,11 @@
                 renderPracticeQuestions();
                 startPracticeTimer();
                 
+                return true;
             } catch(error) {
                 console.error("Error loading practice questions:", error);
                 showMsg("Error loading practice questions.");
+                return false;
             }
         }
 
@@ -3442,6 +3488,7 @@
                 
                 leaderboardElem.innerHTML = html;
                 
+                return true;
             } catch(error) {
                 console.error("Error loading study leaderboard:", error);
                 document.getElementById('study-leaderboard').innerHTML = `
@@ -3449,6 +3496,7 @@
                         Error loading leaderboard.
                     </div>
                 `;
+                return false;
             }
         }
 
@@ -3526,9 +3574,11 @@
                 select.innerHTML = options;
                 
                 loadExamsByCategory();
+                return true;
             } catch(error) {
                 console.error("Error loading categories:", error);
                 document.getElementById('category-select').innerHTML = '<option value="">Error loading categories</option>';
+                return false;
             }
         }
 
@@ -3582,9 +3632,11 @@
                 });
                 
                 l.innerHTML = examHTML;
+                return true;
             } catch(error) {
                 console.error("Error loading exams:", error);
                 document.getElementById('exam-list').innerHTML = '<p style="text-align:center; color:var(--danger); padding:20px;">Error loading exams</p>';
+                return false;
             }
         }
 
@@ -3630,8 +3682,10 @@
                     if(updates.length < 3) html += html + html; 
                     track.innerHTML = html;
                 }
+                return true;
             } catch(error) {
                 console.error("Error loading recent updates:", error);
+                return false;
             }
         }
 
@@ -3643,8 +3697,10 @@
                 let h = snap.empty ? "<p>No routine added.</p>" : "";
                 snap.forEach(d => h += `<div style="padding:15px; background:var(--bg); border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; border:1px solid var(--border);"><b>${d.data().title}</b><span style="color:var(--primary)">${d.data().time}</span></div>`);
                 document.getElementById('modal-body').innerHTML = h;
+                return true;
             } catch(error) {
                 document.getElementById('modal-body').innerHTML = '<p style="color:var(--danger);">Error loading routine</p>';
+                return false;
             }
         }
         
@@ -3655,8 +3711,10 @@
                 let h = snap.empty ? "<p>No notes found.</p>" : "";
                 snap.forEach(d => h += `<div style="padding:15px; background:var(--bg); border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><span>📄 ${d.data().title}</span><a href="${d.data().link}" target="_blank" style="background:var(--primary); color:white; padding:5px 15px; border-radius:8px; text-decoration:none; font-size:0.8rem;">PDF</a></div>`);
                 document.getElementById('modal-body').innerHTML = h;
+                return true;
             } catch(error) {
                 document.getElementById('modal-body').innerHTML = '<p style="color:var(--danger);">Error loading notes</p>';
+                return false;
             }
         }
 
@@ -3730,12 +3788,14 @@
                 }
                 
                 document.getElementById('review-list').innerHTML = html;
+                return true;
             } catch(error) {
                 console.error("Error loading reviews:", error);
                 document.getElementById('review-list').innerHTML = `
                     <div class="card" style="text-align:center; padding:20px; color:var(--danger);">
                         Error loading reviews. Please try again.
                     </div>`;
+                return false;
             }
         }
 
@@ -3765,12 +3825,15 @@
                     }
                     
                     openModal(`Review: ${data.exam} (${data.score}/${data.total})`, reviewHTML);
+                    return true;
                 } else {
                     showMsg("Review not found!");
+                    return false;
                 }
             } catch(error) {
                 console.error("Error loading review details:", error);
                 showMsg("Error loading review details!");
+                return false;
             }
         }
 
@@ -3864,9 +3927,11 @@
                     });
                 }
                 document.getElementById('hist-list').innerHTML = h;
+                return true;
             } catch(error) {
                 console.error("Error loading history:", error);
                 document.getElementById('hist-list').innerHTML = '<p style="text-align:center; color:var(--danger);">Error loading history</p>';
+                return false;
             }
         }
 
@@ -4044,9 +4109,11 @@
                         submitExam(title);
                     }
                 }, 1000);
+                return true;
             } catch(error) {
                 console.error("Error starting exam:", error);
                 div.innerHTML = "<div class='card'>Error loading exam questions.</div>";
+                return false;
             }
         }
 
@@ -4173,9 +4240,11 @@
                     <button onclick="renderHome()" class="btn btn-sec" style="width:100%; margin-top:10px;">
                         <i class="fas fa-home"></i> Back to Home
                     </button>`);
+                return true;
             } catch(error) {
                 console.error("Error submitting exam:", error);
                 showMsg("Error submitting exam. Please try again.");
+                return false;
             } finally {
                 toggleLoader(false);
             }
@@ -4213,12 +4282,15 @@
                     
                     closeModal();
                     openModal(`Review: ${data.exam} (${data.score}/${data.total})`, reviewHTML);
+                    return true;
                 } else {
                     showMsg("Review not found!");
+                    return false;
                 }
             } catch(error) {
                 console.error("Error loading review details:", error);
                 showMsg("Error loading review details!");
+                return false;
             }
         }
 
@@ -4870,9 +4942,11 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
                 });
                 document.getElementById('el').innerHTML = h || "<p>No exams.</p>"; 
                 document.getElementById('es').innerHTML = o;
+                return true;
             } catch(error) {
                 console.error("Error loading exams:", error);
                 document.getElementById('el').innerHTML = '<p style="color:var(--danger);">Error loading exams</p>';
+                return false;
             }
         }
 
@@ -4925,9 +4999,11 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
                     );
                     renderStudentList(filtered);
                 });
+                return true;
             } catch(error) {
                 console.error("Error loading students:", error);
                 document.getElementById('sl').innerHTML = '<p style="color:var(--danger);">Error loading students</p>';
+                return false;
             }
         }
 
@@ -5073,9 +5149,11 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
                     h+=`<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border);"><span>${d.data().title}</span><button class="btn btn-danger" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="delDoc('routines','${d.id}')">Del</button></div>`; 
                 });
                 document.getElementById('rl').innerHTML = h;
+                return true;
             } catch(error) {
                 console.error("Error loading routines:", error);
                 document.getElementById('rl').innerHTML = '<p style="color:var(--danger);">Error loading routines</p>';
+                return false;
             }
         }
         
@@ -5113,9 +5191,11 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
                     h+=`<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border);"><span>${d.data().title}</span><button class="btn btn-danger" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="delDoc('notes','${d.id}')">Del</button></div>`; 
                 });
                 document.getElementById('nl').innerHTML = h;
+                return true;
             } catch(error) {
                 console.error("Error loading notes:", error);
                 document.getElementById('nl').innerHTML = '<p style="color:var(--danger);">Error loading notes</p>';
+                return false;
             }
         }
         
@@ -5238,9 +5318,11 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
                 }
                 
                 document.getElementById('notif-list').innerHTML = notifHtml || '<p>No notifications sent yet.</p>';
+                return true;
             } catch(error) {
                 console.error("Error loading admin notifications:", error);
                 document.getElementById('notif-list').innerHTML = '<p style="color:var(--danger);">Error loading notifications</p>';
+                return false;
             }
         }
         
@@ -5592,8 +5674,10 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
                 if(s.exists()) {
                     document.documentElement.style.setProperty('--primary', s.data().color); 
                 }
+                return true;
             } catch(error) {
                 console.error("Error loading theme:", error);
+                return false;
             }
         }
         
@@ -5621,4 +5705,4 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
 
     </script>
 </body>
-    </html>
+                </html>
