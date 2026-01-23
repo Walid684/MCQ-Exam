@@ -6,6 +6,7 @@
     <title>ExamPro</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
     
     <style>
         /* --- CSS VARIABLES --- */
@@ -291,8 +292,16 @@
         }
 
         /* NAV */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000; border-top: 1px solid var(--border); }
-        .nav-item { text-align: center; color: #aaa; font-size: 0.7rem; cursor: pointer; }
+        .bottom-nav { 
+            position: fixed; bottom: 0; left: 0; width: 100%; 
+            background: var(--card-bg); display: flex; justify-content: space-around; 
+            padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); 
+            z-index: 1000; border-top: 1px solid var(--border); 
+        }
+        .nav-item { 
+            text-align: center; color: #aaa; font-size: 0.7rem; cursor: pointer; 
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+        }
         .nav-item.active { color: var(--primary); transform: translateY(-3px); }
         .nav-item i { font-size: 1.3rem; margin-bottom: 3px; display: block; }
 
@@ -399,6 +408,25 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            cursor: pointer;
+        }
+        .profile-avatar-container:hover::after {
+            content: '\f030';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border-radius: 50%;
         }
         .profile-avatar {
             width: 100%;
@@ -869,37 +897,38 @@
         }
         
         /* Floating Level Selector - UPDATED */
-        .floating-level-selector {
-            position: fixed;
-            top: 80px;
-            left: 20px;
-            z-index: 99;
+        .level-selector-card {
             background: var(--card-bg);
-            border-radius: 50px;
-            padding: 8px 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 2px solid var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            animation: slideInRight 0.5s ease;
-            width: 50px;
-            overflow: hidden;
-            transition: width 0.3s ease;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
         }
         
-        .floating-level-selector.expanded {
-            width: 200px;
-        }
-        
-        .level-select {
-            background: transparent;
-            border: none;
-            color: var(--text);
+        .level-selector-card label {
+            display: block;
+            margin-bottom: 10px;
             font-weight: 600;
+            color: var(--text);
+        }
+        
+        .level-selector-card .level-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 1rem;
             outline: none;
             cursor: pointer;
-            width: 140px;
+            transition: all 0.3s ease;
+        }
+        
+        .level-selector-card .level-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
         }
         
         /* Journey Panel */
@@ -1545,6 +1574,100 @@
         
         .fade-in-left { animation: fadeInLeft 0.5s ease; }
         .bounce-in { animation: bounceIn 0.6s ease; }
+        
+        /* RANK PAGE STYLES */
+        .rank-category-selector {
+            margin-bottom: 20px;
+        }
+        
+        .rank-leaderboard-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            animation: slideUp 0.5s ease;
+        }
+        
+        .rank-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            width: 50px;
+            text-align: center;
+            color: var(--primary);
+        }
+        
+        .rank-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
+        
+        .rank-user-info {
+            flex: 1;
+        }
+        
+        .rank-user-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .rank-user-stats {
+            display: flex;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--text-sec);
+        }
+        
+        .rank-points {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 80px;
+            text-align: right;
+        }
+        
+        /* UPLOAD PROFILE PICTURE BUTTON */
+        .upload-profile-btn {
+            margin-top: 15px;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .upload-profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        /* ERROR MESSAGE POPUP */
+        .error-message {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: bounceIn 0.6s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
@@ -1697,6 +1820,7 @@
         <nav class="bottom-nav">
             <div class="nav-item active" onclick="renderHome()"><i class="fas fa-home"></i> <span>Home</span></div>
             <div class="nav-item" onclick="renderStudy()"><i class="fas fa-book-open"></i> <span>Study</span></div>
+            <div class="nav-item" onclick="renderRank()"><i class="fas fa-trophy"></i> <span>Rank</span></div>
             <div class="nav-item" onclick="renderReview()"><i class="fas fa-clipboard-check"></i> <span>Review</span></div>
             <div class="nav-item" onclick="renderProfile()"><i class="fas fa-user"></i> <span>Profile</span></div>
             <div class="nav-item" id="admin-nav" style="display:none;" onclick="renderAdmin()"><i class="fas fa-th-large"></i> <span>Admin</span></div>
@@ -1741,16 +1865,6 @@
                 </div>
             </div>
             <button onclick="closeShareModal()" class="btn btn-sec" style="margin-top:20px;">Cancel</button>
-        </div>
-    </div>
-
-    <div id="forgot-password-modal" class="modal">
-        <div class="modal-content" style="max-width:400px;">
-            <h2 style="margin-bottom:20px; color:var(--primary);">Reset Password</h2>
-            <p style="color:var(--text-sec); margin-bottom:15px;">Enter your email address and we'll send you a link to reset your password.</p>
-            <input type="email" id="reset-email" placeholder="Email Address">
-            <button onclick="sendPasswordResetEmail()" class="btn btn-primary">Send Reset Link</button>
-            <button onclick="closeForgotPasswordModal()" class="btn btn-sec" style="margin-top:10px;">Cancel</button>
         </div>
     </div>
 
@@ -1809,6 +1923,10 @@
         let allCategoryCards = []; // All cards for the selected category
         let cardsPerSet = 10; // Cards per set
 
+        // Rank Page Variables
+        let rankCategory = '';
+        let rankLeaderboard = [];
+
         // AVATAR IMAGES
         const AVATAR_MALE = [
             "https://cdn-icons-png.flaticon.com/512/4825/4825038.png",
@@ -1847,6 +1965,13 @@
 
         // SUPPORT LINKS
         let supportLinks = [];
+
+        // Cloudinary Configuration
+        const cloudinaryConfig = {
+            cloudName: 'dsmvmq076',
+            uploadPreset: 'my_app_upload',
+            apiKey: '137218329783741'
+        };
 
         // --- NETWORK CONNECTIVITY ---
         function updateNetworkStatus() {
@@ -1920,17 +2045,29 @@
         }
 
         // --- UTILS ---
-        window.showMsg = (msg) => {
-            document.getElementById('alert-msg').innerText = msg;
+        window.showMsg = (msg, type = 'info') => {
+            if (type === 'error') {
+                document.getElementById('alert-msg').innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        ${msg}
+                    </div>
+                `;
+            } else {
+                document.getElementById('alert-msg').innerText = msg;
+            }
             document.getElementById('custom-alert').classList.add('show');
         }
+        
         window.closeAlert = () => document.getElementById('custom-alert').classList.remove('show');
+        
         window.toggleTheme = () => {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             document.getElementById('theme-icon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
         }
+        
         if(localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
             document.getElementById('theme-icon').className = 'fas fa-sun';
@@ -1954,7 +2091,7 @@
                 showMsg("Password reset email sent! Check your inbox.");
                 closeForgotPasswordModal();
             } catch(e) {
-                showMsg(e.message);
+                showMsg(e.message, 'error');
             } finally {
                 toggleLoader(false);
             }
@@ -2323,12 +2460,29 @@
         }
         
         window.handleLogin = async () => {
+            const email = document.getElementById('l-email').value;
+            const password = document.getElementById('l-pass').value;
+            
+            if(!email || !password) {
+                return showMsg("Please enter both email and password", 'error');
+            }
+            
             try { 
                 toggleLoader(true); 
-                await signInWithEmailAndPassword(auth, document.getElementById('l-email').value, document.getElementById('l-pass').value); 
+                await signInWithEmailAndPassword(auth, email, password); 
             } 
             catch(e) { 
-                showMsg(e.message); 
+                if (e.code === 'auth/invalid-email') {
+                    showMsg("Invalid email address. Please check your email.", 'error');
+                } else if (e.code === 'auth/user-not-found') {
+                    showMsg("No account found with this email.", 'error');
+                } else if (e.code === 'auth/wrong-password') {
+                    showMsg("Incorrect password. Please try again.", 'error');
+                } else if (e.code === 'auth/too-many-requests') {
+                    showMsg("Too many failed attempts. Please try again later.", 'error');
+                } else {
+                    showMsg(e.message, 'error');
+                }
                 toggleLoader(false); 
             }
         }
@@ -2340,8 +2494,8 @@
                   em=document.getElementById('s-email').value,
                   p=document.getElementById('s-pass').value;
             
-            if(!n || !g || !em || !p) return showMsg("Please fill all required details");
-            if(p.length < 6) return showMsg("Password must be at least 6 characters");
+            if(!n || !g || !em || !p) return showMsg("Please fill all required details", 'error');
+            if(p.length < 6) return showMsg("Password must be at least 6 characters", 'error');
             
             try {
                 toggleLoader(true);
@@ -2357,7 +2511,15 @@
                 showMsg("Account Created Successfully!");
                 toggleAuth('login');
             } catch(e) { 
-                showMsg(e.message); 
+                if (e.code === 'auth/email-already-in-use') {
+                    showMsg("Email already registered. Please use a different email.", 'error');
+                } else if (e.code === 'auth/invalid-email') {
+                    showMsg("Invalid email address.", 'error');
+                } else if (e.code === 'auth/weak-password') {
+                    showMsg("Password is too weak. Please use a stronger password.", 'error');
+                } else {
+                    showMsg(e.message, 'error');
+                }
                 toggleLoader(false); 
             }
         }
@@ -2562,6 +2724,26 @@
             await updateMemorizingProgress(false);
         }
 
+        // Calculate overall progress for memorizing category
+        function calculateMemorizingCategoryProgress() {
+            if (!currentMemorizingCategory || !allCategoryCards.length) {
+                return { progress: 0, totalCards: 0, completedCards: 0 };
+            }
+            
+            const categoryProgress = userMemorizingProgress.categories[currentMemorizingCategory] || {};
+            const currentDay = categoryProgress.currentDay || 1;
+            
+            // Calculate progress based on days completed
+            const totalDays = Math.ceil(allCategoryCards.length / cardsPerSet);
+            const progress = Math.min(((currentDay - 1) / totalDays) * 100, 100);
+            
+            return {
+                progress: Math.round(progress),
+                totalCards: allCategoryCards.length,
+                completedCards: Math.min((currentDay - 1) * cardsPerSet, allCategoryCards.length)
+            };
+        }
+
         // --- STUDY PAGE - UPDATED ---
         window.renderStudy = async () => {
             updateNav(1);
@@ -2586,9 +2768,9 @@
                 </div>
                 
                 <div id="study-plan-section" style="display: ${currentMemorizingMode === 'study-plan' ? 'block' : 'none'};">
-                    <div class="floating-level-selector" id="floating-level-selector">
-                        <i class="fas fa-graduation-cap" style="color:var(--primary);"></i>
-                        <select class="level-select" id="study-level-select" onchange="changeStudyLevel(this.value)" onclick="expandLevelSelector()">
+                    <div class="level-selector-card">
+                        <label for="study-level-select">Select Study Level</label>
+                        <select class="level-select" id="study-level-select" onchange="changeStudyLevel(this.value)">
                             <option value="">Select Level</option>
                             ${studyLevels.map(level => 
                                 `<option value="${level.level}" ${level.level === currentStudyLevel ? 'selected' : ''}>
@@ -2695,16 +2877,6 @@
             }
         }
 
-        // Study Page Level Selector Expand Function
-        window.expandLevelSelector = () => {
-            const selector = document.getElementById('floating-level-selector');
-            selector.classList.add('expanded');
-            
-            setTimeout(() => {
-                selector.classList.remove('expanded');
-            }, 3000);
-        }
-
         window.changeStudyMode = async (mode) => {
             currentMemorizingMode = mode;
             await renderStudy();
@@ -2736,8 +2908,8 @@
                 <div id="memorizing-content" style="display: none;">
                     <div class="memorizing-progress-container">
                         <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                            <span>Progress</span>
-                            <span id="memorizing-progress-text">0/10</span>
+                            <span>Overall Progress</span>
+                            <span id="memorizing-progress-text">0/0 (0%)</span>
                         </div>
                         <div class="memorizing-progress-bar">
                             <div class="memorizing-progress-fill" id="memorizing-progress-fill" style="width: 0%"></div>
@@ -2830,12 +3002,11 @@
             document.getElementById('memorizing-day-title').textContent = `Day ${currentDay}`;
             document.getElementById('memorizing-day-progress').textContent = `${cards.length} cards to study`;
             
-            // Update progress
-            const completedCards = categoryProgress.completedCards || [];
-            const progress = (completedCards.length / cards.length) * 100;
-            
-            document.getElementById('memorizing-progress-text').textContent = `${completedCards.length}/${cards.length}`;
-            document.getElementById('memorizing-progress-fill').style.width = `${progress}%`;
+            // Calculate and update overall progress
+            const overallProgress = calculateMemorizingCategoryProgress();
+            document.getElementById('memorizing-progress-text').textContent = 
+                `${overallProgress.completedCards}/${overallProgress.totalCards} (${overallProgress.progress}%)`;
+            document.getElementById('memorizing-progress-fill').style.width = `${overallProgress.progress}%`;
             
             // Render cards
             let html = '';
@@ -3463,6 +3634,115 @@
             }
         }
 
+        // --- RANK PAGE ---
+        window.renderRank = async () => {
+            updateNav(2);
+            
+            await loadAllCategories();
+            
+            document.getElementById('main-content').innerHTML = `
+                <div class="card" style="text-align:center; margin-bottom:20px;">
+                    <h2><i class="fas fa-trophy"></i> Category Leaderboard</h2>
+                    <p style="color:var(--text-sec); margin-top:5px;">See where you rank among other students</p>
+                </div>
+                
+                <div class="rank-category-selector">
+                    <div class="category-select-wrapper">
+                        <select id="rank-category-select" class="category-select" onchange="loadRankLeaderboard(this.value)">
+                            <option value="">Select Category</option>
+                            ${allCategories.map(cat => 
+                                `<option value="${cat}" ${cat === rankCategory ? 'selected' : ''}>${cat}</option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="rank-leaderboard">
+                    <div class="card" style="text-align:center; padding:30px;">
+                        <i class="fas fa-trophy" style="font-size:3rem; color:var(--text-sec); margin-bottom:15px;"></i>
+                        <h3>Select a Category</h3>
+                        <p style="color:var(--text-sec);">Choose a category to view the leaderboard</p>
+                    </div>
+                </div>
+            `;
+            
+            if (rankCategory) {
+                await loadRankLeaderboard(rankCategory);
+            }
+        }
+
+        window.loadRankLeaderboard = async (category) => {
+            rankCategory = category;
+            
+            try {
+                const leaderboardElem = document.getElementById('rank-leaderboard');
+                leaderboardElem.innerHTML = '<div class="shimmer" style="height:300px; border-radius:15px;"></div>';
+                
+                // Get all users
+                const usersSnap = await getDocs(collection(db, "users"));
+                let users = [];
+                usersSnap.forEach(doc => {
+                    const userData = doc.data();
+                    if (userData.role !== 'admin' && !userData.isBanned) {
+                        users.push({
+                            id: doc.id,
+                            name: userData.name,
+                            points: userData.points || 0,
+                            level: userData.level || 1,
+                            avatar: userData.avatar || (userData.gender === 'Female' ? AVATAR_FEMALE[0] : AVATAR_MALE[0]),
+                            education: userData.education || 'Not specified'
+                        });
+                    }
+                });
+                
+                // Sort by points (descending)
+                users.sort((a, b) => b.points - a.points);
+                
+                let html = '';
+                if (users.length === 0) {
+                    html = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No users found.</p>';
+                } else {
+                    users.forEach((user, index) => {
+                        const isCurrentUser = user.id === currentUser.uid;
+                        let rankIcon = '';
+                        if (index === 0) rankIcon = '🥇';
+                        else if (index === 1) rankIcon = '🥈';
+                        else if (index === 2) rankIcon = '🥉';
+                        
+                        html += `
+                            <div class="rank-leaderboard-card ${isCurrentUser ? 'current-user-card' : ''}">
+                                <div class="rank-number">
+                                    ${rankIcon || `#${index + 1}`}
+                                </div>
+                                <img src="${user.avatar}" class="rank-avatar" alt="${user.name}">
+                                <div class="rank-user-info">
+                                    <div class="rank-user-name">${user.name} ${isCurrentUser ? '<small style="color:var(--primary);">(You)</small>' : ''}</div>
+                                    <div class="rank-user-stats">
+                                        <span>Level ${user.level}</span>
+                                        <span>•</span>
+                                        <span>${user.education}</span>
+                                    </div>
+                                </div>
+                                <div class="rank-points">
+                                    ${user.points} pts
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                leaderboardElem.innerHTML = html;
+                
+            } catch(error) {
+                console.error("Error loading rank leaderboard:", error);
+                document.getElementById('rank-leaderboard').innerHTML = `
+                    <div class="card" style="text-align:center; padding:20px; color:var(--danger);">
+                        Error loading leaderboard. Please try again.
+                    </div>
+                `;
+            }
+        }
+
         // --- HOME ---
         window.renderHome = async () => {
             updateNav(0);
@@ -3673,7 +3953,7 @@
 
         // --- REVIEW PAGE ---
         window.renderReview = async () => {
-            updateNav(2);
+            updateNav(3);
             document.getElementById('main-content').innerHTML = `
                 <div class="card" style="background:var(--bg); text-align:center;">
                     <h3>📝 Exam Reviews</h3>
@@ -3787,13 +4067,13 @@
 
         // --- PROFILE ---
         window.renderProfile = async () => {
-            updateNav(3);
+            updateNav(4);
             
             const avatarUrl = currentUser.avatar || (currentUser.gender === 'Female' ? AVATAR_FEMALE[0] : AVATAR_MALE[0]);
             
             document.getElementById('main-content').innerHTML = `
                 <div class="profile-header-card">
-                    <div class="profile-avatar-container">
+                    <div class="profile-avatar-container" onclick="uploadProfilePicture()">
                         <img src="${avatarUrl}" class="profile-avatar" id="profile-avatar-img">
                     </div>
                     <h2 style="text-align:center; margin-bottom:5px;">${currentUser.name}</h2>
@@ -3839,6 +4119,66 @@
             `;
             
             await loadUserHistory();
+        }
+
+        // --- PROFILE PICTURE UPLOAD ---
+        window.uploadProfilePicture = () => {
+            const myWidget = cloudinary.createUploadWidget(
+                {
+                    cloudName: cloudinaryConfig.cloudName,
+                    uploadPreset: cloudinaryConfig.uploadPreset,
+                    sources: ['local', 'camera', 'url'],
+                    cropping: true,
+                    croppingAspectRatio: 1,
+                    croppingDefaultSelectionRatio: 0.5,
+                    showAdvancedOptions: true,
+                    multiple: false,
+                    defaultSource: 'local',
+                    styles: {
+                        palette: {
+                            window: "#FFFFFF",
+                            sourceBg: "#F4F4F5",
+                            windowBorder: "#90a0b3",
+                            tabIcon: "#0094c7",
+                            inactiveTabIcon: "#69778A",
+                            menuIcons: "#0094C7",
+                            link: "#53ad9d",
+                            action: "#8F5DA5",
+                            inProgress: "#0194c7",
+                            complete: "#53ad9d",
+                            error: "#c43737",
+                            textDark: "#000000",
+                            textLight: "#FFFFFF"
+                        }
+                    }
+                },
+                (error, result) => {
+                    if (!error && result && result.event === "success") {
+                        const imageUrl = result.info.secure_url;
+                        // Update the profile picture immediately
+                        document.getElementById('profile-avatar-img').src = imageUrl;
+                        
+                        // Save to Firebase
+                        saveProfilePicture(imageUrl);
+                    }
+                }
+            );
+            
+            myWidget.open();
+        }
+
+        async function saveProfilePicture(imageUrl) {
+            try {
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    avatar: imageUrl
+                });
+                
+                currentUser.avatar = imageUrl;
+                showMsg("Profile picture updated successfully!");
+            } catch(error) {
+                console.error("Error saving profile picture:", error);
+                showMsg("Error saving profile picture: " + error.message, 'error');
+            }
         }
 
         async function loadUserHistory() {
@@ -3908,6 +4248,10 @@
                 <div class="avatar-grid" id="avatar-grid">
                     ${avatarGrid}
                 </div>
+                
+                <button onclick="uploadProfilePicture()" class="upload-profile-btn">
+                    <i class="fas fa-cloud-upload-alt"></i> Upload Custom Profile Picture
+                </button>
                 
                 <button onclick="saveProfile()" class="btn btn-primary" style="margin-top:15px;">Save Changes</button>
             `);
@@ -4235,7 +4579,7 @@
 
         // --- ADMIN PANEL ---
         window.renderAdmin = () => {
-            updateNav(4);
+            updateNav(5);
             document.getElementById('main-content').innerHTML = `
                 <div class="admin-grid">
                     <div class="admin-item" onclick="admView('exam')"><i class="fas fa-file-alt"></i><h4>Exams</h4></div>
@@ -5632,4 +5976,4 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
 
     </script>
 </body>
-                </html>
+    </html>
