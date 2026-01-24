@@ -33,6 +33,10 @@
             --gradient-success: linear-gradient(135deg, #2ecc71 0%, #1dd1a1 100%);
             --gradient-danger: linear-gradient(135deg, #ff4757 0%, #ff3838 100%);
             --gradient-warning: linear-gradient(135deg, #f39c12 0%, #f1c40f 100%);
+            --gradient-orange: linear-gradient(135deg, #FF9F43 0%, #FFD166 100%);
+            --gradient-blue: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+            --gradient-pink: linear-gradient(135deg, #FF6B9D 0%, #FFD166 100%);
+            --gradient-teal: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
             --day-gradient-header: linear-gradient(135deg, #6C63FF 0%, #8f94fb 100%);
             --day-gradient-card: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --night-gradient-header: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
@@ -565,55 +569,83 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 56, 56, 0); }
         }
 
-        /* THEME SLIDER */
-        .theme-slider-container { margin-top: 20px; padding: 10px; background: var(--bg); border-radius: 15px; }
-        input[type=range].thermo { 
-            -webkit-appearance: none; 
-            width: 100%; 
-            margin: 10px 0; 
-            background: transparent; 
+        /* THEME SLIDER - IMPROVED */
+        .theme-slider-container { 
+            margin-top: 20px; 
+            padding: 20px; 
+            background: var(--bg); 
+            border-radius: 15px;
+            border: 2px solid var(--border);
+            text-align: center;
+        }
+        
+        .thermometer {
+            position: relative;
+            width: 60px;
+            height: 200px;
+            margin: 20px auto;
+            background: linear-gradient(to top, #ff0000 0%, #ff8000 17%, #ffff00 33%, #80ff00 50%, #00ff00 67%, #00ff80 83%, #00ffff 100%);
+            border-radius: 30px;
+            border: 3px solid var(--border);
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .thermometer-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: rgba(255,255,255,0.3);
+            border-radius: 30px;
+            transition: height 0.5s ease;
+        }
+        
+        .thermometer-bulb {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid var(--border);
+            box-shadow: 0 0 20px rgba(108, 99, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .color-preview {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .color-dot {
+            width: 40px;
             height: 40px;
-        }
-        input[type=range].thermo::-webkit-slider-runnable-track {
-            width: 100%; 
-            height: 12px; 
+            border-radius: 50%;
             cursor: pointer;
-            background: linear-gradient(90deg, 
-                #ff0000, #ff8000, #ffff00, #80ff00, 
-                #00ff00, #00ff80, #00ffff, #0080ff, 
-                #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);
-            border-radius: 10px; 
-            border: 1px solid #ddd;
+            border: 3px solid var(--border);
+            transition: transform 0.3s;
         }
-        input[type=range].thermo::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 35px; 
-            width: 35px; 
-            border-radius: 50%; 
-            background: #ffffff;
-            cursor: pointer; 
-            margin-top: -12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.3); 
-            border: 3px solid var(--text);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236C63FF'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 60%;
+        
+        .color-dot:hover {
+            transform: scale(1.1);
         }
-        input[type=range].thermo::-moz-range-thumb {
-            height: 35px; 
-            width: 35px; 
-            border-radius: 50%; 
-            background: #ffffff;
-            cursor: pointer; 
-            box-shadow: 0 3px 10px rgba(0,0,0,0.3); 
-            border: 3px solid var(--text);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236C63FF'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 60%;
+        
+        .color-dot.active {
+            border-color: var(--text);
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
         }
-
+        
         /* NAV */
         .bottom-nav { 
             position: fixed; bottom: 0; left: 0; width: 100%; 
@@ -1898,9 +1930,53 @@
         .fade-in-left { animation: fadeInLeft 0.5s ease; }
         .bounce-in { animation: bounceIn 0.6s ease; }
         
-        /* RANK PAGE STYLES */
-        .rank-category-selector {
+        /* RANK PAGE STYLES - UPDATED */
+        .rank-page-container {
             margin-bottom: 20px;
+        }
+        
+        .rank-selectors {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .rank-selector-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .rank-selector-card label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .rank-select-dropdown {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236C63FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .rank-select-dropdown:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
         }
         
         .rank-leaderboard-card {
@@ -1955,10 +2031,14 @@
             text-align: right;
         }
         
-        /* UPLOAD PROFILE PICTURE BUTTON */
+        .rank-medal {
+            font-size: 1.8rem;
+        }
+        
+        /* UPLOAD PROFILE PICTURE BUTTON - UPDATED */
         .upload-profile-btn {
             margin-top: 15px;
-            background: linear-gradient(135deg, #3498db, #2ecc71);
+            background: var(--gradient-blue);
             color: white;
             border: none;
             padding: 12px;
@@ -1970,11 +2050,20 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            width: 100%;
         }
         
         .upload-profile-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .upload-profile-btn.small {
+            width: auto;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            margin-top: 0;
+            display: inline-flex;
         }
         
         /* ERROR MESSAGE POPUP */
@@ -2094,6 +2183,82 @@
             height: 15px;
             border-radius: 50%;
             border: 2px solid var(--border);
+        }
+        
+        /* RESULT STATS STYLES - NEW */
+        .result-stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .result-stat-card {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .result-stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .result-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-sec);
+        }
+        
+        .result-stat-correct .result-stat-value {
+            color: var(--success);
+        }
+        
+        .result-stat-wrong .result-stat-value {
+            color: var(--danger);
+        }
+        
+        .result-stat-skipped .result-stat-value {
+            color: var(--warning);
+        }
+        
+        .result-rank-badge {
+            background: var(--gradient-orange);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        /* PROFILE UPLOAD QUICK OPTION - NEW */
+        .profile-upload-quick {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: var(--gradient-blue);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 2;
+            transition: 0.3s;
+        }
+        
+        .profile-upload-quick:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
         }
     </style>
 </head>
@@ -2367,15 +2532,27 @@
         let allCategoryCards = []; // All cards for the selected category
         let cardsPerSet = 10; // Cards per set
 
-        // Rank Page Variables
+        // Rank Page Variables - UPDATED
         let rankCategory = '';
+        let rankExam = '';
         let rankLeaderboard = [];
+        let allExams = [];
 
         // Slider Variables
         let homeSlides = [];
         let currentSlideIndex = 0;
         let slideInterval = null;
         let sliderEnabled = true;
+
+        // Color System Variables
+        let currentHue = 0;
+        let currentTheme = 'default';
+        const colorThemes = {
+            'default': { primary: '#6C63FF', secondary: '#8f94fb', gradient: 'linear-gradient(135deg, #6C63FF 0%, #8f94fb 100%)' },
+            'ocean': { primary: '#3498db', secondary: '#2ecc71', gradient: 'linear-gradient(135deg, #3498db 0%, #2ecc71 100%)' },
+            'sunset': { primary: '#FF6B9D', secondary: '#FFD166', gradient: 'linear-gradient(135deg, #FF6B9D 0%, #FFD166 100%)' },
+            'teal': { primary: '#00b4db', secondary: '#0083b0', gradient: 'linear-gradient(135deg, #00b4db 0%, #0083b0 100%)' }
+        };
 
         // AVATAR IMAGES
         const AVATAR_MALE = [
@@ -2522,8 +2699,7 @@
                 document.documentElement.style.setProperty('--gradient-primary', 'var(--night-gradient-header)');
                 document.documentElement.style.setProperty('--gradient-secondary', 'var(--night-gradient-card)');
             } else {
-                document.documentElement.style.setProperty('--gradient-primary', 'var(--day-gradient-header)');
-                document.documentElement.style.setProperty('--gradient-secondary', 'var(--day-gradient-card)');
+                applyThemeColors();
             }
         }
         
@@ -2533,8 +2709,88 @@
             document.documentElement.style.setProperty('--gradient-primary', 'var(--night-gradient-header)');
             document.documentElement.style.setProperty('--gradient-secondary', 'var(--night-gradient-card)');
         } else {
-            document.documentElement.style.setProperty('--gradient-primary', 'var(--day-gradient-header)');
-            document.documentElement.style.setProperty('--gradient-secondary', 'var(--day-gradient-card)');
+            applyThemeColors();
+        }
+        
+        // Apply theme colors function
+        function applyThemeColors() {
+            const theme = colorThemes[currentTheme] || colorThemes.default;
+            document.documentElement.style.setProperty('--primary', theme.primary);
+            document.documentElement.style.setProperty('--secondary', theme.secondary);
+            document.documentElement.style.setProperty('--gradient-primary', theme.gradient);
+            document.documentElement.style.setProperty('--gradient-secondary', theme.gradient);
+            document.documentElement.style.setProperty('--day-gradient-header', theme.gradient);
+            document.documentElement.style.setProperty('--day-gradient-card', theme.gradient);
+        }
+        
+        // Set theme from color picker
+        window.setTheme = (themeName) => {
+            currentTheme = themeName;
+            const theme = colorThemes[themeName];
+            
+            if (theme) {
+                document.documentElement.style.setProperty('--primary', theme.primary);
+                document.documentElement.style.setProperty('--secondary', theme.secondary);
+                document.documentElement.style.setProperty('--gradient-primary', theme.gradient);
+                document.documentElement.style.setProperty('--gradient-secondary', theme.gradient);
+                document.documentElement.style.setProperty('--day-gradient-header', theme.gradient);
+                document.documentElement.style.setProperty('--day-gradient-card', theme.gradient);
+                
+                // Update theme dots
+                document.querySelectorAll('.color-dot').forEach(dot => {
+                    dot.classList.remove('active');
+                    if (dot.dataset.theme === themeName) {
+                        dot.classList.add('active');
+                    }
+                });
+                
+                // Update thermometer bulb color
+                const thermometerBulb = document.querySelector('.thermometer-bulb');
+                if (thermometerBulb) {
+                    thermometerBulb.style.background = theme.primary;
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('appTheme', themeName);
+                showMsg(`Theme changed to ${themeName}!`);
+            }
+        }
+        
+        // Initialize theme from localStorage
+        function initTheme() {
+            const savedTheme = localStorage.getItem('appTheme');
+            if (savedTheme && colorThemes[savedTheme]) {
+                currentTheme = savedTheme;
+                setTheme(savedTheme);
+            }
+        }
+        
+        // Thermometer color adjustment
+        window.adjustColorTemperature = (value) => {
+            currentHue = value;
+            const hue = value;
+            const primaryColor = `hsl(${hue}, 70%, 60%)`;
+            const secondaryColor = `hsl(${(hue + 40) % 360}, 70%, 60%)`;
+            const gradient = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+            
+            document.documentElement.style.setProperty('--primary', primaryColor);
+            document.documentElement.style.setProperty('--secondary', secondaryColor);
+            document.documentElement.style.setProperty('--gradient-primary', gradient);
+            document.documentElement.style.setProperty('--gradient-secondary', gradient);
+            document.documentElement.style.setProperty('--day-gradient-header', gradient);
+            document.documentElement.style.setProperty('--day-gradient-card', gradient);
+            
+            // Update thermometer fill
+            const fillHeight = 50 + (value / 360) * 50;
+            const thermometerFill = document.querySelector('.thermometer-fill');
+            if (thermometerFill) {
+                thermometerFill.style.height = `${fillHeight}%`;
+            }
+            
+            // Update theme to custom
+            currentTheme = 'custom';
+            localStorage.setItem('appTheme', 'custom');
+            localStorage.setItem('customHue', value.toString());
         }
 
         // --- FORGOT PASSWORD FUNCTIONS ---
@@ -3101,6 +3357,21 @@
             }
         }
 
+        // --- LOAD ALL EXAMS ---
+        async function loadAllExams() {
+            try {
+                const examsSnap = await getDocs(collection(db, "exams"));
+                allExams = [];
+                examsSnap.forEach(doc => {
+                    allExams.push({ id: doc.id, ...doc.data() });
+                });
+                return allExams;
+            } catch(error) {
+                console.error("Error loading exams:", error);
+                return [];
+            }
+        }
+
         window.showAddCategoryModal = () => {
             document.getElementById('add-category-modal').style.display = 'flex';
             document.getElementById('new-category-name').focus();
@@ -3256,6 +3527,7 @@
         onAuthStateChanged(auth, async (user) => {
             if(user) {
                 await loadServerTheme();
+                initTheme(); // Initialize theme system
                 const shareLinksSnap = await getDoc(doc(db, "settings", "shareLinks"));
                 if (shareLinksSnap.exists()) {
                     shareLinks = shareLinksSnap.data();
@@ -3263,6 +3535,7 @@
                 
                 await loadSupportLinks();
                 await loadAllCategories();
+                await loadAllExams(); // Load all exams
                 await loadStudyData();
                 await loadMemorizingData();
                 await loadHomeSlides();
@@ -4379,107 +4652,207 @@
             }
         }
 
-        // --- RANK PAGE ---
+        // --- RANK PAGE - UPDATED ---
         window.renderRank = async () => {
             updateNav(2);
             
             await loadAllCategories();
+            await loadAllExams();
             
             document.getElementById('main-content').innerHTML = `
                 <div class="card" style="text-align:center; margin-bottom:20px;">
-                    <h2><i class="fas fa-trophy"></i> Category Leaderboard</h2>
-                    <p style="color:var(--text-sec); margin-top:5px;">See where you rank among other students</p>
+                    <h2><i class="fas fa-trophy"></i> Exam Leaderboard</h2>
+                    <p style="color:var(--text-sec); margin-top:5px;">See where you rank in specific exams</p>
                 </div>
                 
-                <div class="rank-category-selector">
-                    <div class="category-select-wrapper">
-                        <select id="rank-category-select" class="category-select" onchange="loadRankLeaderboard(this.value)">
-                            <option value="">Select Category</option>
-                            ${allCategories.map(cat => 
-                                `<option value="${cat}" ${cat === rankCategory ? 'selected' : ''}>${cat}</option>`
-                            ).join('')}
-                        </select>
+                <div class="rank-page-container">
+                    <div class="rank-selectors">
+                        <div class="rank-selector-card">
+                            <label for="rank-category-select"><i class="fas fa-filter"></i> Select Category</label>
+                            <select id="rank-category-select" class="rank-select-dropdown" onchange="loadRankExams(this.value)">
+                                <option value="">Select Category</option>
+                                ${allCategories.map(cat => 
+                                    `<option value="${cat}" ${cat === rankCategory ? 'selected' : ''}>${cat}</option>`
+                                ).join('')}
+                            </select>
+                        </div>
+                        
+                        <div class="rank-selector-card" id="rank-exam-selector" style="display: none;">
+                            <label for="rank-exam-select"><i class="fas fa-file-alt"></i> Select Exam</label>
+                            <select id="rank-exam-select" class="rank-select-dropdown" onchange="loadExamLeaderboard(this.value)">
+                                <option value="">Select Exam</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                
-                <div id="rank-leaderboard">
-                    <div class="card" style="text-align:center; padding:30px;">
-                        <i class="fas fa-trophy" style="font-size:3rem; color:var(--text-sec); margin-bottom:15px;"></i>
-                        <h3>Select a Category</h3>
-                        <p style="color:var(--text-sec);">Choose a category to view the leaderboard</p>
+                    
+                    <div id="rank-leaderboard">
+                        <div class="card" style="text-align:center; padding:30px;">
+                            <i class="fas fa-trophy" style="font-size:3rem; color:var(--text-sec); margin-bottom:15px;"></i>
+                            <h3>Select a Category & Exam</h3>
+                            <p style="color:var(--text-sec);">Choose a category and exam to view the leaderboard</p>
+                        </div>
                     </div>
                 </div>
             `;
             
             if (rankCategory) {
-                await loadRankLeaderboard(rankCategory);
+                await loadRankExams(rankCategory);
+                if (rankExam) {
+                    await loadExamLeaderboard(rankExam);
+                }
             }
         }
 
-        window.loadRankLeaderboard = async (category) => {
+        window.loadRankExams = async (category) => {
             rankCategory = category;
+            
+            if (!category) {
+                document.getElementById('rank-exam-selector').style.display = 'none';
+                return;
+            }
+            
+            try {
+                const examsInCategory = allExams.filter(exam => exam.category === category);
+                const examSelect = document.getElementById('rank-exam-select');
+                const examSelector = document.getElementById('rank-exam-selector');
+                
+                if (examsInCategory.length === 0) {
+                    examSelector.style.display = 'none';
+                    document.getElementById('rank-leaderboard').innerHTML = `
+                        <div class="card" style="text-align:center; padding:30px;">
+                            <i class="fas fa-exclamation-circle" style="font-size:3rem; color:var(--warning); margin-bottom:15px;"></i>
+                            <h3>No Exams Found</h3>
+                            <p style="color:var(--text-sec);">No exams available for this category.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let options = '<option value="">Select Exam</option>';
+                examsInCategory.forEach(exam => {
+                    options += `<option value="${exam.id}" ${exam.id === rankExam ? 'selected' : ''}>${exam.title} (${exam.time} Min)</option>`;
+                });
+                
+                examSelect.innerHTML = options;
+                examSelector.style.display = 'block';
+                
+            } catch(error) {
+                console.error("Error loading rank exams:", error);
+            }
+        }
+
+        window.loadExamLeaderboard = async (examId) => {
+            rankExam = examId;
+            
+            if (!examId) {
+                return;
+            }
             
             try {
                 const leaderboardElem = document.getElementById('rank-leaderboard');
                 leaderboardElem.innerHTML = '<div class="shimmer" style="height:300px; border-radius:15px;"></div>';
                 
-                // Get all users
-                const usersSnap = await getDocs(collection(db, "users"));
-                let users = [];
-                usersSnap.forEach(doc => {
-                    const userData = doc.data();
-                    if (userData.role !== 'admin' && !userData.isBanned) {
-                        users.push({
-                            id: doc.id,
+                // Get all results for this exam
+                const q = query(
+                    collection(db, "results"), 
+                    where("examId", "==", examId),
+                    orderBy("score", "desc")
+                );
+                const resultsSnap = await getDocs(q);
+                
+                // Get exam details
+                const examDoc = await getDoc(doc(db, "exams", examId));
+                const examData = examDoc.exists() ? examDoc.data() : { title: "Unknown Exam" };
+                
+                let leaderboardData = [];
+                const usersMap = new Map();
+                
+                // Get user details for all results
+                for (const doc of resultsSnap.docs) {
+                    const result = doc.data();
+                    
+                    // Get user data if not already in map
+                    if (!usersMap.has(result.userId)) {
+                        const userDoc = await getDoc(doc(db, "users", result.userId));
+                        if (userDoc.exists()) {
+                            usersMap.set(result.userId, userDoc.data());
+                        }
+                    }
+                    
+                    const userData = usersMap.get(result.userId);
+                    if (userData && userData.role !== 'admin' && !userData.isBanned) {
+                        leaderboardData.push({
+                            userId: result.userId,
                             name: userData.name,
-                            points: userData.points || 0,
-                            level: userData.level || 1,
+                            score: result.score,
+                            total: result.total,
+                            percentage: (result.score / result.total) * 100,
+                            pointsChange: result.pointsChange || 0,
                             avatar: userData.avatar || (userData.gender === 'Female' ? AVATAR_FEMALE[0] : AVATAR_MALE[0]),
-                            education: userData.education || 'Not specified'
+                            education: userData.education || 'Not specified',
+                            isCurrentUser: result.userId === currentUser.uid
                         });
                     }
-                });
-                
-                // Sort by points (descending)
-                users.sort((a, b) => b.points - a.points);
+                }
                 
                 let html = '';
-                if (users.length === 0) {
-                    html = '<p style="text-align:center; color:var(--text-sec); padding:20px;">No users found.</p>';
+                if (leaderboardData.length === 0) {
+                    html = `
+                        <div class="card" style="text-align:center; padding:30px;">
+                            <i class="fas fa-chart-line" style="font-size:3rem; color:var(--text-sec); margin-bottom:15px;"></i>
+                            <h3>No Results Yet</h3>
+                            <p style="color:var(--text-sec);">No one has taken this exam yet.</p>
+                        </div>`;
                 } else {
-                    users.forEach((user, index) => {
-                        const isCurrentUser = user.id === currentUser.uid;
-                        let rankIcon = '';
-                        if (index === 0) rankIcon = '🥇';
-                        else if (index === 1) rankIcon = '🥈';
-                        else if (index === 2) rankIcon = '🥉';
+                    html = `
+                        <div class="card" style="margin-bottom:15px;">
+                            <h3 style="color:var(--primary); margin-bottom:10px;">${examData.title} - Leaderboard</h3>
+                            <p style="color:var(--text-sec);">Total Participants: ${leaderboardData.length}</p>
+                        </div>`;
+                    
+                    leaderboardData.forEach((user, index) => {
+                        const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
                         
                         html += `
-                            <div class="rank-leaderboard-card ${isCurrentUser ? 'current-user-card' : ''}">
+                            <div class="rank-leaderboard-card ${user.isCurrentUser ? 'current-user-card' : ''}">
                                 <div class="rank-number">
-                                    ${rankIcon || `#${index + 1}`}
+                                    ${medal || `#${index + 1}`}
                                 </div>
                                 <img src="${user.avatar}" class="rank-avatar" alt="${user.name}">
                                 <div class="rank-user-info">
-                                    <div class="rank-user-name">${user.name} ${isCurrentUser ? '<small style="color:var(--primary);">(You)</small>' : ''}</div>
+                                    <div class="rank-user-name">${user.name} ${user.isCurrentUser ? '<small style="color:var(--primary);">(You)</small>' : ''}</div>
                                     <div class="rank-user-stats">
-                                        <span>Level ${user.level}</span>
+                                        <span>Score: <b>${user.score}/${user.total}</b></span>
                                         <span>•</span>
-                                        <span>${user.education}</span>
+                                        <span>${user.percentage.toFixed(1)}%</span>
                                     </div>
                                 </div>
                                 <div class="rank-points">
-                                    ${user.points} pts
+                                    ${user.pointsChange > 0 ? '+' : ''}${user.pointsChange} pts
                                 </div>
                             </div>
                         `;
                     });
+                    
+                    // Add current user's rank if not in top list
+                    const currentUserRank = leaderboardData.findIndex(user => user.isCurrentUser);
+                    if (currentUserRank === -1) {
+                        // Current user hasn't taken this exam
+                        html += `
+                            <div class="card" style="text-align:center; padding:20px; margin-top:15px;">
+                                <p style="color:var(--text-sec);">You haven't taken this exam yet.</p>
+                                <button onclick="startExam('${examId}', '${examData.title}', ${examData.time || 30})" class="btn btn-primary" style="margin-top:10px;">
+                                    Take This Exam
+                                </button>
+                            </div>
+                        `;
+                    }
                 }
                 
                 leaderboardElem.innerHTML = html;
                 
             } catch(error) {
-                console.error("Error loading rank leaderboard:", error);
+                console.error("Error loading exam leaderboard:", error);
                 document.getElementById('rank-leaderboard').innerHTML = `
                     <div class="card" style="text-align:center; padding:20px; color:var(--danger);">
                         Error loading leaderboard. Please try again.
@@ -4496,7 +4869,7 @@
             await loadHomeSlides();
             
             const bcSnap = await getDoc(doc(db, "settings", "broadcast"));
-            let bcHTML = bcSnap.exists() ? `<div class="card" style="background:linear-gradient(to right, #ff9966, #ff5e62); color:white; padding:15px; animation:fadeIn 0.5s; display:flex; gap:10px; align-items:center;"><i class="fas fa-bullhorn"></i> <div><b>NOTICE:</b> ${bcSnap.data().message}</div></div>` : '';
+            let bcHTML = bcSnap.exists() ? `<div class="card" style="background:var(--gradient-primary); color:white; padding:15px; animation:fadeIn 0.5s; display:flex; gap:10px; align-items:center;"><i class="fas fa-bullhorn"></i> <div><b>NOTICE:</b> ${bcSnap.data().message}</div></div>` : '';
 
             div.innerHTML = `
                 ${renderHomeSlider()}
@@ -4814,7 +5187,7 @@
             }
         }
 
-        // --- PROFILE ---
+        // --- PROFILE - UPDATED ---
         window.renderProfile = async () => {
             updateNav(4);
             
@@ -4824,6 +5197,9 @@
                 <div class="profile-header-card">
                     <div class="profile-avatar-container" onclick="uploadProfilePicture()">
                         <img src="${avatarUrl}" class="profile-avatar" id="profile-avatar-img">
+                        <div class="profile-upload-quick" onclick="uploadProfilePicture()" title="Change Profile Picture">
+                            <i class="fas fa-camera"></i>
+                        </div>
                     </div>
                     <h2 style="text-align:center; margin-bottom:5px;">${currentUser.name}</h2>
                     <p style="text-align:center; opacity:0.9; font-size:0.9rem;">${currentUser.email}</p>
@@ -4853,6 +5229,12 @@
                     </button>
                 </div>
                 
+                <div style="margin-bottom:15px;">
+                    <button onclick="uploadProfilePicture()" class="upload-profile-btn">
+                        <i class="fas fa-camera"></i> Upload Profile Picture
+                    </button>
+                </div>
+                
                 <button onclick="clearHistory()" class="btn btn-danger" style="margin-bottom:15px;">
                     <i class="fas fa-trash"></i> Clear Exam History
                 </button>
@@ -4870,7 +5252,7 @@
             await loadUserHistory();
         }
 
-        // --- PROFILE PICTURE UPLOAD ---
+        // --- PROFILE PICTURE UPLOAD - UPDATED ---
         window.uploadProfilePicture = () => {
             const myWidget = cloudinary.createUploadWidget(
                 {
@@ -4905,7 +5287,10 @@
                     if (!error && result && result.event === "success") {
                         const imageUrl = result.info.secure_url;
                         // Update the profile picture immediately
-                        document.getElementById('profile-avatar-img').src = imageUrl;
+                        const profileImg = document.getElementById('profile-avatar-img');
+                        if (profileImg) {
+                            profileImg.src = imageUrl;
+                        }
                         
                         // Save to Firebase
                         saveProfilePicture(imageUrl);
@@ -4998,8 +5383,8 @@
                     ${avatarGrid}
                 </div>
                 
-                <button onclick="uploadProfilePicture()" class="upload-profile-btn">
-                    <i class="fas fa-cloud-upload-alt"></i> Upload Custom Profile Picture
+                <button onclick="uploadProfilePicture()" class="upload-profile-btn small" style="margin-top:10px;">
+                    <i class="fas fa-cloud-upload-alt"></i> Upload Custom
                 </button>
                 
                 <button onclick="saveProfile()" class="btn btn-primary" style="margin-top:15px;">Save Changes</button>
@@ -5078,7 +5463,7 @@
             }
         }
 
-        // --- MCQ ENGINE ---
+        // --- MCQ ENGINE - UPDATED ---
         window.startExam = async (id, title, time) => {
             if(currentUser.examsTaken && currentUser.examsTaken.includes(id)) {
                 showMsg("You have already taken this exam!");
@@ -5168,6 +5553,9 @@
             let score = 0, totalQuestions = window.currentQ.length;
             let pointsChange = 0;
             let reviewData = [];
+            let correctCount = 0;
+            let wrongCount = 0;
+            let skippedCount = 0;
             
             window.currentQ.forEach((q, i) => {
                 const ans = window.userAns[q.id];
@@ -5178,10 +5566,14 @@
                     if(correct) {
                         score += 1;
                         pointsChange += 1;
+                        correctCount++;
                     } else {
                         score -= 0.5;
                         pointsChange -= 0.5;
+                        wrongCount++;
                     }
+                } else {
+                    skippedCount++;
                 }
                 
                 reviewData.push({
@@ -5208,6 +5600,41 @@
             const examsTaken = currentUser.examsTaken || [];
             if(!examsTaken.includes(window.currentExamId)) {
                 examsTaken.push(window.currentExamId);
+            }
+            
+            // Calculate rank in this exam
+            let examRank = 0;
+            try {
+                const resultsQuery = query(
+                    collection(db, "results"), 
+                    where("examId", "==", window.currentExamId),
+                    orderBy("score", "desc")
+                );
+                const resultsSnap = await getDocs(resultsQuery);
+                
+                let allResults = [];
+                resultsSnap.forEach(doc => {
+                    allResults.push({ id: doc.id, ...doc.data() });
+                });
+                
+                // Sort by score descending
+                allResults.sort((a, b) => b.score - a.score);
+                
+                // Find current user's rank
+                for (let i = 0; i < allResults.length; i++) {
+                    if (allResults[i].userId === currentUser.uid) {
+                        examRank = i + 1;
+                        break;
+                    }
+                }
+                
+                // If not found, rank is total + 1 (for this new result)
+                if (examRank === 0) {
+                    examRank = allResults.length + 1;
+                }
+            } catch(error) {
+                console.error("Error calculating rank:", error);
+                examRank = 1; // Default to rank 1 if error
             }
             
             try {
@@ -5254,6 +5681,27 @@
                         <h1 style="font-size:4rem; color:var(--primary); line-height:1;">${score.toFixed(1)}</h1>
                         <p style="color:var(--text-sec)">Out of ${totalQuestions}</p>
                         <p style="color:var(--text-sec); margin-bottom:15px;">(${percentage.toFixed(1)}%)</p>
+                        
+                        <div class="result-stats-container">
+                            <div class="result-stat-card result-stat-correct">
+                                <span class="result-stat-value">${correctCount}</span>
+                                <span class="result-stat-label">Correct</span>
+                            </div>
+                            <div class="result-stat-card result-stat-wrong">
+                                <span class="result-stat-value">${wrongCount}</span>
+                                <span class="result-stat-label">Wrong</span>
+                            </div>
+                            <div class="result-stat-card result-stat-skipped">
+                                <span class="result-stat-value">${skippedCount}</span>
+                                <span class="result-stat-label">Skipped</span>
+                            </div>
+                        </div>
+                        
+                        <div class="result-rank-badge">
+                            <i class="fas fa-trophy"></i>
+                            <span>Rank: ${examRank}</span>
+                        </div>
+                        
                         <div style="margin:15px 0; padding:15px; background:var(--bg); border-radius:12px;">
                             <div style="display:flex; justify-content:space-around;">
                                 <div>
@@ -6547,6 +6995,7 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
             }
         }
         
+        // --- SETTINGS ADMIN VIEW - UPDATED ---
         async function loadSettingsAdminView() {
             const shareLinksSnap = await getDoc(doc(db, "settings", "shareLinks"));
             if (shareLinksSnap.exists()) {
@@ -6561,48 +7010,24 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
                         <span>Theme & Colors</span>
                     </div>
                     
-                    <div class="theme-options">
-                        <div class="theme-option active" onclick="setTheme('default')">
-                            <div class="theme-preview" style="background: linear-gradient(135deg, #6C63FF 0%, #8f94fb 100%);"></div>
-                            <div class="theme-name">Default Purple</div>
-                            <div class="theme-colors">
-                                <div class="theme-color-dot" style="background: #6C63FF;"></div>
-                                <div class="theme-color-dot" style="background: #8f94fb;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="theme-option" onclick="setTheme('ocean')">
-                            <div class="theme-preview" style="background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);"></div>
-                            <div class="theme-name">Ocean Blue</div>
-                            <div class="theme-colors">
-                                <div class="theme-color-dot" style="background: #00b4db;"></div>
-                                <div class="theme-color-dot" style="background: #0083b0;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="theme-option" onclick="setTheme('sunset')">
-                            <div class="theme-preview" style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);"></div>
-                            <div class="theme-name">Sunset Pink</div>
-                            <div class="theme-colors">
-                                <div class="theme-color-dot" style="background: #ff9a9e;"></div>
-                                <div class="theme-color-dot" style="background: #fad0c4;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="theme-option" onclick="setTheme('forest')">
-                            <div class="theme-preview" style="background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);"></div>
-                            <div class="theme-name">Forest Green</div>
-                            <div class="theme-colors">
-                                <div class="theme-color-dot" style="background: #56ab2f;"></div>
-                                <div class="theme-color-dot" style="background: #a8e063;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <h4 style="margin-top:20px; margin-bottom:10px;">Adjust Tone</h4>
                     <div class="theme-slider-container">
-                        <input type="range" min="0" max="360" value="0" class="thermo" id="hue-slider" oninput="slideTheme(this.value)">
-                        <p style="text-align:center; font-size:0.8rem;">Slide to change color</p>
+                        <h4 style="margin-bottom:15px;">Adjust Color Temperature</h4>
+                        <div class="thermometer">
+                            <div class="thermometer-fill"></div>
+                            <div class="thermometer-bulb">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                        </div>
+                        <input type="range" min="0" max="360" value="${currentHue}" class="slider" 
+                               oninput="adjustColorTemperature(this.value)" 
+                               style="width:100%; margin:20px 0;">
+                        
+                        <div class="color-preview">
+                            <div class="color-dot active" data-theme="default" onclick="setTheme('default')" style="background: linear-gradient(135deg, #6C63FF 0%, #8f94fb 100%);"></div>
+                            <div class="color-dot" data-theme="ocean" onclick="setTheme('ocean')" style="background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);"></div>
+                            <div class="color-dot" data-theme="sunset" onclick="setTheme('sunset')" style="background: linear-gradient(135deg, #FF6B9D 0%, #FFD166 100%);"></div>
+                            <div class="color-dot" data-theme="teal" onclick="setTheme('teal')" style="background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);"></div>
+                        </div>
                     </div>
                 </div>
                 
@@ -6633,119 +7058,123 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
                     </div>
                 </div>
             `;
-        }
-        
-        window.setTheme = async (themeName) => {
-            let primary, secondary, gradient;
             
-            switch(themeName) {
-                case 'default':
-                    primary = '#6C63FF';
-                    secondary = '#8f94fb';
-                    gradient = 'linear-gradient(135deg, #6C63FF 0%, #8f94fb 100%)';
-                    break;
-                case 'ocean':
-                    primary = '#00b4db';
-                    secondary = '#0083b0';
-                    gradient = 'linear-gradient(135deg, #00b4db 0%, #0083b0 100%)';
-                    break;
-                case 'sunset':
-                    primary = '#ff9a9e';
-                    secondary = '#fad0c4';
-                    gradient = 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)';
-                    break;
-                case 'forest':
-                    primary = '#56ab2f';
-                    secondary = '#a8e063';
-                    gradient = 'linear-gradient(135deg, #56ab2f 0%, #a8e063 100%)';
-                    break;
-                default:
-                    primary = '#6C63FF';
-                    secondary = '#8f94fb';
-                    gradient = 'linear-gradient(135deg, #6C63FF 0%, #8f94fb 100%)';
-            }
-            
-            await setDoc(doc(db,"settings","theme"),{
-                color: primary,
-                secondaryColor: secondary,
-                gradient: gradient,
-                themeName: themeName
-            }); 
-            
-            document.documentElement.style.setProperty('--primary', primary);
-            document.documentElement.style.setProperty('--secondary', secondary);
-            document.documentElement.style.setProperty('--gradient-primary', gradient);
-            document.documentElement.style.setProperty('--day-gradient-header', gradient);
-            document.documentElement.style.setProperty('--day-gradient-card', gradient);
-            
-            // Update theme option selection
-            document.querySelectorAll('.theme-option').forEach(option => {
-                option.classList.remove('active');
+            // Initialize slider and dots based on current state
+            const currentThemeName = localStorage.getItem('appTheme') || 'default';
+            document.querySelectorAll('.color-dot').forEach(dot => {
+                if(dot.dataset.theme === currentThemeName) dot.classList.add('active');
             });
-            event.target.closest('.theme-option').classList.add('active');
             
-            showMsg(`Theme set to ${themeName}!`); 
+            // Init thermometer fill
+            const fillHeight = 50 + (currentHue / 360) * 50;
+            const fill = document.querySelector('.thermometer-fill');
+            if(fill) fill.style.height = `${fillHeight}%`;
         }
         
-        window.slideTheme = (val) => {
-            const color = `hsl(${val}, 70%, 60%)`;
-            const secondaryColor = calculateSecondaryColor(color);
-            const gradient = `linear-gradient(135deg, ${color} 0%, ${secondaryColor} 100%)`;
+        // --- THEME & COLOR LOGIC ---
+        
+        window.adjustColorTemperature = (value) => {
+            currentHue = value;
+            const hue = value;
             
-            document.documentElement.style.setProperty('--primary', color);
+            // Generate colors based on Hue
+            const primaryColor = `hsl(${hue}, 70%, 60%)`;
+            // Secondary is complementary or analogous
+            const secondaryHue = (parseInt(hue) + 40) % 360;
+            const secondaryColor = `hsl(${secondaryHue}, 70%, 60%)`;
+            
+            const gradient = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+            
+            // Apply to CSS Variables
+            document.documentElement.style.setProperty('--primary', primaryColor);
             document.documentElement.style.setProperty('--secondary', secondaryColor);
             document.documentElement.style.setProperty('--gradient-primary', gradient);
+            document.documentElement.style.setProperty('--gradient-secondary', gradient);
             document.documentElement.style.setProperty('--day-gradient-header', gradient);
             document.documentElement.style.setProperty('--day-gradient-card', gradient);
             
+            // Update Thermometer Animation
+            const fillHeight = 50 + (value / 360) * 50;
+            const thermometerFill = document.querySelector('.thermometer-fill');
+            const thermometerBulb = document.querySelector('.thermometer-bulb');
+            
+            if (thermometerFill) thermometerFill.style.height = `${fillHeight}%`;
+            if (thermometerBulb) thermometerBulb.style.background = primaryColor;
+            
+            // Update state
+            currentTheme = 'custom';
+            localStorage.setItem('appTheme', 'custom');
+            localStorage.setItem('customHue', value.toString());
+            
+            // Save to server with debounce
             if(window.saveThemeTimeout) clearTimeout(window.saveThemeTimeout);
             window.saveThemeTimeout = setTimeout(async() => {
-                await setDoc(doc(db,"settings","theme"),{
-                    color: color,
-                    secondaryColor: secondaryColor,
-                    gradient: gradient,
-                    themeName: 'custom'
-                });
+                try {
+                    await setDoc(doc(db,"settings","theme"),{
+                        color: primaryColor,
+                        secondaryColor: secondaryColor,
+                        gradient: gradient,
+                        themeName: 'custom',
+                        hue: value
+                    });
+                } catch(e) { console.error("Theme save error", e); }
             }, 1000);
         }
-        
-        function calculateSecondaryColor(primaryColor) {
-            // Convert hex to HSL
-            let r, g, b;
-            if (primaryColor.startsWith('hsl')) {
-                const hsl = primaryColor.match(/\d+/g);
-                const hue = (parseInt(hsl[0]) + 40) % 360;
-                return `hsl(${hue}, 70%, 60%)`;
-            } else if (primaryColor.startsWith('#')) {
-                r = parseInt(primaryColor.slice(1, 3), 16);
-                g = parseInt(primaryColor.slice(3, 5), 16);
-                b = parseInt(primaryColor.slice(5, 7), 16);
+
+        window.setTheme = async (themeName) => {
+            currentTheme = themeName;
+            const theme = colorThemes[themeName];
+            
+            if (theme) {
+                // Apply visual changes
+                document.documentElement.style.setProperty('--primary', theme.primary);
+                document.documentElement.style.setProperty('--secondary', theme.secondary);
+                document.documentElement.style.setProperty('--gradient-primary', theme.gradient);
+                document.documentElement.style.setProperty('--gradient-secondary', theme.gradient);
+                document.documentElement.style.setProperty('--day-gradient-header', theme.gradient);
+                document.documentElement.style.setProperty('--day-gradient-card', theme.gradient);
                 
-                // Convert RGB to HSL
-                r /= 255; g /= 255; b /= 255;
-                const max = Math.max(r, g, b), min = Math.min(r, g, b);
-                let h, s, l = (max + min) / 2;
-                
-                if (max === min) {
-                    h = s = 0;
-                } else {
-                    const d = max - min;
-                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-                    switch(max) {
-                        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                        case g: h = (b - r) / d + 2; break;
-                        case b: h = (r - g) / d + 4; break;
+                // Update Admin UI dots
+                document.querySelectorAll('.color-dot').forEach(dot => {
+                    dot.classList.remove('active');
+                    if (dot.dataset.theme === themeName) {
+                        dot.classList.add('active');
                     }
-                    h /= 6;
-                }
+                });
                 
-                // Adjust hue by 40 degrees (0.11 in HSL)
-                h = (h + 0.11) % 1;
-                return `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
+                // Update thermometer bulb
+                const thermometerBulb = document.querySelector('.thermometer-bulb');
+                if (thermometerBulb) thermometerBulb.style.background = theme.primary;
+                
+                // Save locally
+                localStorage.setItem('appTheme', themeName);
+                
+                // Save to Server
+                try {
+                    await setDoc(doc(db,"settings","theme"),{
+                        color: theme.primary,
+                        secondaryColor: theme.secondary,
+                        gradient: theme.gradient,
+                        themeName: themeName
+                    });
+                    showMsg(`Theme set to ${themeName}!`);
+                } catch(e) { console.error(e); }
             }
-            return primaryColor;
         }
         
+        function initTheme() {
+            const savedTheme = localStorage.getItem('appTheme');
+            if (savedTheme === 'custom') {
+                const savedHue = localStorage.getItem('customHue');
+                if(savedHue) adjustColorTemperature(savedHue);
+            } else if (savedTheme && colorThemes[savedTheme]) {
+                currentTheme = savedTheme;
+                setTheme(savedTheme);
+            }
+        }
+
+        // --- ADMIN HELPERS ---
+
         window.resetRank = async () => { 
             if(await customConfirm("Reset all points to 0 and levels to 1?")) { 
                 const s=await getDocs(collection(db,"users")); 
@@ -6898,11 +7327,15 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
                 const s = await getDoc(doc(db, "settings", "theme")); 
                 if(s.exists()) {
                     const data = s.data();
+                    // Set CSS variables from server
                     document.documentElement.style.setProperty('--primary', data.color || '#6C63FF'); 
                     document.documentElement.style.setProperty('--secondary', data.secondaryColor || '#8f94fb');
                     document.documentElement.style.setProperty('--gradient-primary', data.gradient || 'linear-gradient(135deg, #6C63FF 0%, #8f94fb 100%)');
+                    document.documentElement.style.setProperty('--gradient-secondary', data.gradient || 'linear-gradient(135deg, #6C63FF 0%, #8f94fb 100%)');
                     document.documentElement.style.setProperty('--day-gradient-header', data.gradient || 'linear-gradient(135deg, #6C63FF 0%, #8f94fb 100%)');
                     document.documentElement.style.setProperty('--day-gradient-card', data.gradient || 'linear-gradient(135deg, #6C63FF 0%, #8f94fb 100%)');
+                    
+                    if(data.hue) currentHue = data.hue;
                 }
             } catch(error) {
                 console.error("Error loading theme:", error);
