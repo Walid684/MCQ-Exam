@@ -2738,10 +2738,10 @@
             });
         }
 
-        // --- PROFILE UPLOAD FUNCTIONS ---
         window.showProfileUploadModal = () => {
-            document.getElementById('profile-upload-modal').style.display = 'flex';
-            resetProfileUploadModal();
+    closeModal(); // Close any open modal (like edit profile)
+    document.getElementById('profile-upload-modal').style.display = 'flex';
+    resetProfileUploadModal();
         }
 
         window.closeProfileUploadModal = () => {
