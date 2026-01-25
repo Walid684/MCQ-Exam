@@ -1955,6 +1955,77 @@
             text-align: right;
         }
         
+        /* PROFILE UPLOAD MODAL STYLES */
+        #profile-upload-modal .modal-content {
+            max-width: 400px;
+        }
+        
+        .profile-upload-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .profile-upload-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 4px solid var(--border);
+            overflow: hidden;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .profile-upload-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-upload-preview .placeholder {
+            font-size: 3rem;
+            color: var(--text-sec);
+        }
+        
+        .profile-upload-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .upload-option-btn {
+            padding: 15px;
+            border-radius: 12px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+        }
+        
+        .upload-option-btn:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: translateY(-3px);
+        }
+        
+        .upload-option-btn i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .upload-option-btn.gallery {
+            color: var(--primary);
+        }
+        
+        .upload-option-btn.camera {
+            color: var(--success);
+        }
+        
         /* UPLOAD PROFILE PICTURE BUTTON */
         .upload-profile-btn {
             margin-top: 15px;
@@ -2185,6 +2256,50 @@
         </div>
     </div>
 
+    <!-- Profile Upload Modal -->
+    <div id="profile-upload-modal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom:20px; color:var(--primary); text-align:center;">
+                <i class="fas fa-camera"></i> Update Profile Picture
+            </h2>
+            
+            <div class="profile-upload-container">
+                <div class="profile-upload-preview">
+                    <div class="placeholder" id="profile-upload-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <img id="profile-upload-preview-img" style="display:none;">
+                </div>
+                
+                <div class="profile-upload-options">
+                    <div class="upload-option-btn gallery" onclick="openGallery()">
+                        <i class="fas fa-images"></i>
+                        <div>Gallery</div>
+                    </div>
+                    <div class="upload-option-btn camera" onclick="openCamera()">
+                        <i class="fas fa-camera"></i>
+                        <div>Camera</div>
+                    </div>
+                </div>
+                
+                <div id="profile-upload-instructions" style="margin-top:15px; color:var(--text-sec); font-size:0.9rem;">
+                    Select a photo from your gallery or take a new one
+                </div>
+                
+                <input type="file" id="profile-upload-input" accept="image/*" style="display:none;">
+                
+                <div style="display:flex; gap:10px; margin-top:20px;">
+                    <button onclick="uploadProfilePicture()" class="btn btn-primary" id="profile-upload-btn" disabled>
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </button>
+                    <button onclick="closeProfileUploadModal()" class="btn btn-sec">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section id="auth-screen" class="screen">
         <div class="auth-container" style="background:var(--gradient-primary);">
             <div class="auth-card">
@@ -2376,6 +2491,10 @@
         let currentSlideIndex = 0;
         let slideInterval = null;
         let sliderEnabled = true;
+
+        // Profile Upload Variables
+        let profileImageFile = null;
+        let profileImagePreviewUrl = null;
 
         // AVATAR IMAGES
         const AVATAR_MALE = [
@@ -2617,6 +2736,130 @@
             navigator.clipboard.writeText(text).then(() => {
                 showMsg("Link copied to clipboard! Share it with your friends.");
             });
+        }
+
+        // --- PROFILE UPLOAD FUNCTIONS ---
+        window.showProfileUploadModal = () => {
+            document.getElementById('profile-upload-modal').style.display = 'flex';
+            resetProfileUploadModal();
+        }
+
+        window.closeProfileUploadModal = () => {
+            document.getElementById('profile-upload-modal').style.display = 'none';
+            resetProfileUploadModal();
+        }
+
+        function resetProfileUploadModal() {
+            profileImageFile = null;
+            profileImagePreviewUrl = null;
+            
+            const previewImg = document.getElementById('profile-upload-preview-img');
+            const placeholder = document.getElementById('profile-upload-placeholder');
+            const uploadBtn = document.getElementById('profile-upload-btn');
+            
+            previewImg.style.display = 'none';
+            previewImg.src = '';
+            placeholder.style.display = 'flex';
+            uploadBtn.disabled = true;
+            
+            document.getElementById('profile-upload-input').value = '';
+        }
+
+        window.openGallery = () => {
+            document.getElementById('profile-upload-input').click();
+        }
+
+        window.openCamera = () => {
+            const input = document.getElementById('profile-upload-input');
+            input.setAttribute('capture', 'environment');
+            input.click();
+        }
+
+        // Handle file selection
+        document.getElementById('profile-upload-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleProfileImageSelect(file);
+            }
+        });
+
+        function handleProfileImageSelect(file) {
+            if (!file.type.match('image.*')) {
+                showMsg("Please select an image file", 'error');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                showMsg("Image size should be less than 5MB", 'error');
+                return;
+            }
+
+            profileImageFile = file;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                profileImagePreviewUrl = e.target.result;
+                
+                const previewImg = document.getElementById('profile-upload-preview-img');
+                const placeholder = document.getElementById('profile-upload-placeholder');
+                const uploadBtn = document.getElementById('profile-upload-btn');
+                
+                previewImg.src = profileImagePreviewUrl;
+                previewImg.style.display = 'block';
+                placeholder.style.display = 'none';
+                uploadBtn.disabled = false;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        window.uploadProfilePicture = async () => {
+            if (!profileImageFile) {
+                showMsg("Please select an image first", 'error');
+                return;
+            }
+
+            try {
+                toggleLoader(true);
+                
+                // Upload to Cloudinary
+                const formData = new FormData();
+                formData.append('file', profileImageFile);
+                formData.append('upload_preset', cloudinaryConfig.uploadPreset);
+                formData.append('cloud_name', cloudinaryConfig.cloudName);
+                
+                const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.secure_url) {
+                    // Update profile picture in Firebase
+                    await updateDoc(doc(db, "users", currentUser.uid), {
+                        avatar: data.secure_url
+                    });
+                    
+                    // Update current user data
+                    currentUser.avatar = data.secure_url;
+                    
+                    // Update profile picture immediately
+                    const profileAvatarImg = document.getElementById('profile-avatar-img');
+                    if (profileAvatarImg) {
+                        profileAvatarImg.src = data.secure_url;
+                    }
+                    
+                    showMsg("Profile picture updated successfully!");
+                    closeProfileUploadModal();
+                } else {
+                    throw new Error("Failed to upload image");
+                }
+            } catch(error) {
+                console.error("Error uploading profile picture:", error);
+                showMsg("Error uploading profile picture: " + error.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
         }
 
         // --- SLIDER FUNCTIONS ---
@@ -4822,7 +5065,7 @@
             
             document.getElementById('main-content').innerHTML = `
                 <div class="profile-header-card">
-                    <div class="profile-avatar-container" onclick="uploadProfilePicture()">
+                    <div class="profile-avatar-container" onclick="showProfileUploadModal()">
                         <img src="${avatarUrl}" class="profile-avatar" id="profile-avatar-img">
                     </div>
                     <h2 style="text-align:center; margin-bottom:5px;">${currentUser.name}</h2>
@@ -4868,66 +5111,6 @@
             `;
             
             await loadUserHistory();
-        }
-
-        // --- PROFILE PICTURE UPLOAD ---
-        window.uploadProfilePicture = () => {
-            const myWidget = cloudinary.createUploadWidget(
-                {
-                    cloudName: cloudinaryConfig.cloudName,
-                    uploadPreset: cloudinaryConfig.uploadPreset,
-                    sources: ['local', 'camera', 'url'],
-                    cropping: true,
-                    croppingAspectRatio: 1,
-                    croppingDefaultSelectionRatio: 0.5,
-                    showAdvancedOptions: true,
-                    multiple: false,
-                    defaultSource: 'local',
-                    styles: {
-                        palette: {
-                            window: "#FFFFFF",
-                            sourceBg: "#F4F4F5",
-                            windowBorder: "#90a0b3",
-                            tabIcon: "#0094c7",
-                            inactiveTabIcon: "#69778A",
-                            menuIcons: "#0094C7",
-                            link: "#53ad9d",
-                            action: "#8F5DA5",
-                            inProgress: "#0194c7",
-                            complete: "#53ad9d",
-                            error: "#c43737",
-                            textDark: "#000000",
-                            textLight: "#FFFFFF"
-                        }
-                    }
-                },
-                (error, result) => {
-                    if (!error && result && result.event === "success") {
-                        const imageUrl = result.info.secure_url;
-                        // Update the profile picture immediately
-                        document.getElementById('profile-avatar-img').src = imageUrl;
-                        
-                        // Save to Firebase
-                        saveProfilePicture(imageUrl);
-                    }
-                }
-            );
-            
-            myWidget.open();
-        }
-
-        async function saveProfilePicture(imageUrl) {
-            try {
-                await updateDoc(doc(db, "users", currentUser.uid), {
-                    avatar: imageUrl
-                });
-                
-                currentUser.avatar = imageUrl;
-                showMsg("Profile picture updated successfully!");
-            } catch(error) {
-                console.error("Error saving profile picture:", error);
-                showMsg("Error saving profile picture: " + error.message, 'error');
-            }
         }
 
         async function loadUserHistory() {
@@ -4998,8 +5181,8 @@
                     ${avatarGrid}
                 </div>
                 
-                <button onclick="uploadProfilePicture()" class="upload-profile-btn">
-                    <i class="fas fa-cloud-upload-alt"></i> Upload Custom Profile Picture
+                <button onclick="showProfileUploadModal()" class="upload-profile-btn">
+                    <i class="fas fa-camera"></i> Upload Custom Profile Picture
                 </button>
                 
                 <button onclick="saveProfile()" class="btn btn-primary" style="margin-top:15px;">Save Changes</button>
@@ -6892,7 +7075,7 @@ Sun, Moon, Star, River, Mountain, Ocean, Sky, Cloud, Rain, Wind"></textarea>
             }
         }
 
-        // --- LOADERS ---
+         // --- LOADERS ---
         async function loadServerTheme() { 
             try {
                 const s = await getDoc(doc(db, "settings", "theme")); 
