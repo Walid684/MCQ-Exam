@@ -3151,7 +3151,7 @@
             };
         }
 
-        async function deleteSlide(slideId) {
+        window.deleteSlide = async (slideId) => {
             if (await customConfirm("Delete this slide?")) {
                 try {
                     await deleteDoc(doc(db, "homeSlides", slideId));
@@ -3165,7 +3165,7 @@
             }
         }
 
-        async function toggleSlideEnabled(slideId, currentStatus) {
+        window.toggleSlideEnabled = async (slideId, currentStatus) => {
             try {
                 await updateDoc(doc(db, "homeSlides", slideId), {
                     enabled: !currentStatus
@@ -3179,18 +3179,19 @@
             }
         }
 
-        async function toggleSliderEnabled() {
-            try {
-                sliderEnabled = !sliderEnabled;
-                await setDoc(doc(db, "settings", "slider"), { enabled: sliderEnabled });
-                showMsg(`Slider ${sliderEnabled ? 'enabled' : 'disabled'}!`);
-                await loadHomeSlides();
-                admView('slides');
-            } catch(error) {
-                console.error("Error toggling slider:", error);
-                showMsg("Error toggling slider: " + error.message);
-            }
-        }
+          window.toggleSliderEnabled = async () => {
+    try {
+        sliderEnabled = !sliderEnabled;
+        await setDoc(doc(db, "settings", "slider"), { enabled: sliderEnabled });
+        showMsg(`Slider ${sliderEnabled ? 'enabled' : 'disabled'}!`);
+        await loadHomeSlides();
+        admView('slides');
+    } catch(error) {
+        console.error("Error toggling slider:", error);
+        showMsg("Error toggling slider: " + error.message);
+    }
+}
+
 
         // --- NOTIFICATION FUNCTIONS ---
         function showNotificationPopup(title, message) {
