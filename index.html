@@ -2166,6 +2166,70 @@
             border-radius: 50%;
             border: 2px solid var(--border);
         }
+
+        /* RESULT BREAKDOWN STYLES */
+        .result-breakdown {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 12px;
+            background: var(--bg);
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .breakdown-item {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            background: var(--card-bg);
+        }
+
+        .breakdown-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .breakdown-label {
+            font-size: 0.8rem;
+            color: var(--text-sec);
+        }
+
+        .breakdown-correct .breakdown-value {
+            color: var(--success);
+        }
+
+        .breakdown-wrong .breakdown-value {
+            color: var(--danger);
+        }
+
+        .breakdown-skipped .breakdown-value {
+            color: var(--warning);
+        }
+
+        .points-change {
+            margin-top: 10px;
+            padding: 8px 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .points-change.positive {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+        }
+
+        .points-change.negative {
+            background: rgba(255, 71, 87, 0.1);
+            color: var(--danger);
+        }
     </style>
 </head>
 <body>
@@ -5009,7 +5073,7 @@
                                     </button>
                                 </div>
                             </div>`;
-                    });
+                });
                 }
                 
                 document.getElementById('review-list').innerHTML = html;
@@ -5030,6 +5094,49 @@
                     let reviewHTML = '';
                     
                     if(data.review && Array.isArray(data.review)) {
+                        // Calculate breakdown
+                        let correctCount = 0, wrongCount = 0, skippedCount = 0;
+                        data.review.forEach(item => {
+                            if(item.correct) {
+                                correctCount++;
+                            } else if(item.userAnswer === 'Skipped') {
+                                skippedCount++;
+                            } else {
+                                wrongCount++;
+                            }
+                        });
+                        
+                        const pointsDeducted = (wrongCount * 0.5).toFixed(1);
+                        
+                        // Add breakdown section
+                        reviewHTML += `
+                            <div class="result-breakdown">
+                                <h4 style="margin-bottom:10px; text-align:center;">Result Breakdown</h4>
+                                <div class="breakdown-grid">
+                                    <div class="breakdown-item breakdown-correct">
+                                        <span class="breakdown-value">${correctCount}</span>
+                                        <span class="breakdown-label">Correct</span>
+                                        <div style="font-size:0.7rem; color:var(--success); margin-top:3px;">+${correctCount} pts</div>
+                                    </div>
+                                    <div class="breakdown-item breakdown-wrong">
+                                        <span class="breakdown-value">${wrongCount}</span>
+                                        <span class="breakdown-label">Wrong</span>
+                                        <div style="font-size:0.7rem; color:var(--danger); margin-top:3px;">-${pointsDeducted} pts</div>
+                                    </div>
+                                    <div class="breakdown-item breakdown-skipped">
+                                        <span class="breakdown-value">${skippedCount}</span>
+                                        <span class="breakdown-label">Skipped</span>
+                                        <div style="font-size:0.7rem; color:var(--warning); margin-top:3px;">0 pts</div>
+                                    </div>
+                                </div>
+                                <div class="points-change ${data.pointsChange >= 0 ? 'positive' : 'negative'}" style="margin-top:15px;">
+                                    Total Points Change: ${data.pointsChange >= 0 ? '+' : ''}${data.pointsChange}
+                                </div>
+                            </div>
+                            <hr style="border:1px solid var(--border); margin:20px 0;">
+                        `;
+                        
+                        // Add detailed questions
                         data.review.forEach((item, index) => {
                             const reviewClass = item.correct ? 'review-correct' : (item.userAnswer === 'Skipped' ? 'review-skipped' : 'review-wrong');
                             reviewHTML += `
@@ -5038,7 +5145,7 @@
                                     <div style="margin-top:5px; font-size:0.9rem;">
                                         <div>Your Answer: <b style="color:${item.correct ? 'var(--success)' : (item.userAnswer === 'Skipped' ? 'var(--warning)' : 'var(--danger)')}">${item.userAnswer}</b></div>
                                         ${!item.correct && item.userAnswer !== 'Skipped' ? `<div>Correct Answer: <b style="color:var(--success)">${item.correctAnswer}</b></div>` : ''}
-                                        <div style="margin-top:3px; font-size:0.8rem; color:var(--text-sec);">${item.correct ? '✓ Correct' : (item.userAnswer === 'Skipped' ? '⏸ Skipped' : '✗ Wrong')}</div>
+                                        <div style="margin-top:3px; font-size:0.8rem; color:var(--text-sec);">${item.correct ? '✓ Correct (+1 point)' : (item.userAnswer === 'Skipped' ? '⏸ Skipped (0 point)' : '✗ Wrong (-0.5 point)')}</div>
                                     </div>
                                 </div>
                             `;
@@ -5351,6 +5458,7 @@
             let score = 0, totalQuestions = window.currentQ.length;
             let pointsChange = 0;
             let reviewData = [];
+            let correctCount = 0, wrongCount = 0, skippedCount = 0;
             
             window.currentQ.forEach((q, i) => {
                 const ans = window.userAns[q.id];
@@ -5361,10 +5469,14 @@
                     if(correct) {
                         score += 1;
                         pointsChange += 1;
+                        correctCount++;
                     } else {
                         score -= 0.5;
                         pointsChange -= 0.5;
+                        wrongCount++;
                     }
+                } else {
+                    skippedCount++;
                 }
                 
                 reviewData.push({
@@ -5437,6 +5549,31 @@
                         <h1 style="font-size:4rem; color:var(--primary); line-height:1;">${score.toFixed(1)}</h1>
                         <p style="color:var(--text-sec)">Out of ${totalQuestions}</p>
                         <p style="color:var(--text-sec); margin-bottom:15px;">(${percentage.toFixed(1)}%)</p>
+                        
+                        <div class="result-breakdown">
+                            <h4 style="margin-bottom:10px; text-align:center;">Result Breakdown</h4>
+                            <div class="breakdown-grid">
+                                <div class="breakdown-item breakdown-correct">
+                                    <span class="breakdown-value">${correctCount}</span>
+                                    <span class="breakdown-label">Correct</span>
+                                    <div style="font-size:0.7rem; color:var(--success); margin-top:3px;">+${correctCount} pts</div>
+                                </div>
+                                <div class="breakdown-item breakdown-wrong">
+                                    <span class="breakdown-value">${wrongCount}</span>
+                                    <span class="breakdown-label">Wrong</span>
+                                    <div style="font-size:0.7rem; color:var(--danger); margin-top:3px;">-${(wrongCount * 0.5).toFixed(1)} pts</div>
+                                </div>
+                                <div class="breakdown-item breakdown-skipped">
+                                    <span class="breakdown-value">${skippedCount}</span>
+                                    <span class="breakdown-label">Skipped</span>
+                                    <div style="font-size:0.7rem; color:var(--warning); margin-top:3px;">0 pts</div>
+                                </div>
+                            </div>
+                            <div class="points-change ${pointsChange >= 0 ? 'positive' : 'negative'}" style="margin-top:15px;">
+                                Total Points Change: ${pointsChange >= 0 ? '+' : ''}${pointsChange}
+                            </div>
+                        </div>
+                        
                         <div style="margin:15px 0; padding:15px; background:var(--bg); border-radius:12px;">
                             <div style="display:flex; justify-content:space-around;">
                                 <div>
@@ -5481,6 +5618,49 @@
                     let reviewHTML = '';
                     
                     if(data.review && Array.isArray(data.review)) {
+                        // Calculate breakdown
+                        let correctCount = 0, wrongCount = 0, skippedCount = 0;
+                        data.review.forEach(item => {
+                            if(item.correct) {
+                                correctCount++;
+                            } else if(item.userAnswer === 'Skipped') {
+                                skippedCount++;
+                            } else {
+                                wrongCount++;
+                            }
+                        });
+                        
+                        const pointsDeducted = (wrongCount * 0.5).toFixed(1);
+                        
+                        // Add breakdown section
+                        reviewHTML += `
+                            <div class="result-breakdown">
+                                <h4 style="margin-bottom:10px; text-align:center;">Result Breakdown</h4>
+                                <div class="breakdown-grid">
+                                    <div class="breakdown-item breakdown-correct">
+                                        <span class="breakdown-value">${correctCount}</span>
+                                        <span class="breakdown-label">Correct</span>
+                                        <div style="font-size:0.7rem; color:var(--success); margin-top:3px;">+${correctCount} pts</div>
+                                    </div>
+                                    <div class="breakdown-item breakdown-wrong">
+                                        <span class="breakdown-value">${wrongCount}</span>
+                                        <span class="breakdown-label">Wrong</span>
+                                        <div style="font-size:0.7rem; color:var(--danger); margin-top:3px;">-${pointsDeducted} pts</div>
+                                    </div>
+                                    <div class="breakdown-item breakdown-skipped">
+                                        <span class="breakdown-value">${skippedCount}</span>
+                                        <span class="breakdown-label">Skipped</span>
+                                        <div style="font-size:0.7rem; color:var(--warning); margin-top:3px;">0 pts</div>
+                                    </div>
+                                </div>
+                                <div class="points-change ${data.pointsChange >= 0 ? 'positive' : 'negative'}" style="margin-top:15px;">
+                                    Total Points Change: ${data.pointsChange >= 0 ? '+' : ''}${data.pointsChange}
+                                </div>
+                            </div>
+                            <hr style="border:1px solid var(--border); margin:20px 0;">
+                        `;
+                        
+                        // Add detailed questions
                         data.review.forEach((item, index) => {
                             const reviewClass = item.correct ? 'review-correct' : (item.userAnswer === 'Skipped' ? 'review-skipped' : 'review-wrong');
                             reviewHTML += `
@@ -5489,7 +5669,7 @@
                                     <div style="margin-top:5px; font-size:0.9rem;">
                                         <div>Your Answer: <b style="color:${item.correct ? 'var(--success)' : (item.userAnswer === 'Skipped' ? 'var(--warning)' : 'var(--danger)')}">${item.userAnswer}</b></div>
                                         ${!item.correct && item.userAnswer !== 'Skipped' ? `<div>Correct Answer: <b style="color:var(--success)">${item.correctAnswer}</b></div>` : ''}
-                                        <div style="margin-top:3px; font-size:0.8rem; color:var(--text-sec);">${item.correct ? '✓ Correct' : (item.userAnswer === 'Skipped' ? '⏸ Skipped' : '✗ Wrong')}</div>
+                                        <div style="margin-top:3px; font-size:0.8rem; color:var(--text-sec);">${item.correct ? '✓ Correct (+1 point)' : (item.userAnswer === 'Skipped' ? '⏸ Skipped (0 point)' : '✗ Wrong (-0.5 point)')}</div>
                                     </div>
                                 </div>
                             `;
